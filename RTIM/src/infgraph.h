@@ -9,10 +9,11 @@ typedef pair<double,int> dipair;
 */
 class InfGraph: public Graph
 {
-private:
+  private:
     vector<bool> visit;
     vector<int> visit_mark;
-public:
+
+  public:
     vector<vector<int>> hyperG;
     vector<vector<int>> hyperGT;
 
@@ -58,12 +59,7 @@ public:
 
         for (int i = prevSize; i < R; i++)
         {
-#ifdef CONTINUOUS
-            BuildHypergraphNode(random_number[i], i, arg );
-#endif
-#ifdef DISCRETE
             BuildHypergraphNode(random_number[i], i );
-#endif
         }
 
         int totAddedElement = 0;
@@ -78,12 +74,7 @@ public:
         }
     }
 
-#ifdef DISCRETE
 #include "discrete_rrset.h"
-#endif
-#ifdef CONTINUOUS
-#include "continuous_rrset.h"
-#endif
 
     //return the number of edges visited
     deque<int> q;
@@ -143,5 +134,4 @@ public:
         double inf = (double)n * s.size() / hyperGT.size();
         return inf;
     }
-
 };
