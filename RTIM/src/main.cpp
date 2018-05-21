@@ -1,7 +1,7 @@
 // File to run desired program
-#include <arguments.h>
-#include <rtim.h>
-#include <graph.h>
+#include "arguments.h"
+#include "rtim.h"
+#include "graph.h"
 
 int main(int argn, char **argv)
 {
