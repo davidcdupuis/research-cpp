@@ -6,7 +6,7 @@
 
 int main(int argn, char **argv)
 {
-    Arguments args = new Arguments();
+    Arguments args;
     args.getArguments(argn, argv);
     cout<<"\e\[0;32mProgram Start at: " << currentTimestampStr()<<"\e[0m"<<endl;
     args.printArguments();
@@ -17,5 +17,4 @@ int main(int argn, char **argv)
     // Run RTIM stage on graph
 
     cout<<"\e\[0;31mProgram Terminate at: " << currentTimestampStr()<< "\e[0m"<<endl;
-    delete args;
 }

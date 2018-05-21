@@ -27,13 +27,13 @@ public:
         if (argv[i] == string("-stage"))
             stage = argv[i + 1];
         if (argv[i] == string("-depth"))
-             mc_depth = argv[i + 1]
+             mc_depth = atoi(argv[i + 1]);
         if (argv[i] == string("-sim"))
-            mc_sim = argv[i + 1]
-        if (argv[i] == string("-epsilon"))
-             epsilon = atof(argv[i + 1]);
-        if (argv[i] == string("-T"))
-            T = atof(argv[i + 1]);
+            mc_sim = atoi(argv[i + 1]);
+        //if (argv[i] == string("-epsilon"))
+        //     epsilon = atof(argv[i + 1]);
+        //if (argv[i] == string("-T"))
+        //    T = atof(argv[i + 1]);
         if (argv[i] == string("-k"))
             k = atoi(argv[i + 1]);
         if (argv[i] == string("-model"))
@@ -49,12 +49,12 @@ public:
     cout << "------------- Arguments --------------" << endl;
     cout << "Dataset: " <<  dataset << endl;
     cout << "Model: " << model << endl;
-    cout << "Stage: " << "" << endl;
+    cout << "Stage: " << stage << endl;
     if( stage == "pre"){
       cout << "Max Depth: " << mc_depth << endl;
       cout << "Simulations: " <<  mc_sim << endl;
     }else if (stage == "live"){
-      cout << "Function: " <<  live_function << endl;
+      cout << "Function: " <<  "independence" << endl;
       cout << "Max Depth: " << mc_depth << endl;
     }else if( stage == "evaluate"){
       cout << "Simulations: 10000" << endl;

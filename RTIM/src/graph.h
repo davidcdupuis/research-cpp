@@ -25,21 +25,21 @@ class Graph
     /* Function to import graph from file */
     void loadGraph();
 
-    Graph(string folder, string graph_file): folder(folder), graph_file(graph_file)
-    {
-        readNM();
+    //Graph(string folder, string graph_file): folder(folder), graph_file(graph_file)
+    //{
+        //readNM();
 
         //init vector
-        FOR(i, n)
+        /*FOR(i, n)
         {
             gT.push_back(vector<int>());
             hasnode.push_back(false);
             probT.push_back(vector<double>());
             //hyperGT.push_back(vector<int>());
             inDeg.push_back(0);
-        }
-        readGraph();
+        }*/
+        //readGraph();
         //system("sleep 10000");
-    }
+    //}
 
 };
