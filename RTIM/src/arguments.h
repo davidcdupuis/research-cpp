@@ -1,3 +1,5 @@
+#include "head.h"
+
 class Arguments{
 public:
   int k; // size of seed set if defined
@@ -21,72 +23,45 @@ public:
 
         // get arguments
         if (argv[i] == string("-dataset"))
-            this.dataset = argv[i + 1];
+            dataset = argv[i + 1];
         if (argv[i] == string("-stage"))
-            this.stage = argv[i + 1];
+            stage = argv[i + 1];
         if (argv[i] == string("-depth"))
-            this.mc_depth = argv[i + 1]
+             mc_depth = argv[i + 1]
         if (argv[i] == string("-sim"))
-            this.mc_sim = argv[i + 1]
+            mc_sim = argv[i + 1]
         if (argv[i] == string("-epsilon"))
-            this.epsilon = atof(argv[i + 1]);
+             epsilon = atof(argv[i + 1]);
         if (argv[i] == string("-T"))
-            this.T = atof(argv[i + 1]);
+            T = atof(argv[i + 1]);
         if (argv[i] == string("-k"))
-            this.k = atoi(argv[i + 1]);
+            k = atoi(argv[i + 1]);
         if (argv[i] == string("-model"))
-            this.model = argv[i + 1];
+             model = argv[i + 1];
     }
-    ASSERT(this.dataset != "");
-    ASSERT(this.model == "IC" || this.model == "LT" || this.model == "TR" || this.model=="CONT");
-
-    // string graph_file;
-    // if (this.model == "IC")
-    //     graph_file = this.dataset + "graph_ic.inf";
-    // else if (this.model == "LT")
-    //     graph_file = this.dataset + "graph_lt.inf";
-    // else if (this.model == "TR")
-    //     graph_file = this.dataset + "graph_tr.inf";
-    // else if (this.model == "CONT")
-    //     graph_file = this.dataset + "graph_cont.inf";
-    // else
-    //     ASSERT(false);
-
-    //InfGraph g(this.dataset, graph_file);
-
-    // if (this.model == "IC")
-    //     g.setInfuModel(InfGraph::IC);
-    // else if (this.model == "LT")
-    //     g.setInfuModel(InfGraph::LT);
-    // else if (this.model == "TR")
-    //     g.setInfuModel(InfGraph::IC);
-    // else if (this.model == "CONT")
-    //     g.setInfuModel(InfGraph::CONT);
-    // else
-    //     ASSERT(false);
-
-    // INFO(this.T);
+    ASSERT(dataset != "");
+    ASSERT( model == "IC" || model == "LT" ||  model == "TR" || model=="CONT");
   }
 
   /* Function to print arguments out to command line
   */
   void printArguments(){
     cout << "------------- Arguments --------------" << endl;
-    cout << "Dataset: " << this.dataset << endl;
-    cout << "Model: " << this.model << endl;
+    cout << "Dataset: " <<  dataset << endl;
+    cout << "Model: " << model << endl;
     cout << "Stage: " << "" << endl;
-    if(this.stage == "pre"){
-      cout << "Max Depth: " << this.mc_depth << endl;
-      cout << "Simulations: " << this.mc_sim << endl;
-    }else if (this.stage == "live"){
-      cout << "Function: " << this.live_function << endl;
-      cout << "Max Depth: " << this.mc_depth << endl;
-    }else if(this.stage == "evaluate"){
+    if( stage == "pre"){
+      cout << "Max Depth: " << mc_depth << endl;
+      cout << "Simulations: " <<  mc_sim << endl;
+    }else if (stage == "live"){
+      cout << "Function: " <<  live_function << endl;
+      cout << "Max Depth: " << mc_depth << endl;
+    }else if( stage == "evaluate"){
       cout << "Simulations: 10000" << endl;
     }else{
       cout << "Error stage not defined" << endl;
       exit(1);
     }
-    cout << "Size of seed set: " << this.k << endl;
+    cout << "Size of seed set: " << k << endl;
   }
 };

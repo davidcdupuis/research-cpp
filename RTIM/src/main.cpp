@@ -2,6 +2,7 @@
 #include "arguments.h"
 #include "rtim.h"
 #include "graph.h"
+#include "head.h"
 
 int main(int argn, char **argv)
 {
