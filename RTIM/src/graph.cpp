@@ -1,7 +1,19 @@
-class Graph{
+#include "graph.h"
 
-  /* Function to read attributes.txt
-  */
+class Graph{
+  Graph(string d){
+    dataset =  "../data/" + dataset;
+    readAttributes();
+    graph.resize(nodes);
+    loadGraph();
+  }
+
+  /* Function to add an edge */
+  void addEdge(int a, int b, double w){
+    graph[a].push_back(make_pair(b, w));
+  }
+
+  /* Function to read attributes.txt */
   void readAttributes(){
     ifstream cin((folder + "attribute.txt").c_str());
     ASSERT(!cin == false);
@@ -10,12 +22,12 @@ class Graph{
     {
         if (s.substr(0, 2) == "n=")
         {
-            n = atoi(s.substr(2).c_str());
+            nodes = atoi(s.substr(2).c_str());
             continue;
         }
         if (s.substr(0, 2) == "m=")
         {
-            m = atoi(s.substr(2).c_str());
+            edges = atoi(s.substr(2).c_str());
             continue;
         }
         ASSERT(false);
@@ -24,8 +36,7 @@ class Graph{
     cin.close();
   }
 
-  /* Function to import graph from file
-  */
+  /* Function to import graph from file */
   void loadGraph(){
     FILE *fin = fopen((graph_file).c_str(), "r");
     ASSERT(fin != false);
@@ -33,18 +44,18 @@ class Graph{
     for (int i = 0; i < m; i++)
     {
         readCnt ++;
-        int a, b;
-        double p;
-        int c = fscanf(fin, "%d%d%lf", &a, &b, &p);
-        ASSERTT(c == 3, a, b, p, c);
+        int user1, user2;
+        double weight;
+        int c = fscanf(fin, "%d%d%lf", &user1, &user2, &p);
+        ASSERTT(c == 3, user1, user2, weight, c);
 
         //TRACE_LINE(a, b);
         // check if node ids within graph array range
-        ASSERT( a < n );
-        ASSERT( b < n );
-        hasnode[a] = true;
-        hasnode[b] = true;
-        add_edge(a, b, p);
+        ASSERT( user1 < nodes );
+        ASSERT( user2 < nodes );
+        hasnode[user1] = true;
+        hasnode[user2] = true;
+        this->add_edge(user1, user2, weight);
     }
     TRACE_LINE_END();
     int s = 0;
@@ -56,10 +67,29 @@ class Graph{
     fclose(fin);
   }
 
-  /* Function to calculate influence score of seed set
-  */
-  void influenceScore(){
+  /* Function to calculate influence score of seed set */
+  double influenceScore(int sim){
+    double score;
+    for (int i = 0; i < sim; i++){
+      // run random walk
+    }
+  }
 
+  /* Function to perform influence coverage from seed set */
+  int influenceCoverage(){
+    int score = 0;
+
+    return score;
+  }
+
+  void print(){
+    cout << dataset << " graph:" << endl;
+    for(int i = 0; i < nodes; i++){
+      for (int j = 0; j < graph[i].size(); j++){
+        cout << "(" << i << ")" <<"-["<< graph[i][j].second <<"]->"
+             << "(" << graph[i][j].first << ")" << endl;
+      }
+    }
   }
 
 };

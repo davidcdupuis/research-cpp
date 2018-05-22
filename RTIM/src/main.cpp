@@ -13,6 +13,9 @@ int main(int argn, char **argv)
     cout<<"--------------------------------------------------------------------------------" <<endl;
 
     // Import graph
+    Graph graph("test");
+    graph.print();
+    cout << "Graph " << graph.dataset << " imported." << endl; 
 
     // Run RTIM stage on graph
 
