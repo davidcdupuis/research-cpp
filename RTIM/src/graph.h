@@ -1,13 +1,9 @@
 #define HEAD_INFO
 //#define HEAD_TRACE
-#include "sfmt/SFMT.h"
+// #include "sfmt/SFMT.h"
+#include <string>
 #include <vector>
-#include "head.h"
-// #include <boost/graph/adjacency_list.hpp>
-using namespace std;
-
-// typedef boost::adjacency_list<vecS, vecS, directedS> Mygraph;
-// typedef property<edge_weight_t, double> EdgeWeightProperty;
+// #include "head.h"
 
 /*
   Influence Graph class
@@ -15,7 +11,7 @@ using namespace std;
 class Graph
 {
   public:
-    string dataset; // stores dataset name for graph
+    std::string dataset; // stores dataset name for graph
     int nodes; // nodes
     int edges; // edges
     vector<vector<pair<int, double>>> graph;

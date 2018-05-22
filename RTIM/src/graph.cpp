@@ -1,5 +1,7 @@
 #include "graph.h"
 
+using namespace std;
+
 class Graph{
   Graph::Graph(string d){
     dataset =  "../data/" + dataset;
@@ -9,12 +11,12 @@ class Graph{
   }
 
   /* Function to add an edge */
-  Graph::addEdge(int a, int b, double w){
+  void Graph::addEdge(int a, int b, double w){
     graph[a].push_back(make_pair(b, w));
   }
 
   /* Function to read attributes.txt */
-  Graph::readAttributes(){
+  void Graph::readAttributes(){
     ifstream cin((folder + "attribute.txt").c_str());
     ASSERT(!cin == false);
     string s;
@@ -37,7 +39,7 @@ class Graph{
   }
 
   /* Function to import graph from file */
-  Graph::loadGraph(){
+  void Graph::loadGraph(){
     FILE *fin = fopen((graph_file).c_str(), "r");
     ASSERT(fin != false);
     int readCnt = 0;
@@ -68,7 +70,7 @@ class Graph{
   }
 
   /* Function to calculate influence score of seed set */
-  Graph::influenceScore(int sim){
+  double Graph::influenceScore(int sim){
     double score;
     for (int i = 0; i < sim; i++){
       // run random walk
@@ -76,13 +78,13 @@ class Graph{
   }
 
   /* Function to perform influence coverage from seed set */
-  Graph::influenceCoverage(){
+  int Graph::influenceCoverage(){
     int score = 0;
 
     return score;
   }
 
-  Graph::print(){
+  void Graph::print(){
     cout << dataset << " graph:" << endl;
     for(int i = 0; i < nodes; i++){
       for (int j = 0; j < graph[i].size(); j++){
