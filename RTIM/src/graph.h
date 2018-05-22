@@ -14,9 +14,9 @@ class Graph
     std::string dataset; // stores dataset name for graph
     int nodes; // nodes
     int edges; // edges
-    vector<vector<pair<int, double>>> graph;
+    std::vector<vector<pair<int, double>>> graph;
 
-    Graph(string d);
+    Graph(std::string d);
 
     /* Function to add an edge */
     void addEdge(int a, int b, double w);
@@ -28,7 +28,7 @@ class Graph
     void loadGraph();
 
     /* Function to compute influence score of a seed set */
-    double influenceScore();
+    double influenceScore(int sim);
 
     /* Function to perform random influence coverage of seed set */
     int influenceCoverage();
