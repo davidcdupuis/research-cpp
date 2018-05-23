@@ -18,6 +18,7 @@ void Graph::addEdge(int a, int b, double w){
 
 /* Function to read attributes.txt */
 void Graph::readAttributes(){
+  string folder = "../data/" + this->dataset + "/attribute.txt";
   ifstream cin((folder + "attribute.txt").c_str());
   ASSERT(!cin == false);
   string s;
@@ -41,7 +42,8 @@ void Graph::readAttributes(){
 
 /* Function to import graph from file */
 void Graph::loadGraph(){
-  FILE *fin = fopen((graph_file).c_str(), "r");
+  string graph_file = "../data/" + this->dataset + "/graph_ic.inf";
+  FILE *fin = fopen((graph_file), "r");
   ASSERT(fin != false);
   int readCnt = 0;
   for (int i = 0; i < edges; i++)
@@ -56,17 +58,17 @@ void Graph::loadGraph(){
       // check if node ids within graph array range
       ASSERT( user1 < nodes );
       ASSERT( user2 < nodes );
-      hasnode[user1] = true;
-      hasnode[user2] = true;
-      this->add_edge(user1, user2, weight);
+      // hasnode[user1] = true;
+      // hasnode[user2] = true;
+      this->addEdge(user1, user2, weight);
   }
-  TRACE_LINE_END();
-  int s = 0;
-  for (int i = 0; i < nodes; i++)
-      if (hasnode[i])
-          s++;
-  INFO(s);
-  ASSERT(readCnt == m);
+  // TRACE_LINE_END();
+  // int s = 0;
+  // for (int i = 0; i < nodes; i++)
+  //     if (hasnode[i])
+  //         s++;
+  // INFO(s);
+  // ASSERT(readCnt == m);
   fclose(fin);
 }
 
@@ -93,5 +95,3 @@ void Graph::print(){
     }
   }
 }
-
-
