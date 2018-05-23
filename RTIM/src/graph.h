@@ -1,8 +1,12 @@
-#define HEAD_INFO
+#ifndef __GRAPH_H__
+#define __GRAPH_H__
+
+// #define HEAD_INFO
 //#define HEAD_TRACE
 // #include "sfmt/SFMT.h"
 #include <string>
 #include <vector>
+#include <pair>
 // #include "head.h"
 
 /*
@@ -14,7 +18,7 @@ class Graph
     std::string dataset; // stores dataset name for graph
     int nodes; // nodes
     int edges; // edges
-    std::vector<vector<pair<int, double>>> graph;
+    std::vector<std::vector<std::pair<int, double> > > graph;
 
     Graph(std::string d);
 
@@ -36,3 +40,4 @@ class Graph
     /* Function to print graph */
     void print();
 };
+#endif

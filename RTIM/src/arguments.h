@@ -1,3 +1,6 @@
+#ifndef __ARGUMENTS_H__
+#define __ARGUMENTS_H__
+
 #include "head.h"
 
 class Arguments{
@@ -65,3 +68,4 @@ public:
     cout << "Size of seed set: " << k << endl;
   }
 };
+#endif
