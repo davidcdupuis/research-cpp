@@ -6,7 +6,7 @@
 // #include "sfmt/SFMT.h"
 #include <string>
 #include <vector>
-#include <pair>
+#include <utility>
 // #include "head.h"
 
 /*
