@@ -2,7 +2,7 @@
 #include "arguments.h"
 #include "rtim.h"
 #include "graph.h"
-#include "head.h"
+#include "tools.h"
 
 using namespace std;
 
@@ -17,7 +17,7 @@ int main(int argn, char **argv)
     // Import graph
     //Graph graph("test");
     //graph.print();
-    //cout << "Graph " << graph.dataset << " imported." << endl; 
+    //cout << "Graph " << graph.dataset << " imported." << endl;
 
     // Run RTIM stage on graph
 

@@ -1,5 +1,5 @@
 #include "graph.h"
-#include "head.h"
+#include "tools.h"
 
 using namespace std;
 
@@ -20,7 +20,11 @@ void Graph::addEdge(int a, int b, double w){
 void Graph::readAttributes(){
   string folder = "../data/" + this->dataset + "/attribute.txt";
   ifstream cin(folder.c_str());
-  ASSERT(!cin == false);
+  // ASSERT(!cin == false);
+  if(!(!cin == false)){
+    cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ <<endl;
+    exit(1);
+  }
   string s;
   while (cin >> s)
   {
@@ -34,9 +38,9 @@ void Graph::readAttributes(){
           edges = atoi(s.substr(2).c_str());
           continue;
       }
-      ASSERT(false);
+      exit(1);
   }
-  TRACE(n, m);
+  TRACE(nodes, edges);
   cin.close();
 }
 
@@ -45,6 +49,10 @@ void Graph::loadGraph(){
   string graph_file = "../data/" + this->dataset + "/graph_ic.inf";
   FILE *fin = fopen(graph_file.c_str(), "r");
   ASSERT(fin != false);
+  if (fin == true){
+    cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << endl;
+    exit(1);
+  }
   int readCnt = 0;
   for (int i = 0; i < edges; i++)
   {
@@ -56,8 +64,16 @@ void Graph::loadGraph(){
 
       //TRACE_LINE(a, b);
       // check if node ids within graph array range
-      ASSERT( user1 < nodes );
-      ASSERT( user2 < nodes );
+      if(user1 >= nodes){
+        cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":("
+             << user1 << " >= " << nodes << ")" << endl;
+        exit(1);
+      }
+      if(user2 >= nodes){
+        cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":("
+             << user2 << " >= " << nodes << ")" << endl;
+        exit(1);
+      }
       // hasnode[user1] = true;
       // hasnode[user2] = true;
       this->addEdge(user1, user2, weight);

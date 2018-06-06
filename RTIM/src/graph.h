@@ -1,13 +1,9 @@
 #ifndef __GRAPH_H__
 #define __GRAPH_H__
 
-// #define HEAD_INFO
-//#define HEAD_TRACE
-// #include "sfmt/SFMT.h"
 #include <string>
 #include <vector>
 #include <utility>
-// #include "head.h"
 
 /*
   Influence Graph class

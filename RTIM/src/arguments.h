@@ -1,7 +1,7 @@
 #ifndef __ARGUMENTS_H__
 #define __ARGUMENTS_H__
 
-#include "head.h"
+#include "tools.h"
 
 class Arguments{
 public:
