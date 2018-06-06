@@ -60,21 +60,21 @@ int gettimeofday(struct timeval *tv, struct timezone *tz){
     return 0;
 }
 
-string nowStr(){
+std::string nowStr(){
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
     char str[100];
     sprintf(str,"%d_%d_%d_%d_%d_%d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-    return string(str);
+    return std::string(str);
 }
 
-void timer_init(string arg="default"){
+void timer_init(std::string arg="default"){
     timeval ts;
     gettimeofday(&ts,NULL);
     __head_h_start[arg]=ts;
 }
 
-int64 timer_elapse(string arg="default"){ // unit ms
+int64 timer_elapse(std::string arg="default"){ // unit ms
     cout << "fuck " <<endl;
     struct timeval now;
     gettimeofday(&now,NULL);
@@ -83,12 +83,12 @@ int64 timer_elapse(string arg="default"){ // unit ms
     return sec * 1000 + usec/1000;
 }
 
-string currentTimestampStr() {
+std::string currentTimestampStr() {
     time_t t = time(0);   // get time now
     struct tm * now = localtime( & t );
     char buf[1000];
     sprintf(buf, "%04d-%02d-%02d %02d:%02d:%02d", now->tm_year+1900, now->tm_mon+1, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec);
-    return string(buf);
+    return std::string(buf);
 }
 
 class OutputInfo

@@ -3,8 +3,8 @@ EXEC=rtim
 
 all: $(EXEC)
 
-rtim: .cpp .h
-	$(CXX) -o rtim.cpp
+rtim: src/*.cpp src/*.h
+	$(CXX) src/RTIM.cpp -o rtim
 
 clean:
 	rm -rf *.o
