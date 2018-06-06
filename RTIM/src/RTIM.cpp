@@ -1,7 +1,14 @@
-#include <boost/graph/adjacency_list.hpp>
-#include <rtim.h>
-#include <arguments.h>
+#include "RTIM.h"
+#include "Arguments.h"
+#include "Tools.h"
 
+void RTIM::pre_process(){
+  // does nothing yet
+};
+
+void RTIM::live(){
+  //does nothing yet
+};
 
 int main(int argn, char **argv)
 {

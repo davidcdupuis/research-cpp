@@ -1,5 +1,5 @@
-#include "graph.h"
-#include "tools.h"
+#include "Graph.h"
+#include "Tools.h"
 
 using namespace std;
 
@@ -106,7 +106,7 @@ void Graph::print(){
   cout << dataset << " graph:" << endl;
   for(int i = 0; i < nodes; i++){
     for (int j = 0; j < graph[i].size(); j++){
-      cout << "(" << i << ")" <<"-["<< graph[i][j].second <<"]->"
+      cout << "(" << i << ")" << "-[" << graph[i][j].second << "]->"
            << "(" << graph[i][j].first << ")" << endl;
     }
   }

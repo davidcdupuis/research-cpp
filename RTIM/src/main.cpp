@@ -1,8 +1,8 @@
 // File to run desired program
-#include "arguments.h"
-#include "rtim.h"
-#include "graph.h"
-#include "tools.h"
+#include "Arguments.h"
+#include "RTIM.h"
+#include "Graph.h"
+#include "Tools.h"
 
 using namespace std;
 
