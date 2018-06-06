@@ -1,4 +1,13 @@
-all: main
+CXX=g++
+EXEC=rtim
 
-main: .cpp .h
-	g++ -o main.cpp
+all: $(EXEC)
+
+rtim: .cpp .h
+	$(CXX) -o rtim.cpp
+
+clean:
+	rm -rf *.o
+
+mrproper: clean
+	rm -rf $(EXEC)
