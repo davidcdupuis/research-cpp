@@ -40,7 +40,6 @@ void Graph::readAttributes(){
       }
       exit(1);
   }
-  TRACE(nodes, edges);
   cin.close();
 }
 
@@ -48,7 +47,6 @@ void Graph::readAttributes(){
 void Graph::loadGraph(){
   string graph_file = "../data/" + this->dataset + "/graph_ic.inf";
   FILE *fin = fopen(graph_file.c_str(), "r");
-  ASSERT(fin != false);
   if (fin == true){
     cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << endl;
     exit(1);
@@ -60,9 +58,12 @@ void Graph::loadGraph(){
       int user1, user2;
       double weight;
       int c = fscanf(fin, "%d%d%lf", &user1, &user2, &weight);
-      ASSERTT(c == 3, user1, user2, weight, c);
-
-      //TRACE_LINE(a, b);
+      if (c != 3) {
+        cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
+        cerr << "Info: " << user1 << ", " << user2 << ", " << weight << ", "
+             << c << endl;
+        exit(1);
+      }
       // check if node ids within graph array range
       if(user1 >= nodes){
         cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":("
@@ -74,9 +75,7 @@ void Graph::loadGraph(){
              << user2 << " >= " << nodes << ")" << endl;
         exit(1);
       }
-      // hasnode[user1] = true;
-      // hasnode[user2] = true;
-      this->addEdge(user1, user2, weight);
+      addEdge(user1, user2, weight);
   }
   // TRACE_LINE_END();
   // int s = 0;

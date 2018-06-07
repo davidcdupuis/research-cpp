@@ -31,8 +31,14 @@ void Arguments::getArguments(int argn, char **argv){
       if (argv[i] == string("-model"))
            model = argv[i + 1];
   }
-  ASSERT(dataset != "");
-  ASSERT(model == "IC" || model == "LT" ||  model == "TR" || model=="CONT");
+  if (dataset == ""){
+    cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
+    exit(1);
+  }
+  if (model != "IC" || model != "LT" || model != "TR" || model != "CONT"){
+    cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
+    exit(1);
+  }
 }
 
 void Arguments::printArguments(){
