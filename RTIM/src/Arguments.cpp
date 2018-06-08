@@ -34,9 +34,12 @@ void Arguments::getArguments(int argn, char **argv){
     cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
     exit(1);
   }
-  if (model != "IC" || model != "LT" || model != "TR" || model != "CONT"){
-    cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
+  if (model != "IC" && model != "LT" && model != "TR" && model != "CONT"){
+    cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << ":" << model << endl;
     exit(1);
+  }
+  if (stage != "pre" && stage != "live" && stage!= "evaluate"){
+    cerr << "Error: stage not defined: " << stage << endl;
   }
 }
 
