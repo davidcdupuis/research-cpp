@@ -9,7 +9,7 @@ Graph::Graph(string d){
   dataset =  "../data/" + dataset;
   readAttributes();
   graph.resize(nodes);
-  loadGraph();
+  //loadGraph();
 }
 
 /* Function to add an edge */
@@ -20,42 +20,38 @@ void Graph::addEdge(int a, int b, double w){
 /* Function to read attributes.txt */
 void Graph::readAttributes(){
   string folder = "../data/" + dataset + "/attribute.txt";
+  ifstream infile;
+  infile.open(folder.c_str());
   ifstream cin(folder.c_str());
-  // ASSERT(!cin == false);
-  if(!(!cin == false)){
-    cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
+  cout << "Loading attributes from: " << folder << endl;
+  string s;
+  while(infile >> s){
+    if(s.substr(0, 2)=="n="){
+      nodes = atoi(s.substr(2).c_str());
+      cout << "Number of nodes: " << nodes << endl;
+      continue;
+    }
+    if (s.substr(0, 2) == "m="){
+      edges = atoi(s.substr(2).c_str());
+      cout << "Number of edges: " << edges << endl;
+      continue;
+    }
+    cerr << "Error: bad attributes!" << endl;
     exit(1);
   }
-  string s;
-  cout << "Attributes" << endl;
-  while (cin >> s)
-  {
-      if (s.substr(0, 2) == "n=")
-      {
-          nodes = atoi(s.substr(2).c_str());
-	  cout << "Number of nodes: " << nodes << endl;
-          continue;
-      }
-      if (s.substr(0, 2) == "m=")
-      {
-          edges = atoi(s.substr(2).c_str());
-          cout << "Number of edges: " << edges << endl;
-	  continue;
-      }
-      exit(1);
-  }
-  cout << "----------------------" << endl;
-  cin.close();
+  cout << "---------------------------------------" << endl;
+  infile.close();
 }
 
 /* Function to import graph from file */
 void Graph::loadGraph(){
-  string graph_file = "../data/" + this->dataset + "/graph_ic.inf";
+  string graph_file = "../data/" + dataset + "/graph_ic.inf";
   FILE *fin = fopen(graph_file.c_str(), "r");
   if (!(fin != false)){
     cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << endl;
     exit(1);
   }
+  cout << "Loading graph from: " << graph_file << endl;
   int readCnt = 0;
   for (int i = 0; i < edges; i++)
   {
