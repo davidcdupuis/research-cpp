@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Graph.h"
 
 using namespace std;
@@ -17,7 +18,7 @@ void Graph::addEdge(int a, int b, double w){
 
 /* Function to read attributes.txt */
 void Graph::readAttributes(){
-  string folder = "../data/" + this->dataset + "/attribute.txt";
+  /*string folder = "../data/" + this->dataset + "/attribute.txt";
   ifstream cin(folder.c_str());
   // ASSERT(!cin == false);
   if(!(!cin == false)){
@@ -39,12 +40,12 @@ void Graph::readAttributes(){
       }
       exit(1);
   }
-  cin.close();
+  cin.close();*/
 }
 
 /* Function to import graph from file */
 void Graph::loadGraph(){
-  string graph_file = "../data/" + this->dataset + "/graph_ic.inf";
+  /*string graph_file = "../data/" + this->dataset + "/graph_ic.inf";
   FILE *fin = fopen(graph_file.c_str(), "r");
   if (fin == true){
     cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << endl;
@@ -83,7 +84,7 @@ void Graph::loadGraph(){
   //         s++;
   // INFO(s);
   // ASSERT(readCnt == m);
-  fclose(fin);
+  fclose(fin);*/
 }
 
 /* Function to calculate influence score of seed set */
@@ -104,7 +105,7 @@ void Graph::print(){
   cout << dataset << " graph:" << endl;
   for(int i = 0; i < nodes; i++){
     for (int j = 0; j < graph[i].size(); j++){
-      cout << "(" << i << ")" << "-[" << graph[i][j].second << "]->"
+	cout << "(" << i << ")" << "-[" << graph[i][j].second << "]->"
            << "(" << graph[i][j].first << ")" << endl;
     }
   }
