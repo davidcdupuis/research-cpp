@@ -6,7 +6,7 @@ using namespace std;
 
 
 Graph::Graph(string d){
-  dataset =  "../data/" + dataset;
+  dataset =  d;
   readAttributes();
   graph.resize(nodes);
   //loadGraph();
@@ -19,10 +19,11 @@ void Graph::addEdge(int a, int b, double w){
 
 /* Function to read attributes.txt */
 void Graph::readAttributes(){
-  string folder = "../data/" + dataset + "/attribute.txt";
-  ifstream infile;
-  infile.open(folder.c_str());
-  ifstream cin(folder.c_str());
+  string folder = "../../data/" + dataset + "/attribute.txt";
+  //ifstream infile;
+  //infile.open(folder.c_str());
+  //ifstream cin(folder.c_str());
+  ifstream infile(folder.c_str());
   cout << "Loading attributes from: " << folder << endl;
   string s;
   while(infile >> s){
