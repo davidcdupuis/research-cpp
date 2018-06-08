@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Graph.h"
 
 using namespace std;
@@ -18,36 +19,40 @@ void Graph::addEdge(int a, int b, double w){
 
 /* Function to read attributes.txt */
 void Graph::readAttributes(){
-  /*string folder = "../data/" + this->dataset + "/attribute.txt";
+  string folder = "../data/" + dataset + "/attribute.txt";
   ifstream cin(folder.c_str());
   // ASSERT(!cin == false);
   if(!(!cin == false)){
-    cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ <<endl;
+    cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
     exit(1);
   }
   string s;
+  cout << "Attributes" << endl;
   while (cin >> s)
   {
       if (s.substr(0, 2) == "n=")
       {
           nodes = atoi(s.substr(2).c_str());
+	  cout << "Number of nodes: " << nodes << endl;
           continue;
       }
       if (s.substr(0, 2) == "m=")
       {
           edges = atoi(s.substr(2).c_str());
-          continue;
+          cout << "Number of edges: " << edges << endl;
+	  continue;
       }
       exit(1);
   }
-  cin.close();*/
+  cout << "----------------------" << endl;
+  cin.close();
 }
 
 /* Function to import graph from file */
 void Graph::loadGraph(){
-  /*string graph_file = "../data/" + this->dataset + "/graph_ic.inf";
+  string graph_file = "../data/" + this->dataset + "/graph_ic.inf";
   FILE *fin = fopen(graph_file.c_str(), "r");
-  if (fin == true){
+  if (!(fin != false)){
     cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << endl;
     exit(1);
   }
@@ -84,7 +89,7 @@ void Graph::loadGraph(){
   //         s++;
   // INFO(s);
   // ASSERT(readCnt == m);
-  fclose(fin);*/
+  fclose(fin);
 }
 
 /* Function to calculate influence score of seed set */

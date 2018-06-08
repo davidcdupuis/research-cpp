@@ -6,7 +6,7 @@ all: $(EXEC)
 rtim: Arguments.o Graph.o RTIM.o
 	$(CXX) -o rtim Arguments.o Graph.o RTIM.o
 
-RTIM.o: RTIM.cpp
+RTIM.o: RTIM.cpp Graph.cpp
 	$(CXX) -c RTIM.cpp
 
 Graph.o: Graph.cpp
