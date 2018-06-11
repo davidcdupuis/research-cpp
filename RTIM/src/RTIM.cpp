@@ -16,4 +16,5 @@ int main(int argn, char **argv)
     args.getArguments(argn, argv);
     args.printArguments();
     Graph g = Graph(args.dataset);
+    g.print();
 }

@@ -14,6 +14,7 @@ int main(int argn, char **argv)
 
     // Import graph
     Graph graph("test");
+    cout << "Printing graph: " << graph.dataset << endl;
     graph.print();
     //cout << "Graph " << graph.dataset << " imported." << endl;
 

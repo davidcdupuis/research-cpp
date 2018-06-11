@@ -77,6 +77,7 @@ void Graph::loadGraph(){
              << user2 << " >= " << nodes << ")" << endl;
         exit(1);
       }
+      //cout << "(" << user1 << ")" << "-[" << weight << "]->" << "(" << user2 << ")" << endl;
       addEdge(user1, user2, weight);
   }
   // TRACE_LINE_END();
@@ -86,6 +87,7 @@ void Graph::loadGraph(){
   //         s++;
   // INFO(s);
   // ASSERT(readCnt == m);
+  cout << "Graph loaded successfully!" << endl;
   fclose(fin);
 }
 
