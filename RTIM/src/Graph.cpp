@@ -1,7 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <list>
+#include <queue>
+#include <algorithm>
+#include <stdlib.h>
+#include <time.h>
 #include "Graph.h"
 
 using namespace std;
@@ -94,7 +97,7 @@ void Graph::loadGraph(){
 }
 
 /* Function to calculate influence score of seed set */
-double Graph::influenceScore(const vector<int>& seed_set, int depth=10000, int sim=10000){
+double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim){
   int sum = 0;
   for (int i = 0; i < sim; i++){
     // run random walk
@@ -105,32 +108,38 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth=10000, int s
 }
 
 /* Function to perform influence coverage from seed set */
-int Graph::influenceSimulation(const vector<int>& seed_set, int depth=10000){
+int Graph::influenceSimulation(const vector<int>& seed_set, int depth){
+  srand(time(NULL));
   int activated = 0;
   vector<int> activated_nodes;
-  cout << "Seed set: ";
-  for (int i = 0; i < seed_set.size(); i ++){
-    cout << seed_set[i] << " ";
-  }
-  cout << endl;
-  /*
+  
   for (int node: seed_set){
-    list<int, int> queue;
+    queue< pair<int, int> > queue;
     activated += 1;
     activated_nodes.push_back(node);
-    queue.push_back(node, 0);
+    queue.push(make_pair(node, 0));
     while(!queue.empty()){
-      int curr = queue.pop_front();
+      pair<int, int> curr = queue.front();
+      queue.pop();
+      cout << "(" << curr.first << ", " << curr.second << ") ";
       // test influence of all neigbhors
-      for(int i = 0; i < len(graph[curr]); i++){
-        // if influence increment activated,
-        // add to queue, and activated_nodes and increase depth.
-        activated += 1;
-        activated_nodes.push_back(graph[curr][i]);
-        queue.push_back(graph[curr][i], curr.second + 1);
+      for(pair<int, double> neighbor: graph[curr.first]){
+        // check if neighbor is not in activated nodes
+	double r = rand()/(double)RAND_MAX;
+	if (!(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end()) && (r <= neighbor.second)){
+
+	  // if influence increment activated,
+          // add to queue, and activated_nodes and increase depth.
+          activated += 1;
+          activated_nodes.push_back(neighbor.first);
+	  if(curr.second + 1 <= depth){
+	    queue.push(make_pair(neighbor.first, curr.second + 1));
+      	  }
+	}
       }
     }
-  }*/
+  }
+  cout << endl;
 
   return activated;
 }
