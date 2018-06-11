@@ -9,7 +9,7 @@ Graph::Graph(string d){
   dataset =  d;
   readAttributes();
   graph.resize(nodes);
-  //loadGraph();
+  loadGraph();
 }
 
 /* Function to add an edge */
@@ -46,7 +46,7 @@ void Graph::readAttributes(){
 
 /* Function to import graph from file */
 void Graph::loadGraph(){
-  string graph_file = "../data/" + dataset + "/graph_ic.inf";
+  string graph_file = "../../data/" + dataset + "/graph_ic.inf";
   FILE *fin = fopen(graph_file.c_str(), "r");
   if (!(fin != false)){
     cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << endl;
