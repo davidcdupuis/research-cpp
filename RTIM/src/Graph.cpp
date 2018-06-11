@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <list>
 #include "Graph.h"
 
 using namespace std;
@@ -92,17 +94,45 @@ void Graph::loadGraph(){
 }
 
 /* Function to calculate influence score of seed set */
-double Graph::influenceScore(int sim){
-  double score;
+double Graph::influenceScore(const vector<int>& seed_set, int depth=10000, int sim=10000){
+  int sum = 0;
   for (int i = 0; i < sim; i++){
     // run random walk
+    sum += influenceSimulation(seed_set, depth);
   }
+  double score = sum / sim;
+  return score;
 }
 
 /* Function to perform influence coverage from seed set */
-int Graph::influenceCoverage(){
-  int score = 0;
-  return score;
+int Graph::influenceSimulation(const vector<int>& seed_set, int depth=10000){
+  int activated = 0;
+  vector<int> activated_nodes;
+  cout << "Seed set: ";
+  for (int i = 0; i < seed_set.size(); i ++){
+    cout << seed_set[i] << " ";
+  }
+  cout << endl;
+  /*
+  for (int node: seed_set){
+    list<int, int> queue;
+    activated += 1;
+    activated_nodes.push_back(node);
+    queue.push_back(node, 0);
+    while(!queue.empty()){
+      int curr = queue.pop_front();
+      // test influence of all neigbhors
+      for(int i = 0; i < len(graph[curr]); i++){
+        // if influence increment activated,
+        // add to queue, and activated_nodes and increase depth.
+        activated += 1;
+        activated_nodes.push_back(graph[curr][i]);
+        queue.push_back(graph[curr][i], curr.second + 1);
+      }
+    }
+  }*/
+
+  return activated;
 }
 
 void Graph::print(){

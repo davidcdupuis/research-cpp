@@ -27,11 +27,15 @@ class Graph
     /* Function to import graph from file */
     void loadGraph();
 
-    /* Function to compute influence score of a seed set */
+    /* Function to compute influence score of a seed set
+       Returns influence score
+    */
     double influenceScore(int sim);
 
-    /* Function to perform random influence coverage of seed set */
-    int influenceCoverage();
+    /* Function to perform random influence coverage of seed set
+       Returns number of activated nodes
+    */
+    int influenceSimulation();
 
     /* Function to print graph */
     void print();
