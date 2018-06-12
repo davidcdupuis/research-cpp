@@ -2,6 +2,7 @@
 #define __RTIM_H__
 
 #include <string>
+#include <vector>
 
 /*RTIM = Real-Time Influence Maximization
 
@@ -13,17 +14,21 @@ class RTIM{
   int k;            //seed set size limit
   int simulations;  // # simulations for inf score
   int max_depth;    //max exploration depth for inf score
+  vector<int> infScores;
 
   /*Pre-processing stage
     Compute influence score of every user in graph
   */
-  void pre_process();
+  void pre_process(const Graph& graph);
 
   /*Live stage
     For stream of user decide to target, if targeted update activation
     probability of neighboring nodes
   */
-  void live();
+  void live(const Graph& graph);
+
+  /* Print influence scores */
+  void printScores();
 
 };
 #endif

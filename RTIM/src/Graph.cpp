@@ -100,7 +100,7 @@ void Graph::loadGraph(){
 double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim){
   int sum = 0;
   for (int i = 0; i < sim; i++){
-    // run random walk
+    // run influence simulation
     sum += influenceSimulation(seed_set, depth);
   }
   double score = sum / sim;
@@ -112,11 +112,14 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth){
   srand(time(NULL));
   int activated = 0;
   vector<int> activated_nodes;
-  
+  // seed nodes are already activated
+  for(int node: seed_set){
+    activated_nodes.push_back(node);
+  }
+  // simulate inf propagation from each seed node
   for (int node: seed_set){
     queue< pair<int, int> > queue;
     activated += 1;
-    activated_nodes.push_back(node);
     queue.push(make_pair(node, 0));
     while(!queue.empty()){
       pair<int, int> curr = queue.front();
@@ -125,22 +128,21 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth){
       // test influence of all neigbhors
       for(pair<int, double> neighbor: graph[curr.first]){
         // check if neighbor is not in activated nodes
-	double r = rand()/(double)RAND_MAX;
-	if (!(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end()) && (r <= neighbor.second)){
+        double r = rand()/(double)RAND_MAX;
+        if (!(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end())
+            && (r <= neighbor.second)){
 
-	  // if influence increment activated,
+          // if influence increment activated,
           // add to queue, and activated_nodes and increase depth.
           activated += 1;
           activated_nodes.push_back(neighbor.first);
-	  if(curr.second + 1 <= depth){
-	    queue.push(make_pair(neighbor.first, curr.second + 1));
-      	  }
-	}
+          if(curr.second + 1 <= depth){
+            queue.push(make_pair(neighbor.first, curr.second + 1));
+          }
+        }
       }
     }
   }
-  cout << endl;
-
   return activated;
 }
 

@@ -5,13 +5,26 @@
 
 using namespace std;
 
-void RTIM::pre_process(){
-  // does nothing yet
+void RTIM::pre_process(const Graph& graph){
+  // for each node in graph compute influence score
+  /*double score = 0;
+  for(int node: graph){
+    score = graph.influenceScore(node);
+    infScores[node] = score;
+    cout << node << " : " << infScore[node] << endl;
+  }*/
 };
 
-void RTIM::live(){
+void RTIM::live(cont Graph& graph){
   //does nothing yet
 };
+
+void RTIM::printScores(){
+  cout << "Influence Scores: " << endl;
+  for (int node: infScores){
+    cout << "(" << node << " : " << infScores[node] << ")" << endl;
+  }
+}
 
 int main(int argn, char **argv)
 {
@@ -23,5 +36,5 @@ int main(int argn, char **argv)
 
     vector<int> v;
     v.push_back(0);
-    g.influenceSimulation(v);
+    g.influenceScore(v);
 }
