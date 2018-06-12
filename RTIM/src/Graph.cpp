@@ -66,7 +66,7 @@ void Graph::loadGraph(){
       int user1, user2;
       double weight;
       int c = fscanf(fin, "%d%d%lf", &user1, &user2, &weight);
-      if (c != 3) {
+      if (c != 3 && c!= -1) {
         cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
         cerr << "Info: " << user1 << ", " << user2 << ", " << weight << ", "
              << c << endl;

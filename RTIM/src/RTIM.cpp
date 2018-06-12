@@ -33,8 +33,9 @@ int main(int argn, char **argv)
     args.printArguments();
     Graph g = Graph(args.dataset);
     //g.print();
-
+/*
     vector<int> v;
     v.push_back(0);
     double s = g.influenceScore(v);
+*/
 }
