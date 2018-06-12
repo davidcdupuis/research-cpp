@@ -112,14 +112,14 @@ void Graph::loadGraph(){
 
 /* Function to calculate influence score of seed set */
 double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) const{
-  cout << "Computing influence score of: " << printSeed(seed_set) << endl;
+  // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   int sum = 0;
   for (int i = 0; i < sim; i++){
     // run influence simulation
     sum += influenceSimulation(seed_set, depth);
   }
   double score = sum/(double)sim;
-  cout << "Influence score is " << score << endl;
+  // cout << "Influence score is " << score << endl;
   return score;
 }
 /*

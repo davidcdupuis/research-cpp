@@ -2,6 +2,8 @@
 #include "Arguments.h"
 #include "Graph.h"
 #include <vector>
+#include <cstdio>
+#include <ctime>
 
 using namespace std;
 
@@ -15,10 +17,13 @@ void RTIM::pre_process(const Graph& graph){
   cout << "Running pre_process on " << dataset << endl;
   infScores.reserve(graph.graph.size());
   double score;
-  for(int i = 0; i < graph.graph.size(); i++){
+  int nodes = graph.graph.size();
+  for(int i = 0; i < nodes; i++){
     score = graph.influenceScore({i}, 3); 
     infScores[i] = score;
-    // cout << node << " : " << infScore[node] << endl;
+    if(nodes <= 20){
+      cout << "Influence score of " << i << " is " << score << endl;
+    }
   }
   cout << "Pre_process complete!" << endl;
 };
@@ -38,6 +43,9 @@ void RTIM::printScores(){
 
 int main(int argn, char **argv)
 {
+    clock_t start;
+    double duration;
+
     Arguments args = Arguments();
     args.getArguments(argn, argv);
     args.printArguments();
@@ -46,7 +54,10 @@ int main(int argn, char **argv)
     
     RTIM rtim = RTIM(args.dataset);
 
+    start = clock();
     rtim.pre_process(g);
+    duration = (clock() - start)/(double)CLOCKS_PER_SEC; // duration in seconds
+    cout << "Pre_process ran in: " << duration << " seconds." << endl;
     //g.print();
 /*
     vector<int> v;
