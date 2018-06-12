@@ -5,10 +5,23 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <time.h>
+#include <string>
 #include "Graph.h"
 
 using namespace std;
 
+string printSeed(vector<int> seed){
+  string s = "[";
+  for (int i = 0; i < seed.size(); i++){
+    if (i < seed.size() - 1){
+      s += to_string(node) + ", ";
+    }else{
+      s += to_string(node);
+    }
+  }
+  s += "]";
+  return s;
+}
 
 Graph::Graph(string d){
   srand(time(NULL));
@@ -99,13 +112,13 @@ void Graph::loadGraph(){
 
 /* Function to calculate influence score of seed set */
 double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim){
-  cout << "Computing influence score..." << endl;
+  cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   int sum = 0;
   for (int i = 0; i < sim; i++){
     // run influence simulation
     sum += influenceSimulation(seed_set, depth);
   }
-  double score = sum/(double)sim; 
+  double score = sum/(double)sim;
   cout << "Influence score is " << score << endl;
   return score;
 }
@@ -144,7 +157,7 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth){
         }
       }
     }
-  } 
+  }
   return activated;
 }
 

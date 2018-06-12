@@ -7,16 +7,20 @@ using namespace std;
 
 void RTIM::pre_process(const Graph& graph){
   // for each node in graph compute influence score
-  /*double score = 0;
+  cout << "Running pre_process on " << dataset << endl;
+  double score = 0;
   for(int node: graph){
     score = graph.influenceScore(node);
     infScores[node] = score;
-    cout << node << " : " << infScore[node] << endl;
-  }*/
+    // cout << node << " : " << infScore[node] << endl;
+  }
+  cout << "Pre_process complete!" << endl;
 };
 
 void RTIM::live(const Graph& graph){
-  //does nothing yet
+  cout << "Running live on " << dataset << endl;
+  // run live
+  cout << "Live complete!" << endl;
 };
 
 void RTIM::printScores(){
