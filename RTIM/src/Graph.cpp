@@ -14,9 +14,9 @@ string printSeed(vector<int> seed){
   string s = "[";
   for (int i = 0; i < seed.size(); i++){
     if (i < seed.size() - 1){
-      s += to_string(node) + ", ";
+      s += to_string(seed[i]) + ", ";
     }else{
-      s += to_string(node);
+      s += to_string(seed[i]);
     }
   }
   s += "]";
@@ -111,7 +111,7 @@ void Graph::loadGraph(){
 }
 
 /* Function to calculate influence score of seed set */
-double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim){
+double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) const{
   cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   int sum = 0;
   for (int i = 0; i < sim; i++){
@@ -122,9 +122,21 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim){
   cout << "Influence score is " << score << endl;
   return score;
 }
+/*
+double Graph::influenceScore(int node, int depth, int sim) const{
+  cout << "Computing influence score of: " << node << endl;
+  int sum = 0;
+  for (int i = 0; i < sim; i++){
+    // run influence simulation
+    sum += influenceSimulation(node, depth);
+  }
+  double score = sum/(double)sim;
+  cout << "Influence score is " << score << endl;
+  return score;
+}*/
 
 /* Function to perform influence coverage from seed set */
-int Graph::influenceSimulation(const vector<int>& seed_set, int depth){
+int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
   int activated = 0;
   vector<int> activated_nodes;
   // seed nodes are already activated

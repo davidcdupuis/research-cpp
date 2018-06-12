@@ -11,11 +11,14 @@
   Step2: Dynamically decide user targeting and save to seed set
 */
 class RTIM{
+public:
   std::string dataset;   //dataset name
   int k;            //seed set size limit
   int simulations;  // # simulations for inf score
   int max_depth;    //max exploration depth for inf score
-  std::vector<int> infScores;
+  std::vector<double> infScores;
+
+  RTIM(std::string dataset);
 
   /*Pre-processing stage
     Compute influence score of every user in graph
