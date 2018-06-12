@@ -11,6 +11,7 @@ using namespace std;
 
 
 Graph::Graph(string d){
+  srand(time(NULL));
   dataset =  d;
   readAttributes();
   graph.resize(nodes);
@@ -98,18 +99,19 @@ void Graph::loadGraph(){
 
 /* Function to calculate influence score of seed set */
 double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim){
+  cout << "Computing influence score..." << endl;
   int sum = 0;
   for (int i = 0; i < sim; i++){
     // run influence simulation
     sum += influenceSimulation(seed_set, depth);
   }
-  double score = sum / sim;
+  double score = sum/(double)sim; 
+  cout << "Influence score is " << score << endl;
   return score;
 }
 
 /* Function to perform influence coverage from seed set */
 int Graph::influenceSimulation(const vector<int>& seed_set, int depth){
-  srand(time(NULL));
   int activated = 0;
   vector<int> activated_nodes;
   // seed nodes are already activated
@@ -124,7 +126,7 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth){
     while(!queue.empty()){
       pair<int, int> curr = queue.front();
       queue.pop();
-      cout << "(" << curr.first << ", " << curr.second << ") ";
+      // cout << "(" << curr.first << ", " << curr.second << ") ";
       // test influence of all neigbhors
       for(pair<int, double> neighbor: graph[curr.first]){
         // check if neighbor is not in activated nodes
@@ -142,7 +144,7 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth){
         }
       }
     }
-  }
+  } 
   return activated;
 }
 

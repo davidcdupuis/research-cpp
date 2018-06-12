@@ -15,7 +15,7 @@ void RTIM::pre_process(const Graph& graph){
   }*/
 };
 
-void RTIM::live(cont Graph& graph){
+void RTIM::live(const Graph& graph){
   //does nothing yet
 };
 
@@ -36,5 +36,5 @@ int main(int argn, char **argv)
 
     vector<int> v;
     v.push_back(0);
-    g.influenceScore(v);
+    double s = g.influenceScore(v);
 }

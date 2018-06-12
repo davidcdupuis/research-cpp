@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "Graph.h"
 
 /*RTIM = Real-Time Influence Maximization
 
@@ -14,7 +15,7 @@ class RTIM{
   int k;            //seed set size limit
   int simulations;  // # simulations for inf score
   int max_depth;    //max exploration depth for inf score
-  vector<int> infScores;
+  std::vector<int> infScores;
 
   /*Pre-processing stage
     Compute influence score of every user in graph
