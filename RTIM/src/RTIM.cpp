@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <ctime>
 #include <omp.h>
+#include <random>
 
 using namespace std;
 
@@ -19,16 +20,20 @@ void RTIM::pre_process(const Graph& graph){
   infScores.reserve(graph.graph.size());
   double score;
   int nodes = graph.graph.size();
-  //omp_set_num_threads(50);
-  cout << "Num threads: " << omp_get_num_threads() << endl;
+  
   #pragma omp parallel for private(score) shared(infScores, graph)
   for(int i = 0; i < nodes; i++){
+    random_device rd;
+    //unsigned seed = time(NULL) + rd()*(i+1)*omp_get_thread_num();
+    //cout << "Thread num: " << omp_get_thread_num() << ", seed: " << seed << endl;
     //cout << "Thread number: " << omp_get_thread_num() << " : " << i << endl;
-    score = graph.influenceScore({i}, 3); 
+    score = graph.influenceScore({i}, rd(), 3);
+    cout << "<" << score << "> "; 
     infScores[i] = score;
-    if(nodes <= 20){
-      cout << "Influence score of " << i << " is " << score << endl;
-    }
+  }
+  cout << "scores: " << infScores.size() << endl;
+  if (nodes <= 20){
+    printScores();
   }
   cout << "Pre_process complete!" << endl;
 };

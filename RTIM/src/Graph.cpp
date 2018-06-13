@@ -7,6 +7,8 @@
 #include <time.h>
 #include <string>
 #include "Graph.h"
+#include <omp.h>
+#include <random>
 
 using namespace std;
 
@@ -24,7 +26,7 @@ string printSeed(vector<int> seed){
 }
 
 Graph::Graph(string d){
-  srand(time(NULL));
+  //srand(time(NULL));
   dataset =  d;
   readAttributes();
   graph.resize(nodes);
@@ -111,32 +113,20 @@ void Graph::loadGraph(){
 }
 
 /* Function to calculate influence score of seed set */
-double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) const{
+double Graph::influenceScore(const vector<int>& seed_set, unsigned seed, int depth, int sim) const{
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   int sum = 0;
   for (int i = 0; i < sim; i++){
     // run influence simulation
-    sum += influenceSimulation(seed_set, depth);
+    sum += influenceSimulation(seed_set, seed, depth);
   }
   double score = sum/(double)sim;
   // cout << "Influence score is " << score << endl;
   return score;
 }
-/*
-double Graph::influenceScore(int node, int depth, int sim) const{
-  cout << "Computing influence score of: " << node << endl;
-  int sum = 0;
-  for (int i = 0; i < sim; i++){
-    // run influence simulation
-    sum += influenceSimulation(node, depth);
-  }
-  double score = sum/(double)sim;
-  cout << "Influence score is " << score << endl;
-  return score;
-}*/
 
 /* Function to perform influence coverage from seed set */
-int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
+int Graph::influenceSimulation(const vector<int>& seed_set, unsigned seed, int depth) const{
   int activated = 0;
   vector<int> activated_nodes;
   // seed nodes are already activated
@@ -155,7 +145,9 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
       // test influence of all neigbhors
       for(pair<int, double> neighbor: graph[curr.first]){
         // check if neighbor is not in activated nodes
-        double r = rand()/(double)RAND_MAX;
+	random_device rd;
+	unsigned seed2 = rd();
+        double r = rand_r(&seed2)/(double)RAND_MAX;	
         if (!(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end())
             && (r <= neighbor.second)){
 
@@ -170,6 +162,7 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
       }
     }
   }
+  //cout << "(" << seed_set[0] << "," << activated << ") ";
   return activated;
 }
 

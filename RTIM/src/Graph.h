@@ -30,7 +30,7 @@ class Graph
     /* Function to compute influence score of a seed set
        Returns influence score
     */
-    double influenceScore(const std::vector<int>& seed_set, int depth=10000, int sim=10000) const;
+    double influenceScore(const std::vector<int>& seed_set, unsigned seed, int depth=10000, int sim=10000) const;
 
     /* Function to compute influence score of a node
     double influenceScore(int node, int depth=10000, int sim=10000) const;*/
@@ -38,7 +38,7 @@ class Graph
     /* Function to perform random influence coverage of seed set
        Returns number of activated nodes
     */
-    int influenceSimulation(const std::vector<int>& seed_set, int depth=10000) const;
+    int influenceSimulation(const std::vector<int>& seed_set, unsigned seed, int depth=10000) const;
 
     /* Function to print graph */
     void print();
