@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstdio>
 #include <ctime>
+#include <omp.h>
 
 using namespace std;
 
@@ -18,7 +19,11 @@ void RTIM::pre_process(const Graph& graph){
   infScores.reserve(graph.graph.size());
   double score;
   int nodes = graph.graph.size();
+  //omp_set_num_threads(50);
+  cout << "Num threads: " << omp_get_num_threads() << endl;
+  #pragma omp parallel for private(score) shared(infScores, graph)
   for(int i = 0; i < nodes; i++){
+    //cout << "Thread number: " << omp_get_thread_num() << " : " << i << endl;
     score = graph.influenceScore({i}, 3); 
     infScores[i] = score;
     if(nodes <= 20){
