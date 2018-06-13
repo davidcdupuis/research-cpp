@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+
 #include "Graph.h"
 
 /*RTIM = Real-Time Influence Maximization
@@ -32,8 +33,17 @@ public:
   */
   void live(const Graph& graph);
 
+  /* Import live stream */
+  void importLiveStream();
+
   /* Print influence scores */
   void printScores();
+
+  /* Saves influence scores to file */
+  void saveScores();
+
+  /* Import influence scores */
+  void importScores();
 
 };
 #endif

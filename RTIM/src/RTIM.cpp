@@ -1,11 +1,11 @@
-#include "RTIM.h"
-#include "Arguments.h"
-#include "Graph.h"
 #include <vector>
 #include <cstdio>
 #include <ctime>
 #include <omp.h>
-// #include <random>
+
+#include "RTIM.h"
+#include "Arguments.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ RTIM::RTIM(string d){
 
 void RTIM::pre_process(const Graph& graph){
   // for each node in graph compute influence score
-  cout << "Running pre_process on " << dataset << endl; 
+  cout << "Running pre_process on " << dataset << endl;
   double score;
   numNodes = graph.graph.size();
 
@@ -24,21 +24,16 @@ void RTIM::pre_process(const Graph& graph){
   for(int i = 0; i < numNodes; i++){
     infScores.push_back(0);
   }
-  
+
   #pragma omp parallel for private(score) shared(infScores, graph)
   for(int i = 0; i < numNodes; i++){
-    // random_device rd;
-    //unsigned seed = time(NULL) + rd()*(i+1)*omp_get_thread_num();
-    //cout << "Thread num: " << omp_get_thread_num() << ", seed: " << seed << endl;
-    //cout << "Thread number: " << omp_get_thread_num() << " : " << i << endl;
     score = graph.influenceScore({i}, 3);
-    //cout << "<" << score << "> "; 
     infScores[i] = score;
-    //cout << i << ": <" << infScores[i] << "> " << endl;
   }
   if (numNodes <= 20){
     printScores();
   }
+  saveScores();
   cout << "Pre_process complete!" << endl;
 };
 
@@ -55,6 +50,25 @@ void RTIM::printScores(){
   }
 }
 
+void RTIM::saveScores(){
+  string file = "../../algorithms/rtim/" + dataset + "_infscores.txt"
+  cout << "Saving influence scores to: " << file << endl;
+  // save scores
+  ofstream infScoresFile;
+  infScoresFile.open(file);
+  for (int i = 0; i < numNodes ; i++){
+     infScoresFile << i << " " << infScores[i] << endl;
+  }
+  infScoresFile.close();
+  cout << "Scores saved successfully!" << endl;
+}
+
+void RTIM::importScores(){
+  cout << "Importing influence scores" << endl;
+  // import scores
+  cout << "Import successful" << endl;
+}
+
 int main(int argn, char **argv)
 {
     clock_t start;
@@ -63,15 +77,15 @@ int main(int argn, char **argv)
     Arguments args = Arguments();
     args.getArguments(argn, argv);
     args.printArguments();
-    
+
     Graph g = Graph(args.dataset);
-    
+
     RTIM rtim = RTIM(args.dataset);
 
     start = clock();
     rtim.pre_process(g);
     duration = (clock() - start)/(double)CLOCKS_PER_SEC; // duration in seconds
-    cout << "Pre_process ran in: " << duration << " seconds." << endl;
+    // cout << "Pre_process ran in: " << duration << " seconds." << endl;
     //g.print();
 /*
     vector<int> v;

@@ -6,9 +6,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string>
-#include "Graph.h"
 #include <omp.h>
 #include <random>
+
+#include "Graph.h"
 
 using namespace std;
 
@@ -147,7 +148,7 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
       // test influence of all neigbhors
       for(pair<int, double> neighbor: graph[curr.first]){
         // check if neighbor is not in activated nodes
-        double r = rand_r(&seed)/(double)RAND_MAX;	
+        double r = rand_r(&seed)/(double)RAND_MAX;
         if (!(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end())
             && (r <= neighbor.second)){
 
