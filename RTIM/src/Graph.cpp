@@ -113,12 +113,12 @@ void Graph::loadGraph(){
 }
 
 /* Function to calculate influence score of seed set */
-double Graph::influenceScore(const vector<int>& seed_set, unsigned seed, int depth, int sim) const{
+double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) const{
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   int sum = 0;
   for (int i = 0; i < sim; i++){
     // run influence simulation
-    sum += influenceSimulation(seed_set, seed, depth);
+    sum += influenceSimulation(seed_set, depth);
   }
   double score = sum/(double)sim;
   // cout << "Influence score is " << score << endl;
@@ -126,7 +126,7 @@ double Graph::influenceScore(const vector<int>& seed_set, unsigned seed, int dep
 }
 
 /* Function to perform influence coverage from seed set */
-int Graph::influenceSimulation(const vector<int>& seed_set, unsigned seed, int depth) const{
+int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
   int activated = 0;
   vector<int> activated_nodes;
   // seed nodes are already activated
@@ -134,6 +134,8 @@ int Graph::influenceSimulation(const vector<int>& seed_set, unsigned seed, int d
     activated_nodes.push_back(node);
   }
   // simulate inf propagation from each seed node
+  random_device rd;
+  unsigned seed = rd();
   for (int node: seed_set){
     queue< pair<int, int> > queue;
     activated += 1;
@@ -145,9 +147,7 @@ int Graph::influenceSimulation(const vector<int>& seed_set, unsigned seed, int d
       // test influence of all neigbhors
       for(pair<int, double> neighbor: graph[curr.first]){
         // check if neighbor is not in activated nodes
-	random_device rd;
-	unsigned seed2 = rd();
-        double r = rand_r(&seed2)/(double)RAND_MAX;	
+        double r = rand_r(&seed)/(double)RAND_MAX;	
         if (!(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end())
             && (r <= neighbor.second)){
 

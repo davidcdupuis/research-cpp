@@ -12,6 +12,7 @@
 */
 class RTIM{
 public:
+  int numNodes;
   std::string dataset;   //dataset name
   int k;            //seed set size limit
   int simulations;  // # simulations for inf score

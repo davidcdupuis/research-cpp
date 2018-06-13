@@ -5,7 +5,7 @@
 #include <cstdio>
 #include <ctime>
 #include <omp.h>
-#include <random>
+// #include <random>
 
 using namespace std;
 
@@ -16,23 +16,27 @@ RTIM::RTIM(string d){
 
 void RTIM::pre_process(const Graph& graph){
   // for each node in graph compute influence score
-  cout << "Running pre_process on " << dataset << endl;
-  infScores.reserve(graph.graph.size());
+  cout << "Running pre_process on " << dataset << endl; 
   double score;
-  int nodes = graph.graph.size();
+  numNodes = graph.graph.size();
+
+  infScores.reserve(numNodes);
+  for(int i = 0; i < numNodes; i++){
+    infScores.push_back(0);
+  }
   
   #pragma omp parallel for private(score) shared(infScores, graph)
-  for(int i = 0; i < nodes; i++){
-    random_device rd;
+  for(int i = 0; i < numNodes; i++){
+    // random_device rd;
     //unsigned seed = time(NULL) + rd()*(i+1)*omp_get_thread_num();
     //cout << "Thread num: " << omp_get_thread_num() << ", seed: " << seed << endl;
     //cout << "Thread number: " << omp_get_thread_num() << " : " << i << endl;
-    score = graph.influenceScore({i}, rd(), 3);
-    cout << "<" << score << "> "; 
+    score = graph.influenceScore({i}, 3);
+    //cout << "<" << score << "> "; 
     infScores[i] = score;
+    //cout << i << ": <" << infScores[i] << "> " << endl;
   }
-  cout << "scores: " << infScores.size() << endl;
-  if (nodes <= 20){
+  if (numNodes <= 20){
     printScores();
   }
   cout << "Pre_process complete!" << endl;
@@ -46,8 +50,8 @@ void RTIM::live(const Graph& graph){
 
 void RTIM::printScores(){
   cout << "Influence Scores: " << endl;
-  for (int node: infScores){
-    cout << "(" << node << " : " << infScores[node] << ")" << endl;
+  for (int i = 0; i < numNodes ; i++){
+    cout << "(" << i << " : " << infScores[i] << ")" << endl;
   }
 }
 
