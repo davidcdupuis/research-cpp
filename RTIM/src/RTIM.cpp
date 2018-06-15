@@ -37,6 +37,7 @@ void RTIM::pre_process(const Graph& graph){
         nb_nodes = (int*)calloc (sizeof(int),nb_threads*8);
       }
     }
+    #pragma omp for schedule(dynamic)
     for(int i = 0; i < numNodes; i++){
       if (num_thread==0){
         int j, sum = 0;
@@ -54,7 +55,7 @@ void RTIM::pre_process(const Graph& graph){
             else std::cout << " ";
         }
         std::cout << "] " << int(progress * 100.0) << " % (" << sum << "/" << numNodes << ")\r";
-        std::cout.flush();
+        //std::cout.flush();
 
         //printf("\rIn progress %f -- %d/%d -- %d", (double)sum/numNodes, sum, numNodes, nb_threads);
         //fflush(stdout);
