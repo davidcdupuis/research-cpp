@@ -51,7 +51,7 @@ void RTIM::printScores(){
 }
 
 void RTIM::saveScores(){
-  string file = "../../algorithms/rtim/" + dataset + "_infscores.txt"
+  string file = "../../data/algorithms/rtim/" + dataset + "_infscores.txt";
   cout << "Saving influence scores to: " << file << endl;
   // save scores
   ofstream infScoresFile;
@@ -77,14 +77,15 @@ int main(int argn, char **argv)
     Arguments args = Arguments();
     args.getArguments(argn, argv);
     args.printArguments();
-
+    start = clock();
     Graph g = Graph(args.dataset);
-
+    duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+    cout << "Import done in: " << duration << " seconds." << endl;
     RTIM rtim = RTIM(args.dataset);
 
-    start = clock();
+    //start = clock();
     rtim.pre_process(g);
-    duration = (clock() - start)/(double)CLOCKS_PER_SEC; // duration in seconds
+    //duration = (clock() - start)/(double)CLOCKS_PER_SEC; // duration in seconds
     // cout << "Pre_process ran in: " << duration << " seconds." << endl;
     //g.print();
 /*
