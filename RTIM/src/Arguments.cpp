@@ -31,16 +31,20 @@ void Arguments::getArguments(int argn, char **argv){
            model = argv[i + 1];
   }
   if (dataset == ""){
-    cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
+    cerr << "-dataset not defined!" << endl;
     exit(1);
+  }else if(dataset != "test" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
+      cerr << "specificied -dataset not correct! [" << dataset << "]" << endl;
+      exit(1);
   }
+  /*
   if (model != "IC" && model != "LT" && model != "TR" && model != "CONT"){
     cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << ":" << model << endl;
     exit(1);
   }
   if (stage != "pre" && stage != "live" && stage!= "evaluate"){
     cerr << "Error: stage not defined: " << stage << endl;
-  }
+  }*/
 }
 
 void Arguments::printArguments(){
