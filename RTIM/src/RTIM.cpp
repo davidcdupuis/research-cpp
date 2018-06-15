@@ -75,31 +75,31 @@ void RTIM::pre_process(const Graph& graph){
         double timeLeft = (1-progress)*durationPerPercent;
         int barWidth = 40;
 
-        std::cout << "[";
+        std::cout << "\r[";
         int pos = barWidth * progress;
         for (int i = 0; i < barWidth; ++i) {
             if (i < pos) std::cout << "=";
             else if (i == pos) std::cout << ">";
             else std::cout << " ";
         }
-        std::cout << "] " << int(progress * 100.0) << " % (" << sum << "/" << numNodes << ") -- (" << duration << "s / " << timeLeft << "s)\r";
+        std::cout << "] " << int(progress * 100.0) << " % (" << sum << "/" << numNodes << ") -- (" << duration << "s / " << timeLeft << "s)";
         //std::cout.flush();
 
         int testPourcent = (int)(progress*100.0);
         if (testPourcent%10 == 0 && save==0){
           save = 1;
-          string fileName = "infScores_"+ std::to_string(testPourcent) + ".csv";
+          string fileName = "../../data/algoritmhs/rtim/infScores_"+ std::to_string(testPourcent) + ".csv";
           saveToCSV(fileName);
         } else if (testPourcent%10 != 0){
           save = 0;
         }
       }
-      score = graph.influenceScore({i}, 3);
+      score = graph.influenceScore({i}, 2);
       infScores[i] = score;
       nb_nodes[num_thread*8]++;
     }
-
   }
+  cout << endl;
   if (numNodes <= 20){
     printScores();
   }
