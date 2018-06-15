@@ -84,7 +84,7 @@ void RTIM::pre_process(const Graph& graph){
         }
         std::cout << "] " << int(progress * 100.0) << " % (" << sum << "/" << numNodes << ") -- (" << duration << "s / " << timeLeft << "s)";
         //std::cout.flush();
-
+        
         int testPourcent = (int)(progress*100.0);
         if (testPourcent%10 == 0 && save==0){
           save = 1;
