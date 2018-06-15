@@ -70,7 +70,7 @@ void Graph::readAttributes(){
 void Graph::loadGraph(){
   string graph_file = "../../data/" + dataset + "/graph_ic.inf";
   FILE *fin = fopen(graph_file.c_str(), "r");
-  if (!(fin != false)){
+  if (!(fin != 0)){
     cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << endl;
     exit(1);
   }

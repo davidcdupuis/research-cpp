@@ -1,4 +1,6 @@
-CXX=g++ -O3
+# time -p OMP_NUM_THREADS=1 ./rtim -dataset test -model IC -stage pre
+# nethept
+CXX=g++ -O3 #-fpermissive
 EXEC=rtim
 
 all: $(EXEC)

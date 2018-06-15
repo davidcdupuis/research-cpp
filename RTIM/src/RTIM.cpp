@@ -25,10 +25,45 @@ void RTIM::pre_process(const Graph& graph){
     infScores.push_back(0);
   }
 
-  #pragma omp parallel for private(score) shared(infScores, graph)
-  for(int i = 0; i < numNodes; i++){
-    score = graph.influenceScore({i}, 3);
-    infScores[i] = score;
+  int* nb_nodes = 0;
+  int nb_threads = 0;
+  int num_thread = 0;
+  #pragma omp parallel private(score, num_thread) shared(infScores, graph, nb_nodes, nb_threads)
+  {
+    nb_threads = omp_get_num_threads();
+    num_thread = omp_get_thread_num();
+    if (num_thread==0){
+      if (nb_nodes == 0){
+        nb_nodes = (int*)calloc (sizeof(int),nb_threads*8);
+      }
+    }
+    for(int i = 0; i < numNodes; i++){
+      if (num_thread==0){
+        int j, sum = 0;
+        for (j=0; j<nb_threads; j++){
+          sum += nb_nodes[j*8];
+        }
+        float progress = (float)sum/numNodes;
+        int barWidth = 40;
+
+        std::cout << "[";
+        int pos = barWidth * progress;
+        for (int i = 0; i < barWidth; ++i) {
+            if (i < pos) std::cout << "=";
+            else if (i == pos) std::cout << ">";
+            else std::cout << " ";
+        }
+        std::cout << "] " << int(progress * 100.0) << " % (" << sum << "/" << numNodes << ")\r";
+        std::cout.flush();
+
+        //printf("\rIn progress %f -- %d/%d -- %d", (double)sum/numNodes, sum, numNodes, nb_threads);
+        //fflush(stdout);
+      }
+      score = graph.influenceScore({i}, 3);
+      infScores[i] = score;
+      nb_nodes[num_thread*8]++;
+    }
+
   }
   if (numNodes <= 20){
     printScores();
