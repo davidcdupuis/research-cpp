@@ -41,7 +41,7 @@ void Graph::addEdge(int a, int b, double w){
 
 /* Function to read attributes.txt */
 void Graph::readAttributes(){
-  string folder = "../../data/" + dataset + "/attribute.txt";
+  string folder = "../../data/" + dataset + "/attributes.txt";
   //ifstream infile;
   //infile.open(folder.c_str());
   //ifstream cin(folder.c_str());
@@ -68,7 +68,7 @@ void Graph::readAttributes(){
 
 /* Function to import graph from file */
 void Graph::loadGraph(){
-  string graph_file = "../../data/" + dataset + "/graph_ic.inf";
+  string graph_file = "../../data/" + dataset + "/" + dataset + "_wc.inf";
   FILE *fin = fopen(graph_file.c_str(), "r");
   if (!(fin != 0)){
     cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << endl;

@@ -33,7 +33,7 @@ void Arguments::getArguments(int argn, char **argv){
   if (dataset == ""){
     cerr << "-dataset not defined!" << endl;
     exit(1);
-  }else if(dataset != "test" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
+  }else if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
       cerr << "specificied -dataset not correct! [" << dataset << "]" << endl;
       exit(1);
   }
@@ -51,6 +51,7 @@ void Arguments::printArguments(){
   cout << "------------- Arguments --------------" << endl;
   cout << "Dataset: " <<  dataset << endl;
   cout << "Model: " << model << endl;
+  /*
   cout << "Stage: " << stage << endl;
   if( stage == "pre"){
     cout << "Max Depth: " << mc_depth << endl;
@@ -63,6 +64,6 @@ void Arguments::printArguments(){
   }else{
     cout << "Error stage not defined" << endl;
     exit(1);
-  }
+  }*/
   cout << "Size of seed set: " << k << endl;
 }

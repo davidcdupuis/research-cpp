@@ -42,13 +42,13 @@ void RTIM::pre_process(const Graph& graph){
   for(int i = 0; i < numNodes; i++){
     infScores.push_back(0);
   }
-
+  double start = omp_get_wtime();
   int* nb_nodes = 0;
   int nb_threads = 0;
   int num_thread = 0;
   time_t startTime;
   int save = 0;
-  #pragma omp parallel private(score, num_thread, startTime, save) shared(infScores, graph, nb_nodes, nb_threads, numNodes)
+  #pragma omp parallel private(score, num_thread, startTime, save) shared(dataset, infScores, graph, nb_nodes, nb_threads, numNodes)
   {
     nb_threads = omp_get_num_threads();
     num_thread = omp_get_thread_num();
@@ -88,7 +88,7 @@ void RTIM::pre_process(const Graph& graph){
         int testPourcent = (int)(progress*100.0);
         if (testPourcent%10 == 0 && save==0){
           save = 1;
-          string fileName = "../../data/algoritmhs/rtim/infScores_"+ std::to_string(testPourcent) + ".csv";
+          string fileName = "../../data/" + dataset + "/rtim/infScores_"+ std::to_string(testPourcent) + ".csv";
           saveToCSV(fileName);
         } else if (testPourcent%10 != 0){
           save = 0;
@@ -100,11 +100,13 @@ void RTIM::pre_process(const Graph& graph){
     }
   }
   cout << endl;
+  double time = omp_get_wtime() - start;
+  /* 
   if (numNodes <= 20){
     printScores();
-  }
+  }*/
+  cout << "Pre_process done in: " << time << " seconds." << endl;
   saveScores();
-  cout << "Pre_process complete!" << endl;
 };
 
 void RTIM::live(const Graph& graph){
@@ -121,7 +123,7 @@ void RTIM::printScores(){
 }
 
 void RTIM::saveScores(){
-  string file = "../../data/algorithms/rtim/" + dataset + "_infscores.txt";
+  string file = "../../data/" + dataset + "/rtim/" + dataset + "_infscores.txt";
   cout << "Saving influence scores to: " << file << endl;
   // save scores
   ofstream infScoresFile;
