@@ -45,5 +45,8 @@ public:
   /* Import influence scores */
   void importScores();
 
+  /* Save influence scores */
+  void saveToCSV(std::string fileName);
+
 };
 #endif

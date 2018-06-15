@@ -1,11 +1,16 @@
 #include <vector>
 #include <cstdio>
 #include <ctime>
+#include <time.h>
 #include <omp.h>
+#include <string>
 
 #include "RTIM.h"
 #include "Arguments.h"
 #include "Graph.h"
+
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -14,11 +19,24 @@ RTIM::RTIM(string d){
   dataset = d;
 }
 
+
+void RTIM::saveToCSV(string fileName){
+  int j;
+  ofstream myfile;
+  myfile.open (fileName);
+  myfile << "i,score\n";
+  for (j=0; j<numNodes; j++){
+      myfile << j << "," << infScores[j] << "\n";
+  }
+  myfile << "semi;colon";
+  myfile.close();
+}
+
 void RTIM::pre_process(const Graph& graph){
   // for each node in graph compute influence score
   cout << "Running pre_process on " << dataset << endl;
   double score;
-  numNodes = graph.graph.size();
+  numNodes = graph.graph.size(); 
 
   infScores.reserve(numNodes);
   for(int i = 0; i < numNodes; i++){
@@ -28,7 +46,9 @@ void RTIM::pre_process(const Graph& graph){
   int* nb_nodes = 0;
   int nb_threads = 0;
   int num_thread = 0;
-  #pragma omp parallel private(score, num_thread) shared(infScores, graph, nb_nodes, nb_threads)
+  time_t startTime;
+  int save = 0;
+  #pragma omp parallel private(score, num_thread, startTime, save) shared(infScores, graph, nb_nodes, nb_threads, numNodes)
   {
     nb_threads = omp_get_num_threads();
     num_thread = omp_get_thread_num();
@@ -36,6 +56,7 @@ void RTIM::pre_process(const Graph& graph){
       if (nb_nodes == 0){
         nb_nodes = (int*)calloc (sizeof(int),nb_threads*8);
       }
+      time ( &startTime );
     }
     #pragma omp for schedule(dynamic)
     for(int i = 0; i < numNodes; i++){
@@ -44,7 +65,14 @@ void RTIM::pre_process(const Graph& graph){
         for (j=0; j<nb_threads; j++){
           sum += nb_nodes[j*8];
         }
+
         float progress = (float)sum/numNodes;
+
+        time_t currentTime;
+        time ( &currentTime );
+        double duration = difftime(currentTime,startTime);
+        double durationPerPercent = duration / progress;
+        double timeLeft = (1-progress)*durationPerPercent;
         int barWidth = 40;
 
         std::cout << "[";
@@ -54,11 +82,17 @@ void RTIM::pre_process(const Graph& graph){
             else if (i == pos) std::cout << ">";
             else std::cout << " ";
         }
-        std::cout << "] " << int(progress * 100.0) << " % (" << sum << "/" << numNodes << ")\r";
+        std::cout << "] " << int(progress * 100.0) << " % (" << sum << "/" << numNodes << ") -- (" << duration << "s / " << timeLeft << "s)\r";
         //std::cout.flush();
 
-        //printf("\rIn progress %f -- %d/%d -- %d", (double)sum/numNodes, sum, numNodes, nb_threads);
-        //fflush(stdout);
+        int testPourcent = (int)(progress*100.0);
+        if (testPourcent%10 == 0 && save==0){
+          save = 1;
+          string fileName = "infScores_"+ std::to_string(testPourcent) + ".csv";
+          saveToCSV(fileName);
+        } else if (testPourcent%10 != 0){
+          save = 0;
+        }
       }
       score = graph.influenceScore({i}, 3);
       infScores[i] = score;
