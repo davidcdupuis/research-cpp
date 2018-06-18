@@ -33,7 +33,7 @@ void Arguments::getArguments(int argn, char **argv){
   if (dataset == ""){
     cerr << "-dataset not defined!" << endl;
     exit(1);
-  }else if(dataset != "test" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
+  }else if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
       cerr << "specificied -dataset not correct! [" << dataset << "]" << endl;
       exit(1);
   }

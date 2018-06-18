@@ -32,7 +32,7 @@ void RTIM::saveToCSV(string fileName){
   myfile.close();
 }
 
-int RTIM::print_progress(int nb_threads, int numNodes, time_t startTime, int* nb_nodes, int save){
+int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save){
   int j, sum = 0;
   for (j=0; j<nb_threads; j++){
     sum += nb_nodes[j*8];
@@ -54,7 +54,7 @@ int RTIM::print_progress(int nb_threads, int numNodes, time_t startTime, int* nb
       else if (i == pos) std::cout << ">";
       else std::cout << " ";
   }
-  std::cout << "] " << int(progress * 100.0) << " % (" << sum << "/" << numNodes << ") -- (" << duration << "s / " << timeLeft << "s)";
+  std::cout << "] " << int(progress * 100.0) << " % -- (" << (nb_threads-finishedProcess) << "/" << nb_threads << " threads) -- (" << sum << "/" << numNodes << ") -- (" << duration << "s / " << timeLeft << "s)";
   //std::cout.flush();
 
   int testPourcent = (int)(progress*100.0);
@@ -99,7 +99,7 @@ void RTIM::pre_process(const Graph& graph){
     #pragma omp for schedule(dynamic) nowait
     for(int i = 0; i < numNodes; i++){
       if (num_thread==0){
-        save = print_progress(nb_threads, numNodes, startTime, nb_nodes, save);
+        save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
       }
       score = graph.influenceScore({i}, 2);
       infScores[i] = score;
@@ -109,12 +109,13 @@ void RTIM::pre_process(const Graph& graph){
     #pragma omp critical
     {
       finishedProcess ++;
+      //printf("\r[%d/%d] Finished !\n",num_thread, nb_threads);
     }
     if (num_thread==0){
       while (finishedProcess!=nb_threads) {
-        save = print_progress(nb_threads, numNodes, startTime, nb_nodes, save);
+        save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
       }
-      save = print_progress(nb_threads, numNodes, startTime, nb_nodes, save);
+      save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
     }
 
   }

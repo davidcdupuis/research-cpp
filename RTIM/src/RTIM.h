@@ -49,7 +49,7 @@ public:
   void saveToCSV(std::string fileName);
   
   /* Print progress */
-  int print_progress(int nb_threads, int numNodes, time_t startTime, int* nb_nodes, int save);
+  int print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save);
 
 };
 #endif
