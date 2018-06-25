@@ -32,11 +32,48 @@ void RTIM::saveToCSV(string fileName){
   myfile.close();
 }
 
+int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save){
+  int j, sum = 0;
+  for (j=0; j<nb_threads; j++){
+    sum += nb_nodes[j*8];
+  }
+
+  float progress = (float)sum/numNodes;
+
+  time_t currentTime;
+  time ( &currentTime );
+  double duration = difftime(currentTime,startTime);
+  double durationPerPercent = duration / progress;
+  double timeLeft = (1-progress)*durationPerPercent;
+  int barWidth = 40;
+
+  std::cout << "\r[";
+  int pos = barWidth * progress;
+  for (int i = 0; i < barWidth; ++i) {
+      if (i < pos) std::cout << "=";
+      else if (i == pos) std::cout << ">";
+      else std::cout << " ";
+  }
+  std::cout << "] " << int(progress * 100.0) << " % -- (" << (nb_threads-finishedProcess) << "/" << nb_threads << " threads) -- (" << sum << "/" << numNodes << ") -- (" << duration << "s / " << timeLeft << "s)";
+  //std::cout.flush();
+
+  int testPourcent = (int)(progress*100.0);
+  if (testPourcent%10 == 0 && save==0){
+    save = 1;
+    string fileName = "../../data/algoritmhs/rtim/infScores_"+ std::to_string(testPourcent) + ".csv";
+    saveToCSV(fileName);
+  } else if (testPourcent%10 != 0){
+    save = 0;
+  }
+
+  return save;
+}
+
 void RTIM::pre_process(const Graph& graph){
   // for each node in graph compute influence score
   cout << "Running pre_process on " << dataset << endl;
   double score;
-  numNodes = graph.graph.size(); 
+  numNodes = graph.graph.size();
 
   infScores.reserve(numNodes);
   for(int i = 0; i < numNodes; i++){
@@ -48,7 +85,8 @@ void RTIM::pre_process(const Graph& graph){
   int num_thread = 0;
   time_t startTime;
   int save = 0;
-  #pragma omp parallel private(score, num_thread, startTime, save) shared(dataset, infScores, graph, nb_nodes, nb_threads, numNodes)
+  int finishedProcess = 0;
+  #pragma omp parallel private(score, num_thread, startTime, save) shared(infScores, graph, nb_nodes, nb_threads, numNodes, finishedProcess)
   {
     nb_threads = omp_get_num_threads();
     num_thread = omp_get_thread_num();
@@ -58,54 +96,36 @@ void RTIM::pre_process(const Graph& graph){
       }
       time ( &startTime );
     }
-    #pragma omp for schedule(dynamic)
+    #pragma omp for schedule(dynamic) nowait
     for(int i = 0; i < numNodes; i++){
       if (num_thread==0){
-        int j, sum = 0;
-        for (j=0; j<nb_threads; j++){
-          sum += nb_nodes[j*8];
-        }
-
-        float progress = (float)sum/numNodes;
-
-        time_t currentTime;
-        time ( &currentTime );
-        double duration = difftime(currentTime,startTime);
-        double durationPerPercent = duration / progress;
-        double timeLeft = (1-progress)*durationPerPercent;
-        int barWidth = 40;
-
-        std::cout << "\r[";
-        int pos = barWidth * progress;
-        for (int i = 0; i < barWidth; ++i) {
-            if (i < pos) std::cout << "=";
-            else if (i == pos) std::cout << ">";
-            else std::cout << " ";
-        }
-        std::cout << "] " << int(progress * 100.0) << " % (" << sum << "/" << numNodes << ") -- (" << duration << "s / " << timeLeft << "s)";
-        //std::cout.flush();
-        
-        int testPourcent = (int)(progress*100.0);
-        if (testPourcent%10 == 0 && save==0){
-          save = 1;
-          string fileName = "../../data/" + dataset + "/rtim/infScores_"+ std::to_string(testPourcent) + ".csv";
-          saveToCSV(fileName);
-        } else if (testPourcent%10 != 0){
-          save = 0;
-        }
+        save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
       }
       score = graph.influenceScore({i}, 1);
       infScores[i] = score;
       nb_nodes[num_thread*8]++;
     }
+
+    #pragma omp critical
+    {
+      finishedProcess ++;
+      //printf("\r[%d/%d] Finished !\n",num_thread, nb_threads);
+    }
+    if (num_thread==0){
+      while (finishedProcess!=nb_threads) {
+        save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
+      }
+      save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
+    }
+
   }
   cout << endl;
   double time = omp_get_wtime() - start;
-  /* 
+  /*
   if (numNodes <= 20){
     printScores();
-  }*/
-  cout << "Pre_process done in: " << time << " seconds." << endl;
+  }
+  */
   saveScores();
 };
 
