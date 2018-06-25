@@ -51,6 +51,7 @@ void Arguments::printArguments(){
   cout << "------------- Arguments --------------" << endl;
   cout << "Dataset: " <<  dataset << endl;
   cout << "Model: " << model << endl;
+  /*
   cout << "Stage: " << stage << endl;
   if( stage == "pre"){
     cout << "Max Depth: " << mc_depth << endl;
@@ -63,6 +64,6 @@ void Arguments::printArguments(){
   }else{
     cout << "Error stage not defined" << endl;
     exit(1);
-  }
+  }*/
   cout << "Size of seed set: " << k << endl;
 }

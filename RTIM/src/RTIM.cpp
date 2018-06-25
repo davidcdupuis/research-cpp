@@ -73,13 +73,13 @@ void RTIM::pre_process(const Graph& graph){
   // for each node in graph compute influence score
   cout << "Running pre_process on " << dataset << endl;
   double score;
-  numNodes = graph.graph.size(); 
+  numNodes = graph.graph.size();
 
   infScores.reserve(numNodes);
   for(int i = 0; i < numNodes; i++){
     infScores.push_back(0);
   }
-
+  double start = omp_get_wtime();
   int* nb_nodes = 0;
   int nb_threads = 0;
   int num_thread = 0;
@@ -101,7 +101,7 @@ void RTIM::pre_process(const Graph& graph){
       if (num_thread==0){
         save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
       }
-      score = graph.influenceScore({i}, 2);
+      score = graph.influenceScore({i}, 1);
       infScores[i] = score;
       nb_nodes[num_thread*8]++;
     }
@@ -120,12 +120,13 @@ void RTIM::pre_process(const Graph& graph){
 
   }
   cout << endl;
+  double time = omp_get_wtime() - start;
+  /*
   if (numNodes <= 20){
     printScores();
   }
-
+  */
   saveScores();
-  cout << "Pre_process complete!" << endl;
 };
 
 void RTIM::live(const Graph& graph){
@@ -142,7 +143,7 @@ void RTIM::printScores(){
 }
 
 void RTIM::saveScores(){
-  string file = "../../data/algorithms/rtim/" + dataset + "_infscores.txt";
+  string file = "../../data/" + dataset + "/rtim/" + dataset + "_infscores.txt";
   cout << "Saving influence scores to: " << file << endl;
   // save scores
   ofstream infScoresFile;
