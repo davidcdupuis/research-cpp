@@ -94,7 +94,7 @@ void RTIM::pre_process(const Graph& graph){
           save = 0;
         }
       }
-      score = graph.influenceScore({i}, 2);
+      score = graph.influenceScore({i}, 1);
       infScores[i] = score;
       nb_nodes[num_thread*8]++;
     }
