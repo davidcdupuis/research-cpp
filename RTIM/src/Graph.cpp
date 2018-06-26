@@ -137,9 +137,9 @@ double Graph::influenceScorePath(int node, int max_depth, string type) const{
     }else{
       vector<int, double> minDistances; // store minDistance to node <node, distance>
       // find all shortest paths of length at most max_depth
-      shortestPathsWeights(minDistances, node, max_depth);
+      //shortestPathsWeights(minDistances, node, max_depth);
       double product = 1;
-      for (pair <int, double> dist: minDistances){
+      for (pair<int, double> dist: minDistances){
         product *= (1 - dist.second);
       }
       score = 1 - product;
@@ -212,7 +212,7 @@ void Graph::shortestPathsWeights(std::vector<int, double>& distances, int node, 
 	}
       }
       if (i == limit - 1){
-        distances.push_back(neigbor, new_dist);
+        distances.push_back(make_pair(neigbor, new_dist));
       }
     }
     shortestPathsWeights(distances, neighbor, max_depth - 1, new_dist);
