@@ -26,20 +26,6 @@ string printSeed(vector<int> seed){
   return s;
 }
 
-/* Function to find if new_dist is greater than old_dist */
-bool isGreater(const vector<int, double>& distances, int node, double new_dist){
-  for(int i = 0; i < distances.size(); i++){
-    if (distances[i].first == node){
-      if (distances[i].second < new_dist){
-        return true;
-      }else{
-        return false;
-      }
-    }
-  }
-  return false;
-}
-
 Graph::Graph(string d){
   //srand(time(NULL));
   dataset =  d;
@@ -143,7 +129,7 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) co
 double Graph::influenceScorePath(int node, int max_depth, string type) const{
   // if type == 'shortest' use shortest paths, if 'all' use all paths, else return error
   double score = 0;
-  if (type == 'shortest'){
+  if (type == "shortest"){
     // use function of shortest paths of length at most max_depth
     // if node doesn't have neighbor return 1
     if(graph[node].size() == 0){
@@ -153,15 +139,15 @@ double Graph::influenceScorePath(int node, int max_depth, string type) const{
       // find all shortest paths of length at most max_depth
       shortestPathsWeights(minDistances, node, max_depth);
       double product = 1;
-      for (double weight: pathWeights){
-        product *= (1 - weight);
+      for (pair <int, double> dist: minDistances){
+        product *= (1 - dist.second);
       }
       score = 1 - product;
       if(score == 0){
         score = 1;
       }
     }
-  }else if (type == 'all'){
+  }else if (type == "all"){
     score = 1;
   }else{
     cerr << "Error path type: " << type << " does not exist!" << endl;
@@ -216,13 +202,17 @@ void Graph::shortestPathsWeights(std::vector<int, double>& distances, int node, 
   for(pair<int, double> neighbor: graph[node]){
     double new_dist = curr_dist * neighbor.second;
     // check if new_path distance is greater than older one.
-    for(int i = 0; i < distances.size(); i++){
-      if (distances[i].first == node){
+    int limit = distances.size();
+    for(int i = 0; i < limit; i++){
+      if (distances[i].first == neighbor.first){
         if (new_dist > distances[i].second){
           distances[i].second = new_dist; //it's greater
         }else{
-          break;
-        }
+	  break;
+	}
+      }
+      if (i == limit - 1){
+        distances.push_back(neigbor, new_dist);
       }
     }
     shortestPathsWeights(distances, neighbor, max_depth - 1, new_dist);
