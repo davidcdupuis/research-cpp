@@ -101,7 +101,9 @@ void RTIM::pre_process(const Graph& graph){
       if (num_thread==0){
         save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
       }
-      score = graph.influenceScore({i}, 1);
+      // Compute the influence score of a node in G
+      // score = graph.influenceScore({i}, 1);
+      score = graph.influenceScorePath(i, 2);
       infScores[i] = score;
       nb_nodes[num_thread*8]++;
     }

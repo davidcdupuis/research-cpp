@@ -32,13 +32,16 @@ class Graph
     */
     double influenceScore(const std::vector<int>& seed_set, int depth=10000, int sim=10000) const;
 
-    /* Function to compute influence score of a node
-    double influenceScore(int node, int depth=10000, int sim=10000) const;*/
+    /* Function to compute influence score of a given node */
+    double influenceScorePath(int node, int max_depth=3, string type='shortest') const;
 
     /* Function to perform random influence coverage of seed set
        Returns number of activated nodes
     */
     int influenceSimulation(const std::vector<int>& seed_set, int depth=10000) const;
+
+    /* Function to find all shortest paths weights of max_depth from a node */
+    void shortestPathsWeights(std::vector<int>& distances, int node, int max_depth, double curr_dist);
 
     /* Function to print graph */
     void print();
