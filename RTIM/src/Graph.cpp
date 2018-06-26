@@ -219,8 +219,6 @@ void Graph::shortestPathsWeights(std::vector<int, double>& distances, int node, 
   }
 }
 
-bool
-
 void Graph::print(){
   cout << dataset << " graph:" << endl;
   for(int i = 0; i < nodes; i++){
