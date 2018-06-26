@@ -125,7 +125,7 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) co
   // cout << "Influence score is " << score << endl;
   return score;
 }
-
+/*
 double Graph::influenceScorePath(int node, int max_depth, string type) const{
   // if type == 'shortest' use shortest paths, if 'all' use all paths, else return error
   double score = 0;
@@ -155,6 +155,7 @@ double Graph::influenceScorePath(int node, int max_depth, string type) const{
   }
   return score;
 }
+*/
 
 /* Function to perform influence coverage from seed set */
 int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
@@ -197,6 +198,7 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
   return activated;
 }
 
+/*
 void Graph::shortestPathsWeights(std::vector<int, double>& distances, int node, int max_depth, double curr_dist){
   if (max_depth == 0) return;
   for(pair<int, double> neighbor: graph[node]){
@@ -218,6 +220,7 @@ void Graph::shortestPathsWeights(std::vector<int, double>& distances, int node, 
     shortestPathsWeights(distances, neighbor, max_depth - 1, new_dist);
   }
 }
+*/
 
 void Graph::print(){
   cout << dataset << " graph:" << endl;
