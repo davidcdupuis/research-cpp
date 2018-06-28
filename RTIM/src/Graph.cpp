@@ -125,26 +125,20 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) co
   // cout << "Influence score is " << score << endl;
   return score;
 }
-/*
+
 double Graph::influenceScorePath(int node, int max_depth, string type) const{
   // if type == 'shortest' use shortest paths, if 'all' use all paths, else return error
-  double score = 0;
+  double score = 1;
   if (type == "shortest"){
     // use function of shortest paths of length at most max_depth
     // if node doesn't have neighbor return 1
     if(graph[node].size() == 0){
       score = 1;
     }else{
-      vector<int, double> minDistances; // store minDistance to node <node, distance>
-      // find all shortest paths of length at most max_depth
-      //shortestPathsWeights(minDistances, node, max_depth);
-      double product = 1;
+      vector< pair<int, double> > minDistances;
+      shortestPathsWeights(minDistances, node, max_depth);
       for (pair<int, double> dist: minDistances){
-        product *= (1 - dist.second);
-      }
-      score = 1 - product;
-      if(score == 0){
-        score = 1;
+        score += dist.second;
       }
     }
   }else if (type == "all"){
@@ -155,7 +149,7 @@ double Graph::influenceScorePath(int node, int max_depth, string type) const{
   }
   return score;
 }
-*/
+
 
 /* Function to perform influence coverage from seed set */
 int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
@@ -198,11 +192,29 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
   return activated;
 }
 
-/*
-void Graph::shortestPathsWeights(std::vector<int, double>& distances, int node, int max_depth, double curr_dist){
-  if (max_depth == 0) return;
+void accounted(vector< pair<int, double> >& distances, int node){
+  int limit = distances.size();
+  if(limit == 0){
+    distances.push_back(make_pair(node, 0));
+  }else{
+    for(int i = 0; i < limit; i++){
+      if(distances[i].first == node){
+        return;
+      }
+    }
+    distances.push_back(make_pair(node, 0));
+  }
+  return;
+}
+
+void Graph::shortestPathsWeights(vector< pair<int, double> >& distances, int node, int max_depth, double curr_dist) const{
+  if (max_depth == 0) {
+    return;
+  }
+
   for(pair<int, double> neighbor: graph[node]){
     double new_dist = curr_dist * neighbor.second;
+    accounted(distances, neighbor.first);
     // check if new_path distance is greater than older one.
     int limit = distances.size();
     for(int i = 0; i < limit; i++){
@@ -210,17 +222,14 @@ void Graph::shortestPathsWeights(std::vector<int, double>& distances, int node, 
         if (new_dist > distances[i].second){
           distances[i].second = new_dist; //it's greater
         }else{
-	  break;
-	}
-      }
-      if (i == limit - 1){
-        distances.push_back(make_pair(neigbor, new_dist));
+      	  break;
+      	}
       }
     }
-    shortestPathsWeights(distances, neighbor, max_depth - 1, new_dist);
+    shortestPathsWeights(distances, neighbor.first, max_depth - 1, new_dist);
   }
 }
-*/
+
 
 void Graph::print(){
   cout << dataset << " graph:" << endl;

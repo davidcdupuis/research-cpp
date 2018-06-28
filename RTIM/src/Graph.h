@@ -41,7 +41,7 @@ class Graph
     int influenceSimulation(const std::vector<int>& seed_set, int depth=10000) const;
 
     /* Function to find all shortest paths weights of max_depth from a node */
-    void shortestPathsWeights(std::vector<int, double>& distances, int node, int max_depth, double curr_dist=1);
+    void shortestPathsWeights(std::vector< std::pair<int, double> >& distances, int node, int max_depth, double curr_dist=1) const;
 
     /* Function to print graph */
     void print();

@@ -86,7 +86,7 @@ void RTIM::pre_process(const Graph& graph){
   time_t startTime;
   int save = 0;
   int finishedProcess = 0;
-  #pragma omp parallel private(score, num_thread, startTime, save) shared(infScores, graph, nb_nodes, nb_threads, numNodes, finishedProcess)
+  #pragma omp parallel private(score, num_thread, startTime, save) shared(graph, nb_nodes, nb_threads, finishedProcess) //shared(infScores, numNodes)
   {
     nb_threads = omp_get_num_threads();
     num_thread = omp_get_thread_num();
@@ -102,8 +102,8 @@ void RTIM::pre_process(const Graph& graph){
         save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
       }
       // Compute the influence score of a node in G
-      score = graph.influenceScore({i}, 1);
-      // score = graph.influenceScorePath(i, 2);
+      // score = graph.influenceScore({i}, 1);
+      score = graph.influenceScorePath(i, 2);
       infScores[i] = score;
       nb_nodes[num_thread*8]++;
     }
@@ -179,6 +179,18 @@ int main(int argn, char **argv)
 
     //start = clock();
     rtim.pre_process(g);
+    //g.influenceScorePath(0, 2);
+
+    // testing
+    // vector< pair<int, double> > minDistances;
+    // g.shortestPathsWeights(minDistances, 1, 3);
+    // double product = 1;
+    // double score = 1;
+    // for (pair<int, double> dist: minDistances){
+    //   score += dist.second;
+    // }
+    // testing
+
     //duration = (clock() - start)/(double)CLOCKS_PER_SEC; // duration in seconds
     // cout << "Pre_process ran in: " << duration << " seconds." << endl;
     //g.print();
