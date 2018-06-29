@@ -161,6 +161,14 @@ double Graph::influenceScorePath(int node, int max_depth, string type) const{
   return score;
 }
 
+double Graph::influenceScoreNeighbors(int node) const{
+  double score = 1;
+  int lim = graph[node].size();
+  for(int i=0; i < lim; i++){
+    score += graph[node][i].second;
+  }
+  return score;
+}
 
 /* Function to perform influence coverage from seed set */
 int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{

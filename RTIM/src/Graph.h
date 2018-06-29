@@ -46,6 +46,9 @@ class Graph
 
     void shortestPathsWeightsB(double* distances, int node, int max_depth, double curr_dist=1) const;
 
+    /* Only use first neighbors to compute influence score */
+    double influenceScoreNeighbors(int node) const;
+
     /* Function to print graph */
     void print();
 };
