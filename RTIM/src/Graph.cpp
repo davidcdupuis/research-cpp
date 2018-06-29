@@ -8,6 +8,7 @@
 #include <string>
 #include <omp.h>
 #include <random>
+#include <map>
 
 #include "Graph.h"
 
@@ -135,11 +136,21 @@ double Graph::influenceScorePath(int node, int max_depth, string type) const{
     if(graph[node].size() == 0){
       score = 1;
     }else{
-      vector< pair<int, double> > minDistances;
+      map< int, double > minDistances;
       shortestPathsWeights(minDistances, node, max_depth);
-      for (pair<int, double> dist: minDistances){
-        score += dist.second;
+      map< int, double >::iterator it = minDistances.begin();
+      while(it != minDistances.end()){
+        score += minDistances[it->first];
+        it++;
       }
+      /*for (pair<int, double> dist: minDistances){
+        score += dist.second;
+      }*/
+
+      //double* minDistances = calloc(sizeof(double)*graph.size());
+      //shortestPathsWeights2(minDistances, node, max_depth);
+
+
     }
   }else if (type == "all"){
     score = 1;
@@ -192,41 +203,33 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
   return activated;
 }
 
-void accounted(vector< pair<int, double> >& distances, int node){
-  int limit = distances.size();
-  if(limit == 0){
-    distances.push_back(make_pair(node, 0));
-  }else{
-    for(int i = 0; i < limit; i++){
-      if(distances[i].first == node){
-        return;
-      }
-    }
-    distances.push_back(make_pair(node, 0));
-  }
-  return;
-}
 
-void Graph::shortestPathsWeights(vector< pair<int, double> >& distances, int node, int max_depth, double curr_dist) const{
+void Graph::shortestPathsWeights(map<int, double> & distances, int node, int max_depth, double curr_dist) const{
   if (max_depth == 0) {
     return;
   }
 
   for(pair<int, double> neighbor: graph[node]){
     double new_dist = curr_dist * neighbor.second;
-    accounted(distances, neighbor.first);
     // check if new_path distance is greater than older one.
-    int limit = distances.size();
-    for(int i = 0; i < limit; i++){
-      if (distances[i].first == neighbor.first){
-        if (new_dist > distances[i].second){
-          distances[i].second = new_dist; //it's greater
-        }else{
-      	  break;
-      	}
-      }
+    if(distances.find(neighbor.first) == distances.end()){
+      distances[neighbor.first] = 0;
     }
+    distances[neighbor.first] = max(distances[neighbor.first], new_dist);
     shortestPathsWeights(distances, neighbor.first, max_depth - 1, new_dist);
+  }
+}
+
+void Graph::shortestPathsWeightsB(double* distances, int node, int max_depth, double curr_dist) const{
+  if (max_depth == 0) {
+    return;
+  }
+
+  for(pair<int, double> neighbor: graph[node]){
+    double new_dist = curr_dist * neighbor.second;
+    // check if new_path distance is greater than older one.
+    distances[neighbor.first] = max(distances[neighbor.first], new_dist);
+    shortestPathsWeightsB(distances, neighbor.first, max_depth - 1, new_dist);
   }
 }
 
