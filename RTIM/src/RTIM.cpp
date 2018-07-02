@@ -14,6 +14,31 @@
 
 using namespace std;
 
+string cleanTime(double t){
+  string cleanT;
+  if (t < 1){
+    t = t * 1000;
+    cleanT = to_string(t) + " ms";
+    return cleanT;
+  }
+  if (t > 60){
+    t = t / 60; // time is in minutes
+    if (t > 60){
+      t = t / 60; // time is in hours
+      if (t > 24){
+        t = t / 24; // time is in days
+        cleanT = to_string(t) + " days";
+      }else{
+        cleanT = to_string(t) + " hours";
+      }
+    }else{
+      cleanT = to_string(t) + " minutes";
+    }
+  }else{
+    cleanT = to_string(t) + " seconds";
+  }
+  return cleanT;
+}
 
 RTIM::RTIM(string d){
   dataset = d;
@@ -135,6 +160,14 @@ void RTIM::pre_process(const Graph& graph){
 void RTIM::live(const Graph& graph){
   cout << "Running live on " << dataset << endl;
   // run live
+  /*
+  - import influence scores of dataset
+  - while import availability stream
+    - while seed_set.size() < k:
+      - target or not user
+  - save seed set to file
+  - compute influence score of seed set and save data to file
+  */
   cout << "Live complete!" << endl;
 };
 
@@ -172,32 +205,31 @@ int main(int argn, char **argv)
     Arguments args = Arguments();
     args.getArguments(argn, argv);
     args.printArguments();
+
     start = clock();
     Graph g = Graph(args.dataset);
     duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-    cout << "Import done in: " << duration << " seconds." << endl;
+    cout << "Import done in: " << cleanTime(duration) << endl;
+
     RTIM rtim = RTIM(args.dataset);
 
-    //start = clock();
-    rtim.pre_process(g);
-    //g.influenceScorePath(0, 2);
+    /*
+    if (args.stage == "pre"){
+      start = clock();
+      rtim.pre_process(g);
+      duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+      cout << "Pre-process stage done in: " << cleanTime(duration) << endl;
+    }else if (args.stage == "live"){
+      start = clock();
+      rtim.live(g);
+      duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+      cout << "Live stage done in: " << cleanTime(duration) << endl;
+    }else{
+      cerr << "Error stage not recognized!" << endl;
+      exit(1);
+    }
+    */
 
-    // testing
-    // vector< pair<int, double> > minDistances;
-    // g.shortestPathsWeights(minDistances, 1, 3);
-    // double product = 1;
-    // double score = 1;
-    // for (pair<int, double> dist: minDistances){
-    //   score += dist.second;
-    // }
-    // testing
 
-    //duration = (clock() - start)/(double)CLOCKS_PER_SEC; // duration in seconds
-    // cout << "Pre_process ran in: " << duration << " seconds." << endl;
-    //g.print();
-/*
-    vector<int> v;
-    v.push_back(0);
-    double s = g.influenceScore(v);
-*/
+
 }

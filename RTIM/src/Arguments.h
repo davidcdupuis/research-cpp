@@ -7,17 +7,21 @@
 /* Class to read arguments from command line */
 class Arguments{
 public:
-  int k;          // size of seed set if defined
-  std::string dataset; //name of dataset
-  std::string model;
-  std::string stage;   // pre|live|evaluate
-  int mc_depth;   // max depth for monte carlo simulations
-  int mc_sim;     // number of simulations for monte carlo simulations
+  int k;                    // size of seed set if defined
+  std::string dataset;      //name of dataset
+  std::string availability; // name of availability model
+  std::string stage;        // pre|live|evaluate
+  int reach;                // reach to define inf. threshold = percentage
+  double activation_threshold; // activation probability threshold [0, 1]
+  int depth;                // max depth for monte carlo simulations
 
   /* Function to get arguments from command line */
   void getArguments(int argn, char **argv);
 
   /* Function to print arguments out to command line */
   void printArguments();
+
+  /* Print help menu to command line*/
+  void printHelp();
 };
 #endif
