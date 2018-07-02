@@ -25,7 +25,7 @@ public:
   /*Pre-processing stage
     Compute influence score of every user in graph
   */
-  void pre_process(const Graph& graph);
+  void pre_process(const Graph& graph, int max_depth);
 
   /*Live stage
     For stream of user decide to target, if targeted update activation
@@ -47,7 +47,7 @@ public:
 
   /* Save influence scores */
   void saveToCSV(std::string fileName);
-  
+
   /* Print progress */
   int print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save);
 

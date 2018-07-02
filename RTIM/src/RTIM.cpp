@@ -44,7 +44,6 @@ RTIM::RTIM(string d){
   dataset = d;
 }
 
-
 void RTIM::saveToCSV(string fileName){
   int j;
   ofstream myfile;
@@ -94,7 +93,7 @@ int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time
   return save;
 }
 
-void RTIM::pre_process(const Graph& graph){
+void RTIM::pre_process(const Graph& graph, int max_depth){
   // for each node in graph compute influence score
   cout << "Running pre_process on " << dataset << endl;
   double score;
@@ -128,8 +127,8 @@ void RTIM::pre_process(const Graph& graph){
       }
       // Compute the influence score of a node in G
       // score = graph.influenceScore({i}, 1);
-      // score = graph.influenceScorePath(i, 2);
-      score = graph.influenceScoreNeighbors(i);
+      score = graph.influenceScorePath(i, max_depth);
+      // score = graph.influenceScoreNeighbors(i);
       infScores[i] = score;
       nb_nodes[num_thread*8]++;
     }
@@ -216,7 +215,7 @@ int main(int argn, char **argv)
     /*
     if (args.stage == "pre"){
       start = clock();
-      rtim.pre_process(g);
+      rtim.pre_process(g, args.depth);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Pre-process stage done in: " << cleanTime(duration) << endl;
     }else if (args.stage == "live"){
