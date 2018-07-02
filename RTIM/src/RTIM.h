@@ -25,7 +25,7 @@ public:
   /*Pre-processing stage
     Compute influence score of every user in graph
   */
-  void pre_process(const Graph& graph, int max_depth);
+  void pre_process(const Graph& graph, int max_depth=100000);
 
   /*Live stage
     For stream of user decide to target, if targeted update activation

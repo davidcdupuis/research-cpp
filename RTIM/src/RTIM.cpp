@@ -157,6 +157,7 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
 };
 
 void RTIM::live(const Graph& graph){
+  numNodes = graph.graph.size();
   cout << "Running live on " << dataset << endl;
   // run live
   /*
@@ -167,13 +168,20 @@ void RTIM::live(const Graph& graph){
   - save seed set to file
   - compute influence score of seed set and save data to file
   */
+  importScores();
   cout << "Live complete!" << endl;
 };
 
 void RTIM::printScores(){
-  cout << "Influence Scores: " << endl;
-  for (int i = 0; i < numNodes ; i++){
-    cout << "(" << i << " : " << infScores[i] << ")" << endl;
+  cout << "Influence Scores: " << infScores.size() << endl;
+  if (infScores.size() < 50){
+    for (int i = 0; i < infScores.size() ; i++){
+      cout << "(" << i << " : " << infScores[i] << ")" << endl;
+    }
+  }else{
+    for (int i = 0; i < 20 ; i++){
+      cout << "(" << i << " : " << infScores[i] << ")" << endl;
+    }
   }
 }
 
@@ -191,9 +199,17 @@ void RTIM::saveScores(){
 }
 
 void RTIM::importScores(){
-  cout << "Importing influence scores" << endl;
-  // import scores
+  string folder = "../../data/" + dataset + "/rtim/" + dataset + "_infscores.txt";
+  cout << "Importing influence scores from: " << folder << endl;
+  infScores.resize(numNodes, 0);
+  int user;
+  double infScore;
+  ifstream infile(folder.c_str());
+  while(infile >> user >> infScore){
+    infScores[user] = infScore;
+  }
   cout << "Import successful" << endl;
+  printScores();
 }
 
 int main(int argn, char **argv)
@@ -212,7 +228,6 @@ int main(int argn, char **argv)
 
     RTIM rtim = RTIM(args.dataset);
 
-    /*
     if (args.stage == "pre"){
       start = clock();
       rtim.pre_process(g, args.depth);
@@ -227,8 +242,4 @@ int main(int argn, char **argv)
       cerr << "Error stage not recognized!" << endl;
       exit(1);
     }
-    */
-
-
-
 }
