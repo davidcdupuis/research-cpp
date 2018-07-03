@@ -156,7 +156,7 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
   saveScores();
 };
 
-void RTIM::live(const Graph& graph){
+void RTIM::live(const Graph& graph, int max_size){
   numNodes = graph.graph.size();
   cout << "Running live on " << dataset << endl;
   // run live
@@ -168,7 +168,25 @@ void RTIM::live(const Graph& graph){
   - save seed set to file
   - compute influence score of seed set and save data to file
   */
+  activationProbabilities.resize(numNodes, 0);
   importScores();
+  // define inf threshold
+
+  // read availability stream
+  string folder = "../../data/" + dataset + "/rtim/rand_repeat.txt";
+  cout << "Reading availability stream: " << folder << endl;
+  ifstream infile(folder.c_str());
+  while (infile >> user){
+    while (seedSet.size() < max_size){
+      cout << "User: " << user << " is online." << endl;
+      if (activationProbabilities[user] < 0.8 && infScores[user] > 50){
+        activationProbabilities[user] = 1.0;
+        // update neighbor activationProbabilities
+        seedSet.push_back(user);
+      }
+    }
+  }
+  double seedScore = graph.influenceScore(seedSet);
   cout << "Live complete!" << endl;
 };
 

@@ -19,6 +19,8 @@ public:
   int simulations;  // # simulations for inf score
   int max_depth;    //max exploration depth for inf score
   std::vector<double> infScores;
+  std::vector<int> seedSet; // users to target
+  std::vector<double> activationProbabilities; // array of activation probabilities
 
   RTIM(std::string dataset);
 
