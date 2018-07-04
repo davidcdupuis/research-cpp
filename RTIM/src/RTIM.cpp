@@ -174,6 +174,7 @@ void RTIM::live(const Graph& graph, int max_size){
 
   // read availability stream
   string folder = "../../data/" + dataset + "/rtim/rand_repeat.txt";
+  int user;
   cout << "Reading availability stream: " << folder << endl;
   ifstream infile(folder.c_str());
   while (infile >> user){
@@ -230,6 +231,20 @@ void RTIM::importScores(){
   printScores();
 }
 
+void RTIM::availabilityStream(string model, int version, int size){
+  cout << "Generating availability stream: " << model << "_m"<< version << endl;
+  string file = model + "_m" + to_string(version);
+  string folder = "../../data/" + dataset + "/availability_models/" + model + "/" + file + "/" + file + ".txt";
+  int user;
+  ofstream availabilityFile;
+  availabilityFile.open(folder);
+  for (int i = 0; i < size; i++){
+    availabilityFile << 0 << endl;
+  }
+  availabilityFile.close();
+  cout << "Availability file saved!" << endl;
+}
+
 int main(int argn, char **argv)
 {
     clock_t start;
@@ -239,23 +254,35 @@ int main(int argn, char **argv)
     args.getArguments(argn, argv);
     args.printArguments();
 
-    start = clock();
-    Graph g = Graph(args.dataset);
-    duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-    cout << "Import done in: " << cleanTime(duration) << endl;
-
     RTIM rtim = RTIM(args.dataset);
 
     if (args.stage == "pre"){
+      start = clock();
+      Graph g = Graph(args.dataset, true);
+      duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+      cout << "Import done in: " << cleanTime(duration) << endl;
+
       start = clock();
       rtim.pre_process(g, args.depth);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Pre-process stage done in: " << cleanTime(duration) << endl;
     }else if (args.stage == "live"){
       start = clock();
-      rtim.live(g);
+      Graph g = Graph(args.dataset, true);
+      duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+      cout << "Import done in: " << cleanTime(duration) << endl;
+
+      start = clock();
+      rtim.live(g, g.graph.size());
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Live stage done in: " << cleanTime(duration) << endl;
+    }else if (args.stage == "newStream"){
+      Graph g = Graph(args.dataset, false);
+      if (args.k == -1){
+        rtim.availabilityStream(args.availability, args.version, g.nodes);
+      }else{
+        rtim.availabilityStream(args.availability, args.version, args.k);
+      }
     }else{
       cerr << "Error stage not recognized!" << endl;
       exit(1);

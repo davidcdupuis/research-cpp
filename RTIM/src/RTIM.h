@@ -33,7 +33,7 @@ public:
     For stream of user decide to target, if targeted update activation
     probability of neighboring nodes
   */
-  void live(const Graph& graph);
+  void live(const Graph& graph, int max_size);
 
   /* Import live stream */
   void importLiveStream();
@@ -52,6 +52,9 @@ public:
 
   /* Print progress */
   int print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save);
+
+  /* Generate availability stream */
+  void availabilityStream(std::string model, int version, int size);
 
 };
 #endif

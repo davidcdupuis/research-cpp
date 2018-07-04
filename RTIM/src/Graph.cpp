@@ -27,12 +27,14 @@ string printSeed(vector<int> seed){
   return s;
 }
 
-Graph::Graph(string d){
+Graph::Graph(string d, bool import){
   //srand(time(NULL));
   dataset =  d;
   readAttributes();
-  graph.resize(nodes);
-  loadGraph();
+  if (import){
+    graph.resize(nodes);
+    loadGraph();
+  }
 }
 
 /* Function to add an edge */
@@ -43,9 +45,6 @@ void Graph::addEdge(int a, int b, double w){
 /* Function to read attributes.txt */
 void Graph::readAttributes(){
   string folder = "../../data/" + dataset + "/attributes.txt";
-  //ifstream infile;
-  //infile.open(folder.c_str());
-  //ifstream cin(folder.c_str());
   ifstream infile(folder.c_str());
   cout << "Loading attributes from: " << folder << endl;
   string s;

@@ -29,7 +29,7 @@ void Arguments::getArguments(int argn, char **argv){
 
     // define stage to run
     if (argv[i] == string("-stage")){
-      if ((argv[i + 1] != string("pre")) && (argv[i + 1] != string("live"))){
+      if ((argv[i + 1] != string("pre")) && (argv[i + 1] != string("live")) && (argv[i + 1] != string("newStream"))){
         cerr << "Error: stage not recognized [ " << argv[i + 1] << " ]"<< endl;
         exit(1);
       }else{
@@ -66,6 +66,10 @@ void Arguments::getArguments(int argn, char **argv){
       availability = argv[i + 1];
     }
 
+    if (argv[i] == string("-version")){
+      version = atoi(argv[i + 1]);
+    }
+
     // to help define inf. threshold, percentage of top influencers
     if (argv[i] == string("-reach")){
       reach = atoi(argv[i + 1]);
@@ -86,16 +90,25 @@ void Arguments::getArguments(int argn, char **argv){
 void Arguments::printArguments(){
   cout << "------------- Arguments --------------" << endl;
   cout << "Dataset: " <<  dataset << endl;
-  cout << "Model: " << model << endl;
   cout << "Stage: " << stage << endl;
   if( stage == "pre"){
     cout << "Max Depth: " << depth << endl;
+    cout << "Model: " << model << endl;
     // cout << "Simulations:\t\t" <<  mc_sim << endl;
   }else if (stage == "live"){
+    cout << "Model: " << model << endl;
     cout << "Availability model: " << availability << endl;
     cout << "Max seed size: " << k << endl;
     cout << "Reach: " << reach << endl;
     cout << "Activation threshold: " << activation_threshold << endl;
-    cout << "--------------------------------------" << endl;
+  }else if(stage == "newStream"){
+    cout << "Availability model: " << availability << endl;
+    cout << "Version: " << version << endl;
+    if (k == -1){
+      cout << "Size of stream: number of nodes in graph" << endl;
+    }else{
+      cout << "Size of stream: " << k << endl;
+    }
   }
+  cout << "--------------------------------------" << endl;
 }

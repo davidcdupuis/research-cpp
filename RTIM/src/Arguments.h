@@ -7,9 +7,10 @@
 /* Class to read arguments from command line */
 class Arguments{
 public:
-  int k;                    // size of seed set if defined
+  int k = -1;               // size of seed set if defined
   std::string dataset;      //name of dataset
   std::string availability; // name of availability model
+  int version;              // version of stream
   std::string stage;        // pre|live|evaluate
   std::string model;        // model of weights: wc|ic
   int reach;                // reach to define inf. threshold = percentage

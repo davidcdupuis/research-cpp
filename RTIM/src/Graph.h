@@ -17,7 +17,7 @@ class Graph
     int edges; // edges
     std::vector<std::vector<std::pair<int, double> > > graph;
 
-    Graph(std::string d);
+    Graph(std::string d, bool import);
 
     /* Function to add an edge */
     void addEdge(int a, int b, double w);
