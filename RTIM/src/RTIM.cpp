@@ -42,17 +42,17 @@ string cleanTime(double t){
 
 RTIM::RTIM(string d){
   dataset = d;
+  srand(time(NULL));
 }
 
 void RTIM::saveToCSV(string fileName){
-  int j;
   ofstream myfile;
-  myfile.open (fileName);
+  myfile.open(fileName);
   myfile << "i,score\n";
-  for (j=0; j<numNodes; j++){
+  for (int j = 0; j < numNodes; j++){
       myfile << j << "," << infScores[j] << "\n";
   }
-  myfile << "semi;colon";
+  myfile << "semicolon"; // ?
   myfile.close();
 }
 
@@ -278,11 +278,14 @@ int main(int argn, char **argv)
       cout << "Live stage done in: " << cleanTime(duration) << endl;
     }else if (args.stage == "newStream"){
       Graph g = Graph(args.dataset, false);
+      start = clock();
       if (args.k == -1){
         rtim.availabilityStream(args.availability, args.version, g.nodes);
       }else{
         rtim.availabilityStream(args.availability, args.version, args.k);
       }
+      duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+      cout << "Stream generated in: " << cleanTime(duration) << endl;
     }else{
       cerr << "Error stage not recognized!" << endl;
       exit(1);
