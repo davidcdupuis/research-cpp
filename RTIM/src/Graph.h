@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <utility>
+#include <set>
 
 /*
   Influence Graph class
@@ -48,6 +49,9 @@ class Graph
 
     /* Only use first neighbors to compute influence score */
     double influenceScoreNeighbors(int node) const;
+
+    /* Update activation probabilities of neighboring nodes */
+    void updateNeighborsAP(int src, std::vector<double>& activationProbs, std::set<int> path, double path_weight=1, int depth=2);
 
     /* Function to print graph */
     void print();

@@ -56,5 +56,8 @@ public:
   /* Generate availability stream */
   void availabilityStream(std::string model, int version, int size);
 
+  /**/
+  void saveSeedSet(double score, std::vector<int> seed_set);
+
 };
 #endif

@@ -9,6 +9,7 @@
 #include <omp.h>
 #include <random>
 #include <map>
+#include <set>
 
 #include "Graph.h"
 
@@ -210,7 +211,6 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
   return activated;
 }
 
-
 void Graph::shortestPathsWeights(map<int, double> & distances, int node, int max_depth, double curr_dist) const{
   if (max_depth == 0) {
     return;
@@ -240,6 +240,20 @@ void Graph::shortestPathsWeightsB(double* distances, int node, int max_depth, do
   }
 }
 
+void Graph::updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth){
+  path.insert(src);
+  double new_path_weight;
+  for(pair<int, double> neighbor: graph[src]){
+    if(path.find(neighbor.first) != path.end()){
+      new_path_weight = path_weight * neighbor.second;
+      activationProbs[neighbor.first] = 1 - (1 - activationProbs[neighbor.first])*(1 - new_path_weight);
+      if (depth > 1){
+        updateNeighborsAP(neighbor.first, activationProbs, path, new_path_weight, depth - 1);
+      }
+    }
+  }
+  path.erase(src);
+}
 
 void Graph::print(){
   cout << dataset << " graph:" << endl;
