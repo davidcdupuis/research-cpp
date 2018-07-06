@@ -174,7 +174,7 @@ void RTIM::live(const Graph& graph, int max_size){
   while (infile >> user){
     while (seedSet.size() < max_size){
       cout << "User: " << user << " is online." << endl;
-      if (activationProbabilities[user] < 0.8 && infScores[user] >= sortedScores[infIndex]){
+      if (activationProbabilities[user] < theta_ap && infScores[user] >= sortedScores[infIndex]){
         activationProbabilities[user] = 1.0;
         graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 2);
         seedSet.push_back(user);
@@ -205,11 +205,28 @@ void RTIM::saveScores(){
   // save scores
   ofstream infScoresFile;
   infScoresFile.open(file);
-  for (int i = 0; i < numNodes ; i++){
+  for (int i = 0; i < infScores.size() ; i++){
      infScoresFile << i << " " << infScores[i] << endl;
   }
   infScoresFile.close();
   cout << "Scores saved successfully!" << endl;
+}
+
+void RTIM::saveSeedSet(double score){
+  string file = "../../data/" + dataset + "/availability_models/" + dataset + "_infscores.txt";
+  cout << "Saving seed set to: " << file << endl;
+  ofstream seedSet;
+  seedSetFile.open(file);
+  seedSetFile << "Score= " << score << endl;
+  for (int i = 0; i < seedSet.size() ; i++){
+     seedSetFile << seedSet[i] << endl;
+  }
+  seedSetFile.close();
+  cout << "Seed set saved successfully!" << endl;
+}
+
+void RTIM::saveLiveLog(){
+  
 }
 
 void RTIM::importScores(){

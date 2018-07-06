@@ -48,6 +48,10 @@ public:
   /* Saves influence scores to file */
   void saveScores();
 
+  void savedSeedSet(double score);
+
+  void saveLiveLog();
+
   /* Import influence scores */
   void importScores();
 
