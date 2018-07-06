@@ -18,7 +18,11 @@ public:
   int k;            //seed set size limit
   int simulations;  // # simulations for inf score
   int max_depth;    //max exploration depth for inf score
+  double theta_ap = 0.8;
+  int reach;
+  int infIndex;
   std::vector<double> infScores;
+  std::vector<double> sortedScores;
   std::vector<int> seedSet; // users to target
   std::vector<double> activationProbabilities; // array of activation probabilities
 
@@ -58,6 +62,8 @@ public:
 
   /**/
   void saveSeedSet(double score, std::vector<int> seed_set);
+
+  void getInfIndex(std::vector<double> & sorted);
 
 };
 #endif

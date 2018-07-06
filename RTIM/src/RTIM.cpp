@@ -4,6 +4,7 @@
 #include <time.h>
 #include <omp.h>
 #include <string>
+#include <algorithm>
 
 #include "RTIM.h"
 #include "Arguments.h"
@@ -159,18 +160,11 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
 void RTIM::live(const Graph& graph, int max_size){
   numNodes = graph.graph.size();
   cout << "Running live on " << dataset << endl;
-  // run live
-  /*
-  - import influence scores of dataset
-  - while import availability stream
-    - while seed_set.size() < k:
-      - target or not user
-  - save seed set to file
-  - compute influence score of seed set and save data to file
-  */
   activationProbabilities.resize(numNodes, 0);
   importScores();
-  // define inf threshold
+  sortedScores = infScores;
+  sort(sortedScores.begin(), sortedScores.end());
+  getInfIndex(sortedScores);
 
   // read availability stream
   string folder = "../../data/" + dataset + "/rtim/rand_repeat.txt";
@@ -180,10 +174,11 @@ void RTIM::live(const Graph& graph, int max_size){
   while (infile >> user){
     while (seedSet.size() < max_size){
       cout << "User: " << user << " is online." << endl;
-      if (activationProbabilities[user] < 0.8 && infScores[user] > 50){
+      if (activationProbabilities[user] < 0.8 && infScores[user] >= sortedScores[infIndex]){
         activationProbabilities[user] = 1.0;
         graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 2);
         seedSet.push_back(user);
+        infIndex --;
       }
     }
   }
@@ -245,6 +240,10 @@ void RTIM::availabilityStream(string model, int version, int size){
   cout << "Availability file saved!" << endl;
 }
 
+void RTIM::getInfIndex(vector<double> & sorted){
+  infIndex = sorted.size() - sorted.size() * reach / 100;
+}
+
 int main(int argn, char **argv)
 {
     clock_t start;
@@ -255,7 +254,7 @@ int main(int argn, char **argv)
     args.printArguments();
 
     RTIM rtim = RTIM(args.dataset);
-
+/*
     if (args.stage == "pre"){
       //
       start = clock();
@@ -292,5 +291,18 @@ int main(int argn, char **argv)
     }else{
       cerr << "Error stage not recognized!" << endl;
       exit(1);
+    }*/
+    Graph g = Graph(args.dataset, false);
+    rtim.numNodes = g.nodes;
+    rtim.importScores();
+    vector<double> sortedScores = rtim.infScores;
+    sort(sortedScores.begin(), sortedScores.end());
+    cout << "Sorted scores: " << endl;
+    for (int i = 0; i < sortedScores.size() ; i++){
+      cout << "(" << i << " : " << sortedScores[i] << ")" << endl;
     }
+    rtim.reach = 20;
+    cout << rtim.getInfIndex(sortedScores) << endl;
+    // rtim.printScores();
+
 }
