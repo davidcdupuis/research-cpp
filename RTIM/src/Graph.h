@@ -51,7 +51,7 @@ class Graph
     double influenceScoreNeighbors(int node) const;
 
     /* Update activation probabilities of neighboring nodes */
-    void updateNeighborsAP(int src, std::vector<double>& activationProbs, std::set<int> path, double path_weight=1, int depth=2);
+    void updateNeighborsAP(int src, std::vector<double>& activationProbs, std::set<int> path, double path_weight=1, int depth=2) const;
 
     /* Function to print graph */
     void print();

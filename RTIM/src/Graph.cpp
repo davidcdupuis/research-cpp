@@ -240,11 +240,11 @@ void Graph::shortestPathsWeightsB(double* distances, int node, int max_depth, do
   }
 }
 
-void Graph::updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth){
+void Graph::updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth) const{
   path.insert(src);
   double new_path_weight;
   for(pair<int, double> neighbor: graph[src]){
-    if(path.find(neighbor.first) != path.end()){
+    if(path.find(neighbor.first) == path.end()){
       new_path_weight = path_weight * neighbor.second;
       activationProbs[neighbor.first] = 1 - (1 - activationProbs[neighbor.first])*(1 - new_path_weight);
       if (depth > 1){

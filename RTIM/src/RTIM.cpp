@@ -182,7 +182,7 @@ void RTIM::live(const Graph& graph, int max_size){
       cout << "User: " << user << " is online." << endl;
       if (activationProbabilities[user] < 0.8 && infScores[user] > 50){
         activationProbabilities[user] = 1.0;
-        // update neighbor activationProbabilities
+        graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 2);
         seedSet.push_back(user);
       }
     }
@@ -257,6 +257,7 @@ int main(int argn, char **argv)
     RTIM rtim = RTIM(args.dataset);
 
     if (args.stage == "pre"){
+      //
       start = clock();
       Graph g = Graph(args.dataset, true);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
@@ -267,6 +268,7 @@ int main(int argn, char **argv)
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Pre-process stage done in: " << cleanTime(duration) << endl;
     }else if (args.stage == "live"){
+      //
       start = clock();
       Graph g = Graph(args.dataset, true);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
@@ -277,6 +279,7 @@ int main(int argn, char **argv)
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Live stage done in: " << cleanTime(duration) << endl;
     }else if (args.stage == "newStream"){
+      //
       Graph g = Graph(args.dataset, false);
       start = clock();
       if (args.k == -1){
