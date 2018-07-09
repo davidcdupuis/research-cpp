@@ -5,3 +5,6 @@ data/livejournal/
 data/twitter
 data/orkut
 data/dblp
+
+RTIM/src/*.o
+RTIM/src/rtim
