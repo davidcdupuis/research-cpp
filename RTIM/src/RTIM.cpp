@@ -157,33 +157,59 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
   saveScores();
 };
 
-void RTIM::live(const Graph& graph, int max_size){
+void RTIM::live(const Graph& graph, int max_size, string model, int version, int size, double ap, int infReach){
   numNodes = graph.graph.size();
+  streamModel = model;
+  streamVersion = version;
+  streamSize = size;
+  reach = infReach;
+  theta_ap = ap;
+  cout << "-------------------------------" << endl;
   cout << "Running live on " << dataset << endl;
   activationProbabilities.resize(numNodes, 0);
   importScores();
   sortedScores = infScores;
   sort(sortedScores.begin(), sortedScores.end());
   getInfIndex(sortedScores);
+  cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
   // read availability stream
-  string folder = "../../data/" + dataset + "/rtim/rand_repeat.txt";
+  // string file = streamModel + "_" + to_string(streamSize) + "_m" + to_string(streamVersion);
+  string folder = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + streamModel + "_" + to_string(streamSize) + "_m" + to_string(streamVersion) + ".txt";
   int user;
   cout << "Reading availability stream: " << folder << endl;
   ifstream infile(folder.c_str());
+  double max_time = 0;
+  clock_t start;
+  double duration;
   while (infile >> user){
-    while (seedSet.size() < max_size){
+    if (dataset == "test"){
       cout << "User: " << user << " is online." << endl;
-      if (activationProbabilities[user] < theta_ap && infScores[user] >= sortedScores[infIndex]){
-        activationProbabilities[user] = 1.0;
-        graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 2);
-        seedSet.push_back(user);
-        infIndex --;
+    }
+    if (activationProbabilities[user] < theta_ap && infScores[user] >= sortedScores[infIndex]){
+      activationProbabilities[user] = 1.0;
+      // measure update time
+      start = clock();
+      graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 2);
+      duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+      if (duration > max_time){
+        max_time = duration;
       }
+      seedSet.push_back(user);
+      infIndex --;
+      if (dataset == "test"){
+        cout << "Targeted user: " << user << endl;
+      }
+    }
+    if (seedSet.size() >= max_size){
+      break;
     }
   }
   double seedScore = graph.influenceScore(seedSet);
+  saveSeedSet(seedScore);
+  saveLiveLog(seedScore, max_time);
   cout << "Live complete!" << endl;
+  cout << "------------------------------" << endl;
 };
 
 void RTIM::printScores(){
@@ -212,10 +238,10 @@ void RTIM::saveScores(){
   cout << "Scores saved successfully!" << endl;
 }
 
-void RTIM::saveSeedSet(double score){
-  string file = "../../data/" + dataset + "/availability_models/" + dataset + "_infscores.txt";
+void RTIM::saveSeedSet(double& score){
+  string file = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + dataset + "_seedSet.txt";
   cout << "Saving seed set to: " << file << endl;
-  ofstream seedSet;
+  ofstream seedSetFile;
   seedSetFile.open(file);
   seedSetFile << "Score= " << score << endl;
   for (int i = 0; i < seedSet.size() ; i++){
@@ -225,8 +251,24 @@ void RTIM::saveSeedSet(double score){
   cout << "Seed set saved successfully!" << endl;
 }
 
-void RTIM::saveLiveLog(){
-  
+void RTIM::saveLiveLog(double& score, double& maxTime){
+  string file = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + dataset + "_liveLog.txt";
+  cout << "Saving live log to: " << file << endl;
+  ofstream liveLogFile;
+  liveLogFile.open(file);
+  liveLogFile << "<Stream>" << endl;
+  liveLogFile << "- model: " << streamModel << endl;
+  liveLogFile << "- version: " << streamVersion << endl;
+  liveLogFile << "- size: " << streamSize << endl;
+  liveLogFile << "<Seed set>" << endl;
+  liveLogFile << "- size: " << seedSet.size() << endl;
+  liveLogFile << "- score: " << score << endl;
+  liveLogFile << "<Args>" << endl;
+  liveLogFile << "- reach: " << reach << endl;
+  liveLogFile << "- theta_ap: " << theta_ap << endl;
+  liveLogFile << "Max update time: " << cleanTime(maxTime) << endl;
+  liveLogFile.close();
+  cout << "Live log saved successfully!" << endl;
 }
 
 void RTIM::importScores(){
@@ -271,7 +313,7 @@ int main(int argn, char **argv)
     args.printArguments();
 
     RTIM rtim = RTIM(args.dataset);
-/*
+
     if (args.stage == "pre"){
       //
       start = clock();
@@ -289,26 +331,29 @@ int main(int argn, char **argv)
       Graph g = Graph(args.dataset, true);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Import done in: " << cleanTime(duration) << endl;
-
+      if(args.streamSize == -1){
+        args.streamSize = g.nodes;
+      }
       start = clock();
-      rtim.live(g, g.graph.size());
+      rtim.live(g, g.graph.size(), args.streamModel, args.streamVersion, args.streamSize, args.activation_threshold, args.reach);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Live stage done in: " << cleanTime(duration) << endl;
     }else if (args.stage == "newStream"){
       //
       Graph g = Graph(args.dataset, false);
       start = clock();
-      if (args.k == -1){
-        rtim.availabilityStream(args.availability, args.version, g.nodes);
-      }else{
-        rtim.availabilityStream(args.availability, args.version, args.k);
+      if (args.streamSize == -1){
+        args.streamSize = g.nodes;
       }
+      rtim.availabilityStream(args.streamModel, args.streamVersion, args.streamSize);
+
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Stream generated in: " << cleanTime(duration) << endl;
     }else{
       cerr << "Error stage not recognized!" << endl;
       exit(1);
-    }*/
+    }
+    /*
     Graph g = Graph(args.dataset, false);
     rtim.numNodes = g.nodes;
     rtim.importScores();
@@ -319,7 +364,9 @@ int main(int argn, char **argv)
       cout << "(" << i << " : " << sortedScores[i] << ")" << endl;
     }
     rtim.reach = 20;
-    cout << rtim.getInfIndex(sortedScores) << endl;
+    rtim.getInfIndex(sortedScores);
+    cout << rtim.infIndex << endl;
+    */
     // rtim.printScores();
 
 }

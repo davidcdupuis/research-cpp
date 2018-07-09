@@ -12,10 +12,12 @@ void Arguments::printHelp(){
   cout << "\t\t [wc, ic]" << endl;
   cout << "-depth: What depth to reach when computing influence score." << endl;
   cout << "\t\tDefault is 'infinity'" << endl;
-  cout << "-availability: What availability model to use." << endl;
   cout << "-reach: Percentage of top influencers to use as influence threshold." << endl;
   cout << "-actProb: Activation probability to use." << endl;
   cout << "-k --size: Max size of seed set to find." << endl;
+  cout << "-streamModel" << endl;
+  cout << "-streamVersion" << endl;
+  cout << "-streamSize: default is number of nodes in graph" << endl;
 }
 
 void Arguments::getArguments(int argn, char **argv){
@@ -60,16 +62,6 @@ void Arguments::getArguments(int argn, char **argv){
       depth = atoi(argv[i + 1]);
     }
 
-    // name of availability model to use
-    if (argv[i] == string("-availability")){
-      // check if file exists
-      availability = argv[i + 1];
-    }
-
-    if (argv[i] == string("-version")){
-      version = atoi(argv[i + 1]);
-    }
-
     // to help define inf. threshold, percentage of top influencers
     if (argv[i] == string("-reach")){
       reach = atoi(argv[i + 1]);
@@ -84,6 +76,19 @@ void Arguments::getArguments(int argn, char **argv){
     if (argv[i] == string("-k") || argv[i] == string("--size")){
       k = atoi(argv[i + 1]);
     }
+
+    if (argv[i] == string("-streamModel")){
+      streamModel = argv[i + 1];
+    }
+
+    if (argv[i] == string("-streamVersion")){
+      streamVersion = atoi(argv[i + 1]);
+    }
+
+    if (argv[i] == string("-streamSize")){
+      streamSize = atoi(argv[i + 1]);
+    }
+
   }
 }
 
@@ -96,18 +101,29 @@ void Arguments::printArguments(){
     cout << "Model: " << model << endl;
     // cout << "Simulations:\t\t" <<  mc_sim << endl;
   }else if (stage == "live"){
-    cout << "Model: " << model << endl;
-    cout << "Availability model: " << availability << endl;
-    cout << "Max seed size: " << k << endl;
+    cout << "Stream" << endl;
+    cout << "> Model: " << streamModel << endl;
+    cout << "> Version: " << streamVersion << endl;
+    if (streamSize == -1){
+      cout << "> Size: # nodes in graph" << endl;
+    }else{
+      cout << "> Size: " << streamSize << endl;
+    }
+    if (k == -1){
+      cout << "Max seed size: # nodes in graph" << endl;
+    }else{
+      cout << "Max seed size: " << k << endl;
+    }
     cout << "Reach: " << reach << endl;
     cout << "Activation threshold: " << activation_threshold << endl;
   }else if(stage == "newStream"){
-    cout << "Availability model: " << availability << endl;
-    cout << "Version: " << version << endl;
-    if (k == -1){
-      cout << "Size of stream: number of nodes in graph" << endl;
+    cout << "Stream" << endl;
+    cout << "> Model: " << streamModel << endl;
+    cout << "> Version: " << streamVersion << endl;
+    if (streamSize == -1){
+      cout << "> Size: # nodes in graph" << endl;
     }else{
-      cout << "Size of stream: " << k << endl;
+      cout << "> Size: " << streamSize << endl;
     }
   }
   cout << "--------------------------------------" << endl;

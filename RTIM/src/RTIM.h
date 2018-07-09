@@ -14,13 +14,16 @@
 class RTIM{
 public:
   int numNodes;
-  std::string dataset;   //dataset name
-  int k;            //seed set size limit
-  int simulations;  // # simulations for inf score
-  int max_depth;    //max exploration depth for inf score
-  double theta_ap = 0.8;
-  int reach;
+  int k;                  //seed set size limit
+  int simulations;        // # simulations for inf score
+  int max_depth;          //max exploration depth for inf score
+  int reach;              // top % of users we consider influencers
   int infIndex;
+  int streamVersion;
+  int streamSize;
+  double theta_ap = 0.8;  // activation probability threshold
+  std::string dataset;
+  std::string streamModel;
   std::vector<double> infScores;
   std::vector<double> sortedScores;
   std::vector<int> seedSet; // users to target
@@ -37,7 +40,7 @@ public:
     For stream of user decide to target, if targeted update activation
     probability of neighboring nodes
   */
-  void live(const Graph& graph, int max_size);
+  void live(const Graph& graph, int max_size, std::string model, int version, int size, double ap, int infReach);
 
   /* Import live stream */
   void importLiveStream();
@@ -48,9 +51,9 @@ public:
   /* Saves influence scores to file */
   void saveScores();
 
-  void savedSeedSet(double score);
+  void saveSeedSet(double& score);
 
-  void saveLiveLog();
+  void saveLiveLog(double& score, double& maxTime);
 
   /* Import influence scores */
   void importScores();
@@ -63,9 +66,6 @@ public:
 
   /* Generate availability stream */
   void availabilityStream(std::string model, int version, int size);
-
-  /**/
-  void saveSeedSet(double score, std::vector<int> seed_set);
 
   void getInfIndex(std::vector<double> & sorted);
 
