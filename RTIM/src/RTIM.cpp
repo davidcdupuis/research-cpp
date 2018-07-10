@@ -190,7 +190,7 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
       activationProbabilities[user] = 1.0;
       // measure update time
       start = clock();
-      graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 2);
+      graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 1);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       if (duration > max_time){
         max_time = duration;
@@ -313,7 +313,7 @@ int main(int argn, char **argv)
     args.printArguments();
 
     RTIM rtim = RTIM(args.dataset);
-
+/*
     if (args.stage == "pre"){
       //
       start = clock();
@@ -352,12 +352,12 @@ int main(int argn, char **argv)
     }else{
       cerr << "Error stage not recognized!" << endl;
       exit(1);
-    }
-    /*
-    Graph g = Graph(args.dataset, false);
+    }*/
+    
+    Graph g = Graph(args.dataset, true);
     rtim.numNodes = g.nodes;
-    rtim.importScores();
-    vector<double> sortedScores = rtim.infScores;
+    /*rtim.importScores();
+    /vector<double> sortedScores = rtim.infScores;
     sort(sortedScores.begin(), sortedScores.end());
     cout << "Sorted scores: " << endl;
     for (int i = 0; i < sortedScores.size() ; i++){
@@ -367,6 +367,18 @@ int main(int argn, char **argv)
     rtim.getInfIndex(sortedScores);
     cout << rtim.infIndex << endl;
     */
+    rtim.activationProbabilities.resize(rtim.numNodes, 0);
+    start = clock();
+    rtim.activationProbabilities[0] = 1.0;
+    cout << "Target user: 0" << endl;
+    g.updateNeighborsAP(0, rtim.activationProbabilities, {}, 1.0, 2);
+    duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+    cout << "Time taken at depth 2 for user 0 : " << cleanTime(duration) << endl;
+    start = clock();
+    rtim.activationProbabilities[1] = 1.0;
+    g.updateNeighborsAP(1, rtim.activationProbabilities, {}, 1.0, 2);
+    duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+    cout << "Time taken at depth 2 for user 1: " << cleanTime(duration) << endl;
     // rtim.printScores();
 
 }
