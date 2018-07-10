@@ -53,6 +53,9 @@ class Graph
     /* Update activation probabilities of neighboring nodes */
     void updateNeighborsAP(int src, std::vector<double>& activationProbs, std::set<int> path, double path_weight=1, int depth=2) const;
 
+    /* Update activation probabilies of neighboring nodes at depth 1 */
+    void updateNeighborsAPShort(int src, std::vector<double>& activationProbs) const;
+
     /* Function to print graph */
     void print();
 };

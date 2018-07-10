@@ -255,6 +255,12 @@ void Graph::updateNeighborsAP(int src, vector<double>& activationProbs, set<int>
   path.erase(src);
 }
 
+void Graph::updateNeighborsAPShort(int src, vector<double>& activationProbs) const{
+  for(pair<int, double> neighbor: graph[src]){
+    activationProbs[neighbor.first] = 1 - (1 - activationProbs[neighbor.first])*(1 - neighbor.second);
+  }
+}
+
 void Graph::print(){
   cout << dataset << " graph:" << endl;
   for(int i = 0; i < nodes; i++){

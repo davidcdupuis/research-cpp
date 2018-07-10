@@ -353,7 +353,7 @@ int main(int argn, char **argv)
       cerr << "Error stage not recognized!" << endl;
       exit(1);
     }*/
-    
+
     Graph g = Graph(args.dataset, true);
     rtim.numNodes = g.nodes;
     /*rtim.importScores();
@@ -368,17 +368,35 @@ int main(int argn, char **argv)
     cout << rtim.infIndex << endl;
     */
     rtim.activationProbabilities.resize(rtim.numNodes, 0);
+
     start = clock();
     rtim.activationProbabilities[0] = 1.0;
     cout << "Target user: 0" << endl;
-    g.updateNeighborsAP(0, rtim.activationProbabilities, {}, 1.0, 2);
+    g.updateNeighborsAP(0, rtim.activationProbabilities, {}, 1.0, 1);
     duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-    cout << "Time taken at depth 2 for user 0 : " << cleanTime(duration) << endl;
+    cout << "Time taken at depth 1 for user 0 with updateNeighborsAP: " << cleanTime(duration) << endl;
+
+    start = clock();
+    rtim.activationProbabilities[0] = 1.0;
+    cout << "Target user: 0" << endl;
+    g.updateNeighborsAP(0, rtim.activationProbabilities, {}, 1.0, 1);
+    duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+    cout << "Time taken at depth 1 for user 0 with updateNeighborsAPShort: " << cleanTime(duration) << endl;
+
+
     start = clock();
     rtim.activationProbabilities[1] = 1.0;
-    g.updateNeighborsAP(1, rtim.activationProbabilities, {}, 1.0, 2);
+    cout << "Target user: 1" << endl;
+    g.updateNeighborsAP(1, rtim.activationProbabilities, {}, 1.0, 1);
     duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-    cout << "Time taken at depth 2 for user 1: " << cleanTime(duration) << endl;
+    cout << "Time taken at depth 1 for user 1 with updateNeighborsAP: " << cleanTime(duration) << endl;
+
+    start = clock();
+    rtim.activationProbabilities[1] = 1.0;
+    cout << "Target user: 1" << endl;
+    g.updateNeighborsAP(1, rtim.activationProbabilities, {}, 1.0, 1);
+    duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+    cout << "Time taken at depth 1 for user 1 with updateNeighborsAPShort: " << cleanTime(duration) << endl;
     // rtim.printScores();
 
 }
