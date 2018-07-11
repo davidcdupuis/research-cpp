@@ -190,7 +190,8 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
       activationProbabilities[user] = 1.0;
       // measure update time
       start = clock();
-      graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 1);
+      //graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 1);
+      graph.updateNeighborsAPShort(user, activationProbabilities);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       if (duration > max_time){
         max_time = duration;
@@ -313,7 +314,7 @@ int main(int argn, char **argv)
     args.printArguments();
 
     RTIM rtim = RTIM(args.dataset);
-/*
+
     if (args.stage == "pre"){
       //
       start = clock();
@@ -352,10 +353,10 @@ int main(int argn, char **argv)
     }else{
       cerr << "Error stage not recognized!" << endl;
       exit(1);
-    }*/
+    }
 
-    Graph g = Graph(args.dataset, true);
-    rtim.numNodes = g.nodes;
+    //Graph g = Graph(args.dataset, true);
+    //rtim.numNodes = g.nodes;
     /*rtim.importScores();
     /vector<double> sortedScores = rtim.infScores;
     sort(sortedScores.begin(), sortedScores.end());
@@ -367,6 +368,7 @@ int main(int argn, char **argv)
     rtim.getInfIndex(sortedScores);
     cout << rtim.infIndex << endl;
     */
+    /*
     rtim.activationProbabilities.resize(rtim.numNodes, 0);
 
     start = clock();
@@ -379,7 +381,7 @@ int main(int argn, char **argv)
     start = clock();
     rtim.activationProbabilities[0] = 1.0;
     cout << "Target user: 0" << endl;
-    g.updateNeighborsAP(0, rtim.activationProbabilities, {}, 1.0, 1);
+    g.updateNeighborsAPShort(0, rtim.activationProbabilities);
     duration = (clock() - start)/(double)CLOCKS_PER_SEC;
     cout << "Time taken at depth 1 for user 0 with updateNeighborsAPShort: " << cleanTime(duration) << endl;
 
@@ -394,9 +396,10 @@ int main(int argn, char **argv)
     start = clock();
     rtim.activationProbabilities[1] = 1.0;
     cout << "Target user: 1" << endl;
-    g.updateNeighborsAP(1, rtim.activationProbabilities, {}, 1.0, 1);
+    g.updateNeighborsAPShort(1, rtim.activationProbabilities);
     duration = (clock() - start)/(double)CLOCKS_PER_SEC;
     cout << "Time taken at depth 1 for user 1 with updateNeighborsAPShort: " << cleanTime(duration) << endl;
+    */
     // rtim.printScores();
 
 }
