@@ -59,7 +59,7 @@ void RTIM::saveToCSV(string fileName){
 
 int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save){
   int j, sum = 0;
-  for (j=0; j<nb_threads; j++){
+  for (j = 0; j < nb_threads; j++){
     sum += nb_nodes[j*8];
   }
 
@@ -83,7 +83,7 @@ int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time
   //std::cout.flush();
 
   int testPourcent = (int)(progress*100.0);
-  if (testPourcent%10 == 0 && save==0){
+  if (testPourcent%10 == 0 && save == 0){
     save = 1;
     string fileName = "../../data/algoritmhs/rtim/infScores_"+ std::to_string(testPourcent) + ".csv";
     saveToCSV(fileName);
@@ -115,7 +115,7 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
   {
     nb_threads = omp_get_num_threads();
     num_thread = omp_get_thread_num();
-    if (num_thread==0){
+    if (num_thread == 0){
       if (nb_nodes == 0){
         nb_nodes = (int*)calloc (sizeof(int),nb_threads*8);
       }
@@ -123,7 +123,7 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
     }
     #pragma omp for schedule(dynamic) nowait
     for(int i = 0; i < numNodes; i++){
-      if (num_thread==0){
+      if (num_thread == 0){
         save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
       }
       // Compute the influence score of a node in G
@@ -139,8 +139,8 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
       finishedProcess ++;
       //printf("\r[%d/%d] Finished !\n",num_thread, nb_threads);
     }
-    if (num_thread==0){
-      while (finishedProcess!=nb_threads) {
+    if (num_thread == 0){
+      while (finishedProcess != nb_threads) {
         save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
       }
       save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
@@ -174,15 +174,22 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
   cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
   // read availability stream
-  // string file = streamModel + "_" + to_string(streamSize) + "_m" + to_string(streamVersion);
+  string file = streamModel + "_" + to_string(streamSize) + "_m" + to_string(streamVersion);
   string folder = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + streamModel + "_" + to_string(streamSize) + "_m" + to_string(streamVersion) + ".txt";
   int user;
   cout << "Reading availability stream: " << folder << endl;
   ifstream infile(folder.c_str());
   double max_time = 0;
   clock_t start;
+  time_t startTime;
+  time ( &startTime );
   double duration;
+  int sum = 0;
   while (infile >> user){
+    sum ++;
+    // if (sum == 15162 || sum == 15163){
+    //   cout << "(" << user << ") ";
+    // }
     if (dataset == "test"){
       cout << "User: " << user << " is online." << endl;
     }
@@ -198,13 +205,38 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
       }
       seedSet.push_back(user);
       infIndex --;
-      if (dataset == "test"){
+      if (dataset == "test" || max_size < 20){
         cout << "Targeted user: " << user << endl;
       }
     }
     if (seedSet.size() >= max_size){
       break;
     }
+    // print progress
+    /*
+    float progress = (float)sum/streamSize;
+
+    time_t currentTime;
+    time ( &currentTime );
+    double duration = difftime(currentTime,startTime);
+    double durationPerPercent = duration / progress;
+    double timeLeft = (1 - progress) * durationPerPercent;
+    int barWidth = 50;
+
+    cout << "\r[";
+    int pos = barWidth * progress;
+    for (int i = 0; i < barWidth; ++i) {
+        if (i < pos) {
+          cout << "=";
+        } else if (i == pos){
+          cout << ">";
+        } else {
+          cout << " ";
+        }
+    }
+    cout << "] " << int(progress * 100.0) << " % -- (" << sum << "/" << streamSize << ") -- (" << duration << "s / " << timeLeft << "s)";
+    cout.flush();
+    */
   }
   double seedScore = graph.influenceScore(seedSet);
   saveSeedSet(seedScore);
