@@ -1,0 +1,24 @@
+<Stream>
+- model: rand_no_repeat
+- version: 1
+- size: 15229
+<Seed set>
+- size: 100
+- score: 952.042
+<Args>
+- reach: 5
+- theta_ap: 0.8
+Max update time: 0.002000 ms
+----------------------------------------------------
+<Stream>
+- model: rand_no_repeat
+- version: 1
+- size: 15229
+<Seed set>
+- size: 50
+- score: 537.345
+<Args>
+- reach: 5
+- theta_ap: 0.8
+Max update time: 0.001000 ms
+----------------------------------------------------

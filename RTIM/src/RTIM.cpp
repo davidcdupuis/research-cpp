@@ -181,6 +181,7 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
   ifstream infile(folder.c_str());
   double max_time = 0;
   clock_t start;
+  clock_t startStream = clock();
   time_t startTime;
   time ( &startTime );
   double duration;
@@ -213,7 +214,7 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
       break;
     }
     // print progress
-    /*
+
     float progress = (float)sum/streamSize;
 
     time_t currentTime;
@@ -236,9 +237,17 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
     }
     cout << "] " << int(progress * 100.0) << " % -- (" << sum << "/" << streamSize << ") -- (" << duration << "s / " << timeLeft << "s)";
     cout.flush();
-    */
+
   }
+  cout << endl;
+  duration = (clock() - startStream)/(double)CLOCKS_PER_SEC;
+  cout << "Done reading availability stream in:  " << cleanTime(duration) << endl;
+  cout << "Computing influence score of seed set. " << endl;
+  cout << "Seed set size: " << seedSet.size() << endl;
+  start = clock();
   double seedScore = graph.influenceScore(seedSet);
+  duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+  cout << "Seed set score: " << seedScore << "/" << numNodes << ", computed in: " << cleanTime(duration) << endl;
   saveSeedSet(seedScore);
   saveLiveLog(seedScore, max_time);
   cout << "Live complete!" << endl;
@@ -288,7 +297,7 @@ void RTIM::saveLiveLog(double& score, double& maxTime){
   string file = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + dataset + "_liveLog.txt";
   cout << "Saving live log to: " << file << endl;
   ofstream liveLogFile;
-  liveLogFile.open(file);
+  liveLogFile.open(file, fstream::app);
   liveLogFile << "<Stream>" << endl;
   liveLogFile << "- model: " << streamModel << endl;
   liveLogFile << "- version: " << streamVersion << endl;
@@ -300,6 +309,7 @@ void RTIM::saveLiveLog(double& score, double& maxTime){
   liveLogFile << "- reach: " << reach << endl;
   liveLogFile << "- theta_ap: " << theta_ap << endl;
   liveLogFile << "Max update time: " << cleanTime(maxTime) << endl;
+  liveLogFile << "----------------------------------------------------" << endl;
   liveLogFile.close();
   cout << "Live log saved successfully!" << endl;
 }
@@ -367,8 +377,11 @@ int main(int argn, char **argv)
       if(args.streamSize == -1){
         args.streamSize = g.nodes;
       }
+      if (args.k == -1){
+        args.k = g.graph.size();
+      }
       start = clock();
-      rtim.live(g, g.graph.size(), args.streamModel, args.streamVersion, args.streamSize, args.activation_threshold, args.reach);
+      rtim.live(g, args.k, args.streamModel, args.streamVersion, args.streamSize, args.activation_threshold, args.reach);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Live stage done in: " << cleanTime(duration) << endl;
     }else if (args.stage == "newStream"){

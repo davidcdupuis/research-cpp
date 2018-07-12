@@ -4,8 +4,8 @@
 - size: 20
 <Seed set>
 - size: 7
-- score: 17.3271
+- score: 17.3151
 <Args>
 - reach: 20
 - theta_ap: 0.8
-Max update time: 0.010000 ms
+Max update time: 0.001000 ms
