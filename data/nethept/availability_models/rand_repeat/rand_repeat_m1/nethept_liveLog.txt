@@ -14,3 +14,19 @@
 Runtime: 35.478589 seconds
 Max update time: 0.001000 ms
 ----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 57.505000 ms
+<Seed set>
+- size: 771
+- score: 3096.11
+- score compute time: 1.699128 minutes
+<Args>
+- reach: 5
+- theta_ap: 0.8
+Runtime: 1.700208 minutes
+Max update time: 0.003000 ms
+----------------------------------------------------
