@@ -51,9 +51,9 @@ public:
   /* Saves influence scores to file */
   void saveScores();
 
-  void saveSeedSet(double& score);
+  void saveSeedSet();
 
-  void saveLiveLog(double& score, double& maxTime);
+  void saveLiveLog(double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime);
 
   /* Import influence scores */
   void importScores();

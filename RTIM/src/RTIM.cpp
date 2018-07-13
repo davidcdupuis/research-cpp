@@ -158,6 +158,7 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
 };
 
 void RTIM::live(const Graph& graph, int max_size, string model, int version, int size, double ap, int infReach){
+  clock_t startLive = clock();
   numNodes = graph.graph.size();
   streamModel = model;
   streamVersion = version;
@@ -240,16 +241,17 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
 
   }
   cout << endl;
-  duration = (clock() - startStream)/(double)CLOCKS_PER_SEC;
-  cout << "Done reading availability stream in:  " << cleanTime(duration) << endl;
-  cout << "Computing influence score of seed set. " << endl;
-  cout << "Seed set size: " << seedSet.size() << endl;
+  double streamDuration = (clock() - startStream)/(double)CLOCKS_PER_SEC;
+  cout << "Availability stream read in:  " << cleanTime(streamDuration) << endl;
+  saveSeedSet();
+  cout << "Computing influence score of seed set of size: " << seedSet.size() << endl;
   start = clock();
   double seedScore = graph.influenceScore(seedSet);
-  duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-  cout << "Seed set score: " << seedScore << "/" << numNodes << ", computed in: " << cleanTime(duration) << endl;
-  saveSeedSet(seedScore);
-  saveLiveLog(seedScore, max_time);
+  double seedDuration = (clock() - start)/(double)CLOCKS_PER_SEC;
+  cout << "Seed set score: " << seedScore << "/" << numNodes << ", computed in: " << cleanTime(seedDuration) << endl;
+
+  double liveDuration = (clock() - startLive)/(double)CLOCKS_PER_SEC;
+  saveLiveLog(seedScore, streamDuration, seedDuration, max_time, sum, liveDuration);
   cout << "Live complete!" << endl;
   cout << "------------------------------" << endl;
 };
@@ -280,12 +282,11 @@ void RTIM::saveScores(){
   cout << "Scores saved successfully!" << endl;
 }
 
-void RTIM::saveSeedSet(double& score){
+void RTIM::saveSeedSet(){
   string file = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + dataset + "_seedSet.txt";
   cout << "Saving seed set to: " << file << endl;
   ofstream seedSetFile;
   seedSetFile.open(file);
-  seedSetFile << "Score= " << score << endl;
   for (int i = 0; i < seedSet.size() ; i++){
      seedSetFile << seedSet[i] << endl;
   }
@@ -293,7 +294,7 @@ void RTIM::saveSeedSet(double& score){
   cout << "Seed set saved successfully!" << endl;
 }
 
-void RTIM::saveLiveLog(double& score, double& maxTime){
+void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime){
   string file = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + dataset + "_liveLog.txt";
   cout << "Saving live log to: " << file << endl;
   ofstream liveLogFile;
@@ -302,12 +303,16 @@ void RTIM::saveLiveLog(double& score, double& maxTime){
   liveLogFile << "- model: " << streamModel << endl;
   liveLogFile << "- version: " << streamVersion << endl;
   liveLogFile << "- size: " << streamSize << endl;
+  liveLogFile << "- progress: " << progress << endl;
+  liveLogFile << "- runtime: " << cleanTime(streamTime) << endl;
   liveLogFile << "<Seed set>" << endl;
   liveLogFile << "- size: " << seedSet.size() << endl;
   liveLogFile << "- score: " << score << endl;
+  liveLogFile << "- score compute time: " << cleanTime(seedTime) << endl;
   liveLogFile << "<Args>" << endl;
   liveLogFile << "- reach: " << reach << endl;
   liveLogFile << "- theta_ap: " << theta_ap << endl;
+  liveLogFile << "Runtime: " << cleanTime(runtime) << endl;
   liveLogFile << "Max update time: " << cleanTime(maxTime) << endl;
   liveLogFile << "----------------------------------------------------" << endl;
   liveLogFile.close();
