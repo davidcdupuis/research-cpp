@@ -55,6 +55,8 @@ public:
 
   void saveLiveLog(double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime);
 
+  void saveLiveCSV(const Graph& graph, double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime);
+
   /* Import influence scores */
   void importScores();
 

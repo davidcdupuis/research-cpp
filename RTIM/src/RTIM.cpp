@@ -252,6 +252,7 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
 
   double liveDuration = (clock() - startLive)/(double)CLOCKS_PER_SEC;
   saveLiveLog(seedScore, streamDuration, seedDuration, max_time, sum, liveDuration);
+  saveLiveCSV(graph, seedScore, streamDuration, seedDuration, max_time, sum, liveDuration);
   cout << "Live complete!" << endl;
   cout << "------------------------------" << endl;
 };
@@ -283,7 +284,7 @@ void RTIM::saveScores(){
 }
 
 void RTIM::saveSeedSet(){
-  string file = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + dataset + "_seedSet.txt";
+  string file = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + to_string(reach)+ ".txt";
   cout << "Saving seed set to: " << file << endl;
   ofstream seedSetFile;
   seedSetFile.open(file);
@@ -317,6 +318,33 @@ void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, doub
   liveLogFile << "----------------------------------------------------" << endl;
   liveLogFile.close();
   cout << "Live log saved successfully!" << endl;
+}
+
+void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime){
+  string file = "../../data/live_log.csv";
+  cout << "Saving live csv to: " << file << endl;
+  ofstream liveCSV;
+  liveCSV.open(file, fstream::app);
+  /*Order of values: dataset,nodes,edges,reach,theta_ap,ap_algo,ap_depth,streamModel,streamVersion,streamRuntime,streamProgress,maxAPTime,seedSizeLimit,seedSize,seedScore,seedScoreRuntime,liveRuntime */
+  liveCSV << dataset << ",";
+  liveCSV << graph.nodes << ",";
+  liveCSV << graph.edges << ",";
+  liveCSV << reach << ",";
+  liveCSV << theta_ap << ",";
+  liveCSV << "APShort" << ",";
+  liveCSV << max_depth << ",";
+  liveCSV << streamModel << ",";
+  liveCSV << streamVersion << ",";
+  liveCSV << streamTime << ",";
+  liveCSV << progress << ","; // NaN if file saved outside of live
+  liveCSV << maxTime << ",";
+  liveCSV << k << ",";
+  liveCSV << seedSet.size() << ",";
+  liveCSV << score << ",";
+  liveCSV << seedTime << ",";
+  liveCSV << runtime << endl;
+  liveCSV.close();
+  cout << "Live CSV saved! " << endl;
 }
 
 void RTIM::importScores(){
