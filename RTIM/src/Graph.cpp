@@ -118,9 +118,15 @@ void Graph::loadGraph(){
 double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) const{
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   int sum = 0;
+  int values[sim] = {};
+  #pragma omp parallel private(depth) shared(seed_set, values)
+  #pragma omp for
   for (int i = 0; i < sim; i++){
     // run influence simulation
-    sum += influenceSimulation(seed_set, depth);
+    values[i] = influenceSimulation(seed_set, depth);
+  }
+  for(int i = 0; i < sim; i++){
+    sum += values[i];
   }
   double score = sum/(double)sim;
   // cout << "Influence score is " << score << endl;
