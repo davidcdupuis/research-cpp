@@ -6,69 +6,164 @@
 
 #include "Graph.h"
 
-/*RTIM = Real-Time Influence Maximization
 
-  Step1: Pre_process graph by computing influence score of all users
-  Step2: Dynamically decide user targeting and save to seed set
+/**
+  * @file RTIM.h
+  * @author David Dupuis <david.dupuis@devinci.fr>
+  * @version 3.0
+  *
+  * @section DESCRIPTION
+  *
+  * RTIM = Real-Time Influence Maximization
+  *
+  * Step1: Pre_process graph by computing influence score of all users
+  * Step2: Dynamically decide user targeting and save to seed set
+  *
+  *
+  *
+  *
 */
 class RTIM{
 public:
-  int numNodes;
-  int k;                  //seed set size limit
-  int simulations;        // # simulations for inf score
-  int max_depth;          //max exploration depth for inf score
-  int reach;              // top % of users we consider influencers
-  int infIndex;
-  int streamVersion;
-  int streamSize;
-  double theta_ap = 0.8;  // activation probability threshold
-  std::string dataset;
-  std::string streamModel;
-  std::vector<double> infScores;
-  std::vector<double> sortedScores;
-  std::vector<int> seedSet; // users to target
-  std::vector<double> activationProbabilities; // array of activation probabilities
+  int numNodes;                      /**< number of nodes in graph */
+  int k;                             /**< seed set size limit */
+  int simulations;                   /**< # simulations for inf score */
+  int max_depth;                     /**< max exploration depth for inf score */
+  int reach;                         /**< top % of users we consider influencers */
+  int infIndex;                      /**< index of influence score threshold */
+  int streamVersion;                 /**< number of stream version */
+  int streamSize;                    /**< size of stream to run */
+  double theta_ap = 0.8;             /**< activation probability threshold */
+  std::string dataset;               /**< name of dataset */
+  std::string streamModel;           /**< name of stream model */
+  std::vector<double> infScores;     /**< array of influence scores */
+  std::vector<double> sortedScores;  /**< array of sorted influence scores */
+  std::vector<int> seedSet;          /**< users to target */
+  std::vector<double> activationProbabilities; /**< array of activation probabilities*/
 
+  /**
+    * Constructor
+    *
+    * @param dataset: name of dataset to use
+    */
   RTIM(std::string dataset);
 
-  /*Pre-processing stage
-    Compute influence score of every user in graph
-  */
+
+  /**
+    * Pre-processing stage
+    * Compute influence score of every user in graph
+    *
+    * @param graph: user influence network to use
+    * @param max_depth: maximum depth for inf. score computation
+    */
   void pre_process(const Graph& graph, int max_depth=100000);
 
-  /*Live stage
-    For stream of user decide to target, if targeted update activation
-    probability of neighboring nodes
-  */
+
+  /**
+    * Live stage
+    * For stream of user decide to target, if targeted update activation
+    * probability of neighboring nodes
+    *
+    * @param graph
+    * @param max_size
+    * @param model
+    * @param version
+    * @param size
+    * @param ap
+    * @âram infReach
+    *
+    */
   void live(const Graph& graph, int max_size, std::string model, int version, int size, double ap, int infReach);
 
-  /* Import live stream */
+
+  /**
+    * Import live stream
+    */
   void importLiveStream();
 
-  /* Print influence scores */
+
+  /**
+    * Print influence scores
+    */
   void printScores();
 
-  /* Saves influence scores to file */
+  /**
+    * Saves influence scores to appropriate file
+    */
   void saveScores();
 
+  /**
+    * Save seed set to appropriate file
+    */
   void saveSeedSet();
 
+  /**
+    * Save live log data to file
+    *
+    * @param score
+    * @param streamTime
+    * @param seedTime
+    * @param maxTime
+    * @param progress
+    * @param runtime
+    */
   void saveLiveLog(double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime);
 
+
+  /**
+    * Save live data to CSV file
+    *
+    * @param graph
+    * @param score
+    * @param streamTime
+    * @param seedTime
+    * @param maxTime
+    * @param progress
+    * @param runtime
+    */
   void saveLiveCSV(const Graph& graph, double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime);
 
-  /* Import influence scores */
+
+  /**
+    * Import influence scores
+    */
   void importScores();
 
-  /* Save influence scores */
+  /**
+    * Save influence scores
+    *
+    * @param fileName
+    */
   void saveToCSV(std::string fileName);
 
-  /* Print progress */
+  /**
+    * Print progress
+    *
+    * @param nb_threads
+    * @param finishedProcess
+    * @param numNodes
+    * @param startTime
+    * @param nb_nodes
+    * @param save
+    */
   int print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save);
 
-  /* Generate availability stream */
+
+  /**
+    * Generate availability stream
+    *
+    * @param model
+    * @param version
+    * @param size
+    */
   void availabilityStream(std::string model, int version, int size);
 
+
+  /**
+    * Computes the influence score threshold index based on reach
+    *
+    * @param sorted: array of sorted influence scores
+    */
   void getInfIndex(std::vector<double> & sorted);
 
 };

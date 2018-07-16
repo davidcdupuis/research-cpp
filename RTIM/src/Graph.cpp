@@ -28,6 +28,7 @@ string printSeed(vector<int> seed){
   return s;
 }
 
+
 Graph::Graph(string d, bool import){
   //srand(time(NULL));
   dataset =  d;
@@ -38,12 +39,12 @@ Graph::Graph(string d, bool import){
   }
 }
 
-/* Function to add an edge */
+
 void Graph::addEdge(int a, int b, double w){
   graph[a].push_back(make_pair(b, w));
 }
 
-/* Function to read attributes.txt */
+
 void Graph::readAttributes(){
   string folder = "../../data/" + dataset + "/attributes.txt";
   ifstream infile(folder.c_str());
@@ -67,7 +68,7 @@ void Graph::readAttributes(){
   infile.close();
 }
 
-/* Function to import graph from file */
+
 void Graph::loadGraph(){
   string graph_file = "../../data/" + dataset + "/" + dataset + "_wc.inf";
   FILE *fin = fopen(graph_file.c_str(), "r");
@@ -114,7 +115,7 @@ void Graph::loadGraph(){
   fclose(fin);
 }
 
-/* Function to calculate influence score of seed set */
+
 double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) const{
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   int sum = 0;
@@ -132,6 +133,7 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) co
   // cout << "Influence score is " << score << endl;
   return score;
 }
+
 
 double Graph::influenceScorePath(int node, int max_depth, string type) const{
   // if type == 'shortest' use shortest paths, if 'all' use all paths, else return error
@@ -167,6 +169,7 @@ double Graph::influenceScorePath(int node, int max_depth, string type) const{
   return score;
 }
 
+
 double Graph::influenceScoreNeighbors(int node) const{
   double score = 1;
   int lim = graph[node].size();
@@ -176,7 +179,7 @@ double Graph::influenceScoreNeighbors(int node) const{
   return score;
 }
 
-/* Function to perform influence coverage from seed set */
+
 int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
   int activated = 0;
   vector<int> activated_nodes;
@@ -217,7 +220,8 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
   return activated;
 }
 
-void Graph::shortestPathsWeights(map<int, double> & distances, int node, int max_depth, double curr_dist) const{
+
+void Graph::shortestPathsWeights(map<int, double> & distances, int node, double& min_weight, int& max_depth, double curr_dist) const{
   if (max_depth == 0) {
     return;
   }
@@ -233,6 +237,7 @@ void Graph::shortestPathsWeights(map<int, double> & distances, int node, int max
   }
 }
 
+
 void Graph::shortestPathsWeightsB(double* distances, int node, int max_depth, double curr_dist) const{
   if (max_depth == 0) {
     return;
@@ -245,6 +250,7 @@ void Graph::shortestPathsWeightsB(double* distances, int node, int max_depth, do
     shortestPathsWeightsB(distances, neighbor.first, max_depth - 1, new_dist);
   }
 }
+
 
 void Graph::updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth) const{
   path.insert(src);
@@ -261,11 +267,13 @@ void Graph::updateNeighborsAP(int src, vector<double>& activationProbs, set<int>
   path.erase(src);
 }
 
+
 void Graph::updateNeighborsAPShort(int src, vector<double>& activationProbs) const{
   for(pair<int, double> neighbor: graph[src]){
     activationProbs[neighbor.first] = 1 - (1 - activationProbs[neighbor.first])*(1 - neighbor.second);
   }
 }
+
 
 void Graph::print(){
   cout << dataset << " graph:" << endl;

@@ -41,10 +41,12 @@ string cleanTime(double t){
   return cleanT;
 }
 
+
 RTIM::RTIM(string d){
   dataset = d;
   srand(time(NULL));
 }
+
 
 void RTIM::saveToCSV(string fileName){
   ofstream myfile;
@@ -56,6 +58,7 @@ void RTIM::saveToCSV(string fileName){
   myfile << "semicolon"; // ?
   myfile.close();
 }
+
 
 int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save){
   int j, sum = 0;
@@ -93,6 +96,7 @@ int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time
 
   return save;
 }
+
 
 void RTIM::pre_process(const Graph& graph, int max_depth){
   // for each node in graph compute influence score
@@ -156,6 +160,7 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
   */
   saveScores();
 };
+
 
 void RTIM::live(const Graph& graph, int max_size, string model, int version, int size, double ap, int infReach){
   clock_t startLive = clock();
@@ -257,6 +262,7 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
   cout << "------------------------------" << endl;
 };
 
+
 void RTIM::printScores(){
   cout << "Influence Scores: " << infScores.size() << endl;
   if (infScores.size() < 50){
@@ -269,6 +275,7 @@ void RTIM::printScores(){
     }
   }
 }
+
 
 void RTIM::saveScores(){
   string file = "../../data/" + dataset + "/rtim/" + dataset + "_infscores.txt";
@@ -283,6 +290,7 @@ void RTIM::saveScores(){
   cout << "Scores saved successfully!" << endl;
 }
 
+
 void RTIM::saveSeedSet(){
   string file = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + to_string(reach)+ ".txt";
   cout << "Saving seed set to: " << file << endl;
@@ -294,6 +302,7 @@ void RTIM::saveSeedSet(){
   seedSetFile.close();
   cout << "Seed set saved successfully!" << endl;
 }
+
 
 void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime){
   string file = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + dataset + "_liveLog.txt";
@@ -319,6 +328,7 @@ void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, doub
   liveLogFile.close();
   cout << "Live log saved successfully!" << endl;
 }
+
 
 void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime){
   string file = "../../data/live_log.csv";
@@ -347,6 +357,7 @@ void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, do
   cout << "Live CSV saved! " << endl;
 }
 
+
 void RTIM::importScores(){
   string folder = "../../data/" + dataset + "/rtim/" + dataset + "_infscores.txt";
   cout << "Importing influence scores from: " << folder << endl;
@@ -360,6 +371,7 @@ void RTIM::importScores(){
   cout << "Import successful" << endl;
   printScores();
 }
+
 
 void RTIM::availabilityStream(string model, int version, int size){
   cout << "Generating availability stream: " << model << "_m"<< version << endl;
@@ -375,9 +387,11 @@ void RTIM::availabilityStream(string model, int version, int size){
   cout << "Availability file saved!" << endl;
 }
 
+
 void RTIM::getInfIndex(vector<double> & sorted){
   infIndex = sorted.size() - sorted.size() * reach / 100;
 }
+
 
 int main(int argn, char **argv)
 {
