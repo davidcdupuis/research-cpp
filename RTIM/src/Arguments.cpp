@@ -18,6 +18,7 @@ void Arguments::printHelp(){
   cout << "-streamModel" << endl;
   cout << "-streamVersion" << endl;
   cout << "-streamSize: default is number of nodes in graph" << endl;
+  cout << "-edge: defines edge weight to use, default is weighted cascade model" << endl;
 }
 
 void Arguments::getArguments(int argn, char **argv){
@@ -95,6 +96,12 @@ void Arguments::getArguments(int argn, char **argv){
 void Arguments::printArguments(){
   cout << "------------- Arguments --------------" << endl;
   cout << "Dataset: " <<  dataset << endl;
+  cout << "Model: " << model << endl;
+  if(edge_weight == -1){
+    cout << "Edge weights: weighted cascade" << endl;
+  }else{
+    cout << "Edge weights: " << edge_weight << endl;
+  }
   cout << "Stage: " << stage << endl;
   if( stage == "pre"){
     cout << "Max Depth: " << depth << endl;

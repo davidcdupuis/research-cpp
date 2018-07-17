@@ -14,7 +14,7 @@
   *
   * @section DESCRIPTION
   * Influence Graph class
-  * 
+  *
 */
 class Graph
 {
@@ -56,20 +56,21 @@ class Graph
     /**
       * Constanct function to compute influence score of a given node
       *
-      * @param node
-      * @param max_depth
-      * @param type
+      * @param node: source node for exploration
+      * @param max_depth: max depth of path exploration
+      * @param type: type of path we want to use for computing inf score
+      * @param edge_weight: if defined, sets the edge weight
       *
       * @return double
       */
-    double influenceScorePath(int node, int max_depth=3, std::string type="shortest") const;
+    double influenceScorePath(int node, int max_depth=3, std::string type="shortest", double edge_weight=-1) const;
 
 
     /**
       * Constant function to perform random influence coverage of seed set
       *
-      * @param seed_set
-      * @param depth
+      * @param seed_set: starting influential nodes
+      * @param depth: default depth is "infinite"
       *
       * @return int: number of activated nodes
     */
@@ -84,8 +85,9 @@ class Graph
       * @param min_weight: minimum path weight to continue exploration
       * @param maxsepth: maximum path depth to continue exploration
       * @param curr_dist: current distance of path
+      * @param edge_weight: if defined, sets the edge weight, value from 0 to 1
       */
-    void shortestPathsWeights(std::map<int, double>& distances, int node, double& min_weight, int& max_depth, double curr_dist=1) const;
+    void shortestPathsWeights(std::map<int, double>& distances, int node, double min_weight, int max_depth, double curr_dist=1, double edge_weight=-1) const;
 
 
     /**

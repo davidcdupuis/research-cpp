@@ -135,7 +135,7 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) co
 }
 
 
-double Graph::influenceScorePath(int node, int max_depth, string type) const{
+double Graph::influenceScorePath(int node, int max_depth, string type, double edge_weight) const{
   // if type == 'shortest' use shortest paths, if 'all' use all paths, else return error
   double score = 1;
   if (type == "shortest"){
@@ -145,7 +145,7 @@ double Graph::influenceScorePath(int node, int max_depth, string type) const{
       score = 1;
     }else{
       map< int, double > minDistances;
-      shortestPathsWeights(minDistances, node, max_depth);
+      shortestPathsWeights(minDistances, node, 0.001, max_depth, edge_weight);
       map< int, double >::iterator it = minDistances.begin();
       while(it != minDistances.end()){
         score += minDistances[it->first];
@@ -221,19 +221,29 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
 }
 
 
-void Graph::shortestPathsWeights(map<int, double> & distances, int node, double& min_weight, int& max_depth, double curr_dist) const{
+void Graph::shortestPathsWeights(map<int, double> & distances, int node, double min_weight, int max_depth, double curr_dist, double edge_weight) const{
   if (max_depth == 0) {
     return;
   }
 
   for(pair<int, double> neighbor: graph[node]){
-    double new_dist = curr_dist * neighbor.second;
-    // check if new_path distance is greater than older one.
-    if(distances.find(neighbor.first) == distances.end()){
-      distances[neighbor.first] = 0;
+    double new_dist;
+    // use the following condition to explore graph using set edge weights
+    if(edge_weight != -1 && (edge_weight >= 0.0 || edge_weight <= 1.0)){
+      new_dist = curr_dist * edge_weight;
+    } else {
+      new_dist = curr_dist * neighbor.second;
     }
-    distances[neighbor.first] = max(distances[neighbor.first], new_dist);
-    shortestPathsWeights(distances, neighbor.first, max_depth - 1, new_dist);
+
+    // if path weight is less than minimum, we ignore it
+    if (new_dist >= min_weight){
+      // check if new_path distance is greater than older one.
+      if(distances.find(neighbor.first) == distances.end()){
+        distances[neighbor.first] = 0;
+      }
+      distances[neighbor.first] = max(distances[neighbor.first], new_dist);
+      shortestPathsWeights(distances, neighbor.first, min_weight, max_depth - 1, new_dist, edge_weight);
+    }
   }
 }
 
