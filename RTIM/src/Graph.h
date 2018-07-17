@@ -7,6 +7,8 @@
 #include <utility>
 #include <set>
 
+#include "Arguments.h"
+
 /**
   * @file Graph.h
   * @author David Dupuis <david.dupuis@devinci.fr>
@@ -19,12 +21,15 @@
 class Graph
 {
   public:
-    std::string dataset; // stores dataset name for graph
-    int nodes; // nodes
-    int edges; // edges
+    // std::string dataset;          /**< name of dataset */
+    std::string directory;              /**< directory of dataset */
+    int nodes;                    /**< number of nodes */
+    int edges;                    /**< number of edges*/
+    // double edge_weight = -1;      /**< if between 0 or 1, weight of all edges in graph*/
     std::vector<std::vector<std::pair<int, double> > > graph;
+    Arguments args;                /**< Command line arguments */
 
-    Graph(std::string d, bool import);
+    Graph(Arguments& arguments, bool import);
 
 
     /**

@@ -4,7 +4,15 @@
 #include "Tools.h"
 #include <string>
 
-/* Class to read arguments from command line */
+/**
+  * @file Arguments.h
+  *
+  * @author David Dupuis <david.dupuis@devinci.fr>
+  * @version 3.0
+  *
+  * @section DESCRIPTION
+  * Class to read arguments from command line
+  */
 class Arguments{
 public:
   int k = -1;                         /**< size of seed set if defined */
@@ -21,13 +29,24 @@ public:
   double activation_threshold = 0.8;  /**< activation probability threshold [0, 1] */
   double edge_weight = -1;            /**< edge weight to use, default results in weighted cascade model */
 
-  /* Function to get arguments from command line */
+  /**
+    * Function to get arguments from command line
+    *
+    * @param argn
+    * @param argv
+    */
   void getArguments(int argn, char **argv);
 
-  /* Function to print arguments out to command line */
+
+  /**
+    * Function to print arguments out to command line
+    */
   void printArguments();
 
-  /* Print help menu to command line*/
+
+  /**
+    * Print help menu to command line
+    */
   void printHelp();
 };
 #endif

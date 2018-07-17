@@ -11,7 +11,7 @@ rtim: Arguments.o Graph.o RTIM.o
 RTIM.o: RTIM.cpp Graph.cpp Graph.h RTIM.h
 	$(CXX) -fopenmp -c RTIM.cpp
 
-Graph.o: Graph.cpp Graph.h
+Graph.o: Graph.cpp Graph.h Arguments.h
 	$(CXX) -fopenmp -c Graph.cpp
 
 Arguments.o: Arguments.cpp Arguments.h

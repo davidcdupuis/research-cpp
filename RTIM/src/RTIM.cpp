@@ -407,7 +407,7 @@ int main(int argn, char **argv)
     if (args.stage == "pre"){
       //
       start = clock();
-      Graph g = Graph(args.dataset, true);
+      Graph g = Graph(args, true);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Import done in: " << cleanTime(duration) << endl;
 
@@ -418,7 +418,7 @@ int main(int argn, char **argv)
     }else if (args.stage == "live"){
       //
       start = clock();
-      Graph g = Graph(args.dataset, true);
+      Graph g = Graph(args, true);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Import done in: " << cleanTime(duration) << endl;
       if(args.streamSize == -1){
@@ -433,7 +433,7 @@ int main(int argn, char **argv)
       cout << "Live stage done in: " << cleanTime(duration) << endl;
     }else if (args.stage == "newStream"){
       //
-      Graph g = Graph(args.dataset, false);
+      Graph g = Graph(args, false);
       start = clock();
       if (args.streamSize == -1){
         args.streamSize = g.nodes;
@@ -447,51 +447,5 @@ int main(int argn, char **argv)
       exit(1);
     }
 
-    //Graph g = Graph(args.dataset, true);
-    //rtim.numNodes = g.nodes;
-    /*rtim.importScores();
-    /vector<double> sortedScores = rtim.infScores;
-    sort(sortedScores.begin(), sortedScores.end());
-    cout << "Sorted scores: " << endl;
-    for (int i = 0; i < sortedScores.size() ; i++){
-      cout << "(" << i << " : " << sortedScores[i] << ")" << endl;
-    }
-    rtim.reach = 20;
-    rtim.getInfIndex(sortedScores);
-    cout << rtim.infIndex << endl;
-    */
-    /*
-    rtim.activationProbabilities.resize(rtim.numNodes, 0);
-
-    start = clock();
-    rtim.activationProbabilities[0] = 1.0;
-    cout << "Target user: 0" << endl;
-    g.updateNeighborsAP(0, rtim.activationProbabilities, {}, 1.0, 1);
-    duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-    cout << "Time taken at depth 1 for user 0 with updateNeighborsAP: " << cleanTime(duration) << endl;
-
-    start = clock();
-    rtim.activationProbabilities[0] = 1.0;
-    cout << "Target user: 0" << endl;
-    g.updateNeighborsAPShort(0, rtim.activationProbabilities);
-    duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-    cout << "Time taken at depth 1 for user 0 with updateNeighborsAPShort: " << cleanTime(duration) << endl;
-
-
-    start = clock();
-    rtim.activationProbabilities[1] = 1.0;
-    cout << "Target user: 1" << endl;
-    g.updateNeighborsAP(1, rtim.activationProbabilities, {}, 1.0, 1);
-    duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-    cout << "Time taken at depth 1 for user 1 with updateNeighborsAP: " << cleanTime(duration) << endl;
-
-    start = clock();
-    rtim.activationProbabilities[1] = 1.0;
-    cout << "Target user: 1" << endl;
-    g.updateNeighborsAPShort(1, rtim.activationProbabilities);
-    duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-    cout << "Time taken at depth 1 for user 1 with updateNeighborsAPShort: " << cleanTime(duration) << endl;
-    */
-    // rtim.printScores();
 
 }

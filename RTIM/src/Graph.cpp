@@ -12,6 +12,7 @@
 #include <set>
 
 #include "Graph.h"
+#include "Arguments.h"
 
 using namespace std;
 
@@ -29,9 +30,10 @@ string printSeed(vector<int> seed){
 }
 
 
-Graph::Graph(string d, bool import){
+Graph::Graph(Arguments& arguments, bool import){
   //srand(time(NULL));
-  dataset =  d;
+  args = arguments;
+  directory = "../../data/" + args.dataset;
   readAttributes();
   if (import){
     graph.resize(nodes);
@@ -46,7 +48,7 @@ void Graph::addEdge(int a, int b, double w){
 
 
 void Graph::readAttributes(){
-  string folder = "../../data/" + dataset + "/attributes.txt";
+  string folder = directory + "/attributes.txt";
   ifstream infile(folder.c_str());
   cout << "Loading attributes from: " << folder << endl;
   string s;
@@ -70,7 +72,7 @@ void Graph::readAttributes(){
 
 
 void Graph::loadGraph(){
-  string graph_file = "../../data/" + dataset + "/" + dataset + "_wc.inf";
+  string graph_file = directory + "/" + args.dataset + "_wc.inf";
   FILE *fin = fopen(graph_file.c_str(), "r");
   if (!(fin != 0)){
     cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << endl;
@@ -86,23 +88,23 @@ void Graph::loadGraph(){
       int c = fscanf(fin, "%d%d%lf", &user1, &user2, &weight);
       if (c != 3 && c!= -1) {
         cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
-        cerr << "Info: " << user1 << ", " << user2 << ", " << weight << ", "
-             << c << endl;
+        cerr << "Info: " << user1 << ", " << user2 << ", " << weight << ", " << c << endl;
         exit(1);
       }
       // check if node ids within graph array range
       if(user1 >= nodes){
-        cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":("
-             << user1 << " >= " << nodes << ")" << endl;
+        cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":(" << user1 << " >= " << nodes << ")" << endl;
         exit(1);
       }
       if(user2 >= nodes){
-        cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":("
-             << user2 << " >= " << nodes << ")" << endl;
+        cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":(" << user2 << " >= " << nodes << ")" << endl;
         exit(1);
       }
-      //cout << "(" << user1 << ")" << "-[" << weight << "]->" << "(" << user2 << ")" << endl;
-      addEdge(user1, user2, weight);
+      if (args.edge_weight == -1){
+        addEdge(user1, user2, weight);
+      } else { // if(args.edge_weight!= -1 && (args.edge_weight >= 0.0 || args.edge_weight <= 1.0))
+        addEdge(user1, user2, args.edge_weight);
+      }
   }
   // TRACE_LINE_END();
   // int s = 0;
@@ -151,14 +153,6 @@ double Graph::influenceScorePath(int node, int max_depth, string type, double ed
         score += minDistances[it->first];
         it++;
       }
-      /*for (pair<int, double> dist: minDistances){
-        score += dist.second;
-      }*/
-
-      //double* minDistances = calloc(sizeof(double)*graph.size());
-      //shortestPathsWeights2(minDistances, node, max_depth);
-
-
     }
   }else if (type == "all"){
     score = 1;
@@ -286,11 +280,10 @@ void Graph::updateNeighborsAPShort(int src, vector<double>& activationProbs) con
 
 
 void Graph::print(){
-  cout << dataset << " graph:" << endl;
+  cout << args.dataset << " graph:" << endl;
   for(int i = 0; i < nodes; i++){
     for (int j = 0; j < graph[i].size(); j++){
-	cout << "(" << i << ")" << "-[" << graph[i][j].second << "]->"
-           << "(" << graph[i][j].first << ")" << endl;
+      cout << "(" << i << ")" << "-[" << graph[i][j].second << "]->"<< "(" << graph[i][j].first << ")" << endl;
     }
   }
 }

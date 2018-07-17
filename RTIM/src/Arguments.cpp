@@ -2,6 +2,7 @@
 
 using namespace std;
 
+
 void Arguments::printHelp(){
   cout << "Help: " << endl;
   cout << "-stage: What stage to run." << endl;
@@ -20,6 +21,7 @@ void Arguments::printHelp(){
   cout << "-streamSize: default is number of nodes in graph" << endl;
   cout << "-edge: defines edge weight to use, default is weighted cascade model" << endl;
 }
+
 
 void Arguments::getArguments(int argn, char **argv){
   for (int i = 0; i < argn; i++)
@@ -90,8 +92,13 @@ void Arguments::getArguments(int argn, char **argv){
       streamSize = atoi(argv[i + 1]);
     }
 
+    if (argv[i] == string("-edge")){
+      edge_weight = atof(argv[i + 1]);
+    }
+
   }
 }
+
 
 void Arguments::printArguments(){
   cout << "------------- Arguments --------------" << endl;
