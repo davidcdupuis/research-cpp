@@ -92,7 +92,7 @@ class Graph
       * @param curr_dist: current distance of path
       * @param edge_weight: if defined, sets the edge weight, value from 0 to 1
       */
-    void shortestPathsWeights(std::map<int, double>& distances, int node, double min_weight, int max_depth, double curr_dist=1, double edge_weight=-1) const;
+    void shortestPathsWeights(std::map<int, double>& distances, int node, double min_weight, int max_depth, double curr_dist=1) const;
 
 
     /**

@@ -42,8 +42,9 @@ string cleanTime(double t){
 }
 
 
-RTIM::RTIM(string d){
-  dataset = d;
+RTIM::RTIM(Arguments& arguments){
+  args = arguments;
+  // import graph here
   srand(time(NULL));
 }
 
@@ -52,10 +53,10 @@ void RTIM::saveToCSV(string fileName){
   ofstream myfile;
   myfile.open(fileName);
   myfile << "i,score\n";
-  for (int j = 0; j < numNodes; j++){
+  for (int j = 0; j < nodes; j++){
       myfile << j << "," << infScores[j] << "\n";
   }
-  myfile << "semicolon"; // ?
+  //myfile << "semicolon"; // ?
   myfile.close();
 }
 
@@ -100,12 +101,12 @@ int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time
 
 void RTIM::pre_process(const Graph& graph, int max_depth){
   // for each node in graph compute influence score
-  cout << "Running pre_process on " << dataset << endl;
+  cout << "Running pre_process on " << args.dataset << endl;
   double score;
-  numNodes = graph.graph.size();
+  nodes = graph.graph.size();
 
-  infScores.reserve(numNodes);
-  for(int i = 0; i < numNodes; i++){
+  infScores.reserve(nodes);
+  for(int i = 0; i < nodes; i++){
     infScores.push_back(0);
   }
   double start = omp_get_wtime();
@@ -126,9 +127,9 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
       time ( &startTime );
     }
     #pragma omp for schedule(dynamic) nowait
-    for(int i = 0; i < numNodes; i++){
+    for(int i = 0; i < nodes; i++){
       if (num_thread == 0){
-        save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
+        save = print_progress(nb_threads, finishedProcess, nodes, startTime, nb_nodes, save);
       }
       // Compute the influence score of a node in G
       // score = graph.influenceScore({i}, 1);
@@ -145,16 +146,16 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
     }
     if (num_thread == 0){
       while (finishedProcess != nb_threads) {
-        save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
+        save = print_progress(nb_threads, finishedProcess, nodes, startTime, nb_nodes, save);
       }
-      save = print_progress(nb_threads, finishedProcess, numNodes, startTime, nb_nodes, save);
+      save = print_progress(nb_threads, finishedProcess, nodes, startTime, nb_nodes, save);
     }
 
   }
   cout << endl;
   double time = omp_get_wtime() - start;
   /*
-  if (numNodes <= 20){
+  if (nodes <= 20){
     printScores();
   }
   */
@@ -164,7 +165,7 @@ void RTIM::pre_process(const Graph& graph, int max_depth){
 
 void RTIM::live(const Graph& graph, int max_size, string model, int version, int size, double ap, int infReach){
   clock_t startLive = clock();
-  numNodes = graph.graph.size();
+  nodes = graph.graph.size();
   streamModel = model;
   streamVersion = version;
   streamSize = size;
@@ -172,7 +173,7 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
   theta_ap = ap;
   cout << "-------------------------------" << endl;
   cout << "Running live on " << dataset << endl;
-  activationProbabilities.resize(numNodes, 0);
+  activationProbabilities.resize(nodes, 0);
   importScores();
   sortedScores = infScores;
   sort(sortedScores.begin(), sortedScores.end());
@@ -253,7 +254,7 @@ void RTIM::live(const Graph& graph, int max_size, string model, int version, int
   start = clock();
   double seedScore = graph.influenceScore(seedSet);
   double seedDuration = (clock() - start)/(double)CLOCKS_PER_SEC;
-  cout << "Seed set score: " << seedScore << "/" << numNodes << ", computed in: " << cleanTime(seedDuration) << endl;
+  cout << "Seed set score: " << seedScore << "/" << nodes << ", computed in: " << cleanTime(seedDuration) << endl;
 
   double liveDuration = (clock() - startLive)/(double)CLOCKS_PER_SEC;
   saveLiveLog(seedScore, streamDuration, seedDuration, max_time, sum, liveDuration);
@@ -278,7 +279,7 @@ void RTIM::printScores(){
 
 
 void RTIM::saveScores(){
-  string file = "../../data/" + dataset + "/rtim/" + dataset + "_infscores.txt";
+  string file = "../../data/" + args.dataset + "/rtim/" + args.dataset + "_infscores.txt";
   cout << "Saving influence scores to: " << file << endl;
   // save scores
   ofstream infScoresFile;
@@ -292,7 +293,7 @@ void RTIM::saveScores(){
 
 
 void RTIM::saveSeedSet(){
-  string file = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + to_string(reach)+ ".txt";
+  string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + to_string(args.reach)+ ".txt";
   cout << "Saving seed set to: " << file << endl;
   ofstream seedSetFile;
   seedSetFile.open(file);
@@ -305,14 +306,14 @@ void RTIM::saveSeedSet(){
 
 
 void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime){
-  string file = "../../data/" + dataset + "/availability_models/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + dataset + "_liveLog.txt";
+  string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_liveLog.txt";
   cout << "Saving live log to: " << file << endl;
   ofstream liveLogFile;
   liveLogFile.open(file, fstream::app);
   liveLogFile << "<Stream>" << endl;
-  liveLogFile << "- model: " << streamModel << endl;
-  liveLogFile << "- version: " << streamVersion << endl;
-  liveLogFile << "- size: " << streamSize << endl;
+  liveLogFile << "- model: " << args.streamModel << endl;
+  liveLogFile << "- version: " << args.streamVersion << endl;
+  liveLogFile << "- size: " << args.streamSize << endl;
   liveLogFile << "- progress: " << progress << endl;
   liveLogFile << "- runtime: " << cleanTime(streamTime) << endl;
   liveLogFile << "<Seed set>" << endl;
@@ -320,8 +321,8 @@ void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, doub
   liveLogFile << "- score: " << score << endl;
   liveLogFile << "- score compute time: " << cleanTime(seedTime) << endl;
   liveLogFile << "<Args>" << endl;
-  liveLogFile << "- reach: " << reach << endl;
-  liveLogFile << "- theta_ap: " << theta_ap << endl;
+  liveLogFile << "- reach: " << args.reach << endl;
+  liveLogFile << "- theta_ap: " << args.activation_threshold << endl;
   liveLogFile << "Runtime: " << cleanTime(runtime) << endl;
   liveLogFile << "Max update time: " << cleanTime(maxTime) << endl;
   liveLogFile << "----------------------------------------------------" << endl;
@@ -336,19 +337,19 @@ void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, do
   ofstream liveCSV;
   liveCSV.open(file, fstream::app);
   /*Order of values: dataset,nodes,edges,reach,theta_ap,ap_algo,ap_depth,streamModel,streamVersion,streamRuntime,streamProgress,maxAPTime,seedSizeLimit,seedSize,seedScore,seedScoreRuntime,liveRuntime */
-  liveCSV << dataset << ",";
+  liveCSV << args.dataset << ",";
   liveCSV << graph.nodes << ",";
   liveCSV << graph.edges << ",";
-  liveCSV << reach << ",";
-  liveCSV << theta_ap << ",";
+  liveCSV << args.reach << ",";
+  liveCSV << args.activation_threshold << ",";
   liveCSV << "APShort" << ",";
-  liveCSV << max_depth << ",";
-  liveCSV << streamModel << ",";
-  liveCSV << streamVersion << ",";
+  liveCSV << args.depth << ",";
+  liveCSV << args.streamModel << ",";
+  liveCSV << args.streamVersion << ",";
   liveCSV << streamTime << ",";
   liveCSV << progress << ","; // NaN if file saved outside of live
   liveCSV << maxTime << ",";
-  liveCSV << k << ",";
+  liveCSV << args.k << ",";
   liveCSV << seedSet.size() << ",";
   liveCSV << score << ",";
   liveCSV << seedTime << ",";
@@ -361,7 +362,7 @@ void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, do
 void RTIM::importScores(){
   string folder = "../../data/" + dataset + "/rtim/" + dataset + "_infscores.txt";
   cout << "Importing influence scores from: " << folder << endl;
-  infScores.resize(numNodes, 0);
+  infScores.resize(nodes, 0);
   int user;
   double infScore;
   ifstream infile(folder.c_str());
@@ -402,12 +403,13 @@ int main(int argn, char **argv)
     args.getArguments(argn, argv);
     args.printArguments();
 
-    RTIM rtim = RTIM(args.dataset);
+    RTIM rtim = RTIM(args);
 
     if (args.stage == "pre"){
       //
       start = clock();
       Graph g = Graph(args, true);
+      g.print();
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Import done in: " << cleanTime(duration) << endl;
 
@@ -446,6 +448,4 @@ int main(int argn, char **argv)
       cerr << "Error stage not recognized!" << endl;
       exit(1);
     }
-
-
 }

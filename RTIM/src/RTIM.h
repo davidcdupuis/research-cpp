@@ -25,7 +25,7 @@
 */
 class RTIM{
 public:
-  int numNodes;                      /**< number of nodes in graph */
+  int nodes;                         /**< number of nodes in graph */
   int k;                             /**< seed set size limit */
   int simulations;                   /**< # simulations for inf score */
   int max_depth;                     /**< max exploration depth for inf score */
@@ -40,13 +40,14 @@ public:
   std::vector<double> sortedScores;  /**< array of sorted influence scores */
   std::vector<int> seedSet;          /**< users to target */
   std::vector<double> activationProbabilities; /**< array of activation probabilities*/
+  Arguments args;                    /**< command line arguments */
 
   /**
     * Constructor
     *
     * @param dataset: name of dataset to use
     */
-  RTIM(std::string dataset);
+  RTIM(Arguments& arguments);
 
 
   /**

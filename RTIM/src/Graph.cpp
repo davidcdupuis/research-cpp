@@ -147,7 +147,7 @@ double Graph::influenceScorePath(int node, int max_depth, string type, double ed
       score = 1;
     }else{
       map< int, double > minDistances;
-      shortestPathsWeights(minDistances, node, 0.001, max_depth, edge_weight);
+      shortestPathsWeights(minDistances, node, 0.001, max_depth, 1);
       map< int, double >::iterator it = minDistances.begin();
       while(it != minDistances.end()){
         score += minDistances[it->first];
@@ -215,7 +215,7 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
 }
 
 
-void Graph::shortestPathsWeights(map<int, double> & distances, int node, double min_weight, int max_depth, double curr_dist, double edge_weight) const{
+void Graph::shortestPathsWeights(map<int, double> & distances, int node, double min_weight, int max_depth, double curr_dist) const{
   if (max_depth == 0) {
     return;
   }
@@ -223,21 +223,18 @@ void Graph::shortestPathsWeights(map<int, double> & distances, int node, double 
   for(pair<int, double> neighbor: graph[node]){
     double new_dist;
     // use the following condition to explore graph using set edge weights
-    if(edge_weight != -1 && (edge_weight >= 0.0 || edge_weight <= 1.0)){
-      new_dist = curr_dist * edge_weight;
-    } else {
-      new_dist = curr_dist * neighbor.second;
-    }
+    new_dist = curr_dist * neighbor.second;
 
     // if path weight is less than minimum, we ignore it
-    if (new_dist >= min_weight){
+    //if (new_dist >= min_weight){
       // check if new_path distance is greater than older one.
       if(distances.find(neighbor.first) == distances.end()){
+        // if node not recorded in distances, initialize distance at 0
         distances[neighbor.first] = 0;
       }
       distances[neighbor.first] = max(distances[neighbor.first], new_dist);
-      shortestPathsWeights(distances, neighbor.first, min_weight, max_depth - 1, new_dist, edge_weight);
-    }
+      shortestPathsWeights(distances, neighbor.first, min_weight, max_depth - 1, new_dist);
+    //}
   }
 }
 

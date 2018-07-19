@@ -12,6 +12,11 @@
   *
   * @section DESCRIPTION
   * Class to read arguments from command line
+  *
+  * Arguments are:
+  *   - dataset
+  *   - stage
+  *   - ...
   */
 class Arguments{
 public:
@@ -19,7 +24,7 @@ public:
   int streamVersion;                  /**< version of stream */
   int streamSize = -1;                /**< size of stream to use*/
   int reach = 20;                     /**< reach to define inf. threshold = percentage */
-  int depth;                          /**< max depth for monte carlo simulations */
+  int depth = 2;                          /**< max depth for monte carlo simulations */
 
   std::string dataset;                /**< name of dataset */
   std::string streamModel;            /**< name of availability model */
