@@ -8,7 +8,7 @@ all: $(EXEC)
 rtim: Arguments.o Graph.o RTIM.o
 	$(CXX) -fopenmp -o rtim Arguments.o Graph.o RTIM.o
 
-RTIM.o: RTIM.cpp Graph.cpp Graph.h RTIM.h
+RTIM.o: RTIM.cpp Graph.cpp Graph.h RTIM.h Arguments.h
 	$(CXX) -fopenmp -c RTIM.cpp
 
 Graph.o: Graph.cpp Graph.h Arguments.h

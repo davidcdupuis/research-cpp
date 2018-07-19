@@ -31,7 +31,7 @@ public:
   std::string stage;                  /**< pre|live|evaluate */
   std::string model = "ic";           /**< model of weights: ic|lt, default is ic */
 
-  double activation_threshold = 0.8;  /**< activation probability threshold [0, 1] */
+  double theta_ap = 0.8;  /**< activation probability threshold [0, 1] */
   double edge_weight = -1;            /**< edge weight to use, default results in weighted cascade model */
 
   /**

@@ -72,7 +72,7 @@ void Arguments::getArguments(int argn, char **argv){
 
     // activation probability [0, 1]
     if (argv[i] == string("-actprob")){
-      activation_threshold = atof(argv[i + 1]);
+      theta_ap = atof(argv[i + 1]);
     }
 
     // max size of seed set to find
@@ -129,7 +129,7 @@ void Arguments::printArguments(){
       cout << "Max seed size: " << k << endl;
     }
     cout << "Reach: " << reach << endl;
-    cout << "Activation threshold: " << activation_threshold << endl;
+    cout << "Activation threshold: " << theta_ap << endl;
   }else if(stage == "newStream"){
     cout << "Stream" << endl;
     cout << "> Model: " << streamModel << endl;

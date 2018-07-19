@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Graph.h"
+#include "Arguments.h"
 
 
 /**
@@ -26,28 +27,22 @@
 class RTIM{
 public:
   int nodes;                         /**< number of nodes in graph */
-  int k;                             /**< seed set size limit */
   int simulations;                   /**< # simulations for inf score */
-  int max_depth;                     /**< max exploration depth for inf score */
-  int reach;                         /**< top % of users we consider influencers */
   int infIndex;                      /**< index of influence score threshold */
-  int streamVersion;                 /**< number of stream version */
-  int streamSize;                    /**< size of stream to run */
-  double theta_ap = 0.8;             /**< activation probability threshold */
-  std::string dataset;               /**< name of dataset */
-  std::string streamModel;           /**< name of stream model */
+
   std::vector<double> infScores;     /**< array of influence scores */
   std::vector<double> sortedScores;  /**< array of sorted influence scores */
   std::vector<int> seedSet;          /**< users to target */
   std::vector<double> activationProbabilities; /**< array of activation probabilities*/
   Arguments args;                    /**< command line arguments */
+  const Graph graph;
 
   /**
     * Constructor
     *
     * @param dataset: name of dataset to use
     */
-  RTIM(Arguments& arguments);
+  RTIM(Arguments& arguments, bool loadGraph);
 
 
   /**
@@ -57,7 +52,7 @@ public:
     * @param graph: user influence network to use
     * @param max_depth: maximum depth for inf. score computation
     */
-  void pre_process(const Graph& graph, int max_depth=100000);
+  void pre_process();//const Graph& graph);
 
 
   /**
@@ -74,7 +69,7 @@ public:
     * @âram infReach
     *
     */
-  void live(const Graph& graph, int max_size, std::string model, int version, int size, double ap, int infReach);
+  void live();
 
 
   /**
@@ -152,12 +147,13 @@ public:
 
   /**
     * Generate availability stream
+    * NOT IMPLEMENTED
     *
     * @param model
     * @param version
     * @param size
     */
-  void availabilityStream(std::string model, int version, int size);
+  void availabilityStream();
 
 
   /**

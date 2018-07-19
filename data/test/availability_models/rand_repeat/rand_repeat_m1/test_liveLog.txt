@@ -1,0 +1,16 @@
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 20
+- progress: 20
+- runtime: 0.262000 ms
+<Seed set>
+- size: 5
+- score: 11.1334
+- score compute time: 71.341000 ms
+<Args>
+- reach: 20
+- theta_ap: 0.8
+Runtime: 71.959000 ms
+Max update time: 0.004000 ms
+----------------------------------------------------

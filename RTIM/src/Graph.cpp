@@ -16,6 +16,33 @@
 
 using namespace std;
 
+string clean(double t){
+  string cleanT;
+  if (t < 1){
+    t = t * 1000;
+    cleanT = to_string(t) + " ms";
+    return cleanT;
+  }
+  if (t > 60){
+    t = t / 60; // time is in minutes
+    if (t > 60){
+      t = t / 60; // time is in hours
+      if (t > 24){
+        t = t / 24; // time is in days
+        cleanT = to_string(t) + " days";
+      }else{
+        cleanT = to_string(t) + " hours";
+      }
+    }else{
+      cleanT = to_string(t) + " minutes";
+    }
+  }else{
+    cleanT = to_string(t) + " seconds";
+  }
+  return cleanT;
+}
+
+
 string printSeed(vector<int> seed){
   string s = "[";
   for (int i = 0; i < seed.size(); i++){
@@ -72,6 +99,7 @@ void Graph::readAttributes(){
 
 
 void Graph::loadGraph(){
+  clock_t start = clock();
   string graph_file = directory + "/" + args.dataset + "_wc.inf";
   FILE *fin = fopen(graph_file.c_str(), "r");
   if (!(fin != 0)){
@@ -113,7 +141,9 @@ void Graph::loadGraph(){
   //         s++;
   // INFO(s);
   // ASSERT(readCnt == m);
-  cout << "Graph loaded successfully!" << endl;
+  // cout << "Graph loaded successfully!" << endl;
+  double duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+  cout << "Graph import done in: " << clean(duration) << endl;
   fclose(fin);
 }
 
