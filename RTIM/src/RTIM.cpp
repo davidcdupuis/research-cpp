@@ -5,6 +5,7 @@
 #include <omp.h>
 #include <string>
 #include <algorithm>
+#include <sys/stat.h>
 
 #include "RTIM.h"
 #include "Arguments.h"
@@ -15,7 +16,7 @@
 
 using namespace std;
 
-string cleanTime(double t){
+inline string cleanTime(double t){
   string cleanT;
   if (t < 1){
     t = t * 1000;
@@ -49,9 +50,9 @@ RTIM::RTIM(Arguments& arguments, bool loadGraph):graph(arguments, loadGraph){
     args.streamSize = graph.nodes;
   }
   if (args.k == -1){
-    args.k = graph.graph.size();
+    args.k = graph.nodes;
   }
-
+  nodes = graph.nodes;
   srand(time(NULL));
 }
 
@@ -110,7 +111,7 @@ void RTIM::pre_process(){
   // for each node in graph compute influence score
   cout << "Running pre_process on " << args.dataset << endl;
   double score;
-  nodes = graph.graph.size();
+  // nodes = graph.graph.size();
 
   infScores.reserve(nodes);
   for(int i = 0; i < nodes; i++){
@@ -392,6 +393,63 @@ void RTIM::getInfIndex(vector<double> & sorted){
   infIndex = sorted.size() - sorted.size() * args.reach / 100;
 }
 
+void RTIM::outgoing(){
+  string file = "../../data/" + args.dataset + "/" + args.dataset + "_outgoing.txt";
+  ofstream outgoingFile;
+  outgoingFile.open(file);
+  if (outgoingFile.is_open()){
+    cout << "Saving # of outgoing neighbors" << endl;
+    // for each node in graph compute outgoing and save to dataset_outgoing.txt
+    for(int i = 0; i < graph.graph.size(); i++){
+      outgoingFile << i  << " " << graph.graph[i].size() << endl;
+    }
+    outgoingFile.close();
+    cout << "Number of outgoing neighbors saved successfully" << endl;
+  } else {
+    cerr << file << " not opened!" << endl;
+  }
+
+}
+
+// import outgoing
+void RTIM::mergeOutgoingScores(){
+  string dir = "../../data/" + args.dataset + "/";
+  // import outgoing to vector
+  string file1 = dir + args.dataset + "_outgoing.txt";
+  vector<int> outgoing;
+  outgoing.resize(nodes, 0);
+  ifstream outgoingFile;
+  outgoingFile.open(file1);
+  if (outgoingFile.is_open()){
+    int user, out;
+    while (outgoingFile >> user >> out){
+      cout << user << "," << out << endl;
+      outgoing[user] = out;
+    }
+    outgoingFile.close();
+  } else{
+    cerr << file1 << " not opened!" << endl;
+  }
+
+
+  // import scores to vector
+  importScores();
+
+  // save both to file
+  string file3 = dir + args.dataset + "_nodeinfo.txt";
+
+  ofstream nodeInfoFile;
+
+  nodeInfoFile.open(file3);
+  if (nodeInfoFile.is_open()){
+    for (int i = 0; i < infScores.size(); i++){
+      nodeInfoFile << i << " " << infScores[i] << " " << outgoing[i] << endl;
+    }
+    cout << file3 << " saved successfully!" << endl;
+  }else{
+    cerr << file3 << " not opened!" << endl;
+  }
+}
 
 int main(int argn, char **argv)
 {
@@ -408,14 +466,14 @@ int main(int argn, char **argv)
       rtim.pre_process();//g);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Pre-process stage done in: " << cleanTime(duration) << endl;
-    }else if (args.stage == "live"){
+    } else if (args.stage == "live"){
       //
       RTIM rtim = RTIM(args, true);
       start = clock();
       rtim.live();//, args.k, args.streamModel, args.streamVersion, args.streamSize, args.theta_ap, args.reach);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Live stage done in: " << cleanTime(duration) << endl;
-    }else if (args.stage == "newStream"){
+    } else if (args.stage == "newStream"){
       //
       // RTIM rtim = RTIM(args, false);
       // start = clock();
@@ -424,7 +482,10 @@ int main(int argn, char **argv)
       // duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       // cout << "Stream generated in: " << cleanTime(duration) << endl;
       cout << "Availability generator not implemented! " << endl;
-    }else{
+    } else if (args.stage == "special"){
+      RTIM rtim = RTIM(args, false);
+      rtim.mergeOutgoingScores();
+    } else {
       cerr << "Error stage not recognized!" << endl;
       exit(1);
     }

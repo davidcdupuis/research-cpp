@@ -163,5 +163,14 @@ public:
     */
   void getInfIndex(std::vector<double> & sorted);
 
+  /**
+    * Compute number of outgoing neighbors and save to file
+    */
+  void outgoing();
+
+  /**
+    * Merges outgoing file with influence score of defined file
+    */
+  void mergeOutgoingScores();
 };
 #endif
