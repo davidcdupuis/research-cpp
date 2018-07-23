@@ -49,7 +49,7 @@ class Graph
 
 
     /**
-      * Function to compute influence score of a seed set
+      * Function to compute influence score of a seed set using Monte Carlo simulations
       *
       * @return double, influence score
     */

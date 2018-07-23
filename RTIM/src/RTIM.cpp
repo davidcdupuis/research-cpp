@@ -514,6 +514,30 @@ void RTIM::convergenceScore(){
 }
 
 
+void RTIM::mcConvergenceTest(std::vector<int> nodes){
+  // for each node compute score with various number of simulations
+  string file = "../../data/" + args.dataset + "/montecarlo_convergence.txt";
+  ofstream convergenceFile;
+  int sims [10] = {1, 10, 100, 1000, 2000, 3000, 5000, 7000, 9000, 10000};
+  double results [10] = { };
+  double score;
+  for (int node: nodes){
+    cout << "Saving convergence data of " << node << " to: " << file << endl;
+    convergenceFile.open(file, fstream::app);
+    if (convergenceFile){
+      for (int i = 0; i < 10; i++){
+        results[i] = graph.influenceScore({node}, 10000, sims[i]);
+        convergenceFile << node << "," << sims[i] << "," << results[i] << endl;
+      }
+    }else{
+      cerr << "Convergence file " << file << " not opened! " << endl;
+      exit(1);
+    }
+    convergenceFile.close();
+  }
+}
+
+
 int main(int argn, char **argv)
 {
     clock_t start;
@@ -547,9 +571,12 @@ int main(int argn, char **argv)
       cout << "Availability generator not implemented! " << endl;
     } else if (args.stage == "special"){
       RTIM rtim = RTIM(args, true);
-      rtim.convergenceScore();
-      rtim.printScores();
-
+      rtim.mcConvergenceTest({0, 1, 5, 11, 17});
+      // double score;
+      // for (int i = 0; i < 10; i++){
+      //   score = rtim.graph.influenceScore({0}, 10000, 10000);
+      //   cout << "score: " << score << endl;
+      // }
     } else {
       cerr << "Error stage not recognized!" << endl;
       exit(1);

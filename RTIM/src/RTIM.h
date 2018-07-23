@@ -177,7 +177,14 @@ public:
 
   /**
     * Compute user influence scores based on score of neighbors
+    * DOESN'T WORK!
     */
   void convergenceScore();
+
+
+  /**
+    * Test Monte Carlo convergence
+    */
+  void mcConvergenceTest(std::vector<int> nodes);
 };
 #endif
