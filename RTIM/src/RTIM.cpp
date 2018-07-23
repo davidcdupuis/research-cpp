@@ -113,10 +113,12 @@ void RTIM::pre_process(){
   double score;
   // nodes = graph.graph.size();
 
-  infScores.reserve(nodes);
-  for(int i = 0; i < nodes; i++){
-    infScores.push_back(0);
-  }
+  // infScores.reserve(nodes);
+  infScores.resize(nodes, 0);
+  nodeTime.resize(nodes, 0);
+  // for(int i = 0; i < nodes; i++){
+  //   infScores.push_back(0);
+  // }
   double start = omp_get_wtime();
   int* nb_nodes = 0;
   int nb_threads = 0;
@@ -141,9 +143,12 @@ void RTIM::pre_process(){
       }
       // Compute the influence score of a node in G
       // score = graph.influenceScore({i}, 1);
+      clock_t nodeStart = clock();
       score = graph.influenceScorePath(i, args.depth);
+      double duration = (clock() - nodeStart)/(double)CLOCKS_PER_SEC;
       // score = graph.influenceScoreNeighbors(i);
       infScores[i] = score;
+      nodeTime[i] = duration;
       nb_nodes[num_thread*8]++;
     }
 
@@ -285,7 +290,7 @@ void RTIM::saveScores(){
   ofstream infScoresFile;
   infScoresFile.open(file);
   for (int i = 0; i < infScores.size() ; i++){
-     infScoresFile << i << " " << infScores[i] << endl;
+     infScoresFile << i << " " << infScores[i] << " " << nodeTime[i] << endl;
   }
   infScoresFile.close();
   cout << "Scores saved successfully!" << endl;
@@ -365,8 +370,10 @@ void RTIM::importScores(){
   infScores.resize(nodes, 0);
   int user;
   double infScore;
+  double scoreTime;
+
   ifstream infile(folder.c_str());
-  while(infile >> user >> infScore){
+  while(infile >> user >> infScore >> scoreTime){
     infScores[user] = infScore;
   }
   cout << "Import successful" << endl;
@@ -393,6 +400,7 @@ void RTIM::getInfIndex(vector<double> & sorted){
   infIndex = sorted.size() - sorted.size() * args.reach / 100;
 }
 
+
 void RTIM::outgoing(){
   string file = "../../data/" + args.dataset + "/" + args.dataset + "_outgoing.txt";
   ofstream outgoingFile;
@@ -411,7 +419,7 @@ void RTIM::outgoing(){
 
 }
 
-// import outgoing
+
 void RTIM::mergeOutgoingScores(){
   string dir = "../../data/" + args.dataset + "/";
   // import outgoing to vector
@@ -451,6 +459,61 @@ void RTIM::mergeOutgoingScores(){
   }
 }
 
+
+void RTIM::convergenceScore(){
+  double newScore, diff;
+  cout << "Computing inf scores with convergence. " << endl;
+  infScores.resize(nodes, 1);
+  set<int> converged;
+  set<int> newConverged;
+  for(int i = 0; i < nodes; i++){
+    converged.insert(i);
+  }
+
+  while (!converged.empty()){
+    for(int user: converged){
+      if (graph.graph[user].size() == 0){ // node has no neighbors
+        infScores[user] = 1;
+        //converged.erase(user);
+        newConverged.insert(user);
+        cout << "Node " << user << " has no neighbors score is 1" << endl;
+      } else {
+        double product = 1.0;
+        bool convergedAll = true;
+        for(pair<int, double> neighbor: graph.graph[user]){
+          if (converged.find(neighbor.first) != converged.end()){
+            convergedAll = false;
+          }
+          product = product * (1 - neighbor.second * infScores[neighbor.first]);
+        }
+        newScore = 2 - product;
+        cout << "user: " << user << "---" << product << "--> " << newScore << endl;
+        diff = abs(newScore - infScores[user]);
+        if ( diff <= 0.01){
+          cout << "Node " << user << " convergence at " << diff << " with  score " << newScore << endl;
+          //converged.erase(user);
+          newConverged.insert(user);
+          infScores[user] = newScore;// + 1;
+        } else if (convergedAll){ // all neighbors have converged
+          cout << "Node " << user << " has all neighbors converged, score is " << infScores[user] << endl;
+          //converged.erase(user);
+          newConverged.insert(user);
+          infScores[user] = newScore;// + 1;
+        } else {
+          infScores[user] = newScore;
+        }
+
+      }
+    }
+    for (int user: newConverged){
+      converged.erase(user);
+      newConverged.erase(user);
+    }
+  }
+  cout << "--------------------------" << endl;
+}
+
+
 int main(int argn, char **argv)
 {
     clock_t start;
@@ -483,8 +546,10 @@ int main(int argn, char **argv)
       // cout << "Stream generated in: " << cleanTime(duration) << endl;
       cout << "Availability generator not implemented! " << endl;
     } else if (args.stage == "special"){
-      RTIM rtim = RTIM(args, false);
-      rtim.mergeOutgoingScores();
+      RTIM rtim = RTIM(args, true);
+      rtim.convergenceScore();
+      rtim.printScores();
+
     } else {
       cerr << "Error stage not recognized!" << endl;
       exit(1);

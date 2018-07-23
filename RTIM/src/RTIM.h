@@ -31,6 +31,7 @@ public:
   int infIndex;                      /**< index of influence score threshold */
 
   std::vector<double> infScores;     /**< array of influence scores */
+  std::vector<double> nodeTime;      /**< time took to compute node inf score */
   std::vector<double> sortedScores;  /**< array of sorted influence scores */
   std::vector<int> seedSet;          /**< users to target */
   std::vector<double> activationProbabilities; /**< array of activation probabilities*/
@@ -66,7 +67,7 @@ public:
     * @param version
     * @param size
     * @param ap
-    * @âram infReach
+    * @param infReach
     *
     */
   void live();
@@ -172,5 +173,11 @@ public:
     * Merges outgoing file with influence score of defined file
     */
   void mergeOutgoingScores();
+
+
+  /**
+    * Compute user influence scores based on score of neighbors
+    */
+  void convergenceScore();
 };
 #endif
