@@ -5,6 +5,7 @@
 #include <omp.h>
 #include <string>
 #include <algorithm>
+#include <sys/stat.h>
 
 #include "RTIM.h"
 #include "Arguments.h"
@@ -15,7 +16,7 @@
 
 using namespace std;
 
-string cleanTime(double t){
+inline string cleanTime(double t){
   string cleanT;
   if (t < 1){
     t = t * 1000;
@@ -49,9 +50,9 @@ RTIM::RTIM(Arguments& arguments, bool loadGraph):graph(arguments, loadGraph){
     args.streamSize = graph.nodes;
   }
   if (args.k == -1){
-    args.k = graph.graph.size();
+    args.k = graph.nodes;
   }
-
+  nodes = graph.nodes;
   srand(time(NULL));
 }
 
@@ -110,12 +111,14 @@ void RTIM::pre_process(){
   // for each node in graph compute influence score
   cout << "Running pre_process on " << args.dataset << endl;
   double score;
-  nodes = graph.graph.size();
+  // nodes = graph.graph.size();
 
-  infScores.reserve(nodes);
-  for(int i = 0; i < nodes; i++){
-    infScores.push_back(0);
-  }
+  // infScores.reserve(nodes);
+  infScores.resize(nodes, 0);
+  nodeTime.resize(nodes, 0);
+  // for(int i = 0; i < nodes; i++){
+  //   infScores.push_back(0);
+  // }
   double start = omp_get_wtime();
   int* nb_nodes = 0;
   int nb_threads = 0;
@@ -140,9 +143,12 @@ void RTIM::pre_process(){
       }
       // Compute the influence score of a node in G
       // score = graph.influenceScore({i}, 1);
+      clock_t nodeStart = clock();
       score = graph.influenceScorePath(i, args.depth);
+      double duration = (clock() - nodeStart)/(double)CLOCKS_PER_SEC;
       // score = graph.influenceScoreNeighbors(i);
       infScores[i] = score;
+      nodeTime[i] = duration;
       nb_nodes[num_thread*8]++;
     }
 
@@ -284,7 +290,7 @@ void RTIM::saveScores(){
   ofstream infScoresFile;
   infScoresFile.open(file);
   for (int i = 0; i < infScores.size() ; i++){
-     infScoresFile << i << " " << infScores[i] << endl;
+     infScoresFile << i << " " << infScores[i] << " " << nodeTime[i] << endl;
   }
   infScoresFile.close();
   cout << "Scores saved successfully!" << endl;
@@ -364,8 +370,10 @@ void RTIM::importScores(){
   infScores.resize(nodes, 0);
   int user;
   double infScore;
+  double scoreTime;
+
   ifstream infile(folder.c_str());
-  while(infile >> user >> infScore){
+  while(infile >> user >> infScore >> scoreTime){
     infScores[user] = infScore;
   }
   cout << "Import successful" << endl;
@@ -393,6 +401,172 @@ void RTIM::getInfIndex(vector<double> & sorted){
 }
 
 
+void RTIM::outgoing(){
+  string file = "../../data/" + args.dataset + "/" + args.dataset + "_outgoing.txt";
+  ofstream outgoingFile;
+  outgoingFile.open(file);
+  if (outgoingFile.is_open()){
+    cout << "Saving # of outgoing neighbors" << endl;
+    // for each node in graph compute outgoing and save to dataset_outgoing.txt
+    for(int i = 0; i < graph.graph.size(); i++){
+      outgoingFile << i  << " " << graph.graph[i].size() << endl;
+    }
+    outgoingFile.close();
+    cout << "Number of outgoing neighbors saved successfully" << endl;
+  } else {
+    cerr << file << " not opened!" << endl;
+  }
+
+}
+
+
+void RTIM::mergeOutgoingScores(){
+  string dir = "../../data/" + args.dataset + "/";
+  // import outgoing to vector
+  string file1 = dir + args.dataset + "_outgoing.txt";
+  vector<int> outgoing;
+  outgoing.resize(nodes, 0);
+  ifstream outgoingFile;
+  outgoingFile.open(file1);
+  if (outgoingFile.is_open()){
+    int user, out;
+    while (outgoingFile >> user >> out){
+      cout << user << "," << out << endl;
+      outgoing[user] = out;
+    }
+    outgoingFile.close();
+  } else{
+    cerr << file1 << " not opened!" << endl;
+  }
+
+
+  // import scores to vector
+  importScores();
+
+  // save both to file
+  string file3 = dir + args.dataset + "_nodeinfo.txt";
+
+  ofstream nodeInfoFile;
+
+  nodeInfoFile.open(file3);
+  if (nodeInfoFile.is_open()){
+    for (int i = 0; i < infScores.size(); i++){
+      nodeInfoFile << i << " " << infScores[i] << " " << outgoing[i] << endl;
+    }
+    cout << file3 << " saved successfully!" << endl;
+  }else{
+    cerr << file3 << " not opened!" << endl;
+  }
+}
+
+
+void RTIM::convergenceScore(){
+  double newScore, diff;
+  cout << "Computing inf scores with convergence. " << endl;
+  infScores.resize(nodes, 1);
+  set<int> converged;
+  set<int> newConverged;
+  for(int i = 0; i < nodes; i++){
+    converged.insert(i);
+  }
+
+  while (!converged.empty()){
+    for(int user: converged){
+      if (graph.graph[user].size() == 0){ // node has no neighbors
+        infScores[user] = 1;
+        //converged.erase(user);
+        newConverged.insert(user);
+        cout << "Node " << user << " has no neighbors score is 1" << endl;
+      } else {
+        double product = 1.0;
+        bool convergedAll = true;
+        for(pair<int, double> neighbor: graph.graph[user]){
+          if (converged.find(neighbor.first) != converged.end()){
+            convergedAll = false;
+          }
+          product = product * (1 - neighbor.second * infScores[neighbor.first]);
+        }
+        newScore = 2 - product;
+        cout << "user: " << user << "---" << product << "--> " << newScore << endl;
+        diff = abs(newScore - infScores[user]);
+        if ( diff <= 0.01){
+          cout << "Node " << user << " convergence at " << diff << " with  score " << newScore << endl;
+          //converged.erase(user);
+          newConverged.insert(user);
+          infScores[user] = newScore;// + 1;
+        } else if (convergedAll){ // all neighbors have converged
+          cout << "Node " << user << " has all neighbors converged, score is " << infScores[user] << endl;
+          //converged.erase(user);
+          newConverged.insert(user);
+          infScores[user] = newScore;// + 1;
+        } else {
+          infScores[user] = newScore;
+        }
+
+      }
+    }
+    for (int user: newConverged){
+      converged.erase(user);
+      newConverged.erase(user);
+    }
+  }
+  cout << "--------------------------" << endl;
+}
+
+
+void RTIM::mcConvergenceTest(int sampleSize){
+  // select a random sample of node from the graph, these nodes have to have at
+  // least one neighbor
+  cout << "Starting Monte Carlo Convergence test on " << args.dataset << endl;
+  if (sampleSize > graph.nodes){
+    cerr << "Error: Sample size larger than graph size!" << endl;
+    exit(1);
+  }
+  cout << "Sampling " << sampleSize << " nodes." << endl;
+  vector<int> nodes;
+  double nodesNeeded = sampleSize;
+  double nodesLeft = graph.nodes;
+  double selectProb;// = nodesNeeded / nodesLeft;
+  double r;
+  int i = 0;
+  // we select sample with reservoir sampling
+  while (nodes.size() != sampleSize && i < graph.nodes){
+    if(graph.graph[i].size() >= 1){ // ignore nodes that have no neighbors
+      selectProb = nodesNeeded / nodesLeft;
+      r = rand()/(double)RAND_MAX;
+      if (r < selectProb){
+        // cout << i << " - " << r << " <= " << selectProb << " = " << nodesNeeded << " / " << nodesLeft << endl;
+        nodes.push_back(i);
+        nodesNeeded --;
+      }
+    }
+    nodesLeft --;
+    i ++;
+  }
+  // for each node compute score with various number of simulations
+  string file = "../../data/" + args.dataset + "/montecarlo_convergence.txt";
+  ofstream convergenceFile;
+  int sims [10] = {1, 10, 100, 1000, 2000, 3000, 5000, 7000, 9000, 10000};
+  double results [10] = { };
+  double score;
+  cout << "Computing scores. " << endl;
+  for (int node: nodes){
+    // cout << "Saving convergence data of " << node << endl;// << " to: " << file << endl;
+    convergenceFile.open(file, fstream::app);
+    if (convergenceFile){
+      for (int i = 0; i < 10; i++){
+        results[i] = graph.influenceScore({node}, 10000, sims[i]);
+        convergenceFile << node << "," << sims[i] << "," << results[i] << endl;
+      }
+    }else{
+      cerr << "Convergence file " << file << " not opened! " << endl;
+      exit(1);
+    }
+    convergenceFile.close();
+  }
+}
+
+
 int main(int argn, char **argv)
 {
     clock_t start;
@@ -408,14 +582,14 @@ int main(int argn, char **argv)
       rtim.pre_process();//g);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Pre-process stage done in: " << cleanTime(duration) << endl;
-    }else if (args.stage == "live"){
+    } else if (args.stage == "live"){
       //
       RTIM rtim = RTIM(args, true);
       start = clock();
       rtim.live();//, args.k, args.streamModel, args.streamVersion, args.streamSize, args.theta_ap, args.reach);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       cout << "Live stage done in: " << cleanTime(duration) << endl;
-    }else if (args.stage == "newStream"){
+    } else if (args.stage == "newStream"){
       //
       // RTIM rtim = RTIM(args, false);
       // start = clock();
@@ -424,7 +598,18 @@ int main(int argn, char **argv)
       // duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       // cout << "Stream generated in: " << cleanTime(duration) << endl;
       cout << "Availability generator not implemented! " << endl;
-    }else{
+    } else if (args.stage == "special"){
+      RTIM rtim = RTIM(args, true);
+      if(args.k == -1){
+        args.k = 10;
+      }
+      rtim.mcConvergenceTest(args.k);
+      // double score;
+      // for (int i = 0; i < 10; i++){
+      //   score = rtim.graph.influenceScore({0}, 10000, 10000);
+      //   cout << "score: " << score << endl;
+      // }
+    } else {
       cerr << "Error stage not recognized!" << endl;
       exit(1);
     }

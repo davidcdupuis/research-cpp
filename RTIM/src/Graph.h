@@ -21,13 +21,11 @@
 class Graph
 {
   public:
-    // std::string dataset;          /**< name of dataset */
     std::string directory;              /**< directory of dataset */
-    int nodes;                    /**< number of nodes */
-    int edges;                    /**< number of edges*/
-    // double edge_weight = -1;      /**< if between 0 or 1, weight of all edges in graph*/
+    int nodes;                          /**< number of nodes */
+    int edges;                          /**< number of edges*/
     std::vector<std::vector<std::pair<int, double> > > graph;
-    Arguments args;                /**< Command line arguments */
+    Arguments args;                     /**< Command line arguments */
 
     Graph(Arguments& arguments, bool import);
 
@@ -51,7 +49,7 @@ class Graph
 
 
     /**
-      * Function to compute influence score of a seed set
+      * Function to compute influence score of a seed set using Monte Carlo simulations
       *
       * @return double, influence score
     */

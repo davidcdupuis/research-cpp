@@ -152,7 +152,7 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) co
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   int sum = 0;
   int values[sim] = {};
-  #pragma omp parallel private(depth) shared(seed_set, values)
+  #pragma omp parallel shared(depth, seed_set, values)
   #pragma omp for
   for (int i = 0; i < sim; i++){
     // run influence simulation
@@ -205,8 +205,10 @@ double Graph::influenceScoreNeighbors(int node) const{
 
 
 int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
+  // cout << "depth: " << depth << endl;
   int activated = 0;
   vector<int> activated_nodes;
+  double r;
   // seed nodes are already activated
   for(int node: seed_set){
     activated_nodes.push_back(node);
@@ -223,9 +225,12 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
       queue.pop();
       // cout << "(" << curr.first << ", " << curr.second << ") ";
       // test influence of all neigbhors
+      // cout << "[ ";
       for(pair<int, double> neighbor: graph[curr.first]){
         // check if neighbor is not in activated nodes
-        double r = rand_r(&seed)/(double)RAND_MAX;
+        r = rand_r(&seed)/(double)RAND_MAX;
+        // cout << "(" << neighbor.first << " - " << r << ") ";
+        // cout << neighbor.first << " - ";
         if (!(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end())
             && (r <= neighbor.second)){
 
@@ -240,7 +245,7 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
       }
     }
   }
-  //cout << "(" << seed_set[0] << "," << activated << ") ";
+  // cout << "|-> " << activated << " ]" << endl;
   return activated;
 }
 

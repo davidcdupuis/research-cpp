@@ -34,7 +34,7 @@ void Arguments::getArguments(int argn, char **argv){
 
     // define stage to run
     if (argv[i] == string("-stage")){
-      if ((argv[i + 1] != string("pre")) && (argv[i + 1] != string("live")) && (argv[i + 1] != string("newStream"))){
+      if ((argv[i + 1] != string("pre")) && (argv[i + 1] != string("live")) && (argv[i + 1] != string("newStream")) && (argv[i + 1] != string("special"))){
         cerr << "Error: stage not recognized [ " << argv[i + 1] << " ]"<< endl;
         exit(1);
       }else{
