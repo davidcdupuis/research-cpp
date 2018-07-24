@@ -208,6 +208,7 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
   // cout << "depth: " << depth << endl;
   int activated = 0;
   vector<int> activated_nodes;
+  double r;
   // seed nodes are already activated
   for(int node: seed_set){
     activated_nodes.push_back(node);
@@ -227,7 +228,7 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
       // cout << "[ ";
       for(pair<int, double> neighbor: graph[curr.first]){
         // check if neighbor is not in activated nodes
-        double r = rand_r(&seed)/(double)RAND_MAX;
+        r = rand_r(&seed)/(double)RAND_MAX;
         // cout << "(" << neighbor.first << " - " << r << ") ";
         // cout << neighbor.first << " - ";
         if (!(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end())

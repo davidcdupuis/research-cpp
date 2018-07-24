@@ -514,15 +514,44 @@ void RTIM::convergenceScore(){
 }
 
 
-void RTIM::mcConvergenceTest(std::vector<int> nodes){
+void RTIM::mcConvergenceTest(int sampleSize){
+  // select a random sample of node from the graph, these nodes have to have at
+  // least one neighbor
+  cout << "Starting Monte Carlo Convergence test on " << args.dataset << endl;
+  if (sampleSize > graph.nodes){
+    cerr << "Error: Sample size larger than graph size!" << endl;
+    exit(1);
+  }
+  cout << "Sampling " << sampleSize << " nodes." << endl;
+  vector<int> nodes;
+  double nodesNeeded = sampleSize;
+  double nodesLeft = graph.nodes;
+  double selectProb;// = nodesNeeded / nodesLeft;
+  double r;
+  int i = 0;
+  // we select sample with reservoir sampling
+  while (nodes.size() != sampleSize && i < graph.nodes){
+    if(graph.graph[i].size() >= 1){ // ignore nodes that have no neighbors
+      selectProb = nodesNeeded / nodesLeft;
+      r = rand()/(double)RAND_MAX;
+      if (r < selectProb){
+        // cout << i << " - " << r << " <= " << selectProb << " = " << nodesNeeded << " / " << nodesLeft << endl;
+        nodes.push_back(i);
+        nodesNeeded --;
+      }
+    }
+    nodesLeft --;
+    i ++;
+  }
   // for each node compute score with various number of simulations
   string file = "../../data/" + args.dataset + "/montecarlo_convergence.txt";
   ofstream convergenceFile;
   int sims [10] = {1, 10, 100, 1000, 2000, 3000, 5000, 7000, 9000, 10000};
   double results [10] = { };
   double score;
+  cout << "Computing scores. " << endl;
   for (int node: nodes){
-    cout << "Saving convergence data of " << node << " to: " << file << endl;
+    // cout << "Saving convergence data of " << node << endl;// << " to: " << file << endl;
     convergenceFile.open(file, fstream::app);
     if (convergenceFile){
       for (int i = 0; i < 10; i++){
@@ -571,7 +600,10 @@ int main(int argn, char **argv)
       cout << "Availability generator not implemented! " << endl;
     } else if (args.stage == "special"){
       RTIM rtim = RTIM(args, true);
-      rtim.mcConvergenceTest({0, 1, 5, 11, 17});
+      if(args.k == -1){
+        args.k = 10;
+      }
+      rtim.mcConvergenceTest(args.k);
       // double score;
       // for (int i = 0; i < 10; i++){
       //   score = rtim.graph.influenceScore({0}, 10000, 10000);

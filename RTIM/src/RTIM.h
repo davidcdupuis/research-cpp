@@ -185,6 +185,6 @@ public:
   /**
     * Test Monte Carlo convergence
     */
-  void mcConvergenceTest(std::vector<int> nodes);
+  void mcConvergenceTest(int sampleSize);
 };
 #endif
