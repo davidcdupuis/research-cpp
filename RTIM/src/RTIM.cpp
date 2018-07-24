@@ -543,21 +543,32 @@ void RTIM::mcConvergenceTest(int sampleSize){
     nodesLeft --;
     i ++;
   }
-  // for each node compute score with various number of simulations
+  // for each node run 10,000 simulations record all of the results.
+  // compute the average of various size,record these values.
   string file = "../../data/" + args.dataset + "/montecarlo_convergence.txt";
   ofstream convergenceFile;
-  int sims [10] = {1, 10, 100, 1000, 2000, 3000, 5000, 7000, 9000, 10000};
-  double results [10] = { };
+  // int sims [10] = {1, 10, 100, 1000, 2000, 3000, 5000, 7000, 9000, 10000};
+  // double results [10] = { };
   double score;
   cout << "Computing scores. " << endl;
   for (int node: nodes){
     // cout << "Saving convergence data of " << node << endl;// << " to: " << file << endl;
     convergenceFile.open(file, fstream::app);
-    if (convergenceFile){
-      for (int i = 0; i < 10; i++){
-        results[i] = graph.influenceScore({node}, 10000, sims[i]);
-        convergenceFile << node << "," << sims[i] << "," << results[i] << endl;
+    if (convergenceFile.is_open()){
+      vector<double> values;
+      graph.influenceScoreValues(values, {node}); // runs at max depth 10_000 times
+      // compute score for various simulation sizes, record results
+      int sum = 0;
+      double score;
+      for(int i = 1; i <= 10000; i++){
+        sum += values[i];
+        if (i == 1 || i == 10 || i % 100 == 0){
+          // compute average
+          score = sum/(double)i;
+          convergenceFile << node << "," << i << "," << score << endl;
+        }
       }
+      // convergenceFile << node << "," << sims[i] << "," << results[i] << endl;
     }else{
       cerr << "Convergence file " << file << " not opened! " << endl;
       exit(1);

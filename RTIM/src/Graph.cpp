@@ -167,6 +167,16 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) co
 }
 
 
+void Graph::influenceScoreValues(std::vector<double>& values, const std::vector<int>& seed_set, int depth, int sim) const{
+  values.resize(sim, 0);
+  #pragma omp parallel shared(depth, seed_set, values)
+  #pragma omp for
+  for (int i = 0; i < sim; i++){
+    values[i] = influenceSimulation(seed_set, depth);
+  }
+}
+
+
 double Graph::influenceScorePath(int node, int max_depth, string type, double edge_weight) const{
   // if type == 'shortest' use shortest paths, if 'all' use all paths, else return error
   double score = 1;

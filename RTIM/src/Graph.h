@@ -57,6 +57,13 @@ class Graph
 
 
     /**
+      * Function to run Monte Carlo simulations and return results
+      *
+      * @ return int []
+      */
+    void influenceScoreValues(std::vector<double>& values, const std::vector<int>& seed_set, int depth=10000, int sim=10000) const;
+
+    /**
       * Constanct function to compute influence score of a given node
       *
       * @param node: source node for exploration
