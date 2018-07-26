@@ -16,7 +16,7 @@
 
 using namespace std;
 
-inline string cleanTime(double t, string type){
+inline string cleanTime(double t){
   string cleanT;
   if (t < 1){
     t = t * 1000;
