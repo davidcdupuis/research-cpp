@@ -16,7 +16,7 @@
 
 using namespace std;
 
-inline string cleanTime(double t){
+inline string cleanTime(double t, string type){
   string cleanT;
   if (t < 1){
     t = t * 1000;
@@ -578,6 +578,44 @@ void RTIM::mcConvergenceTest(int sampleSize){
 }
 
 
+void RTIM::seedComputationTest(int seedSize){
+  // select random nodes from graph to generate seed
+  cout << "Starting seed computation test on " << args.dataset << endl;
+  if (seedSize > graph.nodes){
+    cerr << "Error: Seed set size larger than graph size!" << endl;
+    exit(1);
+  }
+  cout << "Sampling " << seedSize << " nodes for seed." << endl;
+  vector<int> seedSet;
+  double nodesNeeded = seedSize;
+  double nodesLeft = graph.nodes;
+  double selectProb;// = nodesNeeded / nodesLeft;
+  double r;
+  int i = 0;
+  // we select sample with reservoir sampling
+  while (seedSet.size() != seedSize && i < graph.nodes){
+    if(graph.graph[i].size() >= 1){ // ignore nodes that have no neighbors
+      selectProb = nodesNeeded / nodesLeft;
+      r = rand()/(double)RAND_MAX;
+      if (r < selectProb){
+        // cout << i << " - " << r << " <= " << selectProb << " = " << nodesNeeded << " / " << nodesLeft << endl;
+        seedSet.push_back(i);
+        nodesNeeded --;
+      }
+    }
+    nodesLeft --;
+    i ++;
+  }
+  // test computation using monte carlo simulations
+  double start = omp_get_wtime();
+  double score;
+  score = graph.influenceScore(seedSet);
+  double delta = omp_get_wtime() - start;
+  cout << "Seed set score is: " << score << " / " << graph.nodes << " computed in: " << delta << " seconds" << endl;
+
+}
+
+
 int main(int argn, char **argv)
 {
     clock_t start;
@@ -614,12 +652,7 @@ int main(int argn, char **argv)
       if(args.k == -1){
         args.k = 10;
       }
-      rtim.mcConvergenceTest(args.k);
-      // double score;
-      // for (int i = 0; i < 10; i++){
-      //   score = rtim.graph.influenceScore({0}, 10000, 10000);
-      //   cout << "score: " << score << endl;
-      // }
+      rtim.seedComputationTest(args.k);
     } else {
       cerr << "Error stage not recognized!" << endl;
       exit(1);

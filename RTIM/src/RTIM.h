@@ -11,7 +11,7 @@
 /**
   * @file RTIM.h
   * @author David Dupuis <david.dupuis@devinci.fr>
-  * @version 3.0
+  * @version 3.1
   *
   * @section DESCRIPTION
   *
@@ -186,5 +186,11 @@ public:
     * Test Monte Carlo convergence
     */
   void mcConvergenceTest(int sampleSize);
+
+
+  /**
+    * Test time to compute score of a seed set
+    */
+  void seedComputationTest(int seedSize);
 };
 #endif
