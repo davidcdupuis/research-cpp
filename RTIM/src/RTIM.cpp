@@ -607,6 +607,7 @@ void RTIM::seedComputationTest(int seedSize){
     i ++;
   }
   // test computation using monte carlo simulations
+  cout << "Computing seed set score." << endl;
   double start = omp_get_wtime();
   double score;
   score = graph.influenceScore(seedSet);
@@ -652,7 +653,10 @@ int main(int argn, char **argv)
       if(args.k == -1){
         args.k = 10;
       }
-      rtim.seedComputationTest(args.k);
+      int  sizes[7] = {10, 100, 300, 500, 1000, 2000, 5000};
+      for (int i = 0; i < 7; i++){
+        rtim.seedComputationTest(sizes[i]);
+      }
     } else {
       cerr << "Error stage not recognized!" << endl;
       exit(1);
