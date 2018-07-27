@@ -177,7 +177,7 @@ void Graph::influenceScoreValues(std::vector<double>& values, const std::vector<
 }
 
 
-double Graph::influenceScorePath(int node, int max_depth, string type, double edge_weight) const{
+double Graph::influenceScorePath(int node, int max_depth, string type, double edge_weight, double min_weight) const{
   // if type == 'shortest' use shortest paths, if 'all' use all paths, else return error
   double score = 1;
   if (type == "shortest"){
@@ -187,7 +187,7 @@ double Graph::influenceScorePath(int node, int max_depth, string type, double ed
       score = 1;
     }else{
       map< int, double > minDistances;
-      shortestPathsWeights(minDistances, node, 0.001, max_depth, 1);
+      shortestPathsWeights(minDistances, node, min_weight, max_depth, 1);
       map< int, double >::iterator it = minDistances.begin();
       while(it != minDistances.end()){
         score += minDistances[it->first];

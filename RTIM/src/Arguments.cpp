@@ -96,6 +96,10 @@ void Arguments::getArguments(int argn, char **argv){
       edge_weight = atof(argv[i + 1]);
     }
 
+    if (argv[i] == string("-minWeight")){
+      min_weight = atof(argv[i + 1]);
+    }
+
   }
 }
 

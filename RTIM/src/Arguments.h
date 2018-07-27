@@ -24,15 +24,16 @@ public:
   int streamVersion;                  /**< version of stream */
   int streamSize = -1;                /**< size of stream to use*/
   int reach = 20;                     /**< reach to define inf. threshold = percentage */
-  int depth = 2;                          /**< max depth for monte carlo simulations */
+  int depth = 2;                      /**< max depth for monte carlo simulations */
 
   std::string dataset;                /**< name of dataset */
   std::string streamModel;            /**< name of availability model */
   std::string stage;                  /**< pre|live|evaluate */
   std::string model = "ic";           /**< model of weights: ic|lt, default is ic */
 
-  double theta_ap = 0.8;  /**< activation probability threshold [0, 1] */
+  double theta_ap = 0.8;              /**< activation probability threshold [0, 1] */
   double edge_weight = -1;            /**< edge weight to use, default results in weighted cascade model */
+  double min_weight = 0;              /**< minimum weight to continue influence propagation*/
 
   /**
     * Function to get arguments from command line

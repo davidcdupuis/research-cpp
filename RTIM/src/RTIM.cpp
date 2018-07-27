@@ -153,7 +153,7 @@ void RTIM::pre_process(){
       // Compute the influence score of a node in G
       // score = graph.influenceScore({i}, 1);
       clock_t nodeStart = clock();
-      score = graph.influenceScorePath(i, args.depth);
+      score = graph.influenceScorePath(i, args.depth,"shortest", args.edge_weight, args.min_weight);
       double duration = (clock() - nodeStart)/(double)CLOCKS_PER_SEC;
       // score = graph.influenceScoreNeighbors(i);
       infScores[i] = score;
@@ -621,7 +621,7 @@ void RTIM::seedComputationTest(int seedSize){
   double score;
   score = graph.influenceScore(seedSet);
   double delta = omp_get_wtime() - start;
-  cout << "Seed set score is: " << score << " / " << graph.nodes << " computed in: " << delta << " seconds" << endl;
+  cout << "Seed set score is: " << score << " / " << graph.nodes << " computed in: " << cleanTime(delta, "s") << endl;
 
 }
 
@@ -637,10 +637,10 @@ int main(int argn, char **argv)
 
     if (args.stage == "pre"){
       RTIM rtim = RTIM(args, true);
-      start = clock();
+      double start = omp_get_wtime();
       rtim.pre_process();//g);
-      duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-      cout << "Pre-process stage done in: " << cleanTime(duration, "ms") << endl;
+      double duration = omp_get_wtime() - start;
+      cout << "Pre-process stage done in: " << cleanTime(duration, "s") << endl;
     } else if (args.stage == "live"){
       //
       RTIM rtim = RTIM(args, true);
@@ -658,17 +658,7 @@ int main(int argn, char **argv)
       // cout << "Stream generated in: " << cleanTime(duration, "ms") << endl;
       cout << "Availability generator not implemented! " << endl;
     } else if (args.stage == "special"){
-      // Testing time display
-      double t  = 1.0;
-      double t1 = 1000.0;
-      double t2 = 60000.0;
-      double t3 = 3600000.0;
-      double t4 = 86400000.0;
-      cout << "1.0 ms = " << cleanTime(t, "ms") << endl;
-      cout << "1000.0 ms = " << cleanTime(t1, "ms") << endl;
-      cout << "60000.0 ms = " << cleanTime(t2, "ms") << endl;
-      cout << "3600000.00 ms = " << cleanTime(t3, "ms") << endl;
-      cout << "86400000.0 ms = " << cleanTime(t4, "ms") << endl;
+
       /* Testing seed computation time
       RTIM rtim = RTIM(args, true);
       if(args.k == -1){
