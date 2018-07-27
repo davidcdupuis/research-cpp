@@ -16,30 +16,39 @@
 
 using namespace std;
 
-inline string cleanTime(double t){
-  string cleanT;
-  if (t < 1){
-    t = t * 1000;
-    cleanT = to_string(t) + " ms";
-    return cleanT;
-  }
-  if (t > 60){
-    t = t / 60; // time is in minutes
-    if (t > 60){
-      t = t / 60; // time is in hours
-      if (t > 24){
-        t = t / 24; // time is in days
-        cleanT = to_string(t) + " days";
-      }else{
-        cleanT = to_string(t) + " hours";
-      }
+inline string cleanTime(double t, string type="ms"){
+  if (type == "ms"){
+    if (t >= 1000){
+      t = t / 1000;
+      type = "s";
     }else{
-      cleanT = to_string(t) + " minutes";
+      return to_string(t) + " milliseconds";
     }
-  }else{
-    cleanT = to_string(t) + " seconds";
   }
-  return cleanT;
+  if (type == "s"){
+    if (t >= 60){
+      t = t / 60;
+      type = "m";
+    }else{
+      return to_string(t) + " seconds";
+    }
+  }
+  if (type == "m"){
+    if (t >= 60){
+      t = t / 60;
+      type = "h";
+    }else{
+      return to_string(t) + " minutes";
+    }
+  }
+  if (type == "h"){
+    if (t >= 24){
+      t = t / 24;
+      return to_string(t) + " days";
+    }else{
+      return to_string(t) + " hours";
+    }
+  }
 }
 
 
@@ -253,13 +262,13 @@ void RTIM::live(){
   }
   cout << endl;
   double streamDuration = (clock() - startStream)/(double)CLOCKS_PER_SEC;
-  cout << "Availability stream read in:  " << cleanTime(streamDuration) << endl;
+  cout << "Availability stream read in:  " << cleanTime(streamDuration, "ms") << endl;
   saveSeedSet();
   cout << "Computing influence score of seed set of size: " << seedSet.size() << endl;
   start = clock();
   double seedScore = graph.influenceScore(seedSet);
   double seedDuration = (clock() - start)/(double)CLOCKS_PER_SEC;
-  cout << "Seed set score: " << seedScore << "/" << nodes << ", computed in: " << cleanTime(seedDuration) << endl;
+  cout << "Seed set score: " << seedScore << "/" << nodes << ", computed in: " << cleanTime(seedDuration, "ms") << endl;
 
   double liveDuration = (clock() - startLive)/(double)CLOCKS_PER_SEC;
   saveLiveLog(seedScore, streamDuration, seedDuration, max_time, sum, liveDuration);
@@ -320,16 +329,16 @@ void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, doub
   liveLogFile << "- version: " << args.streamVersion << endl;
   liveLogFile << "- size: " << args.streamSize << endl;
   liveLogFile << "- progress: " << progress << endl;
-  liveLogFile << "- runtime: " << cleanTime(streamTime) << endl;
+  liveLogFile << "- runtime: " << cleanTime(streamTime, "ms") << endl;
   liveLogFile << "<Seed set>" << endl;
   liveLogFile << "- size: " << seedSet.size() << endl;
   liveLogFile << "- score: " << score << endl;
-  liveLogFile << "- score compute time: " << cleanTime(seedTime) << endl;
+  liveLogFile << "- score compute time: " << cleanTime(seedTime, "ms") << endl;
   liveLogFile << "<Args>" << endl;
   liveLogFile << "- reach: " << args.reach << endl;
   liveLogFile << "- theta_ap: " << args.theta_ap << endl;
-  liveLogFile << "Runtime: " << cleanTime(runtime) << endl;
-  liveLogFile << "Max update time: " << cleanTime(maxTime) << endl;
+  liveLogFile << "Runtime: " << cleanTime(runtime, "ms") << endl;
+  liveLogFile << "Max update time: " << cleanTime(maxTime,"ms") << endl;
   liveLogFile << "----------------------------------------------------" << endl;
   liveLogFile.close();
   cout << "Live log saved successfully!" << endl;
@@ -631,14 +640,14 @@ int main(int argn, char **argv)
       start = clock();
       rtim.pre_process();//g);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-      cout << "Pre-process stage done in: " << cleanTime(duration) << endl;
+      cout << "Pre-process stage done in: " << cleanTime(duration, "ms") << endl;
     } else if (args.stage == "live"){
       //
       RTIM rtim = RTIM(args, true);
       start = clock();
       rtim.live();//, args.k, args.streamModel, args.streamVersion, args.streamSize, args.theta_ap, args.reach);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-      cout << "Live stage done in: " << cleanTime(duration) << endl;
+      cout << "Live stage done in: " << cleanTime(duration, "ms") << endl;
     } else if (args.stage == "newStream"){
       //
       // RTIM rtim = RTIM(args, false);
@@ -646,9 +655,21 @@ int main(int argn, char **argv)
       // rtim.availabilityStream();//args.streamModel, args.streamVersion, args.streamSize);
       //
       // duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-      // cout << "Stream generated in: " << cleanTime(duration) << endl;
+      // cout << "Stream generated in: " << cleanTime(duration, "ms") << endl;
       cout << "Availability generator not implemented! " << endl;
     } else if (args.stage == "special"){
+      // Testing time display
+      double t  = 1.0;
+      double t1 = 1000.0;
+      double t2 = 60000.0;
+      double t3 = 3600000.0;
+      double t4 = 86400000.0;
+      cout << "1.0 ms = " << cleanTime(t, "ms") << endl;
+      cout << "1000.0 ms = " << cleanTime(t1, "ms") << endl;
+      cout << "60000.0 ms = " << cleanTime(t2, "ms") << endl;
+      cout << "3600000.00 ms = " << cleanTime(t3, "ms") << endl;
+      cout << "86400000.0 ms = " << cleanTime(t4, "ms") << endl;
+      /* Testing seed computation time
       RTIM rtim = RTIM(args, true);
       if(args.k == -1){
         args.k = 10;
@@ -657,6 +678,7 @@ int main(int argn, char **argv)
       for (int i = 0; i < 7; i++){
         rtim.seedComputationTest(sizes[i]);
       }
+      */
     } else {
       cerr << "Error stage not recognized!" << endl;
       exit(1);
