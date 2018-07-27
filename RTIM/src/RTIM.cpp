@@ -293,7 +293,7 @@ void RTIM::printScores(){
 
 
 void RTIM::saveScores(){
-  string file = "../../data/" + args.dataset + "/rtim/" + args.dataset + "_infscores.txt";
+  string file = "../../data/" + args.dataset + "/rtim/" + args.dataset + "_infscores_d" + to_string(args.depth) + "m" + to_string(args.min_weight) + ".txt";
   cout << "Saving influence scores to: " << file << endl;
   // save scores
   ofstream infScoresFile;
