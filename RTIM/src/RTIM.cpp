@@ -141,10 +141,11 @@ void RTIM::pre_process(){
     num_thread = omp_get_thread_num();
     if (num_thread == 0){
       if (nb_nodes == 0){
-        nb_nodes = (int*)calloc (sizeof(int),nb_threads*8);
+        nb_nodes = (int*)calloc (nb_threads*8,sizeof(int));
       }
       time ( &startTime );
     }
+    #pragma omp barrier
     #pragma omp for schedule(dynamic) nowait
     for(int i = 0; i < nodes; i++){
       if (num_thread == 0){
