@@ -37,7 +37,8 @@ public:
     string graph_file;
     void readNM()
     {
-        ifstream cin((folder + "attribute.txt").c_str());
+	cout << ("../data/" + folder + "/attributes.txt").c_str() << endl;
+        ifstream cin(("../data/" + folder + "/attributes.txt").c_str());
         ASSERT(!cin == false);
         string s;
         while (cin >> s)
@@ -78,6 +79,7 @@ public:
     vector<bool> hasnode;
     void readGraph()
     {
+	cout << graph_file.c_str() << endl;
         FILE *fin = fopen((graph_file).c_str(), "r");
         ASSERT(fin != false);
         int readCnt = 0;

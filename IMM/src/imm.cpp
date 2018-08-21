@@ -57,9 +57,10 @@ void Run(int argn, char **argv)
     ASSERT(arg.model == "IC" || arg.model == "LT" || arg.model == "TR" || arg.model=="CONT");
 
     string graph_file;
-    if (arg.model == "IC")
-        graph_file = arg.dataset + "graph_ic.inf";
-    else if (arg.model == "LT")
+    if (arg.model == "IC"){    
+        //graph_file = arg.dataset + "graph_wc.inf";
+	graph_file = "../data/" + arg.dataset + "/" + arg.dataset +"_wc.inf";
+    }else if (arg.model == "LT")
         graph_file = arg.dataset + "graph_lt.inf";
     else if (arg.model == "TR")
         graph_file = arg.dataset + "graph_tr.inf";
