@@ -73,7 +73,7 @@ class Graph
       *
       * @return double
       */
-    double influenceScorePath(int node, int max_depth=3, std::string type="shortest", double edge_weight=-1, double min_weight=0) const;
+    double influenceScorePath(int node, int max_depth=3, std::string type="shortest", double edge_weight=-1, double min_weight=1.0) const;
 
 
     /**
