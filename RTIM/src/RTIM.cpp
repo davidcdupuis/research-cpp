@@ -588,7 +588,7 @@ void RTIM::mcConvergenceTest(int sampleSize){
 }
 
 
-void RTIM::seedComputationTest(int seedSize){
+void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
   // select random nodes from graph to generate seed
   cout << "Starting seed computation test on " << args.dataset << endl;
   if (seedSize > graph.nodes){
@@ -620,7 +620,7 @@ void RTIM::seedComputationTest(int seedSize){
   cout << "Computing seed set score." << endl;
   double start = omp_get_wtime();
   double score;
-  score = graph.influenceScore(seedSet);
+  score = graph.influenceScore(seedSet, depth);
   double delta = omp_get_wtime() - start;
   cout << "Seed set score is: " << score << " / " << graph.nodes << " computed in: " << cleanTime(delta, "s") << endl;
 
@@ -670,6 +670,8 @@ int main(int argn, char **argv)
         rtim.seedComputationTest(sizes[i]);
       }
       */
+      RTIM rtim = RTIM(args, true);
+      rtim.seedComputationTest(500, 2, 0.05);
     } else {
       cerr << "Error stage not recognized!" << endl;
       exit(1);

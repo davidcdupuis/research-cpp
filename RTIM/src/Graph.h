@@ -53,7 +53,7 @@ class Graph
       *
       * @return double, influence score
     */
-    double influenceScore(const std::vector<int>& seed_set, int depth=10000, int sim=10000) const;
+    double influenceScore(const std::vector<int>& seed_set, int depth=10000, double minEdgeWeight=1.0, int sim=10000) const;
 
 
     /**
@@ -84,7 +84,7 @@ class Graph
       *
       * @return int: number of activated nodes
     */
-    int influenceSimulation(const std::vector<int>& seed_set, int depth=10000) const;
+    int influenceSimulation(const std::vector<int>& seed_set, int depth=10000, double minEdgeWeight=1.0) const;
 
 
     /**

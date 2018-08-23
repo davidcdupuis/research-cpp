@@ -148,7 +148,7 @@ void Graph::loadGraph(){
 }
 
 
-double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) const{
+double Graph::influenceScore(const vector<int>& seed_set, int depth, double minEdgeWeight, int sim) const{
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   int sum = 0;
   int values[sim] = {};
@@ -156,7 +156,7 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, int sim) co
   #pragma omp for
   for (int i = 0; i < sim; i++){
     // run influence simulation
-    values[i] = influenceSimulation(seed_set, depth);
+    values[i] = influenceSimulation(seed_set, depth, minEdgeWeight);
   }
   for(int i = 0; i < sim; i++){
     sum += values[i];
@@ -214,7 +214,7 @@ double Graph::influenceScoreNeighbors(int node) const{
 }
 
 
-int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
+int Graph::influenceSimulation(const vector<int>& seed_set, int depth, double minEdgeWeight) const{
   // cout << "depth: " << depth << endl;
   int activated = 0;
   vector<int> activated_nodes;
@@ -237,19 +237,23 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth) const{
       // test influence of all neigbhors
       // cout << "[ ";
       for(pair<int, double> neighbor: graph[curr.first]){
-        // check if neighbor is not in activated nodes
-        r = rand_r(&seed)/(double)RAND_MAX;
-        // cout << "(" << neighbor.first << " - " << r << ") ";
-        // cout << neighbor.first << " - ";
-        if (!(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end())
-            && (r <= neighbor.second)){
+        // check if edge weight smaller than minimum
+        if(neighbor.second <= minEdgeWeight){
+          r = rand_r(&seed)/(double)RAND_MAX;
+          // cout << "(" << neighbor.first << " - " << r << ") ";
+          // cout << neighbor.first << " - ";
+          // check if neighbor is not in activated nodes
+          if (!(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end())
+              && (r <= neighbor.second)){
 
-          // if influence increment activated,
-          // add to queue, and activated_nodes and increase depth.
-          activated += 1;
-          activated_nodes.push_back(neighbor.first);
-          if(curr.second + 1 <= depth){
-            queue.push(make_pair(neighbor.first, curr.second + 1));
+            // if influence increment activated,
+            // add to queue, and activated_nodes and increase depth.
+            activated += 1;
+            activated_nodes.push_back(neighbor.first);
+            // check if max depth is reached
+            if(curr.second + 1 <= depth){
+              queue.push(make_pair(neighbor.first, curr.second + 1));
+            }
           }
         }
       }
