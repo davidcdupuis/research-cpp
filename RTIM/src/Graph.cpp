@@ -272,7 +272,7 @@ void Graph::shortestPathsWeights(map<int, double> & distances, int node, double 
     new_dist = curr_dist * neighbor.second;
 
     // if path weight is less than minimum, we ignore it
-    if (new_dist <= min_weight){
+    if (new_dist >= min_weight){
       // check if new_path distance is greater than older one.
       if(distances.find(neighbor.first) == distances.end()){
         // if node not recorded in distances, initialize distance at 0
