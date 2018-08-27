@@ -590,7 +590,8 @@ void RTIM::mcConvergenceTest(int sampleSize){
 
 void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
   // select random nodes from graph to generate seed
-  cout << "Starting seed computation test on " << args.dataset << endl;
+  cout << "------------------------------------------------------------------------------------------" << endl; 
+  cout << "Starting seed computation test on " << args.dataset << " > seed size: " << seedSize << " | depth: " << depth << "| minEdgeWeight: " << minEdgeWeight  <<  endl;
   if (seedSize > graph.nodes){
     cerr << "Error: Seed set size larger than graph size!" << endl;
     exit(1);
@@ -620,10 +621,10 @@ void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
   cout << "Computing seed set score." << endl;
   double start = omp_get_wtime();
   double score;
-  score = graph.influenceScore(seedSet, depth);
+  score = graph.influenceScore(seedSet, depth, minEdgeWeight);
   double delta = omp_get_wtime() - start;
   cout << "Seed set score is: " << score << " / " << graph.nodes << " computed in: " << cleanTime(delta, "s") << endl;
-
+  cout << "------------------------------------------------------------------------------------------" << endl; 
 }
 
 
@@ -671,7 +672,17 @@ int main(int argn, char **argv)
       }
       */
       RTIM rtim = RTIM(args, true);
-      rtim.seedComputationTest(500, 2, 0.05);
+      if(args.k == -1){
+        args.k = 1;
+      }
+      // rtim.seedComputationTest(200, 2, 1.0); 
+      // rtim.seedComputationTest(200, 1, 1.0);
+      // rtim.seedComputationTest(1000, 10000, 1.0);
+      rtim.seedComputationTest(5000, 3, 1.0);
+      rtim.seedComputationTest(5000, 2, 1.0);
+      rtim.seedComputationTest(10000, 3, 1.0);
+      rtim.seedComputationTest(10000, 2, 1.0);
+      rtim.seedComputationTest(10000, 1, 1.0);
     } else {
       cerr << "Error stage not recognized!" << endl;
       exit(1);
