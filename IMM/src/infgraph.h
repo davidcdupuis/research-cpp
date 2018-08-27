@@ -126,7 +126,7 @@ public:
         TRACE(seedSet);
     }
 
-    /*
+    /* What does this do?
     */
     double InfluenceHyperGraph()
     {

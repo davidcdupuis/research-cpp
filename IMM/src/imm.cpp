@@ -25,7 +25,16 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
 
         Imm::InfluenceMaximize(g, arg);
 
+        // save g.seedSet here => nethept_k100e0.01.txt
+        string file = "../data/" + arg.dataset + "/imm/" + arg.dataset + "_k" + to_string(arg.k) + "e" + to_string(arg.epsilon) + ".txt";
+        cout << "Saving influence scores to " << file << endl;
+        ofstream seedSetFile;
+        seedSetFile.open(file);
+        for(int node: g.seedSet){
+          seedSetFile << node << endl;
+        }
         INFO(g.seedSet);
+        // use saved seed set to compute influence score using MC simulations
         INFO(g.InfluenceHyperGraph());
     Timer::show();
 }
@@ -57,7 +66,7 @@ void Run(int argn, char **argv)
     ASSERT(arg.model == "IC" || arg.model == "LT" || arg.model == "TR" || arg.model=="CONT");
 
     string graph_file;
-    if (arg.model == "IC"){    
+    if (arg.model == "IC"){
         //graph_file = arg.dataset + "graph_wc.inf";
 	graph_file = "../data/" + arg.dataset + "/" + arg.dataset +"_wc.inf";
     }else if (arg.model == "LT")
