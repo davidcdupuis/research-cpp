@@ -38,6 +38,7 @@ public:
   Arguments args;                    /**< command line arguments */
   const Graph graph;
 
+
   /**
     * Constructor
     *
@@ -192,5 +193,7 @@ public:
     * Test time to compute score of a seed set
     */
   void seedComputationTest(int seedSize, int depth=10000, double minEdgeWeight=1.0);
+
+
 };
 #endif

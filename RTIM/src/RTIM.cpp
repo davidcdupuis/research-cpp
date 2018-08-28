@@ -268,7 +268,7 @@ void RTIM::live(){
   cout << "Computing influence score of seed set of size: " << seedSet.size() << endl;
   start = clock();
   double seedScore;
-  if (seedSet.size() >= 20000){ 
+  if (seedSet.size() >= 20000){
       seedScore = graph.influenceScore(seedSet, 2);
   }else if (seedSet.size() >= 300){
       seedScore = graph.influenceScore(seedSet, 3);
@@ -597,7 +597,7 @@ void RTIM::mcConvergenceTest(int sampleSize){
 
 void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
   // select random nodes from graph to generate seed
-  cout << "------------------------------------------------------------------------------------------" << endl; 
+  cout << "------------------------------------------------------------------------------------------" << endl;
   cout << "Starting seed computation test on " << args.dataset << " > seed size: " << seedSize << " | depth: " << depth << "| minEdgeWeight: " << minEdgeWeight  <<  endl;
   if (seedSize > graph.nodes){
     cerr << "Error: Seed set size larger than graph size!" << endl;
@@ -631,7 +631,138 @@ void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
   score = graph.influenceScore(seedSet, depth, minEdgeWeight);
   double delta = omp_get_wtime() - start;
   cout << "Seed set score is: " << score << " / " << graph.nodes << " computed in: " << cleanTime(delta, "s") << endl;
-  cout << "------------------------------------------------------------------------------------------" << endl; 
+  cout << "------------------------------------------------------------------------------------------" << endl;
+}
+
+
+void datasetMenu(){
+  string dataset;
+  cout << "________________________________________" << endl;
+  if(args.dataset != ""){
+    cout << "Current imported dataset: " << args.dataset << endl;
+  }
+  cout << "Choose a [dataset] (nodes, edges): " << endl;
+  cout << "   [test]        (20, 30])"<< endl;
+  cout << "   [nethept]     (15_229, 62_752)" << endl;
+  cout << "   [dblp]        (317_080, 2.09M)" << endl;
+  cout << "   [youtube]     (1.13M, 5.97M)" << endl;
+  cout << "   [orkut]       (3.07M, 234.37M)" << endl;
+  cout << "   [livejournal] (3.99M, 69.36M)" << endl;
+  cout << "   [twitter]     (41.65M, 1.46B)" << endl;
+  while(1){
+    cout <<  "> dataset name: ";
+    cin >> dataset;
+    if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
+      cerr << "Dataset not recognized: " << dataset << endl;
+    } else if (args.dataset == dataset){
+      cout << "Dataset has already been imported!" << endl;
+      break;
+    }
+    else{
+      args.dataset = dataset;
+      break;
+    }
+  }
+  // read attributes
+  // import dataset
+  stageMenu()
+}
+
+
+void stageMenu(){
+  int choice;
+  cout << "________________________________________" << endl;
+  cout << "Choose a stage: " << endl;
+  cout << "   [1] pre-process"<< endl;
+  cout << "   [2] live " << endl;
+  cout << "   [3] IMM seed set test" << endl;
+  cout << "   [4] test " << endl;
+  while(1){
+    cout <<  "> choice: ";
+    cin >> choice;
+    switch(choice){
+      case 1:
+        stageMenu('pre_process');
+        break;
+      case 2:
+        stageMenu('live');
+        break;
+      case 3:
+        stageMenu('imm_seed_test');
+        break;
+      case 4:
+        cout << "Test!" << endl;
+        break;
+      default:
+        cout << "Error: stage not recognized!" << endl;
+    }
+  }
+}
+
+
+void stageArgumentsMenu(string stage){
+  string input;
+  cout << "Input " << stage << " arguments: ";
+  getline(cin, input);
+  // args.getInput(input);
+  switch(stage){
+    case 'pre_process':
+      //   RTIM rtim = RTIM(args, true);
+      //   double start = omp_get_wtime();
+      //   rtim.pre_process();//g);
+      //   double duration = omp_get_wtime() - start;
+      //   cout << "Pre-process stage done in: " << cleanTime(duration, "s") << endl;
+      cout << "Test: Launching pre_process!" << endl;
+      break;
+    case 'live':
+      // live();
+      cout << "Test: Launching live!" << endl;
+      break;
+    case 'imm_seed_test':
+      cout << "Not implemented yet!" << endl;
+      break;
+    default:
+      cout << "Error: stage not recognized!" << endl;
+      exit(1);
+      break;
+  }
+}
+
+
+void continueMenu(){
+  int choice;
+  cout << "________________________________________" << endl;
+  cout << "Continue: " << endl;
+  cout << "   [1] Repeat previous stage with same arguments" << endl;
+  cout << "   [2] Repeat previous stage with new arguments" << endl;
+  cout << "   [3] Change stage" << endl;
+  cout << "   [4] Change dataset" << endl;
+  cout << "   [5] End Program" << endl;
+  while(1){
+    cout << "> choice: ";
+    cin >> choice;
+    switch(choice){
+      case 1:
+        cout << "Test: Repeat previous stage, same args!" << endl;
+        break;
+      case 2:
+        stageArgumentsMenu();
+        break;
+      case 3:
+        stageMenu();
+        break;
+      case 4:
+        datasetMenu();
+        break;
+      default:
+        cout << "Error: choice not recognized!" << endl;
+    }
+  }
+}
+
+
+void run(RTIM& rtim){
+  datasetMenu();
 }
 
 
@@ -639,59 +770,59 @@ int main(int argn, char **argv)
 {
     clock_t start;
     double duration;
-
-    Arguments args = Arguments();
-    args.getArguments(argn, argv);
-    args.printArguments();
-
-    if (args.stage == "pre"){
-      RTIM rtim = RTIM(args, true);
-      double start = omp_get_wtime();
-      rtim.pre_process();//g);
-      double duration = omp_get_wtime() - start;
-      cout << "Pre-process stage done in: " << cleanTime(duration, "s") << endl;
-    } else if (args.stage == "live"){
-      //
-      RTIM rtim = RTIM(args, true);
-      start = clock();
-      rtim.live();//, args.k, args.streamModel, args.streamVersion, args.streamSize, args.theta_ap, args.reach);
-      duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-      cout << "Live stage done in: " << cleanTime(duration, "ms") << endl;
-    } else if (args.stage == "newStream"){
-      //
-      // RTIM rtim = RTIM(args, false);
-      // start = clock();
-      // rtim.availabilityStream();//args.streamModel, args.streamVersion, args.streamSize);
-      //
-      // duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-      // cout << "Stream generated in: " << cleanTime(duration, "ms") << endl;
-      cout << "Availability generator not implemented! " << endl;
-    } else if (args.stage == "special"){
-
-      /* Testing seed computation time
-      RTIM rtim = RTIM(args, true);
-      if(args.k == -1){
-        args.k = 10;
-      }
-      int  sizes[7] = {10, 100, 300, 500, 1000, 2000, 5000};
-      for (int i = 0; i < 7; i++){
-        rtim.seedComputationTest(sizes[i]);
-      }
-      */
-      RTIM rtim = RTIM(args, true);
-      if(args.k == -1){
-        args.k = 1;
-      }
-      // rtim.seedComputationTest(200, 2, 1.0); 
-      // rtim.seedComputationTest(200, 1, 1.0);
-      // rtim.seedComputationTest(1000, 10000, 1.0);
-      rtim.seedComputationTest(5000, 3, 1.0);
-      rtim.seedComputationTest(5000, 2, 1.0);
-      rtim.seedComputationTest(10000, 3, 1.0);
-      rtim.seedComputationTest(10000, 2, 1.0);
-      rtim.seedComputationTest(10000, 1, 1.0);
-    } else {
-      cerr << "Error stage not recognized!" << endl;
-      exit(1);
-    }
+    run();
+    // Arguments args = Arguments();
+    // args.getArguments(argn, argv);
+    // args.printArguments();
+    //
+    // if (args.stage == "pre"){
+    //   RTIM rtim = RTIM(args, true);
+    //   double start = omp_get_wtime();
+    //   rtim.pre_process();//g);
+    //   double duration = omp_get_wtime() - start;
+    //   cout << "Pre-process stage done in: " << cleanTime(duration, "s") << endl;
+    // } else if (args.stage == "live"){
+    //   //
+    //   RTIM rtim = RTIM(args, true);
+    //   start = clock();
+    //   rtim.live();//, args.k, args.streamModel, args.streamVersion, args.streamSize, args.theta_ap, args.reach);
+    //   duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+    //   cout << "Live stage done in: " << cleanTime(duration, "ms") << endl;
+    // } else if (args.stage == "newStream"){
+    //   //
+    //   // RTIM rtim = RTIM(args, false);
+    //   // start = clock();
+    //   // rtim.availabilityStream();//args.streamModel, args.streamVersion, args.streamSize);
+    //   //
+    //   // duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+    //   // cout << "Stream generated in: " << cleanTime(duration, "ms") << endl;
+    //   cout << "Availability generator not implemented! " << endl;
+    // } else if (args.stage == "special"){
+    //
+    //   /* Testing seed computation time
+    //   RTIM rtim = RTIM(args, true);
+    //   if(args.k == -1){
+    //     args.k = 10;
+    //   }
+    //   int  sizes[7] = {10, 100, 300, 500, 1000, 2000, 5000};
+    //   for (int i = 0; i < 7; i++){
+    //     rtim.seedComputationTest(sizes[i]);
+    //   }
+    //   */
+    //   RTIM rtim = RTIM(args, true);
+    //   if(args.k == -1){
+    //     args.k = 1;
+    //   }
+    //   // rtim.seedComputationTest(200, 2, 1.0);
+    //   // rtim.seedComputationTest(200, 1, 1.0);
+    //   // rtim.seedComputationTest(1000, 10000, 1.0);
+    //   rtim.seedComputationTest(5000, 3, 1.0);
+    //   rtim.seedComputationTest(5000, 2, 1.0);
+    //   rtim.seedComputationTest(10000, 3, 1.0);
+    //   rtim.seedComputationTest(10000, 2, 1.0);
+    //   rtim.seedComputationTest(10000, 1, 1.0);
+    // } else {
+    //   cerr << "Error stage not recognized!" << endl;
+    //   exit(1);
+    // }
 }
