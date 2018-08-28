@@ -674,7 +674,7 @@ void RTIM::datasetMenu(){
   cout << "   [twitter]     (41.65M, 1.46B)" << endl;
   while(1){
     cout <<  "> dataset name: ";
-    cin >> dataset;
+    getline(cin, dataset);
     if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
       cout << "Dataset not recognized: " << dataset << endl;
       usleep(2000);
@@ -703,7 +703,9 @@ void RTIM::stageMenu(){
   cout << "   [5] EXIT PROGRAM " << endl;
   while(choice == -1){
     cout <<  "> choice: ";
-    cin >> choice;
+    string val;
+    getline(cin, val);
+    choice = stoi(val);
     switch(choice){
       case 1:
         args.stage = "pre";
@@ -739,7 +741,7 @@ void RTIM::stageArgumentsMenu(){
   }else{
     cout << "Input " << args.stage << " arguments: ";
   }
-  cin >> input;
+  getline(cin, input);
   cout << "Test: input= " << input << endl;
   // args.getInput(input);
   // if args incorrect report and repeat
@@ -758,7 +760,9 @@ int RTIM::continueMenu(){
   cout << "   [5] End Program" << endl;
   while(choice == -1){
     cout << "> choice: ";
-    cin >> choice;
+    string val;
+    getline(cin, val);
+    choice = stoi(val);
     switch(choice){
       case 1:
         break;
