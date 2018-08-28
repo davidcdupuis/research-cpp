@@ -33,7 +33,7 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
         for(int node: g.seedSet){
           seedSetFile << node << endl;
         }
-        INFO(g.seedSet);
+        //INFO(g.seedSet);
         // use saved seed set to compute influence score using MC simulations
         INFO(g.InfluenceHyperGraph());
     Timer::show();

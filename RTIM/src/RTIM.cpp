@@ -267,7 +267,14 @@ void RTIM::live(){
   saveSeedSet();
   cout << "Computing influence score of seed set of size: " << seedSet.size() << endl;
   start = clock();
-  double seedScore = graph.influenceScore(seedSet);
+  double seedScore;
+  if (seedSet.size() >= 20000){ 
+      seedScore = graph.influenceScore(seedSet, 2);
+  }else if (seedSet.size() >= 300){
+      seedScore = graph.influenceScore(seedSet, 3);
+  }else{
+      seedScore = graph.influenceScore(seedSet);
+  }
   double seedDuration = (clock() - start)/(double)CLOCKS_PER_SEC;
   cout << "Seed set score: " << seedScore << "/" << nodes << ", computed in: " << cleanTime(seedDuration, "ms") << endl;
 
@@ -308,7 +315,7 @@ void RTIM::saveScores(){
 
 
 void RTIM::saveSeedSet(){
-  string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + to_string(args.reach)+ ".txt";
+  string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + to_string(args.reach) + "ap" + to_string(args.theta_ap) + ".txt";
   cout << "Saving seed set to: " << file << endl;
   ofstream seedSetFile;
   seedSetFile.open(file);
