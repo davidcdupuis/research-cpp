@@ -6,6 +6,7 @@
 #include <string>
 #include <algorithm>
 #include <sys/stat.h>
+#include <unistd.h>
 
 #include "RTIM.h"
 #include "Arguments.h"
@@ -13,6 +14,13 @@
 
 #include <iostream>
 #include <fstream>
+#include <iomanip>
+#include <ctime>
+#include <sstream>
+
+/**
+  * Special color codes: https://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal
+  */
 
 using namespace std;
 
@@ -51,6 +59,21 @@ inline string cleanTime(double t, string type="ms"){
   }
 }
 
+inline void clearLines(int l){
+  cout << "\r                                                         ";
+  for(int i=0; i < l-1; i++){
+    cout << "\e[A\r                                                           ";
+  }
+  cout << "\e[A\r";
+}
+
+inline void printLocalTime(string args, string name, string status){
+  time_t tt;
+  struct tm * ti;
+  time (&tt);
+  ti = localtime(&tt);
+  cout << "\033[" + args + "m" + name + " " + status + " at: " << asctime(ti) << "\033[0m";
+}
 
 RTIM::RTIM(Arguments& arguments, bool loadGraph):graph(arguments, loadGraph){
   args = arguments;
@@ -635,10 +658,10 @@ void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
 }
 
 
-void datasetMenu(){
+void RTIM::datasetMenu(){
   string dataset;
   cout << "________________________________________" << endl;
-  if(args.dataset != ""){
+  if(args.dataset != "" && graph.graph.size() != 0){
     cout << "Current imported dataset: " << args.dataset << endl;
   }
   cout << "Choose a [dataset] (nodes, edges): " << endl;
@@ -653,84 +676,79 @@ void datasetMenu(){
     cout <<  "> dataset name: ";
     cin >> dataset;
     if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
-      cerr << "Dataset not recognized: " << dataset << endl;
+      cout << "Dataset not recognized: " << dataset << endl;
+      usleep(2000);
+      clearLines(2);
     } else if (args.dataset == dataset){
       cout << "Dataset has already been imported!" << endl;
+      usleep(2000);
       break;
-    }
-    else{
-      args.dataset = dataset;
+    }else{
+      args.dataset = dataset;//?
       break;
     }
   }
-  // read attributes
-  // import dataset
-  stageMenu()
+  clearLines(10);
 }
 
 
-void stageMenu(){
-  int choice;
+void RTIM::stageMenu(){
+  int choice = -1;
   cout << "________________________________________" << endl;
   cout << "Choose a stage: " << endl;
   cout << "   [1] pre-process"<< endl;
   cout << "   [2] live " << endl;
   cout << "   [3] IMM seed set test" << endl;
   cout << "   [4] test " << endl;
-  while(1){
+  cout << "   [5] EXIT PROGRAM " << endl;
+  while(choice == -1){
     cout <<  "> choice: ";
     cin >> choice;
     switch(choice){
       case 1:
-        stageMenu('pre_process');
+        args.stage = "pre";
         break;
       case 2:
-        stageMenu('live');
+        args.stage = "live";
         break;
       case 3:
-        stageMenu('imm_seed_test');
+        args.stage = "imm_seed_test";
         break;
       case 4:
         cout << "Test!" << endl;
         break;
+      case 5:
+        cout << "Program ending: Have a nice day!" << endl;
+        printLocalTime("1;31", "Program", "ending");
+        exit(1);
       default:
         cout << "Error: stage not recognized!" << endl;
+        usleep(2000);
+        clearLines(2);
+        choice = -1;
     }
   }
+  clearLines(7);
 }
 
 
-void stageArgumentsMenu(string stage){
+void RTIM::stageArgumentsMenu(){
   string input;
-  cout << "Input " << stage << " arguments: ";
-  getline(cin, input);
-  // args.getInput(input);
-  switch(stage){
-    case 'pre_process':
-      //   RTIM rtim = RTIM(args, true);
-      //   double start = omp_get_wtime();
-      //   rtim.pre_process();//g);
-      //   double duration = omp_get_wtime() - start;
-      //   cout << "Pre-process stage done in: " << cleanTime(duration, "s") << endl;
-      cout << "Test: Launching pre_process!" << endl;
-      break;
-    case 'live':
-      // live();
-      cout << "Test: Launching live!" << endl;
-      break;
-    case 'imm_seed_test':
-      cout << "Not implemented yet!" << endl;
-      break;
-    default:
-      cout << "Error: stage not recognized!" << endl;
-      exit(1);
-      break;
+  if (args.stage == "pre"){
+    cout << "Input pre_process arguments: ";
+  }else{
+    cout << "Input " << args.stage << " arguments: ";
   }
+  cin >> input;
+  cout << "Test: input= " << input << endl;
+  // args.getInput(input);
+  // if args incorrect report and repeat
+  // else if correct read attributes and import dataset. print all arguments and data attributes
 }
 
 
-void continueMenu(){
-  int choice;
+int RTIM::continueMenu(){
+  int choice = -1;
   cout << "________________________________________" << endl;
   cout << "Continue: " << endl;
   cout << "   [1] Repeat previous stage with same arguments" << endl;
@@ -738,31 +756,79 @@ void continueMenu(){
   cout << "   [3] Change stage" << endl;
   cout << "   [4] Change dataset" << endl;
   cout << "   [5] End Program" << endl;
-  while(1){
+  while(choice == -1){
     cout << "> choice: ";
     cin >> choice;
     switch(choice){
       case 1:
-        cout << "Test: Repeat previous stage, same args!" << endl;
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+      case 5:
+        cout << "Programming ending: 'Have a nice day!'"<< endl;
+        return -1;
+      default:
+        cout << "Error: choice not recognized!" << endl;
+        choice = -1;
+        clearLines(2);
+    }
+  }
+  clearLines(8);
+  return choice;
+}
+
+
+void RTIM::run(){
+  printLocalTime("1;31", "Program", "starting");
+  int choice = 0;
+  while (choice != -1){
+    switch(choice){
+      case 1:
         break;
       case 2:
         stageArgumentsMenu();
         break;
       case 3:
         stageMenu();
+        stageArgumentsMenu();
         break;
       case 4:
         datasetMenu();
+        stageMenu();
+        stageArgumentsMenu();
         break;
       default:
-        cout << "Error: choice not recognized!" << endl;
+        datasetMenu();
+        stageMenu();
+        stageArgumentsMenu();
+        break;
     }
+    if (args.stage == "pre"){
+      printLocalTime("1;35", "Pre_processing", "starting");
+      cout << "Test: Launching pre_process!" << endl;
+      // pre_process();
+      printLocalTime("1;35", "Pre_processing", "ending");
+    }else if (args.stage == "live"){
+      printLocalTime("1;35", "Live", "starting");
+      cout << "Test: Launching live!" << endl;
+      // live();
+      printLocalTime("1;35", "Live", "ending");
+    }else if (args.stage == "imm_seed_test"){
+      printLocalTime("1;35", "IMM seed test", "starting");
+      cout << "Not implemented yet!" << endl;
+      printLocalTime("1;35", "IMM seed test", "ending");
+    }else{
+      cout << "Error! stage not recognized: " << args.stage << endl;
+      exit(1);
+    }
+    choice = continueMenu();
   }
-}
 
-
-void run(RTIM& rtim){
-  datasetMenu();
+  printLocalTime("1;31", "Program", "ending");
 }
 
 
@@ -770,7 +836,12 @@ int main(int argn, char **argv)
 {
     clock_t start;
     double duration;
-    run();
+    Arguments args = Arguments();
+    RTIM rtim = RTIM(args, false);
+    rtim.run();
+
+    //cout << "\033[1;31mbold red text\033[0m\n";
+
     // Arguments args = Arguments();
     // args.getArguments(argn, argv);
     // args.printArguments();

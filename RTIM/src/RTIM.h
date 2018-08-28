@@ -38,7 +38,6 @@ public:
   Arguments args;                    /**< command line arguments */
   const Graph graph;
 
-
   /**
     * Constructor
     *
@@ -195,5 +194,35 @@ public:
   void seedComputationTest(int seedSize, int depth=10000, double minEdgeWeight=1.0);
 
 
+  /**
+    * Menu to get desired dataset
+    * will upload new dataset if different than current
+    */
+  void datasetMenu();
+
+
+  /**
+    * Menu to get desired stage
+    */
+  void stageMenu();
+
+
+  /**
+    * Menu to get stage arguments
+    */
+  void stageArgumentsMenu();
+
+
+  /**
+    * Menu to decide if user would like to continue program or quit
+    * return -1 if quit
+    */
+  int continueMenu();
+
+
+  /**
+    * Function to run program
+    */
+  void run();
 };
 #endif
