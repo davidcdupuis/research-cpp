@@ -215,6 +215,12 @@ public:
   void stageArgumentsMenu();
 
 
+  void preProcessMenu();
+
+  void liveMenu();
+
+  void immSeedTestMenu();
+
   /**
     * Menu to decide if user would like to continue program or quit
     * return -1 if quit

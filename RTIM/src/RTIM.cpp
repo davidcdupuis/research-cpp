@@ -17,6 +17,7 @@
 #include <iomanip>
 #include <ctime>
 #include <sstream>
+#include <stdexcept>
 
 /**
   * Special color codes: https://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal
@@ -743,21 +744,159 @@ void RTIM::stageMenu(){
 
 
 void RTIM::stageArgumentsMenu(){
-  string input;
   if (args.stage == "pre"){
-    cout << "Input pre_process arguments: ";
+    preProcessMenu();
+  }else if (args.stage == "live"){
+    liveMenu();
+  }else if (args.stage == "imm_seed_test"){
+    immSeedTestMenu();
   }else{
-    cout << "Input " << args.stage << " arguments: ";
+    cout << "Error: Stage not recognized!" << endl;
+    exit(1);
   }
-  getline(cin, input);
-  cout << "Test: input= " << input << endl;
-  sleep(SLEEP);
-  clearLines(2);
   // args.getInput(input);
   // if args incorrect report and repeat
   // else if correct read attributes and import dataset. print all arguments and data attributes
 }
 
+
+void RTIM::preProcessMenu(){
+  int iChoice;
+  double dChoice;
+  string input;
+  cout << "________________________________________" << endl;
+  cout << "Input pre_process arguments" << endl;
+  // asking for max search depth
+  while(1){
+    cout << "> depth (" << args.depth << "): ";
+    getline(cin, input);
+    if(input != ""){
+      try{
+        iChoice = stoi(input);
+
+        if (iChoice >= 1 && iChoice <= 10000){
+          args.depth = iChoice;
+          break;
+        }else{
+          cout << "Error: depth must be int between 1 and 10000!" << endl;
+          sleep(SLEEP);
+          clearLines(2);
+        }
+      }catch(invalid_argument& e){
+        cout << "Error: invalid input!" << endl;
+        sleep(SLEEP);
+        clearLines(2);
+      }
+    }else{
+      clearLines(1);
+      cout << "> depth (" << args.depth << "): " << args.depth << endl;
+      break;
+    }
+  }
+  // asking for minimum path weight
+  while(1){
+    cout << "> minimum path weight(" << args.min_weight << "): ";
+    getline(cin, input);
+    if(input != ""){
+      try{
+        dChoice = stod(input);
+        if (dChoice >= 0 && dChoice <= 1.0){
+          args.min_weight = dChoice;
+          break;
+        }else{
+          cout << "Error: minimum path weight must be a probability!" << endl;
+          sleep(SLEEP);
+          clearLines(2);
+        }
+      }catch(invalid_argument& e){
+        cout << "Error: invalid input!" << endl;
+        sleep(SLEEP);
+        clearLines(2);
+      }
+    }else{
+      clearLines(1);
+      cout << "> minimum path weight(" << args.min_weight << "): " << args.min_weight << endl;
+      break;
+    }
+  }
+  sleep(SLEEP);
+  clearLines(4);
+}
+
+void RTIM::liveMenu(){
+  int iChoice;
+  double dChoice;
+  string input;
+  cout << "________________________________________" << endl;
+  cout << "Input " << args.stage << " arguments" << endl;
+  // asking for seed size
+  while(1){
+    cout << "> seed size (" << args.k << "): ";
+    getline(cin, input);
+    iChoice = stoi(input);
+    args.k = iChoice;
+    break;
+  }
+  // asking for reach
+  while(1){
+    cout << "> reach (" << args.reach << "): ";
+    getline(cin, input);
+    iChoice = stoi(input);
+    if (iChoice >= 1 && iChoice <= 100){
+      args.reach = iChoice;
+      break;
+    }else{
+      cout << "Error: expecting int value between 1 and 100!" << endl;
+      sleep(SLEEP);
+      clearLines(2);
+    }
+  }
+  // asking for activation probability
+  while(1){
+    cout << "> activation probability threshold (" << args.theta_ap << "): ";
+    getline(cin, input);
+    dChoice = stod(input);
+    if(dChoice >= 0.0 && dChoice <= 1.0){
+      args.theta_ap = dChoice;
+      break;
+    }else{
+      cout << "Error: Input must be a probability!" << endl;
+      sleep(SLEEP);
+      clearLines(2);
+    }
+  }
+  // asking for stream model
+  while(1){
+    cout << "> stream model: ";
+    break;
+  }
+  // asking for stream version
+  int choice;
+  while(1){
+    cout << "> stream version: ";
+    break;
+  }
+  // asking for stream size
+  while(1){
+    cout << "> streal size: ";
+  }
+  sleep(SLEEP);
+  clearLines(8);
+}
+
+void RTIM::immSeedTestMenu(){
+  string input;
+  cout << "________________________________________" << endl;
+  cout << "Input IMM seed set arguments" << endl;
+  while (1){
+    cout << "> seed file: " << endl;
+    // repeat if can't find file
+    // if input is 'quit', exit program?
+    break;
+  }
+  sleep(SLEEP);
+  clearLines(3);
+}
 
 int RTIM::continueMenu(){
   int choice = -1;

@@ -35,6 +35,7 @@ public:
   double edge_weight = -1;            /**< edge weight to use, default results in weighted cascade model */
   double min_weight = 0;              /**< minimum weight to continue influence propagation*/
 
+
   /**
     * Function to get arguments from command line
     *
