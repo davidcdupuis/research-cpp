@@ -10,6 +10,7 @@
 #include <random>
 #include <map>
 #include <set>
+#include <unistd.h>
 
 #include "Graph.h"
 #include "Arguments.h"
@@ -96,7 +97,6 @@ void Graph::readAttributes(){
     cerr << "Error: bad attributes!" << endl;
     exit(1);
   }
-  cout << "---------------------------------------" << endl;
   infile.close();
 }
 
@@ -104,50 +104,59 @@ void Graph::readAttributes(){
 void Graph::loadGraph(){
   clock_t start = clock();
   string graph_file = directory + "/" + args.dataset + "_wc.inf";
+  cout << "Loading graph from: " << graph_file << endl;
   FILE *fin = fopen(graph_file.c_str(), "r");
   if (!(fin != 0)){
     cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << endl;
     exit(1);
   }
-  cout << "Loading graph from: " << graph_file << endl;
-  int readCnt = 0;
+  int barWidth = 50;
   for (int i = 0; i < edges; i++)
   {
-      readCnt ++;
-      int user1, user2;
-      double weight;
-      int c = fscanf(fin, "%d%d%lf", &user1, &user2, &weight);
-      if (c != 3 && c!= -1) {
-        cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
-        cerr << "Info: " << user1 << ", " << user2 << ", " << weight << ", " << c << endl;
-        exit(1);
-      }
-      // check if node ids within graph array range
-      if(user1 >= nodes){
-        cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":(" << user1 << " >= " << nodes << ")" << endl;
-        exit(1);
-      }
-      if(user2 >= nodes){
-        cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":(" << user2 << " >= " << nodes << ")" << endl;
-        exit(1);
-      }
-      if (args.edge_weight == -1){
-        addEdge(user1, user2, weight);
-      } else { // if(args.edge_weight!= -1 && (args.edge_weight >= 0.0 || args.edge_weight <= 1.0))
-        addEdge(user1, user2, args.edge_weight);
-      }
+    int user1, user2;
+    double weight;
+    int c = fscanf(fin, "%d%d%lf", &user1, &user2, &weight);
+    if (c != 3 && c!= -1) {
+      cerr << "ASSERT FAIL @ "<< __FILE__ << ":" << __LINE__ << endl;
+      cerr << "Info: " << user1 << ", " << user2 << ", " << weight << ", " << c << endl;
+      exit(1);
+    }
+    // check if node ids within graph array range
+    if(user1 >= nodes){
+      cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":(" << user1 << " >= " << nodes << ")" << endl;
+      exit(1);
+    }
+    if(user2 >= nodes){
+      cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":(" << user2 << " >= " << nodes << ")" << endl;
+      exit(1);
+    }
+    if (args.edge_weight == -1){
+      addEdge(user1, user2, weight);
+    } else { // if(args.edge_weight!= -1 && (args.edge_weight >= 0.0 || args.edge_weight <= 1.0))
+      addEdge(user1, user2, args.edge_weight);
+    }
+    // print progress
+
+    float progress = (float)i/edges;
+    cout << "\r[";
+    int pos = barWidth * progress;
+    for (int i = 0; i < barWidth; ++i) {
+        if (i < pos) {
+          cout << "=";
+        } else if (i == pos){
+          cout << ">";
+        } else {
+          cout << " ";
+        }
+    }
+    cout << "] " << int(progress * 100.0) << " % -- (imported edges: " << i << ")";
+    cout.flush();
   }
-  // TRACE_LINE_END();
-  // int s = 0;
-  // for (int i = 0; i < nodes; i++)
-  //     if (hasnode[i])
-  //         s++;
-  // INFO(s);
-  // ASSERT(readCnt == m);
-  // cout << "Graph loaded successfully!" << endl;
+  cout << endl;
   double duration = (clock() - start)/(double)CLOCKS_PER_SEC;
   cout << "Graph import done in: " << clean(duration) << endl;
   fclose(fin);
+  sleep(3);
 }
 
 

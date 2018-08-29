@@ -36,7 +36,7 @@ public:
   std::vector<int> seedSet;          /**< users to target */
   std::vector<double> activationProbabilities; /**< array of activation probabilities*/
   Arguments args;                    /**< command line arguments */
-  const Graph graph;
+  /*const*/ Graph graph;
 
   RTIM(Arguments& arguments);
 
@@ -198,9 +198,9 @@ public:
 
   /**
     * Menu to get desired dataset
-    * will upload new dataset if different than current
+    * returns 0 if a new dataset needs to be imported else 1
     */
-  void datasetMenu();
+  int datasetMenu();
 
 
   /**

@@ -65,7 +65,7 @@ inline string cleanTime(double t, string type="ms"){
 inline void clearLines(int l){
   cout << "\r                                                         ";
   for(int i=0; i < l; i++){
-    cout << "\e[A\r                                                           ";
+    cout << "\e[A\r                                                                                                      ";
   }
   cout << "\r";
 }
@@ -666,11 +666,13 @@ void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
 }
 
 
-void RTIM::datasetMenu(){
+int RTIM::datasetMenu(){
+  int lines = 10;
   string dataset;
   cout << "________________________________________" << endl;
   if(args.dataset != "" && graph.graph.size() != 0){
     cout << "Current imported dataset: " << args.dataset << endl;
+    lines++;
   }
   cout << "Choose a [dataset] (nodes, edges): " << endl;
   cout << "   [test]        (20, 30])"<< endl;
@@ -690,13 +692,18 @@ void RTIM::datasetMenu(){
     } else if (args.dataset == dataset){
       cout << "Dataset has already been imported!" << endl;
       sleep(SLEEP);
-      break;
+      return 0;
     }else{
-      args.dataset = dataset;//?
+      args.dataset = dataset;
+      graph.directory = "../../data/" + args.dataset; //necessary to readAttributes
+      graph.readAttributes();
+      sleep(2);
+      lines += 3;
       break;
     }
   }
-  clearLines(10);
+  clearLines(lines);
+  return 1;
 }
 
 
@@ -823,6 +830,7 @@ void RTIM::preProcessMenu(){
   clearLines(4);
 }
 
+
 void RTIM::liveMenu(){
   int iChoice;
   double dChoice;
@@ -833,56 +841,134 @@ void RTIM::liveMenu(){
   while(1){
     cout << "> seed size (" << args.k << "): ";
     getline(cin, input);
-    iChoice = stoi(input);
-    args.k = iChoice;
-    break;
+    if(input != ""){
+      try{
+        iChoice = stoi(input);
+        args.k = iChoice;
+        break;
+      }catch(invalid_argument& e){
+        cout << "Error: invalid input!" << endl;
+        sleep(SLEEP);
+        clearLines(2);
+      }
+    }else{
+      clearLines(1);
+      cout << "> seed size (" << args.k << "): " << args.k << endl;
+      break;
+      break;
+    }
   }
   // asking for reach
   while(1){
     cout << "> reach (" << args.reach << "): ";
     getline(cin, input);
-    iChoice = stoi(input);
-    if (iChoice >= 1 && iChoice <= 100){
-      args.reach = iChoice;
-      break;
+    if(input != ""){
+      try{
+        iChoice = stoi(input);
+        if (iChoice >= 1 && iChoice <= 100){
+          args.reach = iChoice;
+          break;
+        }else{
+          cout << "Error: expecting int value between 1 and 100!" << endl;
+          sleep(SLEEP);
+          clearLines(2);
+        }
+      }catch(invalid_argument& e){
+        cout << "Error: invalid input!" << endl;
+        sleep(SLEEP);
+        clearLines(2);
+      }
     }else{
-      cout << "Error: expecting int value between 1 and 100!" << endl;
-      sleep(SLEEP);
-      clearLines(2);
+      clearLines(1);
+      cout << "> reach (" << args.reach << "): " << args.reach << endl;
+      break;
+      break;
     }
   }
   // asking for activation probability
   while(1){
     cout << "> activation probability threshold (" << args.theta_ap << "): ";
     getline(cin, input);
-    dChoice = stod(input);
-    if(dChoice >= 0.0 && dChoice <= 1.0){
-      args.theta_ap = dChoice;
-      break;
+    if(input != ""){
+      dChoice = stod(input);
+      if(dChoice >= 0.0 && dChoice <= 1.0){
+        args.theta_ap = dChoice;
+        break;
+      }else{
+        cout << "Error: Input must be a probability!" << endl;
+        sleep(SLEEP);
+        clearLines(2);
+      }
     }else{
-      cout << "Error: Input must be a probability!" << endl;
-      sleep(SLEEP);
-      clearLines(2);
+      clearLines(1);
+      cout << "> activation probability threshold (" << args.theta_ap << "): " << args.theta_ap << endl;
+      break;
     }
   }
   // asking for stream model
   while(1){
-    cout << "> stream model: ";
-    break;
+    cout << "> stream model [rand_repeat, rand_no_repeat](" << args.streamModel << "): ";
+    getline(cin, input);
+    if(input != ""){
+      if(input == "rand_repeat" || input == "rand_no_repeat"){
+        args.streamModel = input;
+        break;
+      }else{
+        cout << "Error: Input must be a valid stream model!" << endl;
+        sleep(SLEEP);
+        clearLines(2);
+      }
+    }else{
+      clearLines(1);
+      cout << "> stream model [rand_repeat, rand_no_repeat](" << args.streamModel << "): " << args.streamModel << endl;
+      break;
+    }
   }
   // asking for stream version
-  int choice;
   while(1){
-    cout << "> stream version: ";
-    break;
+    cout << "> stream version [1, 2, 3]: ";
+    getline(cin, input);
+    if(input != ""){
+      try{
+        iChoice = stoi(input);
+        if(iChoice == 1 || iChoice == 2 || iChoice == 3){
+          args.streamVersion = iChoice;
+          break;
+        }else{
+          cout << "Error: stream version doesn't exist!" << endl;
+          sleep(SLEEP);
+          clearLines(2);
+        }
+      }catch(invalid_argument& e){
+        cout << "Error: invalid input!" << endl;
+        sleep(SLEEP);
+        clearLines(2);
+      }
+    }else{
+      break;
+    }
   }
   // asking for stream size
   while(1){
-    cout << "> streal size: ";
+    cout << "> stream size: ";
+    getline(cin, input);
+    if(input != ""){
+      try{
+        iChoice = stoi(input);
+        break;
+      }catch(invalid_argument& e){
+        cout << "Error: invalid input!" << endl;
+        sleep(SLEEP);
+        clearLines(2);
+      }
+    }else{
+      break;
+    }
   }
   sleep(SLEEP);
   clearLines(8);
 }
+
 
 void RTIM::immSeedTestMenu(){
   string input;
@@ -897,6 +983,7 @@ void RTIM::immSeedTestMenu(){
   sleep(SLEEP);
   clearLines(3);
 }
+
 
 int RTIM::continueMenu(){
   int choice = -1;
@@ -940,7 +1027,9 @@ void RTIM::run(){
   cout << endl;
   printLocalTime("1;31", "Program", "starting");
   int choice = 0;
+  int loadDataset;
   while (choice != -1){
+    loadDataset = 0;
     switch(choice){
       case 1:
         break;
@@ -954,17 +1043,23 @@ void RTIM::run(){
         args.printArguments();
         break;
       case 4:
-        datasetMenu();
+        loadDataset = datasetMenu();
         stageMenu();
         stageArgumentsMenu();
         args.printArguments();
         break;
       default:
-        datasetMenu();
+        loadDataset = datasetMenu();
         stageMenu();
         stageArgumentsMenu();
         args.printArguments();
         break;
+    }
+    if(loadDataset){
+      graph.args = args;
+      graph.graph.resize(graph.nodes);
+      graph.loadGraph();
+      clearLines(3);
     }
     if (args.stage == "pre"){
       printLocalTime("1;35", "Pre_processing", "starting");

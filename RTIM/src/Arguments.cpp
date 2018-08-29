@@ -116,6 +116,7 @@ void Arguments::printArguments(){
   cout << "Stage: " << stage << endl;
   if( stage == "pre"){
     cout << "Max Depth: " << depth << endl;
+    cout << "Min Weight: " << min_weight << endl;
     cout << "Model: " << model << endl;
     // cout << "Simulations:\t\t" <<  mc_sim << endl;
   }else if (stage == "live"){
