@@ -56,6 +56,9 @@ string printSeed(vector<int> seed){
   return s;
 }
 
+Graph::Graph(Arguments& arguments){
+  args = arguments;
+}
 
 Graph::Graph(Arguments& arguments, bool import){
   //srand(time(NULL));

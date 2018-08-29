@@ -24,6 +24,8 @@
 
 using namespace std;
 
+const int SLEEP = 1; // duration of sleep
+
 inline string cleanTime(double t, string type="ms"){
   if (type == "ms"){
     if (t >= 1000){
@@ -61,10 +63,10 @@ inline string cleanTime(double t, string type="ms"){
 
 inline void clearLines(int l){
   cout << "\r                                                         ";
-  for(int i=0; i < l-1; i++){
+  for(int i=0; i < l; i++){
     cout << "\e[A\r                                                           ";
   }
-  cout << "\e[A\r";
+  cout << "\r";
 }
 
 inline void printLocalTime(string args, string name, string status){
@@ -73,6 +75,11 @@ inline void printLocalTime(string args, string name, string status){
   time (&tt);
   ti = localtime(&tt);
   cout << "\033[" + args + "m" + name + " " + status + " at: " << asctime(ti) << "\033[0m";
+}
+
+RTIM::RTIM(Arguments& arguments):graph(arguments){
+  args = arguments;
+  srand(time(NULL));
 }
 
 RTIM::RTIM(Arguments& arguments, bool loadGraph):graph(arguments, loadGraph){
@@ -677,11 +684,11 @@ void RTIM::datasetMenu(){
     getline(cin, dataset);
     if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
       cout << "Dataset not recognized: " << dataset << endl;
-      usleep(2000);
+      sleep(SLEEP);
       clearLines(2);
     } else if (args.dataset == dataset){
       cout << "Dataset has already been imported!" << endl;
-      usleep(2000);
+      sleep(SLEEP);
       break;
     }else{
       args.dataset = dataset;//?
@@ -722,15 +729,16 @@ void RTIM::stageMenu(){
       case 5:
         cout << "Program ending: Have a nice day!" << endl;
         printLocalTime("1;31", "Program", "ending");
+        cout << endl;
         exit(1);
       default:
         cout << "Error: stage not recognized!" << endl;
-        usleep(2000);
+        sleep(SLEEP);
         clearLines(2);
         choice = -1;
     }
   }
-  clearLines(7);
+  clearLines(8);
 }
 
 
@@ -743,6 +751,8 @@ void RTIM::stageArgumentsMenu(){
   }
   getline(cin, input);
   cout << "Test: input= " << input << endl;
+  sleep(SLEEP);
+  clearLines(2);
   // args.getInput(input);
   // if args incorrect report and repeat
   // else if correct read attributes and import dataset. print all arguments and data attributes
@@ -773,7 +783,8 @@ int RTIM::continueMenu(){
       case 4:
         break;
       case 5:
-        cout << "Programming ending: 'Have a nice day!'"<< endl;
+        clearLines(8);
+        cout << "Programming ending: \"Have a nice day!\"      "<< endl;
         return -1;
       default:
         cout << "Error: choice not recognized!" << endl;
@@ -787,6 +798,7 @@ int RTIM::continueMenu(){
 
 
 void RTIM::run(){
+  cout << endl;
   printLocalTime("1;31", "Program", "starting");
   int choice = 0;
   while (choice != -1){
@@ -795,20 +807,24 @@ void RTIM::run(){
         break;
       case 2:
         stageArgumentsMenu();
+        args.printArguments();
         break;
       case 3:
         stageMenu();
         stageArgumentsMenu();
+        args.printArguments();
         break;
       case 4:
         datasetMenu();
         stageMenu();
         stageArgumentsMenu();
+        args.printArguments();
         break;
       default:
         datasetMenu();
         stageMenu();
         stageArgumentsMenu();
+        args.printArguments();
         break;
     }
     if (args.stage == "pre"){
@@ -833,6 +849,7 @@ void RTIM::run(){
   }
 
   printLocalTime("1;31", "Program", "ending");
+  cout << endl;
 }
 
 
@@ -841,10 +858,8 @@ int main(int argn, char **argv)
     clock_t start;
     double duration;
     Arguments args = Arguments();
-    RTIM rtim = RTIM(args, false);
+    RTIM rtim = RTIM(args);
     rtim.run();
-
-    //cout << "\033[1;31mbold red text\033[0m\n";
 
     // Arguments args = Arguments();
     // args.getArguments(argn, argv);

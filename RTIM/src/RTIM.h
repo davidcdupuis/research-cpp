@@ -38,6 +38,8 @@ public:
   Arguments args;                    /**< command line arguments */
   const Graph graph;
 
+  RTIM(Arguments& arguments);
+
   /**
     * Constructor
     *

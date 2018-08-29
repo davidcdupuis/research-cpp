@@ -27,6 +27,8 @@ class Graph
     std::vector<std::vector<std::pair<int, double> > > graph;
     Arguments args;                     /**< Command line arguments */
 
+    Graph(Arguments& arguments);
+
     Graph(Arguments& arguments, bool import);
 
 
