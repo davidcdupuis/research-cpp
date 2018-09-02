@@ -333,7 +333,7 @@ void RTIM::printScores(){
 
 void RTIM::saveScores(){
   string file = "../../data/" + args.dataset + "/rtim/" + args.dataset + "_infscores_d" + to_string(args.depth) + "m" + to_string(args.min_weight) + ".txt";
-  cout << "Saving influence scores to: " << file << endl;
+  cout << "\033[33mSaving influence scores to: " << file << "\033[0m" << endl;
   // save scores
   ofstream infScoresFile;
   infScoresFile.open(file);
@@ -341,26 +341,26 @@ void RTIM::saveScores(){
      infScoresFile << i << " " << infScores[i] << " " << nodeTime[i] << endl;
   }
   infScoresFile.close();
-  cout << "Scores saved successfully!" << endl;
+  cout << "\033[1;33mScores saved successfully!\033[0m" << endl;
 }
 
 
 void RTIM::saveSeedSet(){
   string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + to_string(args.reach) + "ap" + to_string(args.theta_ap) + ".txt";
-  cout << "Saving seed set to: " << file << endl;
+  cout << "\033[33mSaving seed set to: " << file << "\033[0m" << endl;
   ofstream seedSetFile;
   seedSetFile.open(file);
   for (int i = 0; i < seedSet.size() ; i++){
      seedSetFile << seedSet[i] << endl;
   }
   seedSetFile.close();
-  cout << "Seed set saved successfully!" << endl;
+  cout << "\033[33mSeed set saved successfully!\033[0m" << endl;
 }
 
 
 void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime){
   string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_liveLog.txt";
-  cout << "Saving live log to: " << file << endl;
+  cout << "\033[33mSaving live log to: " << file << "\033[0m" << endl;
   ofstream liveLogFile;
   liveLogFile.open(file, fstream::app);
   liveLogFile << "<Stream>" << endl;
@@ -380,13 +380,13 @@ void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, doub
   liveLogFile << "Max update time: " << cleanTime(maxTime,"ms") << endl;
   liveLogFile << "----------------------------------------------------" << endl;
   liveLogFile.close();
-  cout << "Live log saved successfully!" << endl;
+  cout << "\033[33mLive log saved successfully!\033[0m" << endl;
 }
 
 
 void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime){
   string file = "../../data/live_log.csv";
-  cout << "Saving live csv to: " << file << endl;
+  cout << "\033[33mSaving live csv to: " << file << "\033[0m" << endl;
   ofstream liveCSV;
   liveCSV.open(file, fstream::app);
   /*Order of values: dataset,nodes,edges,reach,theta_ap,ap_algo,ap_depth,streamModel,streamVersion,streamRuntime,streamProgress,maxAPTime,seedSizeLimit,seedSize,seedScore,seedScoreRuntime,liveRuntime */
@@ -408,7 +408,7 @@ void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, do
   liveCSV << seedTime << ",";
   liveCSV << runtime << endl;
   liveCSV.close();
-  cout << "Live CSV saved! " << endl;
+  cout << "\033[33mLive CSV saved!\033[0m" << endl;
 }
 
 
@@ -761,9 +761,6 @@ void RTIM::stageArgumentsMenu(){
     cout << "Error: Stage not recognized!" << endl;
     exit(1);
   }
-  // args.getInput(input);
-  // if args incorrect report and repeat
-  // else if correct read attributes and import dataset. print all arguments and data attributes
 }
 
 
@@ -836,7 +833,7 @@ void RTIM::liveMenu(){
   double dChoice;
   string input;
   cout << "________________________________________" << endl;
-  cout << "Input " << args.stage << " arguments" << endl;
+  cout << "Input live arguments" << endl;
   // asking for seed size
   while(1){
     cout << "> seed size (" << args.k << "): ";
