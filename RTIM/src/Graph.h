@@ -8,6 +8,7 @@
 #include <set>
 
 #include "Arguments.h"
+#include "Tools.h"
 
 /**
   * @file Graph.h
@@ -27,13 +28,28 @@ class Graph
     std::vector<std::vector<std::pair<int, double> > > graph;
     Arguments args;                     /**< Command line arguments */
 
+    /**
+      * Graph constructor
+      *
+      * @param arguments: Arguments object to hold important information on program
+      */
     Graph(Arguments& arguments);
 
+    /**
+      * Graph Constructor
+      *
+      * @param arguments: Arguments object to hold important information on program
+      * @param import: bool value to determine whether to import graph or not
+      */
     Graph(Arguments& arguments, bool import);
 
 
     /**
       * Function to add an edge
+      *
+      * @param a: user influencee
+      * @param b: user influenced
+      * @param w: influence weight
       */
     void addEdge(int a, int b, double w);
 
@@ -52,14 +68,23 @@ class Graph
 
     /**
       * Function to compute influence score of a seed set using Monte Carlo simulations
+      * @param seed_set
+      * @param depth
+      * @param minEdgeWeight
+      * @param sim
       *
       * @return double, influence score
     */
-    double influenceScore(const std::vector<int>& seed_set, int depth=10000, double minEdgeWeight=1.0, int sim=10000) const;
+    double influenceScore(const std::vector<int>& seed_set, int depth=10000, double minEdgeWeight=0, int sim=10000) const;
 
 
     /**
       * Function to run Monte Carlo simulations and return results
+      *
+      * @param values
+      * @param seed_set
+      * @param depth
+      * @param sim
       *
       * @ return int []
       */
@@ -72,6 +97,7 @@ class Graph
       * @param max_depth: max depth of path exploration
       * @param type: type of path we want to use for computing inf score
       * @param edge_weight: if defined, sets the edge weight
+      * @param min_weight:
       *
       * @return double
       */
@@ -82,11 +108,12 @@ class Graph
       * Constant function to perform random influence coverage of seed set
       *
       * @param seed_set: starting influential nodes
-      * @param depth: default depth is "infinite"
+      * @param depth: exploration depth, default is 10_000 to mark infinity
+      * @param minEdgeWeight: minimum edge weight threshold, default is 0
       *
       * @return int: number of activated nodes
     */
-    int influenceSimulation(const std::vector<int>& seed_set, int depth=10000, double minEdgeWeight=1.0) const;
+    int influenceSimulation(const std::vector<int>& seed_set, int depth=10000, double minEdgeWeight=0) const;
 
 
     /**
@@ -126,6 +153,9 @@ class Graph
 
     /**
       * Update activation probabilies of neighboring nodes at depth 1
+      *
+      * @param src:
+      * @param activationProbs:
       */
     void updateNeighborsAPShort(int src, std::vector<double>& activationProbs) const;
 

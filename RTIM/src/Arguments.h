@@ -2,6 +2,7 @@
 #define __ARGUMENTS_H__
 
 #include "Tools.h"
+
 #include <string>
 
 /**

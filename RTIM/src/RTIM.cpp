@@ -9,8 +9,6 @@
 #include <unistd.h>
 
 #include "RTIM.h"
-#include "Arguments.h"
-#include "Graph.h"
 
 #include <iostream>
 #include <fstream>
@@ -27,56 +25,6 @@ using namespace std;
 
 const int SLEEP = 1; // duration of sleep
 
-inline string cleanTime(double t, string type="ms"){
-  if (type == "ms"){
-    if (t >= 1000){
-      t = t / 1000;
-      type = "s";
-    }else{
-      return to_string(t) + " milliseconds";
-    }
-  }
-  if (type == "s"){
-    if (t >= 60){
-      t = t / 60;
-      type = "m";
-    }else{
-      return to_string(t) + " seconds";
-    }
-  }
-  if (type == "m"){
-    if (t >= 60){
-      t = t / 60;
-      type = "h";
-    }else{
-      return to_string(t) + " minutes";
-    }
-  }
-  if (type == "h"){
-    if (t >= 24){
-      t = t / 24;
-      return to_string(t) + " days";
-    }else{
-      return to_string(t) + " hours";
-    }
-  }
-}
-
-inline void clearLines(int l){
-  cout << "\r                                                         ";
-  for(int i=0; i < l; i++){
-    cout << "\e[A\r                                                                                                      ";
-  }
-  cout << "\r";
-}
-
-inline void printLocalTime(string args, string name, string status){
-  time_t tt;
-  struct tm * ti;
-  time (&tt);
-  ti = localtime(&tt);
-  cout << "\033[" + args + "m" + name + " " + status + " at: " << asctime(ti) << "\033[0m";
-}
 
 RTIM::RTIM(Arguments& arguments):graph(arguments){
   args = arguments;
@@ -355,6 +303,33 @@ void RTIM::saveSeedSet(){
   }
   seedSetFile.close();
   cout << "Seed set saved successfully!" << endl;
+}
+
+
+void RTIM::importSeedSet(string file_path){
+  int user;
+  string file = "../../data/" + args.dataset + "/" + file_path;
+  cout << "Importing from: " << file << endl;
+
+  ifstream infile(file.c_str());
+  while(infile >> user){
+    seedSet.push_back(user);
+  }
+  cout << "Seed set imported correctly!" << endl;
+}
+
+
+void RTIM::seedSetTest(string file_path){
+  double score;
+  importSeedSet(file_path);
+  if(seedSet.size() <= 300){
+    cout << "Computing influence score of seed set with max depth." << endl;
+    score = graph.influenceScore(seedSet);
+  }else{
+    cout << "Computing influence score of seed set with depth of 3." << endl;
+    score = graph.influenceScore(seedSet, 3);
+  }
+  cout << "Seed score is: " << score << endl;
 }
 
 
@@ -736,7 +711,7 @@ void RTIM::stageMenu(){
         break;
       case 5:
         cout << "Program ending: Have a nice day!" << endl;
-        printLocalTime("1;31", "Program", "ending");
+        printLocalTime("red", "Program", "ending");
         cout << endl;
         exit(1);
       default:
@@ -1025,7 +1000,7 @@ int RTIM::continueMenu(){
 
 void RTIM::run(){
   cout << endl;
-  printLocalTime("1;31", "Program", "starting");
+  printLocalTime("red", "Program", "starting");
   int choice = 0;
   int loadDataset;
   while (choice != -1){
@@ -1062,19 +1037,19 @@ void RTIM::run(){
       clearLines(3);
     }
     if (args.stage == "pre"){
-      printLocalTime("1;35", "Pre_processing", "starting");
+      printLocalTime("magenta", "Pre_processing", "starting");
       cout << "Test: Launching pre_process!" << endl;
       // pre_process();
-      printLocalTime("1;35", "Pre_processing", "ending");
+      printLocalTime("magenta", "Pre_processing", "ending");
     }else if (args.stage == "live"){
-      printLocalTime("1;35", "Live", "starting");
+      printLocalTime("magenta", "Live", "starting");
       cout << "Test: Launching live!" << endl;
       // live();
-      printLocalTime("1;35", "Live", "ending");
+      printLocalTime("magenta", "Live", "ending");
     }else if (args.stage == "imm_seed_test"){
-      printLocalTime("1;35", "IMM seed test", "starting");
+      printLocalTime("magenta", "IMM seed test", "starting");
       cout << "Not implemented yet!" << endl;
-      printLocalTime("1;35", "IMM seed test", "ending");
+      printLocalTime("magenta", "IMM seed test", "ending");
     }else{
       cout << "Error! stage not recognized: " << args.stage << endl;
       exit(1);
@@ -1082,7 +1057,7 @@ void RTIM::run(){
     choice = continueMenu();
   }
 
-  printLocalTime("1;31", "Program", "ending");
+  printLocalTime("red", "Program", "ending");
   cout << endl;
 }
 

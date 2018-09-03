@@ -5,17 +5,20 @@ EXEC=rtim
 
 all: $(EXEC)
 
-rtim: Arguments.o Graph.o RTIM.o
-	$(CXX) -fopenmp -o rtim Arguments.o Graph.o RTIM.o
+rtim: Arguments.o Graph.o RTIM.o Tools.o
+	$(CXX) -fopenmp -o rtim Arguments.o Graph.o RTIM.o Tools.o
 
-RTIM.o: RTIM.cpp Graph.cpp Graph.h RTIM.h Arguments.h
+RTIM.o: RTIM.cpp Graph.cpp Arguments.cpp Graph.h RTIM.h Arguments.h Tools.cpp Tools.h
 	$(CXX) -fopenmp -c RTIM.cpp
 
-Graph.o: Graph.cpp Graph.h Arguments.h
+Graph.o: Graph.cpp Arguments.cpp Graph.h Arguments.h Tools.cpp Tools.h
 	$(CXX) -fopenmp -c Graph.cpp
 
-Arguments.o: Arguments.cpp Arguments.h
+Arguments.o: Arguments.cpp Arguments.h Tools.cpp Tools.h
 	$(CXX) -c Arguments.cpp
+
+Tools.o: Tools.cpp Tools.h
+	$(CXX) -c Tools.cpp
 
 clean:
 	rm -rf *.o

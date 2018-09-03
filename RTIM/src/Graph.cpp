@@ -13,49 +13,9 @@
 #include <unistd.h>
 
 #include "Graph.h"
-#include "Arguments.h"
 
 using namespace std;
 
-string clean(double t){
-  string cleanT;
-  if (t < 1){
-    t = t * 1000;
-    cleanT = to_string(t) + " ms";
-    return cleanT;
-  }
-  if (t > 60){
-    t = t / 60; // time is in minutes
-    if (t > 60){
-      t = t / 60; // time is in hours
-      if (t > 24){
-        t = t / 24; // time is in days
-        cleanT = to_string(t) + " days";
-      }else{
-        cleanT = to_string(t) + " hours";
-      }
-    }else{
-      cleanT = to_string(t) + " minutes";
-    }
-  }else{
-    cleanT = to_string(t) + " seconds";
-  }
-  return cleanT;
-}
-
-
-string printSeed(vector<int> seed){
-  string s = "[";
-  for (int i = 0; i < seed.size(); i++){
-    if (i < seed.size() - 1){
-      s += to_string(seed[i]) + ", ";
-    }else{
-      s += to_string(seed[i]);
-    }
-  }
-  s += "]";
-  return s;
-}
 
 Graph::Graph(Arguments& arguments){
   args = arguments;
@@ -154,7 +114,7 @@ void Graph::loadGraph(){
   }
   cout << endl;
   double duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-  cout << "Graph import done in: " << clean(duration) << endl;
+  cout << "Graph import done in: " << cleanTime(duration, "ms") << endl;
   fclose(fin);
   sleep(3);
 }
@@ -249,8 +209,9 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth, double mi
       // test influence of all neigbhors
       // cout << "[ ";
       for(pair<int, double> neighbor: graph[curr.first]){
-        // check if edge weight smaller than minimum
-        if(neighbor.second <= minEdgeWeight){
+        // if inf probability to neighbor node is greater than minimum threshold
+        // attempt to influence
+        if(neighbor.second > minEdgeWeight){
           r = rand_r(&seed)/(double)RAND_MAX;
           // cout << "(" << neighbor.first << " - " << r << ") ";
           // cout << neighbor.first << " - ";

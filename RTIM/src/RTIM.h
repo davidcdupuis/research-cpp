@@ -6,6 +6,7 @@
 
 #include "Graph.h"
 #include "Arguments.h"
+#include "Tools.h"
 
 
 /**
@@ -95,6 +96,19 @@ public:
     * Save seed set to appropriate file
     */
   void saveSeedSet();
+
+
+  /**
+    * Import seed set at file_path starting a ../../data/<dataset>
+    */
+  void importSeedSet(std::string file_path);
+
+
+
+  /**
+    * Function to test seed set at path ../../data/<dataset>/
+    */
+  void seedSetTest(std::string file_path);
 
   /**
     * Save live log data to file
