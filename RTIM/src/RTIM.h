@@ -37,7 +37,7 @@ public:
   std::vector<int> seedSet;          /**< users to target */
   std::vector<double> activationProbabilities; /**< array of activation probabilities*/
   Arguments args;                    /**< command line arguments */
-  /*const*/ Graph graph;
+  Graph graph;
 
   RTIM(Arguments& arguments);
 
