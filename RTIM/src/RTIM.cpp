@@ -1082,64 +1082,7 @@ void RTIM::run(){
 
 int main(int argn, char **argv)
 {
-    clock_t start;
-    double duration;
-    Arguments args = Arguments();
-    RTIM rtim = RTIM(args);
-    rtim.run();
-
-    // Arguments args = Arguments();
-    // args.getArguments(argn, argv);
-    // args.printArguments();
-    //
-    // if (args.stage == "pre"){
-    //   RTIM rtim = RTIM(args, true);
-    //   double start = omp_get_wtime();
-    //   rtim.pre_process();//g);
-    //   double duration = omp_get_wtime() - start;
-    //   cout << "Pre-process stage done in: " << cleanTime(duration, "s") << endl;
-    // } else if (args.stage == "live"){
-    //   //
-    //   RTIM rtim = RTIM(args, true);
-    //   start = clock();
-    //   rtim.live();//, args.k, args.streamModel, args.streamVersion, args.streamSize, args.theta_ap, args.reach);
-    //   duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-    //   cout << "Live stage done in: " << cleanTime(duration, "ms") << endl;
-    // } else if (args.stage == "newStream"){
-    //   //
-    //   // RTIM rtim = RTIM(args, false);
-    //   // start = clock();
-    //   // rtim.availabilityStream();//args.streamModel, args.streamVersion, args.streamSize);
-    //   //
-    //   // duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-    //   // cout << "Stream generated in: " << cleanTime(duration, "ms") << endl;
-    //   cout << "Availability generator not implemented! " << endl;
-    // } else if (args.stage == "special"){
-    //
-    //   /* Testing seed computation time
-    //   RTIM rtim = RTIM(args, true);
-    //   if(args.k == -1){
-    //     args.k = 10;
-    //   }
-    //   int  sizes[7] = {10, 100, 300, 500, 1000, 2000, 5000};
-    //   for (int i = 0; i < 7; i++){
-    //     rtim.seedComputationTest(sizes[i]);
-    //   }
-    //   */
-    //   RTIM rtim = RTIM(args, true);
-    //   if(args.k == -1){
-    //     args.k = 1;
-    //   }
-    //   // rtim.seedComputationTest(200, 2, 1.0);
-    //   // rtim.seedComputationTest(200, 1, 1.0);
-    //   // rtim.seedComputationTest(1000, 10000, 1.0);
-    //   rtim.seedComputationTest(5000, 3, 1.0);
-    //   rtim.seedComputationTest(5000, 2, 1.0);
-    //   rtim.seedComputationTest(10000, 3, 1.0);
-    //   rtim.seedComputationTest(10000, 2, 1.0);
-    //   rtim.seedComputationTest(10000, 1, 1.0);
-    // } else {
-    //   cerr << "Error stage not recognized!" << endl;
-    //   exit(1);
-    // }
+  Arguments args = Arguments();
+  RTIM rtim = RTIM(args);
+  rtim.run();
 }
