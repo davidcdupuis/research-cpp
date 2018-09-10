@@ -307,7 +307,7 @@ void RTIM::saveSeedSet(){
   }
   seedSetFile.close();
   //cout << "\033[33mSeed set saved successfully!\033[0m" << endl;
-  printInColor("yellow", "Seed set saved successfully!")
+  printInColor("yellow", "Seed set saved successfully!");
 }
 
 
@@ -697,7 +697,7 @@ void RTIM::stageMenu(){
   cout << "Choose a stage: " << endl;
   cout << "   [1] pre-process"<< endl;
   cout << "   [2] live " << endl;
-  cout << "   [3] IMM seed set test" << endl;
+  cout << "   [3] compute seed score" << endl;
   cout << "   [4] test " << endl;
   cout << "   [5] EXIT PROGRAM " << endl;
   while(choice == -1){
@@ -713,7 +713,7 @@ void RTIM::stageMenu(){
         args.stage = "live";
         break;
       case 3:
-        args.stage = "imm_seed_test";
+        args.stage = "compute_seed_score";
         break;
       case 4:
         cout << "Test!" << endl;
@@ -739,8 +739,8 @@ void RTIM::stageArgumentsMenu(){
     preProcessMenu();
   }else if (args.stage == "live"){
     liveMenu();
-  }else if (args.stage == "imm_seed_test"){
-    immSeedTestMenu();
+  }else if (args.stage == "compute_seed_score"){
+    computeSeedScoreMenu();
   }else{
     cout << "Error: Stage not recognized!" << endl;
     exit(1);
@@ -951,18 +951,27 @@ void RTIM::liveMenu(){
 }
 
 
-void RTIM::immSeedTestMenu(){
+void RTIM::computeSeedScoreMenu(){
   string input;
+  string file_path = "../../data/" + args.dataset + "/";
   cout << "________________________________________" << endl;
   cout << "Input IMM seed set arguments" << endl;
   while (1){
-    cout << "> seed file: " << endl;
-    // repeat if can't find file
-    // if input is 'quit', exit program?
-    break;
+    cout << "> seed file: ";
+    getline(cin, input);
+    struct stat buffer;
+    file_path += input;
+    if (stat(file_path.c_str(), &buffer) == 0){ // if file is not accessible
+      cout << "Error! file not found: " << file_path << endl;
+      sleep(SLEEP);
+      clearLines(2);
+    }else{
+      break;
+    }
   }
+  importSeedSet(input);
   sleep(SLEEP);
-  clearLines(3);
+  clearLines(5);
 }
 
 
@@ -1045,16 +1054,19 @@ void RTIM::run(){
     if (args.stage == "pre"){
       printLocalTime("magenta", "Pre_processing", "starting");
       cout << "Test: Launching pre_process!" << endl;
-      // pre_process();
+      pre_process();
       printLocalTime("magenta", "Pre_processing", "ending");
     }else if (args.stage == "live"){
       printLocalTime("magenta", "Live", "starting");
       cout << "Test: Launching live!" << endl;
-      // live();
+      live();
       printLocalTime("magenta", "Live", "ending");
-    }else if (args.stage == "imm_seed_test"){
-      printLocalTime("magenta", "IMM seed test", "starting");
-      cout << "Not implemented yet!" << endl;
+    }else if (args.stage == "compute_seed_score"){
+      printLocalTime("magenta", "Compute seed score", "starting");
+      double score;
+      score = graph.influenceScore(seedSet);
+      string txt = "> Influence score of seed set is: " + to_string(score);
+      printInColor("yellow", txt);
       printLocalTime("magenta", "IMM seed test", "ending");
     }else{
       cout << "Error! stage not recognized: " << args.stage << endl;

@@ -229,11 +229,22 @@ public:
   void stageArgumentsMenu();
 
 
+  /**
+    * Menu to input pre-processing stage arguments
+    */
   void preProcessMenu();
 
+
+  /**
+    * Menu to input live stage arguments
+    */
   void liveMenu();
 
-  void immSeedTestMenu();
+
+  /**
+    * Menu to input compute seed score arguments
+    */
+  void computeSeedScoreMenu();
 
   /**
     * Menu to decide if user would like to continue program or quit
