@@ -959,15 +959,16 @@ void RTIM::computeSeedScoreMenu(){
   while (1){
     cout << "> seed file: ";
     getline(cin, input);
-    struct stat buffer;
-    file_path += input;
-    if (stat(file_path.c_str(), &buffer) == 0){ // if file is not accessible
-      cout << "Error! file not found: " << file_path << endl;
-      sleep(SLEEP);
-      clearLines(2);
-    }else{
-      break;
-    }
+    break;
+    // struct stat buffer;
+    // file_path += input;
+    // if (stat(file_path.c_str(), &buffer) == 0){ // if file is not accessible
+    //   cout << "Error! file not found: " << file_path << endl;
+    //   sleep(SLEEP);
+    //   clearLines(2);
+    // }else{
+    //   break;
+    // }
   }
   importSeedSet(input);
   sleep(SLEEP);
@@ -1082,6 +1083,7 @@ void RTIM::run(){
 
 int main(int argn, char **argv)
 {
+  // int cores = omp_get_max_threads();
   Arguments args = Arguments();
   RTIM rtim = RTIM(args);
   rtim.run();
