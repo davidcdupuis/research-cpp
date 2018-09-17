@@ -170,6 +170,7 @@ void RTIM::live(){
   nodes = graph.graph.size();
   cout << "-------------------------------" << endl;
   cout << "Running live on " << args.dataset << endl;
+  initiateProgressLog();
   activationProbabilities.resize(nodes, 0);
   importScores();
   sortedScores = infScores;
@@ -215,7 +216,6 @@ void RTIM::live(){
       break;
     }
     // print progress
-
     float progress = (float)sum/args.streamSize;
 
     time_t currentTime;
@@ -238,6 +238,11 @@ void RTIM::live(){
     }
     cout << "] " << int(progress * 100.0) << " % -- (" << sum << "/" << args.streamSize << ") -- (" << duration << "s / " << timeLeft << "s)";
     cout.flush();
+
+    // if progress = 10,20,30,40,50,...,100% record seed size in specific file
+    if (progress % 10 == 0){
+      // record seed size
+    }
 
   }
   cout << endl;
@@ -393,6 +398,35 @@ void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, do
   liveCSV.close();
   // cout << "\033[33mLive CSV saved!\033[0m" << endl;
   printInColor("yellow", "Live CSV saved!");
+}
+
+
+void RTIM::initiateProgressLog(){
+  string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/";
+  string file =  folder + args.dataset + "_s" + args.streamSize + "r" + args.reach + "ap" + args.theta_ap + "_progress.csv";
+  printInColor("yellow", "Initiating progress log: " + file);
+  ofstream progressFile;
+  progressFile.open(file);
+  progressFile << "progress,seen,stream size,seed size" << endl;
+  progressFile.close();
+}
+
+
+
+void RTIM::saveProgress(int progress, int seen, int seedSize){
+  string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/";
+  string file =  folder + args.dataset + "_s" + args.streamSize + "r" + args.reach + "ap" + args.theta_ap + "_progress.csv";
+  printInColor("yellow","Saving progress: " + to_string(progress));
+  ofstream progressFile;
+  progressFile.open(file, fstream::app);
+  /* progress | nodes seen | stream size | seed size */
+  progressFile << progress;
+  progressFile << seen;
+  progressFile << args.streamSize;
+  progressFile << seedSize;
+  progressFile.close();
+
+
 }
 
 

@@ -138,6 +138,22 @@ public:
 
 
   /**
+    * Initiate progress log file with header
+    * progress | seen | stream size | seed size
+    *
+    */
+  void initiateProgressLog();
+
+  /**
+    * Save progress number of targeted seed nodes
+    *
+    * @param progress   : % of users seen in stream
+    * @param seen       : number of users seen in stream
+    * @param seedSize   : current size of seed set
+    */
+  void saveProgress(int progress, int seen, int seedSize);
+
+  /**
     * Import influence scores
     */
   void importScores();
