@@ -240,7 +240,7 @@ void RTIM::live(){
     cout.flush();
 
     // if progress = 10,20,30,40,50,...,100% record seed size in specific file
-    if (progress % 10 == 0){
+    if ((int)progress % 10 == 0){
       // record seed size
     }
 
@@ -403,7 +403,7 @@ void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, do
 
 void RTIM::initiateProgressLog(){
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/";
-  string file =  folder + args.dataset + "_s" + args.streamSize + "r" + args.reach + "ap" + args.theta_ap + "_progress.csv";
+  string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + to_string(args.reach) + "ap" + to_string(args.theta_ap) + "_progress.csv";
   printInColor("yellow", "Initiating progress log: " + file);
   ofstream progressFile;
   progressFile.open(file);
@@ -415,7 +415,7 @@ void RTIM::initiateProgressLog(){
 
 void RTIM::saveProgress(int progress, int seen, int seedSize){
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/";
-  string file =  folder + args.dataset + "_s" + args.streamSize + "r" + args.reach + "ap" + args.theta_ap + "_progress.csv";
+  string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + to_string(args.reach) + "ap" + to_string(args.theta_ap) + "_progress.csv";
   printInColor("yellow","Saving progress: " + to_string(progress));
   ofstream progressFile;
   progressFile.open(file, fstream::app);
