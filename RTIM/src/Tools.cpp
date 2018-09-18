@@ -62,9 +62,9 @@ string cleanTime(double t, string type){
 
 
 void clearLines(int l){
-  cout << "\r                                                         ";
+  cout << "\r                                                                                                                                           ";
   for(int i=0; i < l; i++){
-    cout << "\e[A\r                                                                                                      ";
+    cout << "\e[A\r                                                                                                                                     ";
   }
   cout << "\r";
 }

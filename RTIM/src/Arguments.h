@@ -21,7 +21,7 @@
   */
 class Arguments{
 public:
-  int k = -1;                          /**< size of seed set if defined */
+  int k = 200;                          /**< size of seed set if defined */
   int streamVersion = 1;               /**< version of stream */
   int streamSize = -1;                 /**< size of stream to use*/
   int reach = 1;                       /**< reach to define inf. threshold = percentage */

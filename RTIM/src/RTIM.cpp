@@ -97,7 +97,7 @@ int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time
 
 void RTIM::pre_process(){
   // for each node in graph compute influence score
-  cout << "Running pre_process on " << args.dataset << endl;
+  // cout << "Running pre_process on " << args.dataset << endl;
   double score;
   // nodes = graph.graph.size();
 
@@ -168,8 +168,8 @@ void RTIM::pre_process(){
 void RTIM::live(){
   clock_t startLive = clock();
   nodes = graph.graph.size();
-  cout << "-------------------------------" << endl;
-  cout << "Running live on " << args.dataset << endl;
+  // cout << "-------------------------------" << endl;
+  // cout << "Running live on " << args.dataset << endl;
   initiateProgressLog();
   activationProbabilities.resize(nodes, 0);
   importScores();
@@ -182,7 +182,8 @@ void RTIM::live(){
   string file = args.streamModel + "_" + to_string(args.streamSize) + "_m" + to_string(args.streamVersion);
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.streamModel + "_" + to_string(args.streamSize) + "_m" + to_string(args.streamVersion) + ".txt";
   int user;
-  cout << "Reading availability stream: " << folder << endl;
+  // cout << "Reading availability stream: " << folder << endl;
+  printInColor("yellow", "Reading availability stream: " + folder);
   ifstream infile(folder.c_str());
   double max_time = 0;
   clock_t start;
@@ -191,6 +192,8 @@ void RTIM::live(){
   time ( &startTime );
   double duration;
   int sum = 0;
+  int previousProgress = -1;
+  bool newProgress = true;
   while (infile >> user){
     sum ++;
     if (args.dataset == "test"){
@@ -236,12 +239,21 @@ void RTIM::live(){
           cout << " ";
         }
     }
-    cout << "] " << int(progress * 100.0) << " % -- (" << sum << "/" << args.streamSize << ") -- (" << duration << "s / " << timeLeft << "s)";
+    int progressPercentage = (int)(progress * 100.0);
+    cout << "] " << progressPercentage << " % -- (" << sum << "/" << args.streamSize << ") -- (" << duration << "s / " << timeLeft << "s)";
     cout.flush();
 
     // if progress = 10,20,30,40,50,...,100% record seed size in specific file
-    if ((int)progress % 10 == 0){
-      // record seed size
+    if (progressPercentage % 10 == 0){
+      if(progressPercentage != previousProgress){
+        newProgress = true;
+        previousProgress = progressPercentage;
+      }else{
+        newProgress = false;
+      }
+      if(newProgress){
+        saveProgress(progressPercentage, sum, seedSet.size()); // record seed size
+      }
     }
 
   }
@@ -412,27 +424,26 @@ void RTIM::initiateProgressLog(){
 }
 
 
-
 void RTIM::saveProgress(int progress, int seen, int seedSize){
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/";
   string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + to_string(args.reach) + "ap" + to_string(args.theta_ap) + "_progress.csv";
-  printInColor("yellow","Saving progress: " + to_string(progress));
+  // printInColor("yellow","Saving progress: " + to_string(progress));
   ofstream progressFile;
   progressFile.open(file, fstream::app);
   /* progress | nodes seen | stream size | seed size */
-  progressFile << progress;
-  progressFile << seen;
-  progressFile << args.streamSize;
+  progressFile << progress << ",";
+  progressFile << seen << ",";
+  progressFile << args.streamSize << ",";
   progressFile << seedSize;
+  progressFile << endl;
   progressFile.close();
-
-
 }
 
 
 void RTIM::importScores(){
   string folder = "../../data/" + args.dataset + "/rtim/" + args.dataset + "_infscores.txt";
-  cout << "Importing influence scores from: " << folder << endl;
+  // cout << "Importing influence scores from: " << folder << endl;
+  printInColor("yellow", "Importing influence scores from: " + folder);
   infScores.resize(nodes, 0);
   int user;
   double infScore;
@@ -715,6 +726,7 @@ int RTIM::datasetMenu(){
       args.dataset = dataset;
       graph.directory = "../../data/" + args.dataset; //necessary to readAttributes
       graph.readAttributes();
+      nodes = graph.nodes;
       sleep(2);
       lines += 3;
       break;
@@ -851,7 +863,7 @@ void RTIM::liveMenu(){
   double dChoice;
   string input;
   cout << "________________________________________" << endl;
-  cout << "Input live arguments" << endl;
+  cout << "Input live arguments: [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
   // asking for seed size
   while(1){
     cout << "> seed size (" << args.k << "): ";
@@ -859,18 +871,29 @@ void RTIM::liveMenu(){
     if(input != ""){
       try{
         iChoice = stoi(input);
-        args.k = iChoice;
-        break;
+        if(iChoice > nodes){
+          cout << "Error: seed size larger than current graph: " << iChoice << " / " << nodes << endl;
+          sleep(SLEEP + 2);
+          clearLines(2);
+        }else{
+          args.k = iChoice;
+          break;
+        }
       }catch(invalid_argument& e){
         cout << "Error: invalid input!" << endl;
         sleep(SLEEP);
         clearLines(2);
       }
     }else{
-      clearLines(1);
-      cout << "> seed size (" << args.k << "): " << args.k << endl;
-      break;
-      break;
+      if(args.k > nodes){
+        cout << "Error: seed size larger than current graph: " << args.k << " / " << nodes << endl;
+        sleep(SLEEP + 2);
+        clearLines(2);
+      }else{
+        clearLines(1);
+        cout << "> seed size (" << args.k << "): " << args.k << endl;
+        break;
+      }
     }
   }
   // asking for reach
@@ -941,7 +964,7 @@ void RTIM::liveMenu(){
   }
   // asking for stream version
   while(1){
-    cout << "> stream version [1, 2, 3]: ";
+    cout << "> stream version [1, 2, 3] (" << args.streamVersion << "): ";
     getline(cin, input);
     if(input != ""){
       try{
@@ -960,12 +983,14 @@ void RTIM::liveMenu(){
         clearLines(2);
       }
     }else{
+      clearLines(1);
+      cout << "> stream version [1, 2, 3]: " << args.streamVersion << endl;
       break;
     }
   }
   // asking for stream size
   while(1){
-    cout << "> stream size: ";
+    cout << "> stream size (" << nodes << "): ";
     getline(cin, input);
     if(input != ""){
       try{
@@ -978,6 +1003,9 @@ void RTIM::liveMenu(){
         clearLines(2);
       }
     }else{
+      args.streamSize = nodes;
+      clearLines(1);
+      cout << "> stream size (" << args.streamSize << "): ";
       break;
     }
   }
@@ -1089,12 +1117,10 @@ void RTIM::run(){
     }
     if (args.stage == "pre"){
       printLocalTime("magenta", "Pre_processing", "starting");
-      cout << "Test: Launching pre_process!" << endl;
       pre_process();
       printLocalTime("magenta", "Pre_processing", "ending");
     }else if (args.stage == "live"){
       printLocalTime("magenta", "Live", "starting");
-      cout << "Test: Launching live!" << endl;
       live();
       printLocalTime("magenta", "Live", "ending");
     }else if (args.stage == "compute_seed_score"){

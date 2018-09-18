@@ -30,3 +30,99 @@ Max update time: 0.001000 ms
 Runtime: 1.700208 minutes
 Max update time: 0.003000 ms
 ----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.107636 milliseconds
+<Seed set>
+- size: 146
+- score: 1689.7
+- score compute time: 52.135774 milliseconds
+<Args>
+- reach: 1
+- theta_ap: 0.8
+Runtime: 52.276158 milliseconds
+Max update time: 0.000011 milliseconds
+----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.459766 milliseconds
+<Seed set>
+- size: 146
+- score: 1690.26
+- score compute time: 52.266937 milliseconds
+<Args>
+- reach: 1
+- theta_ap: 0.8
+Runtime: 52.738793 milliseconds
+Max update time: 0.000005 milliseconds
+----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.115260 milliseconds
+<Seed set>
+- size: 146
+- score: 1690.18
+- score compute time: 52.255253 milliseconds
+<Args>
+- reach: 1
+- theta_ap: 0.8
+Runtime: 52.398215 milliseconds
+Max update time: 0.000005 milliseconds
+----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.124734 milliseconds
+<Seed set>
+- size: 146
+- score: 1691
+- score compute time: 52.239871 milliseconds
+<Args>
+- reach: 1
+- theta_ap: 0.8
+Runtime: 52.382411 milliseconds
+Max update time: 0.000006 milliseconds
+----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.083898 milliseconds
+<Seed set>
+- size: 146
+- score: 1690.61
+- score compute time: 52.018063 milliseconds
+<Args>
+- reach: 1
+- theta_ap: 0.8
+Runtime: 52.117348 milliseconds
+Max update time: 0.000006 milliseconds
+----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.096935 milliseconds
+<Seed set>
+- size: 146
+- score: 1688.88
+- score compute time: 51.929770 milliseconds
+<Args>
+- reach: 1
+- theta_ap: 0.8
+Runtime: 52.053919 milliseconds
+Max update time: 0.000006 milliseconds
+----------------------------------------------------
