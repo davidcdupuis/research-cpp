@@ -970,6 +970,7 @@ void RTIM::liveMenu(){
     if(input != ""){
       try{
         iChoice = stoi(input);
+        args.streamSize = iChoice;
         break;
       }catch(invalid_argument& e){
         cout << "Error: invalid input!" << endl;

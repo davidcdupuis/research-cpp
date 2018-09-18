@@ -21,14 +21,14 @@
   */
 class Arguments{
 public:
-  int k = -1;                         /**< size of seed set if defined */
-  int streamVersion = 1;                  /**< version of stream */
-  int streamSize = -1;                /**< size of stream to use*/
-  int reach = 20;                     /**< reach to define inf. threshold = percentage */
-  int depth = 2;                      /**< max depth for monte carlo simulations */
+  int k = -1;                          /**< size of seed set if defined */
+  int streamVersion = 1;               /**< version of stream */
+  int streamSize = -1;                 /**< size of stream to use*/
+  int reach = 1;                       /**< reach to define inf. threshold = percentage */
+  int depth = 2;                       /**< max depth for monte carlo simulations */
 
   std::string dataset;                /**< name of dataset */
-  std::string streamModel = "rand_no_repeat"; /**< name of availability model */
+  std::string streamModel = "rand_repeat"; /**< name of availability model */
   std::string stage;                  /**< pre|live|evaluate */
   std::string model = "ic";           /**< model of weights: ic|lt, default is ic */
 
