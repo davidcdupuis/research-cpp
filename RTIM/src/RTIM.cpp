@@ -183,7 +183,7 @@ void RTIM::live(){
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.streamModel + "_" + to_string(args.streamSize) + "_m" + to_string(args.streamVersion) + ".txt";
   int user;
   // cout << "Reading availability stream: " << folder << endl;
-  printInColor("yellow", "Reading availability stream: " + folder);
+  printInColor("cyan", "Reading availability stream: " + folder);
   ifstream infile(folder.c_str());
   double max_time = 0;
   clock_t start;
@@ -258,6 +258,7 @@ void RTIM::live(){
 
   }
   cout << endl;
+  clearLines(1);
   double streamDuration = (clock() - startStream)/(double)CLOCKS_PER_SEC;
   cout << "Availability stream read in:  " << cleanTime(streamDuration, "ms") << endl;
   saveSeedSet();
@@ -277,8 +278,8 @@ void RTIM::live(){
   double liveDuration = (clock() - startLive)/(double)CLOCKS_PER_SEC;
   saveLiveLog(seedScore, streamDuration, seedDuration, max_time, sum, liveDuration);
   saveLiveCSV(graph, seedScore, streamDuration, seedDuration, max_time, sum, liveDuration);
-  cout << "Live complete!" << endl;
-  cout << "------------------------------" << endl;
+  // cout << "Live complete!" << endl;
+  // cout << "------------------------------" << endl;
 };
 
 
@@ -288,10 +289,14 @@ void RTIM::printScores(){
     for (int i = 0; i < infScores.size() ; i++){
       cout << "(" << i << " : " << infScores[i] << ")" << endl;
     }
+    sleep(SLEEP + 2);
+    clearLines(infScores.size() + 1);
   }else{
     for (int i = 0; i < 20 ; i++){
       cout << "(" << i << " : " << infScores[i] << ")" << endl;
     }
+    sleep(SLEEP + 5); // pause 6 seconds to let user time to review inf scores
+    clearLines(21);
   }
 }
 
@@ -299,7 +304,7 @@ void RTIM::printScores(){
 void RTIM::saveScores(){
   string file = "../../data/" + args.dataset + "/rtim/" + args.dataset + "_infscores_d" + to_string(args.depth) + "m" + to_string(args.min_weight) + ".txt";
   //string txt = "Saving inlfuence score to " + file;
-  printInColor("yellow", "Saving inlfuence score to " + file);
+  printInColor("cyan", "Saving inlfuence score to " + file);
   //cout << "\033[33mSaving influence scores to: " << file << "\033[0m" << endl;
   // save scores
   ofstream infScoresFile;
@@ -308,14 +313,14 @@ void RTIM::saveScores(){
      infScoresFile << i << " " << infScores[i] << " " << nodeTime[i] << endl;
   }
   infScoresFile.close();
-  printInColor("yellow", "Scores saved successfully!");
+  // printInColor("cyan", "Scores saved successfully!");
   //cout << "\033[1;33mScores saved successfully!\033[0m" << endl;
 }
 
 
 void RTIM::saveSeedSet(){
   string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + to_string(args.reach) + "ap" + to_string(args.theta_ap) + ".txt";
-  printInColor("yellow", "Saving seed set to: " + file);
+  printInColor("cyan", "Saving seed set to: " + file);
   //cout << "\033[33mSaving seed set to: " << file << "\033[0m" << endl;
   ofstream seedSetFile;
   seedSetFile.open(file);
@@ -324,7 +329,7 @@ void RTIM::saveSeedSet(){
   }
   seedSetFile.close();
   //cout << "\033[33mSeed set saved successfully!\033[0m" << endl;
-  printInColor("yellow", "Seed set saved successfully!");
+  // printInColor("cyan", "Seed set saved successfully!");
 }
 
 
@@ -358,7 +363,7 @@ void RTIM::seedSetTest(string file_path){
 void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime){
   string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_liveLog.txt";
   //cout << "\033[33mSaving live log to: " << file << "\033[0m" << endl;
-  printInColor("yellow", "Saving live log to: " + file);
+  printInColor("cyan", "Saving live log to: " + file);
   ofstream liveLogFile;
   liveLogFile.open(file, fstream::app);
   liveLogFile << "<Stream>" << endl;
@@ -379,14 +384,14 @@ void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, doub
   liveLogFile << "----------------------------------------------------" << endl;
   liveLogFile.close();
   //cout << "\033[33mLive log saved successfully!\033[0m" << endl;
-  printInColor("yellow", "Live log saved successfully");
+  // printInColor("cyan", "Live log saved successfully");
 }
 
 
 void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime){
   string file = "../../data/live_log.csv";
   // cout << "\033[33mSaving live csv to: " << file << "\033[0m" << endl;
-  printInColor("yellow", "Saving live csv to: " + file);
+  printInColor("cyan", "Saving live csv to: " + file);
   ofstream liveCSV;
   liveCSV.open(file, fstream::app);
   /*Order of values: dataset,nodes,edges,reach,theta_ap,ap_algo,ap_depth,streamModel,streamVersion,streamRuntime,streamProgress,maxAPTime,seedSizeLimit,seedSize,seedScore,seedScoreRuntime,liveRuntime */
@@ -409,14 +414,14 @@ void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, do
   liveCSV << runtime << endl;
   liveCSV.close();
   // cout << "\033[33mLive CSV saved!\033[0m" << endl;
-  printInColor("yellow", "Live CSV saved!");
+  // printInColor("cyan", "Live CSV saved!");
 }
 
 
 void RTIM::initiateProgressLog(){
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/";
   string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + to_string(args.reach) + "ap" + to_string(args.theta_ap) + "_progress.csv";
-  printInColor("yellow", "Initiating progress log: " + file);
+  printInColor("cyan", "Initiating progress log: " + file);
   ofstream progressFile;
   progressFile.open(file);
   progressFile << "progress,seen,stream size,seed size" << endl;
@@ -427,7 +432,7 @@ void RTIM::initiateProgressLog(){
 void RTIM::saveProgress(int progress, int seen, int seedSize){
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/";
   string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + to_string(args.reach) + "ap" + to_string(args.theta_ap) + "_progress.csv";
-  // printInColor("yellow","Saving progress: " + to_string(progress));
+  // printInColor("cyan","Saving progress: " + to_string(progress));
   ofstream progressFile;
   progressFile.open(file, fstream::app);
   /* progress | nodes seen | stream size | seed size */
@@ -443,7 +448,7 @@ void RTIM::saveProgress(int progress, int seen, int seedSize){
 void RTIM::importScores(){
   string folder = "../../data/" + args.dataset + "/rtim/" + args.dataset + "_infscores.txt";
   // cout << "Importing influence scores from: " << folder << endl;
-  printInColor("yellow", "Importing influence scores from: " + folder);
+  printInColor("cyan", "Importing influence scores from: " + folder);
   infScores.resize(nodes, 0);
   int user;
   double infScore;
@@ -453,7 +458,8 @@ void RTIM::importScores(){
   while(infile >> user >> infScore >> scoreTime){
     infScores[user] = infScore;
   }
-  cout << "Import successful" << endl;
+  // cout << "Import successful" << endl;
+  printInColor("cyan", "Import successful");
   printScores();
 }
 
@@ -1128,7 +1134,7 @@ void RTIM::run(){
       double score;
       score = graph.influenceScore(seedSet);
       string txt = "> Influence score of seed set is: " + to_string(score);
-      printInColor("yellow", txt);
+      printInColor("cyan", txt);
       printLocalTime("magenta", "IMM seed test", "ending");
     }else{
       cout << "Error! stage not recognized: " << args.stage << endl;

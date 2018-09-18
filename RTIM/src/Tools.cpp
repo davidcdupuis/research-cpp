@@ -95,3 +95,21 @@ string printSeed(vector<int> seed){
   s += "]";
   return s;
 }
+
+
+string properStringDouble(double value){
+  string original = to_string(value);
+  string result = "";
+  int index = original.length() - 1;
+  for(int i=original.length()-1; i >= 0; i--){
+    if(original[i] != '0'){
+      break;
+    }
+    index--;
+  }
+  cout << "Index: " << index << endl;
+  for(int i=0; i <= index; i++){
+    result += original[i];
+  }
+  return result;
+}

@@ -126,3 +126,35 @@ Max update time: 0.000006 milliseconds
 Runtime: 52.053919 milliseconds
 Max update time: 0.000006 milliseconds
 ----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.077611 milliseconds
+<Seed set>
+- size: 146
+- score: 1690.12
+- score compute time: 51.921462 milliseconds
+<Args>
+- reach: 1
+- theta_ap: 0.8
+Runtime: 52.014693 milliseconds
+Max update time: 0.000005 milliseconds
+----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.070271 milliseconds
+<Seed set>
+- size: 146
+- score: 1692.66
+- score compute time: 52.236622 milliseconds
+<Args>
+- reach: 1
+- theta_ap: 0.8
+Runtime: 52.321253 milliseconds
+Max update time: 0.000005 milliseconds
+----------------------------------------------------

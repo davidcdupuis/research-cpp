@@ -48,8 +48,12 @@
   */
   void printLocalTime(std::string color, std::string name, std::string status);
 
+
 /**
   *
   */
   std::string printSeed(std::vector<int> seed);
+
+
+  std::string properStringDouble(double value);
 #endif

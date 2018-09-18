@@ -106,43 +106,60 @@ void Arguments::getArguments(int argn, char **argv){
 
 void Arguments::printArguments(){
   cout << "------------- Arguments --------------" << endl;
-  cout << "Dataset: " <<  dataset << endl;
-  cout << "Model: " << model << endl;
+  cout << "Dataset: ";
+  printInColor("yellow", dataset);
+  cout << "Model: ";
+  printInColor("yellow", model);
   if(edge_weight == -1){
-    cout << "Edge weights: weighted cascade" << endl;
+    cout << "Edge weights: ";
+    printInColor("yellow", "weighted cascade");
   }else{
-    cout << "Edge weights: " << edge_weight << endl;
+    cout << "Edge weights: ";
+    printInColor("yellow", to_string(edge_weight));
   }
-  cout << "Stage: " << stage << endl;
+  cout << "Stage: ";
+  printInColor("yellow", stage);
   if( stage == "pre"){
-    cout << "Max Depth: " << depth << endl;
-    cout << "Min Weight: " << min_weight << endl;
-    cout << "Model: " << model << endl;
+    cout << "Max Depth: ";
+    printInColor("yellow", to_string(depth));
+    cout << "Min Weight: ";
+    printInColor("yellow", to_string(min_weight));
+    cout << "Model: ";
+    printInColor("yellow", model);
     // cout << "Simulations:\t\t" <<  mc_sim << endl;
   }else if (stage == "live"){
     cout << "Stream" << endl;
-    cout << "> Model: " << streamModel << endl;
-    cout << "> Version: " << streamVersion << endl;
+    cout << "> Model: ";
+    printInColor("yellow", streamModel);
+    cout << "> Version: ";
+    printInColor("yellow", to_string(streamVersion));
     if (streamSize == -1){
       cout << "> Size: # nodes in graph" << endl;
     }else{
-      cout << "> Size: " << streamSize << endl;
+      cout << "> Size: ";
+      printInColor("yellow", to_string(streamSize));
     }
     if (k == -1){
       cout << "Max seed size: # nodes in graph" << endl;
     }else{
-      cout << "Max seed size: " << k << endl;
+      cout << "Max seed size: ";
+      printInColor("yellow", to_string(k));
     }
-    cout << "Reach: " << reach << endl;
-    cout << "Activation threshold: " << theta_ap << endl;
+    cout << "Reach: ";
+    printInColor("yellow", to_string(reach));
+    cout << "Activation threshold: ";
+    printInColor("yellow", to_string(theta_ap));
   }else if(stage == "newStream"){
     cout << "Stream" << endl;
-    cout << "> Model: " << streamModel << endl;
-    cout << "> Version: " << streamVersion << endl;
+    cout << "> Model: ";
+    printInColor("yellow", streamModel);
+    cout << "> Version: ";
+    printInColor("yellow", to_string(streamVersion));
     if (streamSize == -1){
       cout << "> Size: # nodes in graph" << endl;
     }else{
-      cout << "> Size: " << streamSize << endl;
+      cout << "> Size: ";
+      printInColor("yellow", to_string(streamSize));
     }
   }
   cout << "--------------------------------------" << endl;
