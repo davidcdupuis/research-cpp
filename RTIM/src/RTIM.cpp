@@ -262,18 +262,19 @@ void RTIM::live(){
   double streamDuration = (clock() - startStream)/(double)CLOCKS_PER_SEC;
   cout << "Availability stream read in:  " << cleanTime(streamDuration, "ms") << endl;
   saveSeedSet();
-  cout << "Computing influence score of seed set of size: " << seedSet.size() << endl;
-  start = clock();
-  double seedScore;
-  if (seedSet.size() >= 20000){
-      seedScore = graph.influenceScore(seedSet, 2);
-  }else if (seedSet.size() >= 300){
-      seedScore = graph.influenceScore(seedSet, 3);
-  }else{
-      seedScore = graph.influenceScore(seedSet);
-  }
-  double seedDuration = (clock() - start)/(double)CLOCKS_PER_SEC;
-  cout << "Seed set score: " << seedScore << "/" << nodes << ", computed in: " << cleanTime(seedDuration, "ms") << endl;
+  // cout << "Computing influence score of seed set of size: " << seedSet.size() << endl;
+  // start = clock();
+  double seedScore = -1;
+  // if (seedSet.size() >= 20000){
+  //    seedScore = graph.influenceScore(seedSet, 2);
+  // }else if (seedSet.size() >= 300){
+  //     seedScore = graph.influenceScore(seedSet, 3);
+  // }else{
+  //     seedScore = graph.influenceScore(seedSet);
+  // }
+  double seedDuration = -1;
+  // double seedDuration = (clock() - start)/(double)CLOCKS_PER_SEC;
+  // cout << "Seed set score: " << seedScore << "/" << nodes << ", computed in: " << cleanTime(seedDuration, "ms") << endl;
 
   double liveDuration = (clock() - startLive)/(double)CLOCKS_PER_SEC;
   saveLiveLog(seedScore, streamDuration, seedDuration, max_time, sum, liveDuration);
@@ -289,14 +290,14 @@ void RTIM::printScores(){
     for (int i = 0; i < infScores.size() ; i++){
       cout << "(" << i << " : " << infScores[i] << ")" << endl;
     }
-    sleep(SLEEP + 2);
-    clearLines(infScores.size() + 1);
+    // sleep(SLEEP + 2);
+    // clearLines(infScores.size() + 1);
   }else{
     for (int i = 0; i < 20 ; i++){
       cout << "(" << i << " : " << infScores[i] << ")" << endl;
     }
-    sleep(SLEEP + 5); // pause 6 seconds to let user time to review inf scores
-    clearLines(21);
+    // sleep(SLEEP + 5); // pause 6 seconds to let user time to review inf scores
+    // clearLines(21);
   }
 }
 
