@@ -1157,22 +1157,38 @@ void RTIM::run(){
 
 void RTIM::runTest(){
   importScores();
+  int count = 0;
+  cout << "Testing sorted scores: " << endl;
+  for(int i = 0; i < infScores.size(); i++){
+    if(infScores[i] < 1){
+      count ++;
+      if (count < 5){
+        cout << i << " | " << infScores[i] << endl;
+      }
+    }
+  }
+  cout << "There are " << count << " values below 1 in infScores." << endl;
+
   sortedScores = infScores;
   sort(sortedScores.begin(), sortedScores.end());
   getInfIndex(sortedScores);
   cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
-  // Testing
+  count = 0;
   cout << "Testing sorted scores: " << endl;
   for(int i = 0; i < sortedScores.size(); i++){
     if(sortedScores[i] < 1){
-      cout << i << "|" << sortedScores[i] << endl;
+      count ++;
+      if (count < 5){
+        cout << i << " | " << sortedScores[i] << endl;
+      }
     }
     if(sortedScores[i] > 1){
-      cout << "Ending test: " << sortedScores[i] << endl;
+      cout << "Ending test: " << i << " | " << sortedScores[i-1] << endl;
       break;
     }
   }
+  cout << "There are " << count << " values below 1 in sortedScores." << endl;
 }
 
 int main(int argn, char **argv)
