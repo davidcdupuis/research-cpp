@@ -167,7 +167,7 @@ void RTIM::pre_process(){
 
 void RTIM::live(){
   clock_t startLive = clock();
-  nodes = graph.graph.size();
+  // nodes = graph.graph.size();
   // cout << "-------------------------------" << endl;
   // cout << "Running live on " << args.dataset << endl;
   initiateProgressLog();
@@ -178,6 +178,19 @@ void RTIM::live(){
   getInfIndex(sortedScores);
   cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
+  // Testing
+  cout << "Testing sorted scores: " << endl;
+  for(int i = 0; i < sortedScores.size(); i++){
+    if(sortedScores[i] < 1){
+      cout << i << "|" << sortedScores[i] << endl;
+    }
+    if(sortedScores[i] > 1){
+      cout << "Ending test: " << sortedScores[i] << endl;
+      break;
+    }
+  }
+
+  /*
   // read availability stream
   string file = args.streamModel + "_" + to_string(args.streamSize) + "_m" + to_string(args.streamVersion);
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.streamModel + "_" + to_string(args.streamSize) + "_m" + to_string(args.streamVersion) + ".txt";
@@ -280,6 +293,7 @@ void RTIM::live(){
   saveLiveCSV(graph, seedScore, streamDuration, seedDuration, max_time, sum, liveDuration);
   // cout << "Live complete!" << endl;
   // cout << "------------------------------" << endl;
+  */
 };
 
 
@@ -289,14 +303,14 @@ void RTIM::printScores(){
     for (int i = 0; i < infScores.size() ; i++){
       cout << "(" << i << " : " << infScores[i] << ")" << endl;
     }
-    sleep(SLEEP + 2);
-    clearLines(infScores.size() + 1);
+    // sleep(SLEEP + 2);
+    // clearLines(infScores.size() + 1);
   }else{
     for (int i = 0; i < 20 ; i++){
       cout << "(" << i << " : " << infScores[i] << ")" << endl;
     }
-    sleep(SLEEP + 5); // pause 6 seconds to let user time to review inf scores
-    clearLines(21);
+    // sleep(SLEEP + 5); // pause 6 seconds to let user time to review inf scores
+    // clearLines(21);
   }
 }
 
@@ -319,7 +333,7 @@ void RTIM::saveScores(){
 
 
 void RTIM::saveSeedSet(){
-  string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + to_string(args.reach) + "ap" + to_string(args.theta_ap) + ".txt";
+  string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + to_string(args.reach) + "ap" + properStringDouble(args.theta_ap) + ".txt";
   printInColor("cyan", "Saving seed set to: " + file);
   //cout << "\033[33mSaving seed set to: " << file << "\033[0m" << endl;
   ofstream seedSetFile;
@@ -378,7 +392,7 @@ void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, doub
   liveLogFile << "- score compute time: " << cleanTime(seedTime, "ms") << endl;
   liveLogFile << "<Args>" << endl;
   liveLogFile << "- reach: " << args.reach << endl;
-  liveLogFile << "- theta_ap: " << args.theta_ap << endl;
+  liveLogFile << "- theta_ap: " << properStringDouble(args.theta_ap) << endl;
   liveLogFile << "Runtime: " << cleanTime(runtime, "ms") << endl;
   liveLogFile << "Max update time: " << cleanTime(maxTime,"ms") << endl;
   liveLogFile << "----------------------------------------------------" << endl;
@@ -399,7 +413,7 @@ void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, do
   liveCSV << graph.nodes << ",";
   liveCSV << graph.edges << ",";
   liveCSV << args.reach << ",";
-  liveCSV << args.theta_ap << ",";
+  liveCSV << properStringDouble(args.theta_ap) << ",";
   liveCSV << "APShort" << ",";
   liveCSV << args.depth << ",";
   liveCSV << args.streamModel << ",";
@@ -420,7 +434,7 @@ void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, do
 
 void RTIM::initiateProgressLog(){
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/";
-  string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + to_string(args.reach) + "ap" + to_string(args.theta_ap) + "_progress.csv";
+  string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + to_string(args.reach) + "ap" + properStringDouble(args.theta_ap) + "_progress.csv";
   printInColor("cyan", "Initiating progress log: " + file);
   ofstream progressFile;
   progressFile.open(file);
@@ -431,7 +445,7 @@ void RTIM::initiateProgressLog(){
 
 void RTIM::saveProgress(int progress, int seen, int seedSize){
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/";
-  string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + to_string(args.reach) + "ap" + to_string(args.theta_ap) + "_progress.csv";
+  string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + to_string(args.reach) + "ap" + properStringDouble(args.theta_ap) + "_progress.csv";
   // printInColor("cyan","Saving progress: " + to_string(progress));
   ofstream progressFile;
   progressFile.open(file, fstream::app);
@@ -710,13 +724,13 @@ int RTIM::datasetMenu(){
     lines++;
   }
   cout << "Choose a [dataset] (nodes, edges): " << endl;
-  cout << "   [test]        (20, 30])"<< endl;
-  cout << "   [nethept]     (15_229, 62_752)" << endl;
-  cout << "   [dblp]        (317_080, 2.09M)" << endl;
-  cout << "   [youtube]     (1.13M, 5.97M)" << endl;
-  cout << "   [orkut]       (3.07M, 234.37M)" << endl;
-  cout << "   [livejournal] (3.99M, 69.36M)" << endl;
-  cout << "   [twitter]     (41.65M, 1.46B)" << endl;
+  cout << "   [test]        (      20,      30)"<< endl;
+  cout << "   [nethept]     (  15_229,  62_752)" << endl;
+  cout << "   [dblp]        ( 317_080,   2.09M)" << endl;
+  cout << "   [youtube]     (   1.13M,   5.97M)" << endl;
+  cout << "   [orkut]       (   3.07M, 234.37M)" << endl;
+  cout << "   [livejournal] (   3.99M,  69.36M)" << endl;
+  cout << "   [twitter]     (  41.65M,   1.46B)" << endl;
   while(1){
     cout <<  "> dataset name: ";
     getline(cin, dataset);
@@ -926,12 +940,11 @@ void RTIM::liveMenu(){
       clearLines(1);
       cout << "> reach (" << args.reach << "): " << args.reach << endl;
       break;
-      break;
     }
   }
   // asking for activation probability
   while(1){
-    cout << "> activation probability threshold (" << args.theta_ap << "): ";
+    cout << "> activation probability threshold (" << properStringDouble(args.theta_ap) << "): ";
     getline(cin, input);
     if(input != ""){
       dChoice = stod(input);
@@ -945,7 +958,7 @@ void RTIM::liveMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> activation probability threshold (" << args.theta_ap << "): " << args.theta_ap << endl;
+      cout << "> activation probability threshold (" << properStringDouble(args.theta_ap) << "): " << properStringDouble(args.theta_ap) << endl;
       break;
     }
   }
@@ -1115,12 +1128,12 @@ void RTIM::run(){
         args.printArguments();
         break;
     }
-    if(loadDataset){
-      graph.args = args;
-      graph.graph.resize(graph.nodes);
-      graph.loadGraph();
-      clearLines(3);
-    }
+    // if(loadDataset){
+    //   graph.args = args;
+    //   graph.graph.resize(graph.nodes);
+    //   graph.loadGraph();
+    //   clearLines(3);
+    // }
     if (args.stage == "pre"){
       printLocalTime("magenta", "Pre_processing", "starting");
       pre_process();
