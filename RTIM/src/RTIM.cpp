@@ -179,16 +179,22 @@ void RTIM::live(){
   cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
   // Testing
+  int count = 0;
   cout << "Testing sorted scores: " << endl;
   for(int i = 0; i < sortedScores.size(); i++){
     if(sortedScores[i] < 1){
-      cout << i << "|" << sortedScores[i] << endl;
+      // cout << i << "|" << sortedScores[i] << endl;
+      count ++;
+      if(count < 5){
+      	cout << i << " | " << sortedScores[i] << endl;
+      }
     }
     if(sortedScores[i] > 1){
       cout << "Ending test: " << sortedScores[i] << endl;
       break;
     }
   }
+  cout << "Users with score < 1: " << count << endl;
 
   /*
   // read availability stream
