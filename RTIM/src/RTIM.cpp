@@ -275,18 +275,19 @@ void RTIM::live(){
   double streamDuration = (clock() - startStream)/(double)CLOCKS_PER_SEC;
   cout << "Availability stream read in:  " << cleanTime(streamDuration, "ms") << endl;
   saveSeedSet();
-  cout << "Computing influence score of seed set of size: " << seedSet.size() << endl;
-  start = clock();
-  double seedScore;
-  if (seedSet.size() >= 20000){
-      seedScore = graph.influenceScore(seedSet, 2);
-  }else if (seedSet.size() >= 300){
-      seedScore = graph.influenceScore(seedSet, 3);
-  }else{
-      seedScore = graph.influenceScore(seedSet);
-  }
-  double seedDuration = (clock() - start)/(double)CLOCKS_PER_SEC;
-  cout << "Seed set score: " << seedScore << "/" << nodes << ", computed in: " << cleanTime(seedDuration, "ms") << endl;
+  // cout << "Computing influence score of seed set of size: " << seedSet.size() << endl;
+  // start = clock();
+  double seedScore = -1;
+  // if (seedSet.size() >= 20000){
+  //    seedScore = graph.influenceScore(seedSet, 2);
+  // }else if (seedSet.size() >= 300){
+  //     seedScore = graph.influenceScore(seedSet, 3);
+  // }else{
+  //     seedScore = graph.influenceScore(seedSet);
+  // }
+  double seedDuration = -1;
+  // double seedDuration = (clock() - start)/(double)CLOCKS_PER_SEC;
+  // cout << "Seed set score: " << seedScore << "/" << nodes << ", computed in: " << cleanTime(seedDuration, "ms") << endl;
 
   double liveDuration = (clock() - startLive)/(double)CLOCKS_PER_SEC;
   saveLiveLog(seedScore, streamDuration, seedDuration, max_time, sum, liveDuration);

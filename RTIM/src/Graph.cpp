@@ -96,7 +96,7 @@ void Graph::loadGraph(){
       addEdge(user1, user2, args.edge_weight);
     }
     // print progress
-
+    /*
     float progress = (float)i/edges;
     cout << "\r[";
     int pos = barWidth * progress;
@@ -111,6 +111,7 @@ void Graph::loadGraph(){
     }
     cout << "] " << int(progress * 100.0) << " % -- (imported edges: " << i << ")";
     cout.flush();
+    */
   }
   cout << endl;
   double duration = (clock() - start)/(double)CLOCKS_PER_SEC;
