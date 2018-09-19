@@ -178,25 +178,6 @@ void RTIM::live(){
   getInfIndex(sortedScores);
   cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
-  // Testing
-  int count = 0;
-  cout << "Testing sorted scores: " << endl;
-  for(int i = 0; i < sortedScores.size(); i++){
-    if(sortedScores[i] < 1){
-      // cout << i << "|" << sortedScores[i] << endl;
-      count ++;
-      if(count < 5){
-      	cout << i << " | " << sortedScores[i] << endl;
-      }
-    }
-    if(sortedScores[i] > 1){
-      cout << "Ending test: " << sortedScores[i] << endl;
-      break;
-    }
-  }
-  cout << "Users with score < 1: " << count << endl;
-
-  /*
   // read availability stream
   string file = args.streamModel + "_" + to_string(args.streamSize) + "_m" + to_string(args.streamVersion);
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.streamModel + "_" + to_string(args.streamSize) + "_m" + to_string(args.streamVersion) + ".txt";
@@ -300,7 +281,6 @@ void RTIM::live(){
   saveLiveCSV(graph, seedScore, streamDuration, seedDuration, max_time, sum, liveDuration);
   // cout << "Live complete!" << endl;
   // cout << "------------------------------" << endl;
-  */
 };
 
 
@@ -789,7 +769,7 @@ void RTIM::stageMenu(){
         args.stage = "compute_seed_score";
         break;
       case 4:
-        cout << "Test!" << endl;
+      args.stage = "test";
         break;
       case 5:
         cout << "Program ending: Have a nice day!" << endl;
@@ -814,7 +794,7 @@ void RTIM::stageArgumentsMenu(){
     liveMenu();
   }else if (args.stage == "compute_seed_score"){
     computeSeedScoreMenu();
-  }else{
+  }else if (args.stage != "test"){
     cout << "Error: Stage not recognized!" << endl;
     exit(1);
   }
@@ -1135,12 +1115,15 @@ void RTIM::run(){
         args.printArguments();
         break;
     }
-    // if(loadDataset){
-    //   graph.args = args;
-    //   graph.graph.resize(graph.nodes);
-    //   graph.loadGraph();
-    //   clearLines(3);
-    // }
+    if(args.stage == "test"){
+      loadDataset = false;
+    }
+    if(loadDataset){
+      graph.args = args;
+      graph.graph.resize(graph.nodes);
+      graph.loadGraph();
+      clearLines(3);
+    }
     if (args.stage == "pre"){
       printLocalTime("magenta", "Pre_processing", "starting");
       pre_process();
@@ -1156,7 +1139,11 @@ void RTIM::run(){
       string txt = "> Influence score of seed set is: " + to_string(score);
       printInColor("cyan", txt);
       printLocalTime("magenta", "IMM seed test", "ending");
-    }else{
+    }else if (args.stage == "test"){
+      printLocalTime("magenta", "Test", "starting");
+      runTest();
+      printLocalTime("magenta", "Test", "ending");
+    } else{
       cout << "Error! stage not recognized: " << args.stage << endl;
       exit(1);
     }
@@ -1167,6 +1154,26 @@ void RTIM::run(){
   cout << endl;
 }
 
+
+void RTIM::runTest(){
+  importScores();
+  sortedScores = infScores;
+  sort(sortedScores.begin(), sortedScores.end());
+  getInfIndex(sortedScores);
+  cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
+
+  // Testing
+  cout << "Testing sorted scores: " << endl;
+  for(int i = 0; i < sortedScores.size(); i++){
+    if(sortedScores[i] < 1){
+      cout << i << "|" << sortedScores[i] << endl;
+    }
+    if(sortedScores[i] > 1){
+      cout << "Ending test: " << sortedScores[i] << endl;
+      break;
+    }
+  }
+}
 
 int main(int argn, char **argv)
 {

@@ -273,5 +273,8 @@ public:
     * Function to run program
     */
   void run();
+
+
+  void runTest();
 };
 #endif
