@@ -146,7 +146,7 @@ void Arguments::printArguments(){
       printInColor("yellow", to_string(k));
     }
     cout << "Reach: ";
-    printInColor("yellow", to_string(reach));
+    printInColor("yellow", properStringDouble(reach));
     cout << "Activation threshold: ";
     printInColor("yellow", properStringDouble(theta_ap));
   }else if(stage == "newStream"){

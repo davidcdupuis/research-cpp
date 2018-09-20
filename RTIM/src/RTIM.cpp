@@ -325,7 +325,7 @@ void RTIM::saveScores(){
 
 
 void RTIM::saveSeedSet(){
-  string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + to_string(args.reach) + "ap" + properStringDouble(args.theta_ap) + ".txt";
+  string file = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_seedSet_s" + to_string(seedSet.size()) + "r" + properStringDouble(args.reach) + "ap" + properStringDouble(args.theta_ap) + ".txt";
   printInColor("cyan", "Saving seed set to: " + file);
   //cout << "\033[33mSaving seed set to: " << file << "\033[0m" << endl;
   ofstream seedSetFile;
@@ -383,7 +383,7 @@ void RTIM::saveLiveLog(double& score, double& streamTime, double& seedTime, doub
   liveLogFile << "- score: " << score << endl;
   liveLogFile << "- score compute time: " << cleanTime(seedTime, "ms") << endl;
   liveLogFile << "<Args>" << endl;
-  liveLogFile << "- reach: " << args.reach << endl;
+  liveLogFile << "- reach: " << properStringDouble(args.reach) << endl;
   liveLogFile << "- theta_ap: " << properStringDouble(args.theta_ap) << endl;
   liveLogFile << "Runtime: " << cleanTime(runtime, "ms") << endl;
   liveLogFile << "Max update time: " << cleanTime(maxTime,"ms") << endl;
@@ -426,7 +426,7 @@ void RTIM::saveLiveCSV(const Graph& graph, double& score, double& streamTime, do
 
 void RTIM::initiateProgressLog(){
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/";
-  string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + to_string(args.reach) + "ap" + properStringDouble(args.theta_ap) + "_progress.csv";
+  string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + properStringDouble(args.reach) + "ap" + properStringDouble(args.theta_ap) + "_progress.csv";
   printInColor("cyan", "Initiating progress log: " + file);
   ofstream progressFile;
   progressFile.open(file);
@@ -437,7 +437,7 @@ void RTIM::initiateProgressLog(){
 
 void RTIM::saveProgress(int progress, int seen, int seedSize){
   string folder = "../../data/" + args.dataset + "/availability_models/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/";
-  string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + to_string(args.reach) + "ap" + properStringDouble(args.theta_ap) + "_progress.csv";
+  string file =  folder + args.dataset + "_s" + to_string(args.streamSize) + "r" + properStringDouble(args.reach) + "ap" + properStringDouble(args.theta_ap) + "_progress.csv";
   // printInColor("cyan","Saving progress: " + to_string(progress));
   ofstream progressFile;
   progressFile.open(file, fstream::app);
@@ -910,7 +910,7 @@ void RTIM::liveMenu(){
   }
   // asking for reach
   while(1){
-    cout << "> reach (" << args.reach << "): ";
+    cout << "> reach (" << properStringDouble(args.reach) << "): ";
     getline(cin, input);
     if(input != ""){
       try{
@@ -930,7 +930,7 @@ void RTIM::liveMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> reach (" << args.reach << "): " << args.reach << endl;
+      cout << "> reach (" << properStringDouble(args.reach) << "): " << properStringDouble(args.reach) << endl;
       break;
     }
   }
@@ -1236,6 +1236,6 @@ int main(int argn, char **argv)
   // }
   // infile.close();
   // infile.clear();
-  double d= 20.0000;
+  double d = 20.0;
   cout << properStringDouble(d) << endl;
 }
