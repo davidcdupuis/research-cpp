@@ -107,7 +107,6 @@ string properStringDouble(double value){
     }
     index--;
   }
-  cout << "Index: " << index << endl;
   for(int i=0; i <= index; i++){
     result += original[i];
   }
