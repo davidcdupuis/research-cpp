@@ -214,6 +214,11 @@ void RTIM::live(){
       if (args.dataset == "test" || args.k < 20){
         cout << "Targeted user: " << user << endl;
       }
+      if (seedSet.size() == 1){
+      	cout << "First user targeted: " << user << " with score: " << infScores[user] << endl;
+      }else if (seedSet.size() == args.k){
+      	cout << "Last user targeted: " << user << " with score: " << infScores[user] << endl;
+      }
     }
     if (seedSet.size() >= args.k){
       break;
@@ -290,14 +295,14 @@ void RTIM::printScores(){
     for (int i = 0; i < infScores.size() ; i++){
       cout << "(" << i << " : " << infScores[i] << ")" << endl;
     }
-    // sleep(SLEEP + 2);
-    // clearLines(infScores.size() + 1);
+    sleep(SLEEP + 2);
+    clearLines(infScores.size() + 1);
   }else{
     for (int i = 0; i < 20 ; i++){
       cout << "(" << i << " : " << infScores[i] << ")" << endl;
     }
-    // sleep(SLEEP + 5); // pause 6 seconds to let user time to review inf scores
-    // clearLines(21);
+    sleep(SLEEP + 5); // pause 6 seconds to let user time to review inf scores
+    clearLines(21);
   }
 }
 
