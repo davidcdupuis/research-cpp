@@ -1156,8 +1156,31 @@ void RTIM::run(){
 
 
 void RTIM::runTest(){
-  importScores();
+  // import scores
+
+  string folder = "../../data/" + args.dataset + "/rtim/" + args.dataset + "_infscores.txt";
+  // cout << "Importing influence scores from: " << folder << endl;
+  printInColor("cyan", "Importing influence scores from: " + folder);
+  infScores.resize(nodes, 0);
+  cout << "Size of infScores after resize: " << infScores.size() << endl;
+  int user;
+  double infScore;
+  double scoreTime;
+
+  ifstream infile(folder.c_str());
   int count = 0;
+  while(infile >> user >> infScore >> scoreTime){
+    if (infScore < 1){
+      count ++;
+    }
+    infScores[user] = infScore;
+  }
+  cout << "Number of scores < 1: " << count << endl;
+  // cout << "Import successful" << endl;
+  printInColor("cyan", "Import successful");
+  printScores();
+
+  count = 0;
   cout << "Testing sorted scores: " << endl;
   for(int i = 0; i < infScores.size(); i++){
     if(infScores[i] < 1){
@@ -1167,7 +1190,7 @@ void RTIM::runTest(){
       }
     }
   }
-  cout << "There are " << count << " values below 1 in infScores." << endl;
+  cout << "There are " << count << " values below 1 in infScores file." << endl;
 
   sortedScores = infScores;
   sort(sortedScores.begin(), sortedScores.end());
