@@ -103,6 +103,9 @@ string properStringDouble(double value){
   int index = original.length() - 1;
   for(int i=original.length()-1; i >= 0; i--){
     if(original[i] != '0'){
+      if(original[i] == '.'){
+        index++;
+      }
       break;
     }
     index--;

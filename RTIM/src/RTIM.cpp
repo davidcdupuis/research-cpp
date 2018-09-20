@@ -1193,7 +1193,49 @@ void RTIM::runTest(){
 int main(int argn, char **argv)
 {
   // int cores = omp_get_max_threads();
-  Arguments args = Arguments();
-  RTIM rtim = RTIM(args);
-  rtim.run();
+  // Arguments args = Arguments();
+  // RTIM rtim = RTIM(args);
+  // rtim.run();
+
+  // testing column file import
+  // string folder = "2columns.txt";
+  // int val1, val2, val3;
+  // ifstream infile;
+  // cout << "\nReading 2 cols with 2 values" << endl;
+  // infile.open(folder.c_str());
+  // while(infile >> val1 >> val2){
+  //   cout << val1 << " | " << val2 << endl;
+  // }
+  // infile.close();
+  // infile.clear();
+  //
+  // cout << "\nReading 2 cols with 3 values" << endl;
+  // infile.open(folder.c_str());
+  // while(infile >> val1 >> val2 >> val3){
+  //   cout << val1 << " | " << val2 << " | " << val3 << endl;
+  // }
+  // infile.close();
+  // infile.clear();
+  //
+  // cout << "\nReading 2 cols with 3 values in while" << endl;
+  // infile.open(folder.c_str());
+  // while(!infile.eof()){
+  //   infile >> val1;
+  //   infile >> val2;
+  //   infile >> val3;
+  //   cout << val1 << " | " << val2 << " | " << val3 << endl;
+  // }
+  // infile.close();
+  // infile.clear();
+  //
+  // folder = "3columns.txt";
+  // cout << "\nReading 3 cols with 3 values" << endl;
+  // infile.open(folder.c_str());
+  // while(infile >> val1 >> val2 >> val3){
+  //   cout << val1 << " | " << val2 << " | " << val3 << endl;
+  // }
+  // infile.close();
+  // infile.clear();
+  double d= 20.0000;
+  cout << properStringDouble(d) << endl;
 }

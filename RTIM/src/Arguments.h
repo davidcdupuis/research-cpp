@@ -24,7 +24,6 @@ public:
   int k = 200;                          /**< size of seed set if defined */
   int streamVersion = 1;               /**< version of stream */
   int streamSize = -1;                 /**< size of stream to use*/
-  int reach = 1;                       /**< reach to define inf. threshold = percentage */
   int depth = 2;                       /**< max depth for monte carlo simulations */
 
   std::string dataset;                /**< name of dataset */
@@ -32,6 +31,7 @@ public:
   std::string stage;                  /**< pre|live|evaluate */
   std::string model = "ic";           /**< model of weights: ic|lt, default is ic */
 
+  double reach = 1;                       /**< reach to define inf. threshold = percentage */
   double theta_ap = 0.8;              /**< activation probability threshold [0, 1] */
   double edge_weight = -1;            /**< edge weight to use, default results in weighted cascade model */
   double min_weight = 0;              /**< minimum weight to continue influence propagation*/
