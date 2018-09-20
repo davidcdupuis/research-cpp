@@ -486,7 +486,7 @@ void RTIM::availabilityStream(){
 
 
 void RTIM::getInfIndex(vector<double> & sorted){
-  infIndex = sorted.size() - sorted.size() * args.reach / 100;
+  infIndex = (int)(sorted.size() - sorted.size() * args.reach / 100);
 }
 
 
@@ -1193,9 +1193,9 @@ void RTIM::runTest(){
 int main(int argn, char **argv)
 {
   // int cores = omp_get_max_threads();
-  // Arguments args = Arguments();
-  // RTIM rtim = RTIM(args);
-  // rtim.run();
+  Arguments args = Arguments();
+  RTIM rtim = RTIM(args);
+  rtim.run();
 
   // testing column file import
   // string folder = "2columns.txt";
@@ -1236,6 +1236,4 @@ int main(int argn, char **argv)
   // }
   // infile.close();
   // infile.clear();
-  double d = 20.0;
-  cout << properStringDouble(d) << endl;
 }
