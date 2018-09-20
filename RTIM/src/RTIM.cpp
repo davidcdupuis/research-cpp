@@ -1172,8 +1172,8 @@ void RTIM::runTest(){
   while(infile >> user >> infScore >> scoreTime){
     if (infScore < 1){
       count ++;
-      if(count < 10){
-        cout << "user id: " << user << endl;
+      if(count < 50){
+        cout << user << " | " << infScore << " | " << scoreTime << endl;
       }
     }
     infScores[user] = infScore;
