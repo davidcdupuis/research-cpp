@@ -23,7 +23,7 @@
 
 using namespace std;
 
-const int SLEEP = 1; // duration of sleep
+const int SLEEP = 2; // duration of sleep
 
 
 RTIM::RTIM(Arguments& arguments):graph(arguments){
@@ -223,7 +223,9 @@ void RTIM::live(){
     if (seedSet.size() >= args.k){
       break;
     }
+
     // print progress
+    /*
     float progress = (float)sum/args.streamSize;
 
     time_t currentTime;
@@ -247,8 +249,11 @@ void RTIM::live(){
     int progressPercentage = (int)(progress * 100.0);
     cout << "] " << progressPercentage << " % -- (" << sum << "/" << args.streamSize << ") -- (" << duration << "s / " << timeLeft << "s)";
     cout.flush();
+    */
 
     // if progress = 10,20,30,40,50,...,100% record seed size in specific file
+    float progress = (float)sum/args.streamSize;
+    int progressPercentage = (int)(progress * 100.0);
     if (progressPercentage % 10 == 0){
       if(progressPercentage != previousProgress){
         newProgress = true;
@@ -914,9 +919,9 @@ void RTIM::liveMenu(){
     getline(cin, input);
     if(input != ""){
       try{
-        iChoice = stoi(input);
-        if (iChoice >= 1 && iChoice <= 100){
-          args.reach = iChoice;
+        dChoice = stof(input);
+        if (dChoice > 0 && dChoice < 100){
+          args.reach = dChoice;
           break;
         }else{
           cout << "Error: expecting int value between 1 and 100!" << endl;
