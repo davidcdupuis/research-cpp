@@ -1172,46 +1172,17 @@ void RTIM::runTest(){
   while(infile >> user >> infScore >> scoreTime){
     if (infScore < 1){
       count ++;
+      if(count < 10){
+        cout << "user id: " << user << endl;
+      }
     }
     infScores[user] = infScore;
+
   }
-  cout << "Number of scores < 1: " << count << endl;
+  cout << "Number of scores < 1 in file: " << count << endl;
   // cout << "Import successful" << endl;
   printInColor("cyan", "Import successful");
   printScores();
-
-  count = 0;
-  cout << "Testing sorted scores: " << endl;
-  for(int i = 0; i < infScores.size(); i++){
-    if(infScores[i] < 1){
-      count ++;
-      if (count < 5){
-        cout << i << " | " << infScores[i] << endl;
-      }
-    }
-  }
-  cout << "There are " << count << " values below 1 in infScores file." << endl;
-
-  sortedScores = infScores;
-  sort(sortedScores.begin(), sortedScores.end());
-  getInfIndex(sortedScores);
-  cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
-
-  count = 0;
-  cout << "Testing sorted scores: " << endl;
-  for(int i = 0; i < sortedScores.size(); i++){
-    if(sortedScores[i] < 1){
-      count ++;
-      if (count < 5){
-        cout << i << " | " << sortedScores[i] << endl;
-      }
-    }
-    if(sortedScores[i] > 1){
-      cout << "Ending test: " << i << " | " << sortedScores[i-1] << endl;
-      break;
-    }
-  }
-  cout << "There are " << count << " values below 1 in sortedScores." << endl;
 }
 
 int main(int argn, char **argv)
