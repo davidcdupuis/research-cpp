@@ -1,10 +1,13 @@
 boost_1_66_0/
 
-data/youtube/
-data/livejournal/
-data/twitter
-data/orkut
-data/dblp
+# data/youtube/
+# data/livejournal/
+# data/twitter
+# data/orkut
+# data/dblp
+
+*.txt
+*.inf
 
 RTIM/src/*.o
 RTIM/src/rtim
