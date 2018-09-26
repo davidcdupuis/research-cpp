@@ -172,6 +172,7 @@ void RTIM::live(){
   // cout << "Running live on " << args.dataset << endl;
   seedSet.clear(); // in case live was already run with different params
   initiateProgressLog();
+  activationProbabilities.clear();
   activationProbabilities.resize(nodes, 0);
   // ideally we should not repeat this if live is run more than once
   importScores();
@@ -199,9 +200,10 @@ void RTIM::live(){
   while (infile >> user){
     sum ++;
     if (args.dataset == "test"){
-      cout << "User: " << user << " is online." << endl;
+      cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
     }
     if (activationProbabilities[user] < args.theta_ap && infScores[user] >= sortedScores[infIndex]){
+      double tmpAP = activationProbabilities[user];
       activationProbabilities[user] = 1.0;
       // measure update time
       start = clock();
@@ -214,12 +216,12 @@ void RTIM::live(){
       seedSet.push_back(user);
       infIndex --;
       if (args.dataset == "test" || args.k < 20){
-        cout << "Targeted user: " << user << endl;
+        cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
       }
       if (seedSet.size() == 1){
-      	cout << "First user targeted: " << user << " with score: " << infScores[user] << endl;
+      	cout << "First user targeted: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
       }else if (seedSet.size() == args.k){
-      	cout << "Last user targeted: " << user << " with score: " << infScores[user] << endl;
+      	cout << "Last user targeted: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
       }
     }
     if (seedSet.size() >= args.k){
