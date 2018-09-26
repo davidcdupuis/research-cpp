@@ -170,8 +170,10 @@ void RTIM::live(){
   // nodes = graph.graph.size();
   // cout << "-------------------------------" << endl;
   // cout << "Running live on " << args.dataset << endl;
+  seedSet.clear(); // in case live was already run with different params
   initiateProgressLog();
   activationProbabilities.resize(nodes, 0);
+  // ideally we should not repeat this if live is run more than once
   importScores();
   sortedScores = infScores;
   sort(sortedScores.begin(), sortedScores.end());
@@ -435,7 +437,7 @@ void RTIM::initiateProgressLog(){
   printInColor("cyan", "Initiating progress log: " + file);
   ofstream progressFile;
   progressFile.open(file);
-  progressFile << "progress,seen,stream size,seed size" << endl;
+  progressFile << "dataset,reach,ap,progress,seen,stream size,seed size" << endl;
   progressFile.close();
 }
 
@@ -447,6 +449,9 @@ void RTIM::saveProgress(int progress, int seen, int seedSize){
   ofstream progressFile;
   progressFile.open(file, fstream::app);
   /* progress | nodes seen | stream size | seed size */
+  progressFile << args.dataset << ",";
+  progressFile << args.reach << ",";
+  progressFile << args.theta_ap << ",";
   progressFile << progress << ",";
   progressFile << seen << ",";
   progressFile << args.streamSize << ",";
@@ -1020,12 +1025,12 @@ void RTIM::liveMenu(){
       }
     }else{
       args.streamSize = nodes;
-      clearLines(1);
+      //clearLines(1);
       cout << "> stream size (" << args.streamSize << "): ";
       break;
     }
   }
-  sleep(SLEEP);
+  sleep(SLEEP+1);
   clearLines(8);
 }
 

@@ -270,3 +270,83 @@ Max update time: 0.000002 milliseconds
 Runtime: 0.012854 milliseconds
 Max update time: 0.000001 milliseconds
 ----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.002414 milliseconds
+<Seed set>
+- size: 147
+- score: -1
+- score compute time: -1.000000 milliseconds
+<Args>
+- reach: 1
+- theta_ap: 0.8
+Runtime: 0.015304 milliseconds
+Max update time: 0.000003 milliseconds
+----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.001690 milliseconds
+<Seed set>
+- size: 0
+- score: -1
+- score compute time: -1.000000 milliseconds
+<Args>
+- reach: 0.5
+- theta_ap: 0.8
+Runtime: 0.021100 milliseconds
+Max update time: 0.000000 milliseconds
+----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.003238 milliseconds
+<Seed set>
+- size: 147
+- score: -1
+- score compute time: -1.000000 milliseconds
+<Args>
+- reach: 1
+- theta_ap: 0.8
+Runtime: 0.015375 milliseconds
+Max update time: 0.000004 milliseconds
+----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 6453
+- runtime: 0.001368 milliseconds
+<Seed set>
+- size: 200
+- score: -1
+- score compute time: -1.000000 milliseconds
+<Args>
+- reach: 5
+- theta_ap: 0.8
+Runtime: 0.013971 milliseconds
+Max update time: 0.000003 milliseconds
+----------------------------------------------------
+<Stream>
+- model: rand_repeat
+- version: 1
+- size: 15229
+- progress: 15229
+- runtime: 0.002006 milliseconds
+<Seed set>
+- size: 147
+- score: -1
+- score compute time: -1.000000 milliseconds
+<Args>
+- reach: 1
+- theta_ap: 0.8
+Runtime: 0.016116 milliseconds
+Max update time: 0.000002 milliseconds
+----------------------------------------------------
