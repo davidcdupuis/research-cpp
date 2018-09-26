@@ -1,0 +1,5 @@
+dataset,reach,ap,progress,seen,stream size,seed size
+twitter,0.5,0.8,0,1,1000000,0
+twitter,0.5,0.8,10,100000,1000000,532
+twitter,0.5,0.8,20,200000,1000000,1038
+twitter,0.5,0.8,30,300000,1000000,1561
