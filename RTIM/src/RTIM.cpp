@@ -354,10 +354,14 @@ void RTIM::importSeedSet(string file_path){
   cout << "Importing from: " << file << endl;
 
   ifstream infile(file.c_str());
+  // int i = 0;
   while(infile >> user){
     seedSet.push_back(user);
+    // cout << seedSet[i] << endl;
+    // i++;
   }
   cout << "Seed set imported correctly!" << endl;
+  // sleep(10);
 }
 
 
@@ -1046,15 +1050,6 @@ void RTIM::computeSeedScoreMenu(){
     cout << "> seed file: ";
     getline(cin, input);
     break;
-    // struct stat buffer;
-    // file_path += input;
-    // if (stat(file_path.c_str(), &buffer) == 0){ // if file is not accessible
-    //   cout << "Error! file not found: " << file_path << endl;
-    //   sleep(SLEEP);
-    //   clearLines(2);
-    // }else{
-    //   break;
-    // }
   }
   importSeedSet(input);
   sleep(SLEEP);
