@@ -1042,6 +1042,7 @@ void RTIM::liveMenu(){
 
 
 void RTIM::computeSeedScoreMenu(){
+  seedSet.clear(); //in case it's a re-run
   string input;
   string file_path = "../../data/" + args.dataset + "/";
   cout << "________________________________________" << endl;
