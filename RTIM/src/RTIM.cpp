@@ -1218,5 +1218,11 @@ int main(int argn, char **argv)
   args.reach = 0.5;
   args.theta_ap = 0.08;
 
-  cout << args.generateFileName("seedSet") << endl;
+  cout << args.generateFileName("save_infScores") << endl;
+  cout << args.generateFileName("get_infScores") << endl;
+  cout << args.generateFileName("rtim_seedSet") << endl;
+  cout << args.generateFileName("imm_seedSet") << endl;
+  cout << args.generateFileName("intersect") << endl;
+  cout << args.generateFileName("stream") << endl;
+  cout << args.generateFileName("log") << endl;
 }

@@ -185,19 +185,24 @@ string Arguments::generateFileName(string type){
     { "progress", "prg"},
   };
   // file_name = <dataset>_params_<type>
-  if (type == "infScores"){
+  if (type == "save_infScores"){
     // file_name = <dataset>_d<value>_m<value>_infS.txt
     // example: "NE_d2_m0,01_infS.txt"
-  }else if (type == "seedSet"){
-    // imm
+    file_name = datasets[dataset] + "_d" + properStringDouble(depth) + "_m" + properStringDouble(min_weight) + "_infS.txt";
+  }else if (type == "get_infScores"){
+    file_name = datasets[dataset] + "_infS.txt";
+  }else if (type == "rtim_seedSet"){
+    // file_name = <dataset>_<stream type>_v<version>_s<stream size>_r<value>_ap<value>_ss.txt
+    // example: "NE_urr_v1_s15229_r1_ap0,01_ss.txt"
+    file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_ss.txt";
+  }else if(type == "imm_seedSet"){
     // file_name = <dataset>_k<value>_e<value>_ss.txt
     // example: "NE_k200_e0,01_ss.txt"
-    // rtim
-    // file_name = <dataset>_<stream type>_v<version>_s<stream size>_r<value>_ap<value>_ss.txt
-    // example: NE_urr_v1_s15229_r1_ap0,01_ss.txt
+    file_name = datasets[dataset] + "_k" + to_string(k) + "_e" + "0,5" + "_ss.txt";
+  }else if (type == "intersect"){
+    // file_name = <dataset>_k<value>_e<value>_st_urr_v<stream version>_s<stream size>_ss.txt
+    // example: "NE_k50_0,5_st_urr_v1_s15229_ss.txt"
     file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_ss.txt";
-    // intersection
-    // file_name =
   }else if (type == "stream"){
     // file_name = <dataset>_<type>_v<version>_s<stream size>_st.txt
     // example: "NE_urr_v1_s15229_st.txt"

@@ -108,6 +108,9 @@ string properStringDouble(double value){
     }
     if(original[i] == '.'){
       original[i] = ',';
+      if (index == i){
+        index--;
+      }
       break;
     }
     if(cont){
