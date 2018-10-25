@@ -164,3 +164,47 @@ void Arguments::printArguments(){
   }
   cout << "--------------------------------------" << endl;
 }
+
+string Arguments::generateFileName(string type){
+  string file_name = "";
+  map<string, string> datasets = {
+    { "test", "TS" },
+    { "nethept", "NE" },
+    { "dblp", "DB" },
+    { "youtube", "YO" },
+    { "livejournal", "LJ" },
+    { "orkut", "OR" },
+    { "twitter", "TW"}
+  };
+  map<string, string> keyword = {
+    { "infScores", "infS"},
+    { "seedSet", "ss"},
+    { "stream", "st"},
+    { "rand_repeat", "urr"},
+    { "rand_no_repeat", "urnr"},
+    { "progress", "prg"},
+  };
+  // file_name = <dataset>_params_<type>
+  if (type == "infScores"){
+    // file_name = <dataset>_d<value>_m<value>_infS.txt
+    // example: "NE_d2_m0,01_infS.txt"
+  }else if (type == "seedSet"){
+    // imm
+    // file_name = <dataset>_k<value>_e<value>_ss.txt
+    // example: "NE_k200_e0,01_ss.txt"
+    // rtim
+    // file_name = <dataset>_<stream type>_v<version>_s<stream size>_r<value>_ap<value>_ss.txt
+    // example: NE_urr_v1_s15229_r1_ap0,01_ss.txt
+    file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_ss.txt";
+    // intersection
+    // file_name =
+  }else if (type == "stream"){
+    // file_name = <dataset>_<type>_v<version>_s<stream size>_st.txt
+    // example: "NE_urr_v1_s15229_st.txt"
+    file_name = datasets[dataset] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_st.txt";
+  }else if (type == "log"){
+    // file_name = ?
+  }
+
+  return file_name;
+}

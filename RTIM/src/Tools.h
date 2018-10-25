@@ -56,4 +56,5 @@
 
 
   std::string properStringDouble(double value);
+
 #endif

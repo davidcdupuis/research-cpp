@@ -100,15 +100,19 @@ string printSeed(vector<int> seed){
 string properStringDouble(double value){
   string original = to_string(value);
   string result = "";
+  bool cont = true;
   int index = original.length() - 1;
   for(int i=original.length()-1; i >= 0; i--){
     if(original[i] != '0'){
-      if(original[i] == '.'){
-        index--;
-      }
+      cont = false;
+    }
+    if(original[i] == '.'){
+      original[i] = ',';
       break;
     }
-    index--;
+    if(cont){
+      index--;
+    }
   }
   for(int i=0; i <= index; i++){
     result += original[i];

@@ -56,5 +56,10 @@ public:
     * Print help menu to command line
     */
   void printHelp();
+
+  /**
+    Generate file_name from arguments
+  */
+  std::string generateFileName(std::string type);
 };
 #endif
