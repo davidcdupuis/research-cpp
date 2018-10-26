@@ -113,28 +113,21 @@ public:
   /**
     * Save live log data to file
     *
-    * @param score
-    * @param streamTime
-    * @param seedTime
     * @param maxTime
-    * @param progress
     * @param runtime
     */
-  void saveLiveLog(double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime);
+  void saveLiveLog(double& maxTime, double& runtime);
 
 
   /**
     * Save live data to CSV file
     *
     * @param graph
-    * @param score
     * @param streamTime
-    * @param seedTime
     * @param maxTime
-    * @param progress
     * @param runtime
     */
-  void saveLiveCSV(const Graph& graph, double& score, double& streamTime, double& seedTime, double& maxTime, int& progress, double& runtime);
+  void saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, double& runtime);
 
 
   /**
