@@ -83,6 +83,17 @@ void printLocalTime(string color, string name, string status){
 }
 
 
+string getLocalDatetime(){
+  time_t tt;
+  struct tm * ti;
+  time (&tt);
+  ti = localtime(&tt);
+  char *dateTime = asctime(ti);
+  dateTime[strlen(dateTime) - 1] = 0;
+  return dateTime;
+}
+
+
 string printSeed(vector<int> seed){
   string s = "[";
   for (int i = 0; i < seed.size(); i++){

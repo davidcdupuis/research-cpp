@@ -167,6 +167,7 @@ void RTIM::pre_process(){
 
 void RTIM::live(){
   clock_t startLive = clock();
+  string startDatetime = getLocalDatetime();
   // nodes = graph.graph.size();
   // cout << "-------------------------------" << endl;
   // cout << "Running live on " << args.dataset << endl;
@@ -276,8 +277,9 @@ void RTIM::live(){
   cout << "Availability stream read in:  " << cleanTime(streamDuration, "ms") << endl;
   saveSeedSet();
 
+  string endDatetime = getLocalDatetime();
   double liveDuration = (clock() - startLive)/(double)CLOCKS_PER_SEC;
-  saveLiveLog( max_time, liveDuration);
+  saveLiveLog( max_time, liveDuration, startDatetime, endDatetime);
   saveLiveCSV(graph, streamDuration, max_time, liveDuration);
   // cout << "Live complete!" << endl;
   // cout << "------------------------------" << endl;
@@ -362,7 +364,7 @@ void RTIM::seedSetTest(string file_path){
 }
 
 
-void RTIM::saveLiveLog(double& maxTime, double& runtime){
+void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, string endDatetime){
   // string file = "../../data/" + args.dataset + "/streams/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_liveLog.txt";
   string file = "../../data/" + args.dataset + "/logs/rtim_live.log";
   //cout << "\033[33mSaving live log to: " << file << "\033[0m" << endl;
@@ -370,8 +372,8 @@ void RTIM::saveLiveLog(double& maxTime, double& runtime){
   ofstream liveLogFile;
   liveLogFile.open(file, fstream::app);
   liveLogFile << "file name: " << args.generateFileName("rtim_seedSet") << endl;
-  liveLogFile << "start: " << " - " << endl;
-  liveLogFile << "end: " << " - " << endl;
+  liveLogFile << "start: " << startDatetime << endl;
+  liveLogFile << "end: " << endDatetime << endl;
   liveLogFile << "runtime: " << cleanTime(runtime, "ms") << endl;
   liveLogFile << "max update time: " << cleanTime(maxTime,"ms") << endl;
   liveLogFile << "----------------------------------------------------" << endl;
@@ -411,7 +413,7 @@ void RTIM::initiateProgressLog(){
   printInColor("cyan", "Initiating progress log: " + file);
   ofstream progressFile;
   progressFile.open(file);
-  progressFile << "progress,seen,seed size" << endl;
+  progressFile << "progress,seen,seed_size" << endl;
   progressFile.close();
 }
 

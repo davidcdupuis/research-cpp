@@ -116,7 +116,7 @@ public:
     * @param maxTime
     * @param runtime
     */
-  void saveLiveLog(double& maxTime, double& runtime);
+  void saveLiveLog(double& maxTime, double& runtime, std::string startDatetime, std::endDatetime);
 
 
   /**

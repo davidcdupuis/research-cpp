@@ -3,9 +3,21 @@
     Script to compute intersection of two 'arrays' and save the result in a file
 '''
 
+''' !!!! CHANGE ALL FILE PATHS !!!! '''
+
 import argparse
 import random
 import csv
+
+datasets = {
+'test' : 'TS'
+'nethept' : 'NE',
+'dblp' : 'DB',
+'livejournal' : 'LJ',
+'orkut' : 'OR',
+'twitter' : 'TW',
+'youtube' : 'YO'
+}
 
 def numberNodes(dataset):
     nodes = 0
@@ -16,7 +28,7 @@ def numberNodes(dataset):
     return nodes
 
 def importIMMSeedSet(dataset, seedSize, epsilon):
-    file_name = 'data/{0}/imm/{0}_k{1}e{2}.txt'.format(dataset, seedSize, epsilon)
+    file_name = 'data/{0}/imm/basic/{1}_k{2}_e{3}.txt'.format(dataset, datasets[dataset], seedSize, epsilon)
     print(file_name)
     with open(file_name, 'r') as f:
         content = f.readlines()
@@ -24,7 +36,7 @@ def importIMMSeedSet(dataset, seedSize, epsilon):
     return content
 
 def importRtimSeedSet(dataset, seedSize, reach, ap, streamSize, model, version):
-    file_name = 'data/{0}/availability_models/{5}/{5}_m{6}/{0}_seedSet_s{4}r{2}ap{3}.txt'.format(dataset, seedSize, reach, ap, streamSize, model, version)
+    file_name = 'data/{0}/streams/{5}/{5}_m{6}/{0}_seedSet_s{4}r{2}ap{3}.txt'.format(dataset, seedSize, reach, ap, streamSize, model, version)
     print(file_name)
     with open(file_name, 'r') as f:
         content = f.readlines()
@@ -32,14 +44,14 @@ def importRtimSeedSet(dataset, seedSize, reach, ap, streamSize, model, version):
     return content
 
 def importAvailabilityStream(dataset, model, streamSize, version):
-    file_name = 'data/{0}/availability_models/{1}/{1}_m{3}/{1}_{2}_m{3}.txt'.format(dataset, model, streamSize, version)
+    file_name = 'data/{0}/streams/{1}/{1}_m{3}/{1}_{2}_m{3}.txt'.format(dataset, model, streamSize, version)
     with open(file_name, 'r') as f:
         content = f.readlines()
     content = [x.strip() for x in content]
     return content
 
 def saveImmStreamIntersect(intersect, dataset, seedSize, epsilon, model, streamSize, version):
-    file_name = 'data/{0}/imm/Sk{1}e{2}_A{3}{4}m{5}.txt'.format(dataset, seedSize, epsilon, model, streamSize, version)
+    file_name = 'data/{0}/imm/intersect/Sk{1}_e{2}_A{3}_s{4}_v{5}.txt'.format(dataset, seedSize, epsilon, model, streamSize, version)
     with open(file_name, 'w') as f:
         writer = csv.writer(f)
         for val in intersect:

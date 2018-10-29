@@ -49,6 +49,8 @@
   void printLocalTime(std::string color, std::string name, std::string status);
 
 
+  std::string getLocalDatetime();
+
 /**
   *
   */

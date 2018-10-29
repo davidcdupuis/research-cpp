@@ -27,7 +27,7 @@ public:
   int depth = 2;                       /**< max depth for monte carlo simulations */
 
   std::string dataset;                /**< name of dataset */
-  std::string streamModel = "rand_repeat"; /**< name of availability model */
+  std::string streamModel = "uniform_rand_repeat"; /**< name of availability model */
   std::string stage;                  /**< pre|live|evaluate */
   std::string model = "ic";           /**< model of weights: ic|lt, default is ic */
 

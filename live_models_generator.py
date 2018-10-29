@@ -10,6 +10,16 @@ import csv
 
 models = ['rand_repeat', 'rand_no_repeat', 'random_long']
 
+datasets = {
+'test' : 'TS'
+'nethept' : 'NE',
+'dblp' : 'DB',
+'livejournal' : 'LJ',
+'orkut' : 'OR',
+'twitter' : 'TW',
+'youtube' : 'YO'
+}
+
 def numberNodes(dataset):
     nodes = 0
     file_name = 'data/{0}/attributes.txt'.format(dataset)
@@ -25,7 +35,7 @@ def rand_repeat(dataset, nodes, size, num=1):
     '''
     # initialize array of size 'nodes'
     for i in range(1, num + 1):
-        file_name = 'data/{0}/availability_models/rand_repeat/rand_repeat_m{2}/rand_repeat_{1}_m{2}.txt'.format(dataset, size, i)
+        file_name = 'data/{0}/availability_models/uniform_rand_repeat/v{1}/{2}_urr_v{1}_s{3}_st.txt'.format(dataset, i, datasets[dataset] ,size)
         stream = [random.choice(range(nodes)) for _ in range(size)]
         with open(file_name, 'w', newline='') as f:
             writer = csv.writer(f)
@@ -35,7 +45,7 @@ def rand_repeat(dataset, nodes, size, num=1):
 
 def rand_no_repeat(dataset, nodes, size, num=1):
     for i in range(1, num + 1):
-        file_name = 'data/{0}/availability_models/rand_no_repeat/rand_no_repeat_m{2}/rand_no_repeat_{1}_m{2}.txt'.format(dataset, size, i)
+        file_name = 'data/{0}/availability_models/uniform_rand_no_repeat/v{1}/{2}_urnr_v{1}_s{3}_st.txt'.format(dataset, i, datasets[dataset] ,size)
         stream = random.sample(range(nodes), size)
         with open(file_name, 'w', newline='') as f:
             writer = csv.writer(f)

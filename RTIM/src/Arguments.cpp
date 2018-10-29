@@ -165,6 +165,7 @@ void Arguments::printArguments(){
   cout << "--------------------------------------" << endl;
 }
 
+
 string Arguments::generateFileName(string type){
   string file_name = "";
   map<string, string> datasets = {
@@ -180,8 +181,8 @@ string Arguments::generateFileName(string type){
     { "infScores", "infS"},
     { "seedSet", "ss"},
     { "stream", "st"},
-    { "rand_repeat", "urr"},
-    { "rand_no_repeat", "urnr"},
+    { "uniform_rand_repeat", "urr"},
+    { "uniform_rand_no_repeat", "urnr"},
     { "progress", "prg"},
   };
   // file_name = <dataset>_params_<type>
