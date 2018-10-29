@@ -11,13 +11,13 @@ import csv
 models = ['rand_repeat', 'rand_no_repeat', 'random_long']
 
 datasets = {
-'test' : 'TS'
-'nethept' : 'NE',
-'dblp' : 'DB',
-'livejournal' : 'LJ',
-'orkut' : 'OR',
-'twitter' : 'TW',
-'youtube' : 'YO'
+    'test':'TS',
+    'nethept':'NE',
+    'dblp':'DB',
+    'livejournal':'LJ',
+    'orkut':'OR',
+    'twitter':'TW',
+    'youtube':'YO'
 }
 
 def numberNodes(dataset):
@@ -35,7 +35,7 @@ def rand_repeat(dataset, nodes, size, num=1):
     '''
     # initialize array of size 'nodes'
     for i in range(1, num + 1):
-        file_name = 'data/{0}/availability_models/uniform_rand_repeat/v{1}/{2}_urr_v{1}_s{3}_st.txt'.format(dataset, i, datasets[dataset] ,size)
+        file_name = 'data/{0}/streams/uniform_rand_repeat/v{1}/{2}_urr_v{1}_s{3}_st.txt'.format(dataset, i, datasets[dataset] ,size)
         stream = [random.choice(range(nodes)) for _ in range(size)]
         with open(file_name, 'w', newline='') as f:
             writer = csv.writer(f)
@@ -45,7 +45,7 @@ def rand_repeat(dataset, nodes, size, num=1):
 
 def rand_no_repeat(dataset, nodes, size, num=1):
     for i in range(1, num + 1):
-        file_name = 'data/{0}/availability_models/uniform_rand_no_repeat/v{1}/{2}_urnr_v{1}_s{3}_st.txt'.format(dataset, i, datasets[dataset] ,size)
+        file_name = 'data/{0}/streams/uniform_rand_no_repeat/v{1}/{2}_urnr_v{1}_s{3}_st.txt'.format(dataset, i, datasets[dataset] ,size)
         stream = random.sample(range(nodes), size)
         with open(file_name, 'w', newline='') as f:
             writer = csv.writer(f)
@@ -55,7 +55,7 @@ def rand_no_repeat(dataset, nodes, size, num=1):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Live Models generator")
-    parser.add_argument('-m', '--model', default="random_basic",
+    parser.add_argument('-m', '--model', default="uniform_rand_repeat",
                         help='What model to use')
     parser.add_argument('-d', '--dataset', required=True,
                         help='What data to generate model for.')
@@ -76,7 +76,7 @@ if __name__ == "__main__":
         args.stream = nodes
     print("Stream size: {}".format(args.stream))
 
-    if args.model == "rand_repeat":
+    if args.model == "uniform_rand_repeat":
         rand_repeat(args.dataset, nodes, args.stream, args.number)
-    elif args.model == "rand_no_repeat":
+    elif args.model == "uniform_rand_no_repeat":
         rand_no_repeat(args.dataset, nodes, args.stream, args.number)
