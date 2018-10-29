@@ -133,3 +133,20 @@ string properStringDouble(double value){
   }
   return result;
 }
+
+void listFolderFiles(string folder){
+  DIR *dir;
+  struct dirent *ent;
+  if ((dir = opendir (folder.c_str())) != NULL) {
+    /* print all the files and directories within directory */
+    while ((ent = readdir (dir)) != NULL) {
+      printf ("%s\n", ent->d_name);
+    }
+    closedir (dir);
+  } else {
+    /* could not open directory */
+    perror ("");
+    cout << "Error!" << endl;
+  }
+  std::string path = "/path/to/directory";
+}

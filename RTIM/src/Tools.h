@@ -20,6 +20,7 @@
 #include <vector>
 #include <map>
 #include <deque>
+#include <dirent.h>
 
 /**
   * Set of practical helper functions for other classes
@@ -58,5 +59,7 @@
 
 
   std::string properStringDouble(double value);
+
+  void listFolderFiles(std::string folder);
 
 #endif

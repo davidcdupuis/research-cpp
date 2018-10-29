@@ -322,7 +322,7 @@ void RTIM::saveScores(){
 
 
 void RTIM::saveSeedSet(){
-  string file = "../../data/" + args.dataset + "/streams/" + args.streamModel + "/v" + to_string(args.streamVersion) + "/" + args.generateFileName("rtim_seedSet");
+  string file = "../../data/" + args.dataset + "/rtim/live/" + args.generateFileName("rtim_seedSet");
   printInColor("cyan", "Saving seed set to: " + file);
   //cout << "\033[33mSaving seed set to: " << file << "\033[0m" << endl;
   ofstream seedSetFile;
@@ -339,10 +339,10 @@ void RTIM::saveSeedSet(){
 void RTIM::importSeedSet(string file_path){
   int user;
   seedSet.clear();
-  string file = "../../data/" + args.dataset + "/" + file_path;
-  cout << "Importing from: " << file << endl;
+  // string file = "../../data/" + args.dataset + "/" + file_path;
+  cout << "Importing from: " << file_path << endl;
 
-  ifstream infile(file.c_str());
+  ifstream infile(file_path.c_str());
   while(infile >> user){
     seedSet.push_back(user);
   }
@@ -1008,16 +1008,48 @@ void RTIM::liveMenu(){
 
 
 void RTIM::computeSeedScoreMenu(){
-  seedSet.clear(); //in case it's a re-run
-  string input;
+  // seedSet.clear(); //in case it's a re-run
+  int choice = -1;
   string file_path = "../../data/" + args.dataset + "/";
   cout << "________________________________________" << endl;
-  cout << "Input IMM seed set arguments" << endl;
+  cout << "Choose a folder: " << endl;
+  cout << "   [1] rtim/live/" << endl;
+  cout << "   [2] imm/basic/" << endl;
+  cout << "   [3] imm/intersect/" << endl;
+  while(choice == -1){
+    cout <<  "> choice: ";
+    string val;
+    getline(cin, val);
+    choice = stoi(val);
+    switch(choice){
+      case 1:
+        file_path += "rtim/live/";
+        break;
+      case 2:
+        file_path += "imm/basic/";
+        break;
+      case 3:
+        file_path += "imm/intersect/";
+        break;
+      default:
+        cout << "Error: choice not recognized!" << endl;
+        sleep(SLEEP);
+        clearLines(2);
+        choice = -1;
+    }
+  }
+  sleep(SLEEP);
+  clearLines(7);
+
+  string input;
+  cout << "________________________________________" << endl;
+  cout << "Input seed set file name" << endl;
   while (1){
-    cout << "> seed file: ";
+    cout << "> seed file ["<< file_path <<"] : ";
     getline(cin, input);
     break;
   }
+  file_path += input;
   importSeedSet(input);
   sleep(SLEEP);
   clearLines(5);
@@ -1169,5 +1201,6 @@ int main(int argn, char **argv)
   // int cores = omp_get_max_threads();
   Arguments args = Arguments();
   RTIM rtim = RTIM(args);
-  rtim.run();
+  //rtim.run();
+  listFolderFiles("../../data/nethept/rtim/live/progress");
 }
