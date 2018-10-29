@@ -355,4 +355,40 @@ class OutputInfo
         cout<<"\e\[0;31mProgram version: " << __head_version << "\e[0m"<<endl;
     }
 };
+
+string properStringDouble(double value){
+  string original = to_string(value);
+  string result = "";
+  bool cont = true;
+  int index = original.length() - 1;
+  for(int i=original.length()-1; i >= 0; i--){
+    if(original[i] != '0'){
+      cont = false;
+    }
+    if(original[i] == '.'){
+      original[i] = ',';
+      if (index == i){
+        index--;
+      }
+      break;
+    }
+    if(cont){
+      index--;
+    }
+  }
+  for(int i=0; i <= index; i++){
+    result += original[i];
+  }
+  return result;
+}
+
+map<string, string> datasets = {
+  { "test", "TS" },
+  { "nethept", "NE" },
+  { "dblp", "DB" },
+  { "youtube", "YO" },
+  { "livejournal", "LJ" },
+  { "orkut", "OR" },
+  { "twitter", "TW"}
+};
 #endif //__HEAD_H__

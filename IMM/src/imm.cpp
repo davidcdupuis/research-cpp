@@ -26,7 +26,7 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
         Imm::InfluenceMaximize(g, arg);
 
         // save g.seedSet here => nethept_k100e0.01.txt
-        string file = "../data/" + arg.dataset + "/imm/" + arg.dataset + "_k" + to_string(arg.k) + "e" + to_string(arg.epsilon) + ".txt";
+        string file = "../data/" + arg.dataset + "/imm/basic/" + datasets[arg.dataset] + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
         cout << "Saving influence scores to " << file << endl;
         ofstream seedSetFile;
         seedSetFile.open(file);
