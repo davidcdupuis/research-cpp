@@ -199,6 +199,7 @@ void RTIM::live(){
   bool newProgress = true;
   while (infile >> user){
     sum ++;
+    cout << "User: " << user << " dataset: " << args.dataset << endl;
     if (args.dataset == "test"){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
     }
@@ -341,7 +342,7 @@ void RTIM::saveScores(){
 void RTIM::saveSeedSet(bool progress, int progPercentage){
   string file = "../../data/" + args.dataset + "/rtim/live/";
   if(progress){
-    file += "progress" + args.generateFileName("rtim_progress_seedSet", progPercentage);
+    file += "progress/" + args.generateFileName("rtim_progress_seedSet", progPercentage);
     printInColor("cyan", "Saving progress seed set to: " + file);
   }else{
     file += args.generateFileName("rtim_seedSet");

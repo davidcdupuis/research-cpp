@@ -209,10 +209,10 @@ string Arguments::generateFileName(string type, int param){
   }else if (type == "stream"){
     // file_name = <dataset>_<type>_v<version>_s<stream size>_st.txt
     // example: "NE_urr_v1_s15229_st.txt"
-    file_name = datasets[dataset] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_st.txt";
+    file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_st.txt";
   }else if (type == "rtim_progress"){
     // file_name = ?
-    file_name = datasets[dataset] + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
+    file_name = datasets[dataset] + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
   }
 
   return file_name;
