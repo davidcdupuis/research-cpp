@@ -428,6 +428,38 @@ void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, 
 }
 
 
+void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, double& runtime, double& score){
+  string file_path = "../../data/" + args.dataset + "/logs/seed_set_score.log";
+  printInColor("cyan", "Saving seed score log to: " + file);
+  ofstream seedScoreLogFile;
+  seedScoreLogFile.open(file_path, fstream::app);
+  seedScoreLogFile << "file name: " << file << endl;
+  seedScoreLogFile << "start: " << startDate << endl;
+  seedScoreLogFile << "end: " << endDate << endl;
+  seedScoreLogFile << "run time: " << runtime << endl;
+  seedScoreLogFile << "seed size: " << seedSet.size() << endl;
+  seedScoreLogFile << "score: " << score << endl;
+  seedScoreLogFile.close();
+}
+
+
+void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, double& runtime, double& score){
+  string file_path = "../../data/" + args.dataset + "/logs/seed_set_score.csv";
+  printInColor("cyan", "Saving seed score csv to: " + file);
+
+  // dataset,file_name, startDate, endDate, runtime, seed size, score
+  ofstream seedScoreCSVFile;
+  seedScoreCSVFile.open(file_path, fstream::app);
+  seedScoreCSVFile << args.dataset << ",";
+  seedScoreCSVFile << file << ",";
+  seedScoreCSVFile << startDate << ",";
+  seedScoreCSVFile << endDate << ",";
+  seedScoreCSVFile << runtime << ",";
+  seedScoreCSVFile << seedSet.size() << ",";
+  seedScoreCSVFile << score << endl;
+  seedScoreCSVFile.close();
+}
+
 void RTIM::initiateProgressLog(){
   string folder = "../../data/" + args.dataset + "/rtim/live/progress/";
   string file = folder + args.generateFileName("rtim_progress");
@@ -1074,6 +1106,7 @@ void RTIM::computeSeedScoreMenu(){
   importSeedSet(input);
   sleep(SLEEP);
   clearLines(5);
+  seedFile = input;
 }
 
 
@@ -1167,10 +1200,16 @@ void RTIM::run(){
     }else if (args.stage == "compute_seed_score"){
       printLocalTime("magenta", "Compute seed score", "starting");
       double score;
+      string startDate = getLocalDatetime();
+      clock_t startTime = clock();
       score = graph.influenceScore(seedSet);
+      double duration = (clock() - startTime)/(double)CLOCKS_PER_SEC;
+      string endDate = getLocalDatetime();
       string txt = "> Influence score of seed set is: " + to_string(score);
       printInColor("cyan", txt);
-      printLocalTime("magenta", "IMM seed test", "ending");
+      saveSeedScoreLog(seedFile, startDate, endDate, duration, score);
+      saveSeedScoreCSV(seedFile, startDate, endDate, duration, score);
+      // printLocalTime("magenta", "IMM seed test", "ending");
     }else if (args.stage == "test"){
       printLocalTime("magenta", "Test", "starting");
       runTest();

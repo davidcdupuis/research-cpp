@@ -35,6 +35,7 @@ public:
   std::vector<double> nodeTime;      /**< time took to compute node inf score */
   std::vector<double> sortedScores;  /**< array of sorted influence scores */
   std::vector<int> seedSet;          /**< users to target */
+  std::string seedFile = "";
   std::vector<double> activationProbabilities; /**< array of activation probabilities*/
   Arguments args;                    /**< command line arguments */
   Graph graph;
@@ -129,6 +130,11 @@ public:
     */
   void saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, double& runtime);
 
+
+  void saveSeedScoreLog(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
+
+
+  void saveSeedScoreCSV(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
 
   /**
     * Initiate progress log file with header
