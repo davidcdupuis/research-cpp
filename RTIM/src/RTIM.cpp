@@ -454,7 +454,7 @@ void RTIM::saveProgress(int progress, int seen, int seedSize){
 
 
 void RTIM::importScores(){
-  string folder = "../../data/" + args.dataset + "/rtim/live/" + args.dataset + "_infS.txt";
+  string folder = "../../data/" + args.dataset + "/rtim/pre_process/" + args.dataset + "_infS.txt";
   // cout << "Importing influence scores from: " << folder << endl;
   printInColor("cyan", "Importing influence scores from: " + folder);
   infScores.resize(nodes, 0);
