@@ -95,7 +95,7 @@ public:
   /**
     * Save seed set to appropriate file
     */
-  void saveSeedSet();
+  void saveSeedSet(bool progress = false, int progPercentage = 0);
 
 
   /**

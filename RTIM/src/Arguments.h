@@ -60,6 +60,6 @@ public:
   /**
     Generate file_name from arguments
   */
-  std::string generateFileName(std::string type);
+  std::string generateFileName(std::string type, int param = 0);
 };
 #endif

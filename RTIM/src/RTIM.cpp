@@ -256,6 +256,7 @@ void RTIM::live(){
     */
 
     // if progress = 10,20,30,40,50,...,100% record seed size in specific file
+    /*
     float progress = (float)sum/args.streamSize;
     int progressPercentage = (int)(progress * 100.0);
     if (progressPercentage % 10 == 0){
@@ -267,6 +268,22 @@ void RTIM::live(){
       }
       if(newProgress){
         saveProgress(progressPercentage, sum, seedSet.size()); // record seed size
+      }
+    }*/
+
+    float progress = (float)seedSet.size()/args.k;
+    int progressPercentage = (int)(progress * 100.0);
+    if (progressPercentage % 10 == 0){
+      if(progressPercentage != previousProgress){
+        newProgress = true;
+        previousProgress = progressPercentage;
+      }else{
+        newProgress = false;
+      }
+      if (newProgress){
+        cout << "Targeted: " << progressPercentage << "%, seed size" << seedSet.size() << endl;
+        saveProgress(progressPercentage, sum, seedSet.size());
+        saveSeedSet(true, progressPercentage);
       }
     }
 
@@ -321,18 +338,21 @@ void RTIM::saveScores(){
 }
 
 
-void RTIM::saveSeedSet(){
-  string file = "../../data/" + args.dataset + "/rtim/live/" + args.generateFileName("rtim_seedSet");
-  printInColor("cyan", "Saving seed set to: " + file);
-  //cout << "\033[33mSaving seed set to: " << file << "\033[0m" << endl;
+void RTIM::saveSeedSet(bool progress, int progPercentage){
+  string file = "../../data/" + args.dataset + "/rtim/live/";
+  if(progress){
+    file += "progress" + args.generateFileName("rtim_progress_seedSet", progPercentage);
+    printInColor("cyan", "Saving progress seed set to: " + file);
+  }else{
+    file += args.generateFileName("rtim_seedSet");
+    printInColor("cyan", "Saving seed set to: " + file);
+  }
   ofstream seedSetFile;
   seedSetFile.open(file);
   for (int i = 0; i < seedSet.size() ; i++){
      seedSetFile << seedSet[i] << endl;
   }
   seedSetFile.close();
-  //cout << "\033[33mSeed set saved successfully!\033[0m" << endl;
-  // printInColor("cyan", "Seed set saved successfully!");
 }
 
 
@@ -1201,6 +1221,5 @@ int main(int argn, char **argv)
   // int cores = omp_get_max_threads();
   Arguments args = Arguments();
   RTIM rtim = RTIM(args);
-  //rtim.run();
-  listFolderFiles("../../data/nethept/rtim/live/progress");
+  rtim.run();
 }

@@ -166,7 +166,7 @@ void Arguments::printArguments(){
 }
 
 
-string Arguments::generateFileName(string type){
+string Arguments::generateFileName(string type, int param){
   string file_name = "";
   map<string, string> datasets = {
     { "test", "TS" },
@@ -196,6 +196,8 @@ string Arguments::generateFileName(string type){
     // file_name = <dataset>_<stream type>_v<version>_s<stream size>_r<value>_ap<value>_ss.txt
     // example: "NE_urr_v1_s15229_r1_ap0,01_ss.txt"
     file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_ss.txt";
+  }else if (type == "rtim_progress_seedSet"){
+    file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_prg" + to_string(param) + "_ss.txt";
   }else if(type == "imm_seedSet"){
     // file_name = <dataset>_k<value>_e<value>_ss.txt
     // example: "NE_k200_e0,01_ss.txt"
