@@ -1,3 +1,8 @@
 dataset,streamModel,streamVersion,streamSize,reach,theta_ap,depth,maxSeedSize,actualSeedSize,maxUpdateTime,runtime
 test,uniform_rand_repeat,1,20,10,0,8,2,20,0,0,0.000295
 test,uniform_rand_repeat,1,20,50,0,8,2,20,0,0,0.000713
+test,uniform_rand_repeat,1,20,50,0,8,2,20,0,0,0.00036
+test,uniform_rand_repeat,1,20,50,0,8,2,20,0,0,0.00055
+test,uniform_rand_repeat,1,20,1,0,8,2,20,0,0,0.000503
+test,uniform_rand_repeat,1,20,50,0,8,2,20,0,0,0.000381
+test,uniform_rand_repeat,1,20,90,0,8,2,20,0,0,0.000361

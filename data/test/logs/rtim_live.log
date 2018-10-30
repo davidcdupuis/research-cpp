@@ -10,3 +10,33 @@ end: Tue Oct 30 15:17:23 2018
 runtime: 0.000713 milliseconds
 max update time: 0.000000 milliseconds
 ----------------------------------------------------
+file name: TS_urr_v1_s20_r50_ap0,8_ss.txt
+start: Tue Oct 30 15:26:05 2018
+end: Tue Oct 30 15:26:09 2018
+runtime: 0.000360 milliseconds
+max update time: 0.000000 milliseconds
+----------------------------------------------------
+file name: TS_urr_v1_s20_r50_ap0,8_ss.txt
+start: Tue Oct 30 15:30:03 2018
+end: Tue Oct 30 15:30:07 2018
+runtime: 0.000550 milliseconds
+max update time: 0.000000 milliseconds
+----------------------------------------------------
+file name: TS_urr_v1_s20_r1_ap0,8_ss.txt
+start: Tue Oct 30 15:33:30 2018
+end: Tue Oct 30 15:33:34 2018
+runtime: 0.000503 milliseconds
+max update time: 0.000000 milliseconds
+----------------------------------------------------
+file name: TS_urr_v1_s20_r50_ap0,8_ss.txt
+start: Tue Oct 30 15:34:24 2018
+end: Tue Oct 30 15:34:28 2018
+runtime: 0.000381 milliseconds
+max update time: 0.000000 milliseconds
+----------------------------------------------------
+file name: TS_urr_v1_s20_r90_ap0,8_ss.txt
+start: Tue Oct 30 15:36:32 2018
+end: Tue Oct 30 15:36:36 2018
+runtime: 0.000361 milliseconds
+max update time: 0.000000 milliseconds
+----------------------------------------------------
