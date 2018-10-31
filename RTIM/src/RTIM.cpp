@@ -204,6 +204,7 @@ void RTIM::live(){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
     }
     if (activationProbabilities[user] < args.theta_ap && infScores[user] >= sortedScores[infIndex]){
+      saveProgress(user, sum, seedSet.size());
       double tmpAP = activationProbabilities[user];
       activationProbabilities[user] = 1.0;
       // measure update time
@@ -255,38 +256,6 @@ void RTIM::live(){
     cout << "] " << progressPercentage << " % -- (" << sum << "/" << args.streamSize << ") -- (" << duration << "s / " << timeLeft << "s)";
     cout.flush();
     */
-
-    // if progress = 10,20,30,40,50,...,100% record seed size in specific file
-    /*
-    float progress = (float)sum/args.streamSize;
-    int progressPercentage = (int)(progress * 100.0);
-    if (progressPercentage % 10 == 0){
-      if(progressPercentage != previousProgress){
-        newProgress = true;
-        previousProgress = progressPercentage;
-      }else{
-        newProgress = false;
-      }
-      if(newProgress){
-        saveProgress(progressPercentage, sum, seedSet.size()); // record seed size
-      }
-    }*/
-
-    float progress = (float)seedSet.size()/args.k;
-    int progressPercentage = (int)(progress * 100.0);
-    if (progressPercentage % 10 == 0){
-      if(progressPercentage != previousProgress){
-        newProgress = true;
-        previousProgress = progressPercentage;
-      }else{
-        newProgress = false;
-      }
-      if (newProgress){
-        cout << "Targeted: " << progressPercentage << "%, seed size" << seedSet.size() << endl;
-        saveProgress(progressPercentage, sum, seedSet.size());
-        saveSeedSet(true, progressPercentage);
-      }
-    }
 
   }
   cout << endl;
@@ -466,19 +435,19 @@ void RTIM::initiateProgressLog(){
   printInColor("cyan", "Initiating progress log: " + file);
   ofstream progressFile;
   progressFile.open(file);
-  progressFile << "progress,seen,seed_size" << endl;
+  progressFile << "seen,user_index,seed_size" << endl;
   progressFile.close();
 }
 
 
-void RTIM::saveProgress(int progress, int seen, int seedSize){
+void RTIM::saveProgress(int user_index, int seen, int seedSize){
   string folder = "../../data/" + args.dataset + "/rtim/live/progress/";
   string file = folder + args.generateFileName("rtim_progress");
   // printInColor("cyan","Saving progress: " + to_string(progress));
   ofstream progressFile;
   progressFile.open(file, fstream::app);
   /* progress | nodes seen | seed size */
-  progressFile << progress << ",";
+  progressFile << user_index << ",";
   progressFile << seen << ",";
   progressFile << seedSize;
   progressFile << endl;
