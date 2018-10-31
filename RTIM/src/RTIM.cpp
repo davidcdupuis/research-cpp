@@ -204,6 +204,7 @@ void RTIM::live(){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
     }
     if (activationProbabilities[user] < args.theta_ap && infScores[user] >= sortedScores[infIndex]){
+      seedSet.push_back(user);
       saveProgress(user, sum, seedSet.size());
       double tmpAP = activationProbabilities[user];
       activationProbabilities[user] = 1.0;
@@ -215,7 +216,7 @@ void RTIM::live(){
       if (duration > max_time){
         max_time = duration;
       }
-      seedSet.push_back(user);
+
       infIndex --;
       if (args.dataset == "test" || args.k < 20){
         cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
