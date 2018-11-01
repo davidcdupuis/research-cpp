@@ -10,7 +10,7 @@ import random
 import csv
 
 datasets = {
-'test' : 'TS'
+'test' : 'TS',
 'nethept' : 'NE',
 'dblp' : 'DB',
 'livejournal' : 'LJ',
@@ -18,6 +18,16 @@ datasets = {
 'twitter' : 'TW',
 'youtube' : 'YO'
 }
+
+keywords = {
+    'uniform_rand_repeat' : 'urr',
+    'uniform_rand_no_repeat' : 'urnr'
+}
+
+def properDoubleFormat(dbl):
+    result = str(dbl)
+    result = result.replace(".",",")
+    return result
 
 def numberNodes(dataset):
     nodes = 0
@@ -28,7 +38,8 @@ def numberNodes(dataset):
     return nodes
 
 def importIMMSeedSet(dataset, seedSize, epsilon):
-    file_name = 'data/{0}/imm/basic/{1}_k{2}_e{3}.txt'.format(dataset, datasets[dataset], seedSize, epsilon)
+    # data/nethept/imm/basic/NE_k50_e0,5_ss.txt
+    file_name = 'data/{0}/imm/basic/{1}_k{2}_e{3}_ss.txt'.format(dataset, datasets[dataset], seedSize, properDoubleFormat(epsilon))
     print(file_name)
     with open(file_name, 'r') as f:
         content = f.readlines()
@@ -36,7 +47,8 @@ def importIMMSeedSet(dataset, seedSize, epsilon):
     return content
 
 def importRtimSeedSet(dataset, seedSize, reach, ap, streamSize, model, version):
-    file_name = 'data/{0}/streams/{5}/{5}_m{6}/{0}_seedSet_s{4}r{2}ap{3}.txt'.format(dataset, seedSize, reach, ap, streamSize, model, version)
+    # data/nethept/rtim/live/NE_r5_ap0,8_urr_v1_s15229_ss.txt
+    file_name = 'data/{0}/rtim/live/{1}_r{2}_ap{3}_{4}_v{5}_s{6}_ss.txt'.format(dataset, datasets[dataset], reach, properDoubleFormat(ap), keywords[model], version, streamSize)
     print(file_name)
     with open(file_name, 'r') as f:
         content = f.readlines()
@@ -44,20 +56,52 @@ def importRtimSeedSet(dataset, seedSize, reach, ap, streamSize, model, version):
     return content
 
 def importAvailabilityStream(dataset, model, streamSize, version):
-    file_name = 'data/{0}/streams/{1}/{1}_m{3}/{1}_{2}_m{3}.txt'.format(dataset, model, streamSize, version)
+    # data/nethept/streams/urr/v1/NE_urr_v1_s15229_st.txt
+    file_name = 'data/{0}/streams/{1}/v{2}/{3}_{4}_v{2}_s{5}_st.txt'.format(dataset, model, version, datasets[dataset], keywords[model], streamSize)
     with open(file_name, 'r') as f:
         content = f.readlines()
     content = [x.strip() for x in content]
     return content
 
 def saveImmStreamIntersect(intersect, dataset, seedSize, epsilon, model, streamSize, version):
-    file_name = 'data/{0}/imm/intersect/Sk{1}_e{2}_A{3}_s{4}_v{5}.txt'.format(dataset, seedSize, epsilon, model, streamSize, version)
+    # data/nethept/imm/live/NE_k50_e0,01_urr_v1_s15229_ss.txt
+    file_name = 'data/{0}/imm/live/{1}_k{2}_e{3}_{4}_v{5}_s{5}_ss.txt'.format(dataset, datasets[dataset], seedSize, properDoubleFormat(epsilon), keywords[model], version, streamSize)
     with open(file_name, 'w') as f:
         writer = csv.writer(f)
         for val in intersect:
             writer.writerow([val])
     print("intersect saved successfully to {}".format(file_name))
 
+def getStreamIntersection(dataset, seedSize, epsilon, model, version, streamSize, stream, immSeed):
+    initiateProgressLog(dataset, seedSize, epsilon, model, version, streamSize)
+    result = []
+    seen = 0
+    for i in stream:
+        seen += 1
+        for j in immSeed:
+            if i == j:
+                result.append(j)
+                immSeed.remove(j)
+                saveProgress(dataset, seedSize, epsilon, model, version, streamSize, seen, j, len(result))
+    return result
+
+def getRTIMIntersection(immSeed, rtimSeed):
+    return (list(set(immSeed) & set(rtimSeed)))
+
+def initiateProgressLog(dataset, seedSize, epsilon, model, version, streamSize):
+    # data/nethept/imm/live/progress/NE_k50_e0,5_urr_v1_s15229_prg.txt
+    file_name = 'data/{0}/imm/live/progress/{1}_k{2}_e{3}_{4}_v{5}_s{6}_prg.txt'.format(dataset, datasets[dataset], seedSize, properDoubleFormat(epsilon), keywords[model], version, streamSize)
+    with open(file_name, 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(['seen','user_index','seed_size'])
+    print("Progress log initiated at {}:".format(file_name))
+
+def saveProgress(dataset, seedSize, epsilon, model, version, streamSize, seen, user_index, seed_size):
+    # data/nethept/imm/live/progress/NE_k50_e0,5_urr_v1_s15229_prg.txt
+    file_name = 'data/{0}/imm/live/progress/{1}_k{2}_e{3}_{4}_v{5}_s{6}_prg.txt'.format(dataset, datasets[dataset], seedSize, properDoubleFormat(epsilon), keywords[model], version, streamSize)
+    with open(file_name, 'a') as f:
+        writer = csv.writer(f)
+        writer.writerow([seen, user_index, seed_size])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Live Models generator")
@@ -68,12 +112,12 @@ if __name__ == "__main__":
     parser.add_argument('-t', '--type', default='stream',)
 
     # IMM ARGUMENTS
-    parser.add_argument('-s', '--seedSize', type=int, default=-1,
+    parser.add_argument('-k', '--seedSize', type=int, default=-1,
                         help='size of seed set')
     parser.add_argument('-e', '--epsilon', type=float, default=0.1)
 
     # STREAM ARGUMENTS
-    parser.add_argument('-m', '--model', default="rand_repeat",
+    parser.add_argument('-m', '--model', default="uniform_rand_repeat",
                         help='What model to use')
     parser.add_argument('-stream', '--streamSize', type=int, default=-1,
                         help='size of stream')
@@ -86,21 +130,21 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if(args.type == 'stream'):
-        seedSet = importIMMSeedSet(args.dataset, args.seedSize, args.epsilon)
-        print("IMM seed set length: " + str(len(seedSet)))
+        immSeed = importIMMSeedSet(args.dataset, args.seedSize, args.epsilon)
+        print("IMM seed set length: " + str(len(immSeed)))
         stream = importAvailabilityStream(args.dataset, args.model, args.streamSize, args.version)
         print("Original stream length: " + str(len(stream)))
-        # remove duplicates using a set
-        stream = list(set(stream))
-        print("Stream without duplicates: " + str(len(stream)))
         # find intersection of lists
-        intersect = list(set(seedSet) - set(stream))
-        print("Stream without duplicates: " + str(len(intersect)))
+        intersect = getStreamIntersection(args.dataset, args.seedSize, args.epsilon, args.model, args.version, args.streamSize, stream, immSeed)
+        print("Intersect: " + str(len(intersect)))
         saveImmStreamIntersect(intersect, args.dataset, args.seedSize , args.epsilon , args.model, args.streamSize , args.version)
     elif(args.type == 'rtim'):
-        immSeedSet = importIMMSeedSet(args.dataset, args.seedSize, args.epsilon)
+        immSeed = importIMMSeedSet(args.dataset, args.seedSize, args.epsilon)
         print("IMM seed set length: " + str(len(immSeedSet)))
-        rtimSeedSet = importRtimSeedSet(args.dataset, args.seedSize, args.reach, args.activationProb, args.streamSize, args.model, args.version)
+        rtimSeed = importRtimSeedSet(args.dataset, args.seedSize, args.reach, args.activationProb, args.streamSize, args.model, args.version)
         print("RTIM seed set length: " + str(len(rtimSeedSet)))
-        intersect = list(set(immSeedSet) - set(rtimSeedSet))
+        intersect = getRTIMIntersection(immSeed, rtimSeed)
         print("Intersection size: " + str(len(intersect)))
+    elif (args.type == "test"):
+        value = 0.5000
+        print(properDoubleFormat(value))

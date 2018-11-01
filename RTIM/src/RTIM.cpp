@@ -448,8 +448,8 @@ void RTIM::saveProgress(int user_index, int seen, int seedSize){
   ofstream progressFile;
   progressFile.open(file, fstream::app);
   /* progress | nodes seen | seed size */
-  progressFile << user_index << ",";
   progressFile << seen << ",";
+  progressFile << use_index << ",";
   progressFile << seedSize;
   progressFile << endl;
   progressFile.close();
