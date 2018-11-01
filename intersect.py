@@ -103,6 +103,15 @@ def saveProgress(dataset, seedSize, epsilon, model, version, streamSize, seen, u
         writer = csv.writer(f)
         writer.writerow([seen, user_index, seed_size])
 
+
+def saveRTIMIntersect(dataset, seedSize, epsilon, reach, ap, model, version, streamSize, intersect):
+    file_name = 'data/{0}/imm/rtim_common/{1}_k{2}_e{3}_r{4}_ap{5}_{6}_v{7}_s{8}_common.txt'.format(dataset, datasets[dataset], seedSize, properDoubleFormat(epsilon), reach, properDoubleFormat(ap), keywords[model], version, streamSize)
+    with open(file_name, 'w') as f:
+        writer = csv.writer(f)
+        for val in intersect:
+            writer.writerow([val])
+    print("IMM-RTIM intersect saved successfully to {}".format(file_name))
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Live Models generator")
 
@@ -145,6 +154,7 @@ if __name__ == "__main__":
         print("RTIM seed set length: " + str(len(rtimSeedSet)))
         intersect = getRTIMIntersection(immSeed, rtimSeed)
         print("Intersection size: " + str(len(intersect)))
+        saveRTIMIntersect(args.dataset, args.seedSize, args.epsilon, args.reach, args.activationProb, args.model, args.version, args.streamSize, intersect)
     elif (args.type == "test"):
         value = 0.5000
         print(properDoubleFormat(value))
