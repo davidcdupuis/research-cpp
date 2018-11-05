@@ -42,7 +42,7 @@ def generatePath(type, size=0):
         path += "{}_k{}_r{}_ap{}_{}_v{}_s{}_ss{}.txt".format(datasets[args.dataset], args.rtimK, args.reach, properDoubleFormat(args.activationProb), keywords[args.model], args.version, args.streamSize, args.rtimSeedSize)
     elif (type == "stream"):
         # data/nethept/streams/urr/v1/NE_urr_v1_s15229_st.txt
-        path = "data/{}/streams/{}/v{}/".format(args.dataset, keywords[args.model], args.version)
+        path = "data/{}/streams/{}/v{}/".format(args.dataset, args.model, args.version)
         path += "{}_{}_v{}_s{}_st.txt".format(datasets[args.dataset], keywords[args.model], args.version, args.streamSize)
     elif (type == "imm_progress"):
         # data/nethept/imm/live/progress/NE_k50_e0,5_urr_v1_s15229_prg.txt
@@ -81,6 +81,7 @@ def importSeedSet(type):
     content = [x.strip() for x in content]
     print("{} seed set length: {}".format(type, len(content)))
     return content
+
 
 def importStream():
     # data/nethept/streams/urr/v1/NE_urr_v1_s15229_st.txt
@@ -124,6 +125,10 @@ def getRTIMIntersection(immSeed, rtimSeed):
     return intersect
 
 
+def getImmStreamNoRTIM(immSeed, stream, rtimSeed):
+    return list((set(immSeed) & set(stream)) - set(rtimSeed))
+
+
 def initiateProgressLog():
     # data/nethept/imm/live/progress/NE_k50_e0,5_urr_v1_s15229_prg.txt
     path = generatePath("imm_progress")
@@ -152,6 +157,8 @@ def saveRTIMIntersect(intersect):
 
 def saveCommonLog(type, immSeed, otherArray, intersect):
     immFile = generatePath("imm")
+    otherFile = ""
+    commonFile = ""
     if (type == "rtim"):
         otherFile = generatePath("rtim")
         commonFile = generatePath("rtim_intersect", len(intersect))
@@ -161,20 +168,40 @@ def saveCommonLog(type, immSeed, otherArray, intersect):
     path = 'data/{0}/logs/intersect.log'.format(args.dataset)
     with open(path, 'a') as f:
         f.write("IMM seed set")
-        f.write(" * file_name: {}".format(immFile))
-        f.write(" * size: {}".format(len(immSeed)))
+        f.write(" - file_name: {}".format(immFile))
+        f.write(" - size: {}".format(len(immSeed)))
         if (type == "rtim"):
             f.write("RTIM seed set")
         elif (type == "stream"):
             f.write("Stream")
-        f.write(" * file_name: {}".format(otherFile))
-        f.write(" * size: {}".format(len(otherArray)))
-        f.write("Common seed set")
-        f.write(" * file_name: {}".format(commonFile))
-        f.write(" * size: {}".format(len(commonSeed)))
+        f.write(" - file_name: {}".format(otherFile))
+        f.write(" - size: {}".format(len(otherArray)))
+        f.write("Intersection")
+        f.write(" - file_name: {}".format(commonFile))
+        f.write(" - size: {}".format(len(intersect)))
         f.write("----------------------------------------------------")
     print("Common log saved at: {}".format(path))
 
+
+def saveBothLog(streamIntersectSize, rtimIntersectSize, noRTIMSize):
+    path = "data/{}/logs/intersect.log".format(args.dataset)
+    with open(path, 'a') as f:
+        f.write("IMM")
+        f.write(" - epsilon = {}".format(args.epsilon))
+        f.write(" - size = {}".format(args.immK))
+        f.write("RTIM")
+        f.write(" - reach = {}".format(args.reach))
+        f.write(" - ap = {}".format(args.activationProb))
+        f.write(" - size = {}".format(args.rtimSeedSize))
+        f.write("STREAM")
+        f.write(" - model = {}".format(args.model))
+        f.write(" - version = {}".format(args.version))
+        f.write(" - size = {}".format(args.streamSize))
+        f.write("(IMM ∩ Stream) size = {}".format(streamIntersectSize))
+        f.write("(IMM ∩ RTIM) size = {}".format(rtimIntersectSize))
+        f.write("((IMM ∩ Stream) \ RTIM) size = {}".format(noRTIMSize))
+        f.write("----------------------------------------------------")
+    print("Common log saved at: {}".format(path))
 
 def printArgs():
     print("Arguments")
@@ -240,7 +267,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if(args.type == 'stream'):
+    if (args.type == "stream"):
         # import immSeedSet
         immSeed = importSeedSet("imm")
         # import stream
@@ -251,7 +278,7 @@ if __name__ == "__main__":
         saveImmStreamIntersect(intersect)
         # save log
         saveCommonLog("stream", immSeed, stream, intersect)
-    elif(args.type == 'rtim'):
+    elif (args.type == "rtim"):
         # import immSeedSet
         immSeed = importSeedSet("imm")
         # import rtimSeedSet
@@ -262,5 +289,20 @@ if __name__ == "__main__":
         saveRTIMIntersect(intersect)
         # save log
         saveCommonLog("rtim", immSeed, rtimSeed, intersect)
+    elif (args.type == "both"):
+        # compute both stream and rtim intersection together
+        immSeed = importSeedSet("imm")
+        stream = importStream()
+        rtimSeed = importSeedSet("rtim")
+        # find stream intersection and save
+        # immStreamIntersect = getStreamIntersection(stream, immSeed)
+        # saveImmStreamIntersect(immStreamIntersect)
+        # find rtim intersection and save
+        # immRTIMIntersect = getRTIMIntersection(immSeed, rtimSeed)
+        # saveRTIMIntersect(immRTIMIntersect)
+        # find users in IMM-Stream intersection but not in RTIM
+        res = getImmStreamNoRTIM(immSeed, stream, rtimSeed)
+        # saveBothLog(len(immStreamIntersect), len(immRTIMIntersect), len(res))
+        print((res, len(res)))
     elif (args.type == "test"):
         printArgs()
