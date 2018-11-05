@@ -29,51 +29,82 @@ def properDoubleFormat(dbl):
     result = result.replace(".",",")
     return result
 
-def numberNodes(dataset):
+
+def generatePath(type, size=0):
+    path = ""
+    if (type == "imm"):
+        # data/nethept/imm/basic/NE_k50_e0,1_ss.txt
+        path = "data/{}/imm/basic/".format(args.dataset)
+        path += "{}_k{}_e{}_ss.txt".format(datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon))
+    elif (type == "rtim"):
+        # data/nethept/rtim/live/NE_k50_r5_ap0,8_urr_v1_s15229_ss45.txt
+        path = "data/{}/rtim/live/".format(args.dataset)
+        path += "{}_k{}_r{}_ap{}_{}_v{}_s{}_ss{}.txt".format(datasets[args.dataset], args.rtimK, args.reach, properDoubleFormat(args.activationProb), keywords[args.model], args.version, args.streamSize, args.rtimSeedSize)
+    elif (type == "stream"):
+        # data/nethept/streams/urr/v1/NE_urr_v1_s15229_st.txt
+        path = "data/{}/streams/{}/v{}/".format(args.dataset, keywords[args.model], args.version)
+        path += "{}_{}_v{}_s{}_st.txt".format(datasets[args.dataset], keywords[args.model], args.version, args.streamSize)
+    elif (type == "imm_progress"):
+        # data/nethept/imm/live/progress/NE_k50_e0,5_urr_v1_s15229_prg.txt
+        path = "data/{}/imm/live/progress/".format(args.dataset)
+        path += "{}_k{}_e{}_{}_v{}_s{}_prg.txt".format(datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), keywords[args.model], args.version, args.streamSize)
+    elif (type == "rtim_intersect"):
+        # data/nethept/imm/rtim_common/NE_k50_e0,1_k50_r5_ap0,8_urr_v1_s15229_ss20.txt
+        path = "data/{}/imm/rtim_common/".format(args.dataset)
+        path += "{}_k{}_e{}_k{}_r{}_ap{}_ss{}_{}_v{}_s{}_common{}.txt".format(datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), args.rtimK, args.reach, properDoubleFormat(args.activationProb), args.rtimSeedSize, keywords[args.model], args.version, args.streamSize, size)
+    elif (type == "stream_intersect"):
+        # data/{}/live/NE_k50_e0,1_urr_v1_s15229_ss25.txt
+        path = "data/{}/live/".format(args.dataset)
+        path += "{}_k{}_e{}_{}_v{}_s{}_ss{}.txt".format(datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), keywords[args.model], args.version, args.streamSize, size)
+    return path
+
+
+def numberNodes():
     nodes = 0
-    file_name = 'data/{0}/attributes.txt'.format(dataset)
+    file_name = 'data/{0}/attributes.txt'.format(args.dataset)
     with open(file_name, 'r') as f:
         nodes = int(next(f).strip("n=").strip("\n"))
     print("Number of nodes: {}".format(nodes))
     return nodes
 
-def importIMMSeedSet(dataset, seedSize, epsilon):
-    # data/nethept/imm/basic/NE_k50_e0,5_ss.txt
-    file_name = 'data/{0}/imm/basic/{1}_k{2}_e{3}_ss.txt'.format(dataset, datasets[dataset], seedSize, properDoubleFormat(epsilon))
-    print(file_name)
-    with open(file_name, 'r') as f:
+
+def importSeedSet(type):
+    path = ""
+    if (type == "imm"):
+        path = generatePath(type)
+        print("Importing IMM seed set from: {}".format(path))
+    elif (type == "rtim"):
+        path = generatePath(type)
+        print("Importing RTIM seed set from: {}".format(path))
+    with open(path, 'r') as f:
         content = f.readlines()
     content = [x.strip() for x in content]
+    print("{} seed set length: {}".format(type, len(content)))
     return content
 
-def importRtimSeedSet(dataset, seedSize, reach, ap, streamSize, model, version):
-    # data/nethept/rtim/live/NE_r5_ap0,8_urr_v1_s15229_ss.txt
-    file_name = 'data/{0}/rtim/live/{1}_r{2}_ap{3}_{4}_v{5}_s{6}_ss.txt'.format(dataset, datasets[dataset], reach, properDoubleFormat(ap), keywords[model], version, streamSize)
-    print(file_name)
-    with open(file_name, 'r') as f:
-        content = f.readlines()
-    content = [x.strip() for x in content]
-    return content
-
-def importAvailabilityStream(dataset, model, streamSize, version):
+def importStream():
     # data/nethept/streams/urr/v1/NE_urr_v1_s15229_st.txt
-    file_name = 'data/{0}/streams/{1}/v{2}/{3}_{4}_v{2}_s{5}_st.txt'.format(dataset, model, version, datasets[dataset], keywords[model], streamSize)
-    with open(file_name, 'r') as f:
+    path = generatePath("stream")
+    print("Importing stream from: {}".format(path))
+    with open(path, 'r') as f:
         content = f.readlines()
     content = [x.strip() for x in content]
+    print("Stream length: {}".format(len(content)))
     return content
 
-def saveImmStreamIntersect(intersect, dataset, seedSize, epsilon, model, streamSize, version):
+
+def saveImmStreamIntersect(intersect):
     # data/nethept/imm/live/NE_k50_e0,01_urr_v1_s15229_ss.txt
-    file_name = 'data/{0}/imm/live/{1}_k{2}_e{3}_{4}_v{5}_s{5}_ss.txt'.format(dataset, datasets[dataset], seedSize, properDoubleFormat(epsilon), keywords[model], version, streamSize)
-    with open(file_name, 'w') as f:
+    path = generatePath("stream_intersect", len(intersect))
+    with open(path, 'w') as f:
         writer = csv.writer(f)
         for val in intersect:
             writer.writerow([val])
-    print("intersect saved successfully to {}".format(file_name))
+    print("IMM-Stream intersect saved successfully to {}".format(path))
 
-def getStreamIntersection(dataset, seedSize, epsilon, model, version, streamSize, stream, immSeed):
-    initiateProgressLog(dataset, seedSize, epsilon, model, version, streamSize)
+
+def getStreamIntersection(stream, immSeed):
+    initiateProgressLog()
     result = []
     seen = 0
     for i in stream:
@@ -82,48 +113,117 @@ def getStreamIntersection(dataset, seedSize, epsilon, model, version, streamSize
             if i == j:
                 result.append(j)
                 immSeed.remove(j)
-                saveProgress(dataset, seedSize, epsilon, model, version, streamSize, seen, j, len(result))
+                saveProgress( seen, j, len(result))
+    print("Intersect size: {}".format(len(intersect)))
     return result
 
-def getRTIMIntersection(immSeed, rtimSeed):
-    return (list(set(immSeed) & set(rtimSeed)))
 
-def initiateProgressLog(dataset, seedSize, epsilon, model, version, streamSize):
+def getRTIMIntersection(immSeed, rtimSeed):
+    intersect = list(set(immSeed) & set(rtimSeed))
+    print("Intersection size: ".format(len(intersect)))
+    return intersect
+
+
+def initiateProgressLog():
     # data/nethept/imm/live/progress/NE_k50_e0,5_urr_v1_s15229_prg.txt
-    file_name = 'data/{0}/imm/live/progress/{1}_k{2}_e{3}_{4}_v{5}_s{6}_prg.txt'.format(dataset, datasets[dataset], seedSize, properDoubleFormat(epsilon), keywords[model], version, streamSize)
-    with open(file_name, 'w') as f:
+    path = generatePath("imm_progress")
+    with open(path, 'w') as f:
         writer = csv.writer(f)
         writer.writerow(['seen','user_index','seed_size'])
-    print("Progress log initiated at {}:".format(file_name))
+    print("Progress log initiated at {}:".format(path))
 
-def saveProgress(dataset, seedSize, epsilon, model, version, streamSize, seen, user_index, seed_size):
+
+def saveProgress(seen, user_index, seed_size):
     # data/nethept/imm/live/progress/NE_k50_e0,5_urr_v1_s15229_prg.txt
-    file_name = 'data/{0}/imm/live/progress/{1}_k{2}_e{3}_{4}_v{5}_s{6}_prg.txt'.format(dataset, datasets[dataset], seedSize, properDoubleFormat(epsilon), keywords[model], version, streamSize)
-    with open(file_name, 'a') as f:
+    path = generatePath("imm_progress")
+    with open(path, 'a') as f:
         writer = csv.writer(f)
         writer.writerow([seen, user_index, seed_size])
 
 
-def saveRTIMIntersect(dataset, seedSize, epsilon, reach, ap, model, version, streamSize, intersect):
-    file_name = 'data/{0}/imm/rtim_common/{1}_k{2}_e{3}_r{4}_ap{5}_{6}_v{7}_s{8}_common.txt'.format(dataset, datasets[dataset], seedSize, properDoubleFormat(epsilon), reach, properDoubleFormat(ap), keywords[model], version, streamSize)
-    with open(file_name, 'w') as f:
+def saveRTIMIntersect(intersect):
+    path = generatePath("rtim_intersect", len(intersect))
+    with open(path, 'w') as f:
         writer = csv.writer(f)
         for val in intersect:
             writer.writerow([val])
-    print("IMM-RTIM intersect saved successfully to {}".format(file_name))
+    print("IMM-RTIM intersect saved successfully to {}".format(path))
+
+
+def saveCommonLog(type, immSeed, otherArray, intersect):
+    immFile = generatePath("imm")
+    if (type == "rtim"):
+        otherFile = generatePath("rtim")
+        commonFile = generatePath("rtim_intersect", len(intersect))
+    elif (type == "stream"):
+        otherFile = generatePath("stream")
+        commonFile = generatePath("stream_intersect", len(intersect))
+    path = 'data/{0}/logs/intersect.log'.format(args.dataset)
+    with open(path, 'a') as f:
+        f.write("IMM seed set")
+        f.write(" * file_name: {}".format(immFile))
+        f.write(" * size: {}".format(len(immSeed)))
+        if (type == "rtim"):
+            f.write("RTIM seed set")
+        elif (type == "stream"):
+            f.write("Stream")
+        f.write(" * file_name: {}".format(otherFile))
+        f.write(" * size: {}".format(len(otherArray)))
+        f.write("Common seed set")
+        f.write(" * file_name: {}".format(commonFile))
+        f.write(" * size: {}".format(len(commonSeed)))
+        f.write("----------------------------------------------------")
+    print("Common log saved at: {}".format(path))
+
+
+def printArgs():
+    print("Arguments")
+    print(" dataset: {}".format(args.dataset))
+    print("IMM: ")
+    print(" * k: {}".format(args.immK))
+    print(" * epsilon: {}".format(args.epsilon))
+    print(" * file: {}".format(generatePath("imm")))
+    print("RTIM: ")
+    print(" * rtimK: {}".format(args.rtimK))
+    print(" * reach: {}".format(args.reach))
+    print(" * ap: {}".format(args.activationProb))
+    print(" * rtimSeedSize: {}".format(args.rtimSeedSize))
+    print(" * file: {}".format(generatePath("rtim")))
+    print("STREAM: ")
+    print(" * model: {}".format(args.model))
+    print(" * version: {}".format(args.version))
+    print(" * streamSize: {}".format(args.streamSize))
+    print(" * file: {}".format(generatePath("stream")))
+    print("RTIM INTERSECT: {}".format(generatePath("rtim_intersect")))
+    print("STREAM INTERSECT: {}".format(generatePath("stream_intersect")))
+
 
 if __name__ == "__main__":
+    '''
+        * -d        | --dataset         | [nethept, twitter, ...]
+        * -t        | --type            | [stream, rtim, test]
+        * -immK     | --immK            |
+        * -rtimK    | --rtimK           |
+        * -rtimS    | --rtimSeedSize    | 
+        * -e        | --epsilon         | 
+        * -m        | --model           |
+        * -stream   | --streamSize      |
+        * -v        | --version         |
+        * -r        | --reach           |
+        * -ap       | --activationProb  |
+    '''
+
     parser = argparse.ArgumentParser(description="Live Models generator")
 
     # GENERAL ARGUMENTS
     parser.add_argument('-d', '--dataset', required=True, default="nethept",
                         help='What data to generate model for.')
-    parser.add_argument('-t', '--type', default='stream',)
+    parser.add_argument('-t', '--type', default='stream')
 
     # IMM ARGUMENTS
-    parser.add_argument('-k', '--seedSize', type=int, default=-1,
-                        help='size of seed set')
-    parser.add_argument('-e', '--epsilon', type=float, default=0.1)
+    parser.add_argument('-immK', '--immK', type=int, default=50,
+                        help='size of imm seed set')
+    parser.add_argument('-e', '--epsilon', type=float, default=0.5)
 
     # STREAM ARGUMENTS
     parser.add_argument('-m', '--model', default="uniform_rand_repeat",
@@ -133,28 +233,34 @@ if __name__ == "__main__":
     parser.add_argument('-v', '--version', type=int, default=1)
 
     # RTIM ARGUMENTS
-    parser.add_argument('-r', '--reach', type=int)
-    parser.add_argument('-ap','--activationProb', type=float)
+    parser.add_argument('-r', '--reach', type=int, default=5)
+    parser.add_argument('-ap','--activationProb', type=float, default=0.8)
+    parser.add_argument('-rtimK', '--rtimK', type=int,default=50)
+    parser.add_argument('-rtimS', '--rtimSeedSize', type=int, default=50)
 
     args = parser.parse_args()
 
     if(args.type == 'stream'):
-        immSeed = importIMMSeedSet(args.dataset, args.seedSize, args.epsilon)
-        print("IMM seed set length: " + str(len(immSeed)))
-        stream = importAvailabilityStream(args.dataset, args.model, args.streamSize, args.version)
-        print("Original stream length: " + str(len(stream)))
-        # find intersection of lists
-        intersect = getStreamIntersection(args.dataset, args.seedSize, args.epsilon, args.model, args.version, args.streamSize, stream, immSeed)
-        print("Intersect: " + str(len(intersect)))
-        saveImmStreamIntersect(intersect, args.dataset, args.seedSize , args.epsilon , args.model, args.streamSize , args.version)
+        # import immSeedSet
+        immSeed = importSeedSet("imm")
+        # import stream
+        stream = importStream()
+        # find intersection
+        intersect = getStreamIntersection(stream, immSeed)
+        # save intersection
+        saveImmStreamIntersect(intersect)
+        # save log
+        saveCommonLog("stream", immSeed, stream, intersect)
     elif(args.type == 'rtim'):
-        immSeed = importIMMSeedSet(args.dataset, args.seedSize, args.epsilon)
-        print("IMM seed set length: " + str(len(immSeedSet)))
-        rtimSeed = importRtimSeedSet(args.dataset, args.seedSize, args.reach, args.activationProb, args.streamSize, args.model, args.version)
-        print("RTIM seed set length: " + str(len(rtimSeedSet)))
+        # import immSeedSet
+        immSeed = importSeedSet("imm")
+        # import rtimSeedSet
+        rtimSeed = importSeedSet("rtim")
+        # find intersection
         intersect = getRTIMIntersection(immSeed, rtimSeed)
-        print("Intersection size: " + str(len(intersect)))
-        saveRTIMIntersect(args.dataset, args.seedSize, args.epsilon, args.reach, args.activationProb, args.model, args.version, args.streamSize, intersect)
+        # save intersection
+        saveRTIMIntersect(intersect)
+        # save log
+        saveCommonLog("rtim", immSeed, rtimSeed, intersect)
     elif (args.type == "test"):
-        value = 0.5000
-        print(properDoubleFormat(value))
+        printArgs()
