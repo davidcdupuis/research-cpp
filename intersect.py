@@ -203,6 +203,7 @@ def saveBothLog(streamIntersectSize, rtimIntersectSize, noRTIMSize):
         f.write("----------------------------------------------------")
     print("Common log saved at: {}".format(path))
 
+
 def printArgs():
     print("Arguments")
     print(" dataset: {}".format(args.dataset))
@@ -305,4 +306,4 @@ if __name__ == "__main__":
         # saveBothLog(len(immStreamIntersect), len(immRTIMIntersect), len(res))
         print((res, len(res)))
     elif (args.type == "test"):
-        printArgs()
+        print("∩")
