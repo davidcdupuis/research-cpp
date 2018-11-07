@@ -5,3 +5,24 @@ Duration   : 17.9821
 SeedSize   : 50
 Est. score : 162611
 -----------------------------------------------------
+File name  : OR_k50_e0,1_ss.txt
+Start date : Wed Nov  7 19:50:43 2018
+End date   : Wed Nov  7 19:54:24 2018
+Duration   : 221.494
+SeedSize   : 50
+Est. score : 164503
+-----------------------------------------------------
+File name  : OR_k100_e0,5_ss.txt
+Start date : Wed Nov  7 19:58:01 2018
+End date   : Wed Nov  7 19:58:23 2018
+Duration   : 22.2001
+SeedSize   : 100
+Est. score : 207861
+-----------------------------------------------------
+File name  : OR_k100_e0,1_ss.txt
+Start date : Wed Nov  7 20:04:22 2018
+End date   : Wed Nov  7 20:09:57 2018
+Duration   : 335.015
+SeedSize   : 100
+Est. score : 205221
+-----------------------------------------------------

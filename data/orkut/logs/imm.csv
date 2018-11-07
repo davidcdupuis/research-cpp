@@ -1,2 +1,5 @@
 fileName,k,epsilon,startDatetime,endDatetime,duration,seedSize,estimatedScore
 orkut,50,0.5,Wed Nov  7 14:57:03 2018,Wed Nov  7 14:57:21 2018,17.9821,50,162611
+orkut,50,0.1,Wed Nov  7 19:50:43 2018,Wed Nov  7 19:54:24 2018,221.494,50,164503
+orkut,100,0.5,Wed Nov  7 19:58:01 2018,Wed Nov  7 19:58:23 2018,22.2001,100,207861
+orkut,100,0.1,Wed Nov  7 20:04:22 2018,Wed Nov  7 20:09:57 2018,335.015,100,205221
