@@ -1,0 +1,12 @@
+fileName,k,epsilon,startDatetime,endDatetime,duration,seedSize,estimatedScore
+livejournal,50,0.5,Wed Nov  7 14:52:45 2018,Wed Nov  7 14:52:52 2018,6.92712,50,103575
+livejournal,50,0.1,Wed Nov  7 17:31:11 2018,Wed Nov  7 17:32:11 2018,60.3808,50,102717
+livejournal,100,0.5,Wed Nov  7 17:34:39 2018,Wed Nov  7 17:34:48 2018,9.34054,100,143249
+livejournal,100,0.1,Wed Nov  7 17:36:54 2018,Wed Nov  7 17:38:12 2018,77.6102,100,141827
+livejournal,150,0.5,Wed Nov  7 17:39:15 2018,Wed Nov  7 17:39:28 2018,12.7645,150,168024
+livejournal,150,0.1,Wed Nov  7 17:40:19 2018,Wed Nov  7 17:41:51 2018,92.198,150,166517
+livejournal,200,0.5,Wed Nov  7 17:42:49 2018,Wed Nov  7 17:43:05 2018,15.9056,200,188818
+livejournal,200,0.1,Wed Nov  7 17:45:05 2018,Wed Nov  7 17:46:52 2018,107.698,200,185298
+livejournal,250,0.5,Wed Nov  7 17:48:04 2018,Wed Nov  7 17:48:23 2018,19.1269,250,204205
+livejournal,250,0.1,Wed Nov  7 17:49:23 2018,Wed Nov  7 17:51:25 2018,121.552,250,202126
+livejournal,300,0.5,Wed Nov  7 17:52:33 2018,Wed Nov  7 17:52:55 2018,22.4453,300,219296

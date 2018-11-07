@@ -1,0 +1,77 @@
+File name  : LJ_k50_e0,5_ss.txt
+Start date : Wed Nov  7 14:52:45 2018
+End date   : Wed Nov  7 14:52:52 2018
+Duration   : 6.92712
+SeedSize   : 50
+Est. score : 103575
+-----------------------------------------------------
+File name  : LJ_k50_e0,1_ss.txt
+Start date : Wed Nov  7 17:31:11 2018
+End date   : Wed Nov  7 17:32:11 2018
+Duration   : 60.3808
+SeedSize   : 50
+Est. score : 102717
+-----------------------------------------------------
+File name  : LJ_k100_e0,5_ss.txt
+Start date : Wed Nov  7 17:34:39 2018
+End date   : Wed Nov  7 17:34:48 2018
+Duration   : 9.34054
+SeedSize   : 100
+Est. score : 143249
+-----------------------------------------------------
+File name  : LJ_k100_e0,1_ss.txt
+Start date : Wed Nov  7 17:36:54 2018
+End date   : Wed Nov  7 17:38:12 2018
+Duration   : 77.6102
+SeedSize   : 100
+Est. score : 141827
+-----------------------------------------------------
+File name  : LJ_k150_e0,5_ss.txt
+Start date : Wed Nov  7 17:39:15 2018
+End date   : Wed Nov  7 17:39:28 2018
+Duration   : 12.7645
+SeedSize   : 150
+Est. score : 168024
+-----------------------------------------------------
+File name  : LJ_k150_e0,1_ss.txt
+Start date : Wed Nov  7 17:40:19 2018
+End date   : Wed Nov  7 17:41:51 2018
+Duration   : 92.198
+SeedSize   : 150
+Est. score : 166517
+-----------------------------------------------------
+File name  : LJ_k200_e0,5_ss.txt
+Start date : Wed Nov  7 17:42:49 2018
+End date   : Wed Nov  7 17:43:05 2018
+Duration   : 15.9056
+SeedSize   : 200
+Est. score : 188818
+-----------------------------------------------------
+File name  : LJ_k200_e0,1_ss.txt
+Start date : Wed Nov  7 17:45:05 2018
+End date   : Wed Nov  7 17:46:52 2018
+Duration   : 107.698
+SeedSize   : 200
+Est. score : 185298
+-----------------------------------------------------
+File name  : LJ_k250_e0,5_ss.txt
+Start date : Wed Nov  7 17:48:04 2018
+End date   : Wed Nov  7 17:48:23 2018
+Duration   : 19.1269
+SeedSize   : 250
+Est. score : 204205
+-----------------------------------------------------
+File name  : LJ_k250_e0,1_ss.txt
+Start date : Wed Nov  7 17:49:23 2018
+End date   : Wed Nov  7 17:51:25 2018
+Duration   : 121.552
+SeedSize   : 250
+Est. score : 202126
+-----------------------------------------------------
+File name  : LJ_k300_e0,5_ss.txt
+Start date : Wed Nov  7 17:52:33 2018
+End date   : Wed Nov  7 17:52:55 2018
+Duration   : 22.4453
+SeedSize   : 300
+Est. score : 219296
+-----------------------------------------------------

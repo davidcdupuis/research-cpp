@@ -1,2 +1,13 @@
 fileName,k,epsilon,startDatetime,endDatetime,duration,seedSize,estimatedScore
-
+youtube,50,0.5,Wed Nov  7 14:48:45 2018,Wed Nov  7 14:48:46 2018,1.02092,50,152068
+youtube,50,0.1,Wed Nov  7 17:25:22 2018,Wed Nov  7 17:25:32 2018,9.73654,50,149441
+youtube,100,0.5,Wed Nov  7 17:25:44 2018,Wed Nov  7 17:25:46 2018,1.69317,100,198720
+youtube,100,0.1,Wed Nov  7 17:25:52 2018,Wed Nov  7 17:26:06 2018,13.1244,100,196626
+youtube,150,0.5,Wed Nov  7 17:26:35 2018,Wed Nov  7 17:26:38 2018,2.35504,150,229566
+youtube,150,0.1,Wed Nov  7 17:26:44 2018,Wed Nov  7 17:27:00 2018,16.2438,150,226928
+youtube,200,0.5,Wed Nov  7 17:27:10 2018,Wed Nov  7 17:27:13 2018,2.97722,200,251687
+youtube,200,0.1,Wed Nov  7 17:27:27 2018,Wed Nov  7 17:27:48 2018,20.1974,200,249025
+youtube,250,0.5,Wed Nov  7 17:28:09 2018,Wed Nov  7 17:28:12 2018,3.55827,250,270843
+youtube,250,0.1,Wed Nov  7 17:28:26 2018,Wed Nov  7 17:28:52 2018,26.4247,250,266796
+youtube,300,0.5,Wed Nov  7 17:29:20 2018,Wed Nov  7 17:29:23 2018,3.4233,300,286560
+youtube,300,0.1,Wed Nov  7 17:29:34 2018,Wed Nov  7 17:30:03 2018,29.3135,300,282479
