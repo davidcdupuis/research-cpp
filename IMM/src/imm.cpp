@@ -18,52 +18,65 @@ public:
 
 
 
-void run_with_parameter(InfGraph &g, const Argument & arg)
+void run_with_parameter(InfGraph &g, Argument & arg) //const
 {
   int seedSize = 0;
   cout << "--------------------------------------------------------------------------------" << endl;
   cout << arg.dataset << " k=" << arg.k << " epsilon=" << arg.epsilon <<   " " << arg.model << endl;
 
-  string startDatetime = getLocalDatetime();
-  clock_t start = clock();
-  Imm::InfluenceMaximize(g, arg);
-  double duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-  string endDatetime = getLocalDatetime();
-  Timer::show();
-  // save g.seedSet here => NE_k100_e0,01.txt
-  string fileName = datasets[arg.dataset] + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
-  string filePath = "../data/" + arg.dataset + "/imm/basic/" + fileName;
-  cout << "Saving influence scores to " << filePath << endl;
-  ofstream seedSetFile;
-  seedSetFile.open(filePath);
-  for(int node: g.seedSet){
-    seedSetFile << node << endl;
-    seedSize ++;
+  vector<int> k_values{50, 100, 150, 200, 250, 300};
+  vector<double> epsilon_values{0.5, 0.1};
+
+  for (int i = 0; i < 6; i++){
+    arg.k = k_values[i];
+    cout << "Arguments Seed Size: " << arg.k << endl;
+    for (int j = 0; j < 2; j++){
+      arg.epsilon = epsilon_values[j];
+      cout << "Arguments epsilon: " << arg.epsilon << endl;
+
+      string startDatetime = getLocalDatetime();
+      clock_t start = clock();
+      Imm::InfluenceMaximize(g, arg);
+      double duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+      string endDatetime = getLocalDatetime();
+      Timer::show();
+      // save g.seedSet here => NE_k100_e0,01.txt
+      string fileName = datasets[arg.dataset] + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
+      string filePath = "../data/" + arg.dataset + "/imm/basic/" + fileName;
+      cout << "Saving influence scores to " << filePath << endl;
+      ofstream seedSetFile;
+      seedSetFile.open(filePath);
+      for(int node: g.seedSet){
+        seedSetFile << node << endl;
+        seedSize ++;
+      }
+      seedSetFile.close();
+      //INFO(g.seedSet);
+      // use saved seed set to compute influence score using MC simulations
+      double estScore = g.InfluenceHyperGraph();
+
+      string pathCSV = "../data/" + arg.dataset + "/logs/imm.csv";
+      string pathLog = "../data/" + arg.dataset + "/logs/imm.log";
+      cout << "Saving IMM log to " << pathLog << endl;
+      ofstream logFile;
+      logFile.open(pathLog, fstream::app);
+      logFile << "File name  : " << fileName << endl;
+      logFile << "Start date : " << startDatetime << endl;
+      logFile << "End date   : " << endDatetime << endl;
+      logFile << "Duration   : " << duration << endl;
+      logFile << "SeedSize   : " << seedSize << endl;
+      logFile << "Est. score : " << estScore << endl;
+      logFile << "-----------------------------------------------------" << endl;
+      logFile.close();
+
+      cout << "Saving IMM csv to " << pathCSV << endl;
+      ofstream csvFile;
+      csvFile.open(pathCSV, fstream::app);
+      csvFile << arg.dataset << "," << arg.k << "," << arg.epsilon << "," << startDatetime << "," << endDatetime << "," << duration  << "," << seedSize << "," << estScore << endl;
+      csvFile.close();
+
+    }
   }
-  seedSetFile.close();
-  //INFO(g.seedSet);
-  // use saved seed set to compute influence score using MC simulations
-  double estScore = g.InfluenceHyperGraph();
-
-  string pathCSV = "../data/" + arg.dataset + "/logs/imm.csv";
-  string pathLog = "../data/" + arg.dataset + "/logs/imm.log";
-  cout << "Saving IMM log to " << pathLog << endl;
-  ofstream logFile;
-  logFile.open(pathLog, fstream::app);
-  logFile << "File name  : " << fileName << endl;
-  logFile << "Start date : " << startDatetime << endl;
-  logFile << "End date   : " << endDatetime << endl;
-  logFile << "Duration   : " << duration << endl;
-  logFile << "SeedSize   : " << seedSize << endl;
-  logFile << "Est. score : " << estScore << endl;
-  logFile << "-----------------------------------------------------" << endl;
-  logFile.close();
-
-  cout << "Saving IMM csv to " << pathCSV << endl;
-  ofstream csvFile;
-  csvFile.open(pathCSV, fstream::app);
-  csvFile << arg.dataset << "," << arg.k << "," << arg.epsilon << "," << startDatetime << "," << endDatetime << "," << duration  << "," << seedSize << "," << estScore << endl;
-  csvFile.close();
 }
 
 void Run(int argn, char **argv)
