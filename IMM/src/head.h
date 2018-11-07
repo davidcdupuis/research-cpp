@@ -382,6 +382,18 @@ string properStringDouble(double value){
   return result;
 }
 
+
+string getLocalDatetime(){
+  time_t tt;
+  struct tm * ti;
+  time (&tt);
+  ti = localtime(&tt);
+  char *dateTime = asctime(ti);
+  dateTime[strlen(dateTime) - 1] = 0;
+  return dateTime;
+}
+
+
 map<string, string> datasets = {
   { "test", "TS" },
   { "nethept", "NE" },

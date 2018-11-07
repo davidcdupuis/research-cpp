@@ -20,23 +20,50 @@ public:
 
 void run_with_parameter(InfGraph &g, const Argument & arg)
 {
-        cout << "--------------------------------------------------------------------------------" << endl;
-        cout << arg.dataset << " k=" << arg.k << " epsilon=" << arg.epsilon <<   " " << arg.model << endl;
+  int seedSize = 0;
+  cout << "--------------------------------------------------------------------------------" << endl;
+  cout << arg.dataset << " k=" << arg.k << " epsilon=" << arg.epsilon <<   " " << arg.model << endl;
 
-        Imm::InfluenceMaximize(g, arg);
+  string startDatetime = getLocalDatetime();
+  clock_t start = clock();
+  Imm::InfluenceMaximize(g, arg);
+  double duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+  string endDatetime = getLocalDatetime();
+  Timer::show();
+  // save g.seedSet here => NE_k100_e0,01.txt
+  string fileName = datasets[arg.dataset] + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
+  string filePath = "../data/" + arg.dataset + "/imm/basic/" + fileName;
+  cout << "Saving influence scores to " << filePath << endl;
+  ofstream seedSetFile;
+  seedSetFile.open(filePath);
+  for(int node: g.seedSet){
+    seedSetFile << node << endl;
+    seedSize ++;
+  }
+  seedSetFile.close();
+  //INFO(g.seedSet);
+  // use saved seed set to compute influence score using MC simulations
+  double estScore = g.InfluenceHyperGraph();
 
-        // save g.seedSet here => nethept_k100e0.01.txt
-        string file = "../data/" + arg.dataset + "/imm/basic/" + datasets[arg.dataset] + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
-        cout << "Saving influence scores to " << file << endl;
-        ofstream seedSetFile;
-        seedSetFile.open(file);
-        for(int node: g.seedSet){
-          seedSetFile << node << endl;
-        }
-        //INFO(g.seedSet);
-        // use saved seed set to compute influence score using MC simulations
-        INFO(g.InfluenceHyperGraph());
-    Timer::show();
+  string pathCSV = "../data/" + arg.dataset + "/logs/imm.csv";
+  string pathLog = "../data/" + arg.dataset + "/logs/imm.log";
+  cout << "Saving IMM log to " << pathLog << endl;
+  ofstream logFile;
+  logFile.open(pathLog, fstream::app);
+  logFile << "File name  : " << fileName << endl;
+  logFile << "Start date : " << startDatetime << endl;
+  logFile << "End date   : " << endDatetime << endl;
+  logFile << "Duration   : " << duration << endl;
+  logFile << "SeedSize   : " << seedSize << endl;
+  logFile << "Est. score : " << estScore << endl;
+  logFile << "-----------------------------------------------------" << endl;
+  logFile.close();
+
+  cout << "Saving IMM csv to " << pathCSV << endl;
+  ofstream csvFile;
+  csvFile.open(pathCSV, fstream::app);
+  csvFile << arg.dataset << "," << arg.k << "," << arg.epsilon << "," << startDatetime << "," << endDatetime << "," << duration  << "," << seedSize << "," << estScore << endl;
+  csvFile.close();
 }
 
 void Run(int argn, char **argv)
@@ -68,7 +95,7 @@ void Run(int argn, char **argv)
     string graph_file;
     if (arg.model == "IC"){
         //graph_file = arg.dataset + "graph_wc.inf";
-	graph_file = "../data/" + arg.dataset + "/" + arg.dataset +"_wc.inf";
+	      graph_file = "../data/" + arg.dataset + "/" + arg.dataset +"_wc.inf";
     }else if (arg.model == "LT")
         graph_file = arg.dataset + "graph_lt.inf";
     else if (arg.model == "TR")
