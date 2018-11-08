@@ -24,10 +24,10 @@ void run_with_parameter(InfGraph &g, Argument & arg) //const
   cout << "--------------------------------------------------------------------------------" << endl;
   cout << arg.dataset << " k=" << arg.k << " epsilon=" << arg.epsilon <<   " " << arg.model << endl;
 
-  vector<int> k_values{50, 100, 150, 200, 250, 300};
+  vector<int> k_values{350, 400, 450, 500, 550, 600, 650, 700, 750, 800};
   vector<double> epsilon_values{0.5, 0.1};
 
-  for (int i = 0; i < 6; i++){
+  for (int i = 0; i < 10; i++){
     arg.k = k_values[i];
     cout << "Arguments Seed Size: " << arg.k << endl;
     for (int j = 0; j < 2; j++){

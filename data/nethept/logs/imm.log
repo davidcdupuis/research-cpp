@@ -124,3 +124,143 @@ Duration   : 193.874
 SeedSize   : 300
 Est. score : 2961.96
 -----------------------------------------------------
+File name  : NE_k350_e0,5_ss.txt
+Start date : Thu Nov  8 15:26:19 2018
+End date   : Thu Nov  8 15:26:19 2018
+Duration   : 0.150162
+SeedSize   : 350
+Est. score : 3386.68
+-----------------------------------------------------
+File name  : NE_k350_e0,1_ss.txt
+Start date : Thu Nov  8 15:26:19 2018
+End date   : Thu Nov  8 15:26:21 2018
+Duration   : 1.37091
+SeedSize   : 350
+Est. score : 3238.61
+-----------------------------------------------------
+File name  : NE_k400_e0,5_ss.txt
+Start date : Thu Nov  8 15:26:21 2018
+End date   : Thu Nov  8 15:26:21 2018
+Duration   : 0.779069
+SeedSize   : 400
+Est. score : 3498.62
+-----------------------------------------------------
+File name  : NE_k400_e0,1_ss.txt
+Start date : Thu Nov  8 15:26:22 2018
+End date   : Thu Nov  8 15:26:22 2018
+Duration   : 0.92226
+SeedSize   : 400
+Est. score : 3497.19
+-----------------------------------------------------
+File name  : NE_k450_e0,5_ss.txt
+Start date : Thu Nov  8 15:26:23 2018
+End date   : Thu Nov  8 15:26:24 2018
+Duration   : 0.928804
+SeedSize   : 450
+Est. score : 3741.3
+-----------------------------------------------------
+File name  : NE_k450_e0,1_ss.txt
+Start date : Thu Nov  8 15:26:24 2018
+End date   : Thu Nov  8 15:26:25 2018
+Duration   : 1.08419
+SeedSize   : 450
+Est. score : 3742.37
+-----------------------------------------------------
+File name  : NE_k500_e0,5_ss.txt
+Start date : Thu Nov  8 15:26:25 2018
+End date   : Thu Nov  8 15:26:26 2018
+Duration   : 0.834176
+SeedSize   : 500
+Est. score : 3975.62
+-----------------------------------------------------
+File name  : NE_k500_e0,1_ss.txt
+Start date : Thu Nov  8 15:26:26 2018
+End date   : Thu Nov  8 15:26:27 2018
+Duration   : 0.842707
+SeedSize   : 500
+Est. score : 3975.62
+-----------------------------------------------------
+File name  : NE_k550_e0,5_ss.txt
+Start date : Thu Nov  8 15:26:27 2018
+End date   : Thu Nov  8 15:26:28 2018
+Duration   : 0.980639
+SeedSize   : 550
+Est. score : 4197.37
+-----------------------------------------------------
+File name  : NE_k550_e0,1_ss.txt
+Start date : Thu Nov  8 15:26:28 2018
+End date   : Thu Nov  8 15:26:29 2018
+Duration   : 0.895783
+SeedSize   : 550
+Est. score : 4197.37
+-----------------------------------------------------
+File name  : NE_k600_e0,5_ss.txt
+Start date : Thu Nov  8 15:26:29 2018
+End date   : Thu Nov  8 15:26:30 2018
+Duration   : 0.940472
+SeedSize   : 600
+Est. score : 4409.56
+-----------------------------------------------------
+File name  : NE_k600_e0,1_ss.txt
+Start date : Thu Nov  8 15:26:31 2018
+End date   : Thu Nov  8 15:26:32 2018
+Duration   : 1.06233
+SeedSize   : 600
+Est. score : 4409.56
+-----------------------------------------------------
+File name  : NE_k650_e0,5_ss.txt
+Start date : Thu Nov  8 15:26:32 2018
+End date   : Thu Nov  8 15:26:33 2018
+Duration   : 1.00042
+SeedSize   : 650
+Est. score : 4612.71
+-----------------------------------------------------
+File name  : NE_k650_e0,1_ss.txt
+Start date : Thu Nov  8 15:26:33 2018
+End date   : Thu Nov  8 15:26:34 2018
+Duration   : 1.01695
+SeedSize   : 650
+Est. score : 4612.71
+-----------------------------------------------------
+File name  : NE_k700_e0,5_ss.txt
+Start date : Thu Nov  8 15:26:34 2018
+End date   : Thu Nov  8 15:26:35 2018
+Duration   : 1.05838
+SeedSize   : 700
+Est. score : 4808.08
+-----------------------------------------------------
+File name  : NE_k700_e0,1_ss.txt
+Start date : Thu Nov  8 15:26:36 2018
+End date   : Thu Nov  8 15:26:37 2018
+Duration   : 1.09775
+SeedSize   : 700
+Est. score : 4808.08
+-----------------------------------------------------
+File name  : NE_k750_e0,5_ss.txt
+Start date : Thu Nov  8 15:26:37 2018
+End date   : Thu Nov  8 15:26:38 2018
+Duration   : 1.11388
+SeedSize   : 750
+Est. score : 4995.17
+-----------------------------------------------------
+File name  : NE_k750_e0,1_ss.txt
+Start date : Thu Nov  8 15:26:38 2018
+End date   : Thu Nov  8 15:26:40 2018
+Duration   : 1.1334
+SeedSize   : 750
+Est. score : 4995.17
+-----------------------------------------------------
+File name  : NE_k800_e0,5_ss.txt
+Start date : Thu Nov  8 15:26:40 2018
+End date   : Thu Nov  8 15:26:41 2018
+Duration   : 1.169
+SeedSize   : 800
+Est. score : 5175.24
+-----------------------------------------------------
+File name  : NE_k800_e0,1_ss.txt
+Start date : Thu Nov  8 15:26:41 2018
+End date   : Thu Nov  8 15:26:42 2018
+Duration   : 1.19128
+SeedSize   : 800
+Est. score : 5175.24
+-----------------------------------------------------

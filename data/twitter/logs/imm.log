@@ -89,3 +89,143 @@ Duration   : 173.036
 SeedSize   : 300
 Est. score : 1.39981e+07
 -----------------------------------------------------
+File name  : TW_k350_e0,5_ss.txt
+Start date : Thu Nov  8 15:53:31 2018
+End date   : Thu Nov  8 15:55:56 2018
+Duration   : 145.233
+SeedSize   : 350
+Est. score : 1.44077e+07
+-----------------------------------------------------
+File name  : TW_k350_e0,1_ss.txt
+Start date : Thu Nov  8 15:55:56 2018
+End date   : Thu Nov  8 16:09:58 2018
+Duration   : 842.285
+SeedSize   : 350
+Est. score : 1.43145e+07
+-----------------------------------------------------
+File name  : TW_k400_e0,5_ss.txt
+Start date : Thu Nov  8 16:09:59 2018
+End date   : Thu Nov  8 16:11:56 2018
+Duration   : 116.927
+SeedSize   : 400
+Est. score : 1.45687e+07
+-----------------------------------------------------
+File name  : TW_k400_e0,1_ss.txt
+Start date : Thu Nov  8 16:11:56 2018
+End date   : Thu Nov  8 16:15:19 2018
+Duration   : 202.941
+SeedSize   : 400
+Est. score : 1.45649e+07
+-----------------------------------------------------
+File name  : TW_k450_e0,5_ss.txt
+Start date : Thu Nov  8 16:15:20 2018
+End date   : Thu Nov  8 16:17:32 2018
+Duration   : 131.484
+SeedSize   : 450
+Est. score : 1.47632e+07
+-----------------------------------------------------
+File name  : TW_k450_e0,1_ss.txt
+Start date : Thu Nov  8 16:17:32 2018
+End date   : Thu Nov  8 16:21:09 2018
+Duration   : 216.279
+SeedSize   : 450
+Est. score : 1.47613e+07
+-----------------------------------------------------
+File name  : TW_k500_e0,5_ss.txt
+Start date : Thu Nov  8 16:21:09 2018
+End date   : Thu Nov  8 16:23:35 2018
+Duration   : 146.096
+SeedSize   : 500
+Est. score : 1.49249e+07
+-----------------------------------------------------
+File name  : TW_k500_e0,1_ss.txt
+Start date : Thu Nov  8 16:23:36 2018
+End date   : Thu Nov  8 16:27:26 2018
+Duration   : 230.276
+SeedSize   : 500
+Est. score : 1.49299e+07
+-----------------------------------------------------
+File name  : TW_k550_e0,5_ss.txt
+Start date : Thu Nov  8 16:27:27 2018
+End date   : Thu Nov  8 16:30:08 2018
+Duration   : 160.762
+SeedSize   : 550
+Est. score : 1.50677e+07
+-----------------------------------------------------
+File name  : TW_k550_e0,1_ss.txt
+Start date : Thu Nov  8 16:30:09 2018
+End date   : Thu Nov  8 16:34:13 2018
+Duration   : 243.551
+SeedSize   : 550
+Est. score : 1.5066e+07
+-----------------------------------------------------
+File name  : TW_k600_e0,5_ss.txt
+Start date : Thu Nov  8 16:34:14 2018
+End date   : Thu Nov  8 16:37:09 2018
+Duration   : 175.579
+SeedSize   : 600
+Est. score : 1.51866e+07
+-----------------------------------------------------
+File name  : TW_k600_e0,1_ss.txt
+Start date : Thu Nov  8 16:37:11 2018
+End date   : Thu Nov  8 16:41:28 2018
+Duration   : 257.75
+SeedSize   : 600
+Est. score : 1.51816e+07
+-----------------------------------------------------
+File name  : TW_k650_e0,5_ss.txt
+Start date : Thu Nov  8 16:41:30 2018
+End date   : Thu Nov  8 16:44:40 2018
+Duration   : 190.247
+SeedSize   : 650
+Est. score : 1.529e+07
+-----------------------------------------------------
+File name  : TW_k650_e0,1_ss.txt
+Start date : Thu Nov  8 16:44:41 2018
+End date   : Thu Nov  8 16:49:12 2018
+Duration   : 270.388
+SeedSize   : 650
+Est. score : 1.52841e+07
+-----------------------------------------------------
+File name  : TW_k700_e0,5_ss.txt
+Start date : Thu Nov  8 16:49:13 2018
+End date   : Thu Nov  8 16:52:38 2018
+Duration   : 204.958
+SeedSize   : 700
+Est. score : 1.53814e+07
+-----------------------------------------------------
+File name  : TW_k700_e0,1_ss.txt
+Start date : Thu Nov  8 16:52:39 2018
+End date   : Thu Nov  8 16:57:23 2018
+Duration   : 283.804
+SeedSize   : 700
+Est. score : 1.53801e+07
+-----------------------------------------------------
+File name  : TW_k750_e0,5_ss.txt
+Start date : Thu Nov  8 16:57:25 2018
+End date   : Thu Nov  8 17:01:05 2018
+Duration   : 219.959
+SeedSize   : 750
+Est. score : 1.54686e+07
+-----------------------------------------------------
+File name  : TW_k750_e0,1_ss.txt
+Start date : Thu Nov  8 17:01:07 2018
+End date   : Thu Nov  8 17:06:07 2018
+Duration   : 299.985
+SeedSize   : 750
+Est. score : 1.54684e+07
+-----------------------------------------------------
+File name  : TW_k800_e0,5_ss.txt
+Start date : Thu Nov  8 17:06:09 2018
+End date   : Thu Nov  8 17:10:03 2018
+Duration   : 234.812
+SeedSize   : 800
+Est. score : 1.55502e+07
+-----------------------------------------------------
+File name  : TW_k800_e0,1_ss.txt
+Start date : Thu Nov  8 17:10:05 2018
+End date   : Thu Nov  8 17:15:18 2018
+Duration   : 312.597
+SeedSize   : 800
+Est. score : 1.55519e+07
+-----------------------------------------------------
