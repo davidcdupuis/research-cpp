@@ -19,3 +19,6 @@ profile:
 
 cont_profile:
 	g++ -DCONTINUOUS src/imm.cpp -Wall -std=c++0x -O3 src/sfmt/SFMT.c  -o imm_continuous -pg -o imm_continuous.profile
+
+clean:
+	rm -rf *.o

@@ -31,6 +31,7 @@ void run_with_parameter(InfGraph &g, Argument & arg) //const
     arg.k = k_values[i];
     cout << "Arguments Seed Size: " << arg.k << endl;
     for (int j = 0; j < 2; j++){
+      g.seedSet.clear();
       arg.epsilon = epsilon_values[j];
       cout << "Arguments epsilon: " << arg.epsilon << endl;
 
@@ -43,12 +44,12 @@ void run_with_parameter(InfGraph &g, Argument & arg) //const
       // save g.seedSet here => NE_k100_e0,01.txt
       string fileName = datasets[arg.dataset] + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
       string filePath = "../data/" + arg.dataset + "/imm/basic/" + fileName;
+      seedSize = g.seedSet.size();
       cout << "Saving influence scores to " << filePath << endl;
       ofstream seedSetFile;
       seedSetFile.open(filePath);
       for(int node: g.seedSet){
         seedSetFile << node << endl;
-        seedSize ++;
       }
       seedSetFile.close();
       //INFO(g.seedSet);

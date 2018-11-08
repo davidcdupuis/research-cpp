@@ -24,3 +24,7 @@ data/orkut/rtim/pre_process
 
 RTIM/src/*.o
 RTIM/src/rtim
+
+IMM/*.o
+IMM/imm_continuous
+IMM/imm_discrete

@@ -1,28 +1,84 @@
 File name  : OR_k50_e0,5_ss.txt
-Start date : Wed Nov  7 14:57:03 2018
-End date   : Wed Nov  7 14:57:21 2018
-Duration   : 17.9821
+Start date : Thu Nov  8 09:19:13 2018
+End date   : Thu Nov  8 09:19:28 2018
+Duration   : 14.904
 SeedSize   : 50
 Est. score : 162611
 -----------------------------------------------------
 File name  : OR_k50_e0,1_ss.txt
-Start date : Wed Nov  7 19:50:43 2018
-End date   : Wed Nov  7 19:54:24 2018
-Duration   : 221.494
+Start date : Thu Nov  8 09:19:28 2018
+End date   : Thu Nov  8 09:22:55 2018
+Duration   : 207.006
 SeedSize   : 50
-Est. score : 164503
+Est. score : 164576
 -----------------------------------------------------
 File name  : OR_k100_e0,5_ss.txt
-Start date : Wed Nov  7 19:58:01 2018
-End date   : Wed Nov  7 19:58:23 2018
-Duration   : 22.2001
+Start date : Thu Nov  8 09:22:55 2018
+End date   : Thu Nov  8 09:23:01 2018
+Duration   : 5.83694
 SeedSize   : 100
-Est. score : 207861
+Est. score : 205332
 -----------------------------------------------------
 File name  : OR_k100_e0,1_ss.txt
-Start date : Wed Nov  7 20:04:22 2018
-End date   : Wed Nov  7 20:09:57 2018
-Duration   : 335.015
+Start date : Thu Nov  8 09:23:01 2018
+End date   : Thu Nov  8 09:24:37 2018
+Duration   : 95.731
 SeedSize   : 100
-Est. score : 205221
+Est. score : 205540
+-----------------------------------------------------
+File name  : OR_k150_e0,5_ss.txt
+Start date : Thu Nov  8 09:24:37 2018
+End date   : Thu Nov  8 09:24:46 2018
+Duration   : 8.93441
+SeedSize   : 150
+Est. score : 229912
+-----------------------------------------------------
+File name  : OR_k150_e0,1_ss.txt
+Start date : Thu Nov  8 09:24:46 2018
+End date   : Thu Nov  8 09:26:14 2018
+Duration   : 87.5386
+SeedSize   : 150
+Est. score : 229839
+-----------------------------------------------------
+File name  : OR_k200_e0,5_ss.txt
+Start date : Thu Nov  8 09:26:14 2018
+End date   : Thu Nov  8 09:26:26 2018
+Duration   : 11.8938
+SeedSize   : 200
+Est. score : 247620
+-----------------------------------------------------
+File name  : OR_k200_e0,1_ss.txt
+Start date : Thu Nov  8 09:26:26 2018
+End date   : Thu Nov  8 09:27:50 2018
+Duration   : 83.3023
+SeedSize   : 200
+Est. score : 247278
+-----------------------------------------------------
+File name  : OR_k250_e0,5_ss.txt
+Start date : Thu Nov  8 09:27:50 2018
+End date   : Thu Nov  8 09:28:05 2018
+Duration   : 14.907
+SeedSize   : 250
+Est. score : 261795
+-----------------------------------------------------
+File name  : OR_k250_e0,1_ss.txt
+Start date : Thu Nov  8 09:28:05 2018
+End date   : Thu Nov  8 09:29:26 2018
+Duration   : 80.8602
+SeedSize   : 250
+Est. score : 261721
+-----------------------------------------------------
+File name  : OR_k300_e0,5_ss.txt
+Start date : Thu Nov  8 09:29:27 2018
+End date   : Thu Nov  8 09:29:45 2018
+Duration   : 17.7353
+SeedSize   : 300
+Est. score : 274354
+-----------------------------------------------------
+File name  : OR_k300_e0,1_ss.txt
+Start date : Thu Nov  8 09:29:45 2018
+End date   : Thu Nov  8 09:31:21 2018
+Duration   : 95.7473
+SeedSize   : 300
+Est. score : 274476
 -----------------------------------------------------
