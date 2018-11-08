@@ -64,3 +64,21 @@ end: Tue Oct 30 15:53:08 2018
 runtime: 0.001784 milliseconds
 max update time: 0.000002 milliseconds
 ----------------------------------------------------
+file name: TS_urr_v1_s20_r20_ap0,8_ss.txt
+start: Thu Nov  8 20:30:57 2018
+end: Thu Nov  8 20:31:01 2018
+runtime: 0.001012 milliseconds
+max update time: 0.000001 milliseconds
+----------------------------------------------------
+file name: TS_urr_v1_s20_r20_ap0,8_ss.txt
+start: Thu Nov  8 20:33:50 2018
+end: Thu Nov  8 20:33:54 2018
+runtime: 0.000800 milliseconds
+max update time: 0.000002 milliseconds
+----------------------------------------------------
+File name       : TS_r30_ap0,8_urr_v1_s20_ss0.txt
+Start date      : Thu Nov  8 20:48:15 2018
+End date        : Thu Nov  8 20:48:19 2018
+Duration        : 0.000853 seconds
+Max update time : 0.000001 seconds
+----------------------------------------------------

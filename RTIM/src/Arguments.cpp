@@ -193,9 +193,9 @@ string Arguments::generateFileName(string type, int param){
   }else if (type == "get_infScores"){
     file_name = datasets[dataset] + "_infS.txt";
   }else if (type == "rtim_seedSet"){
-    // file_name = <dataset>_<stream type>_v<version>_s<stream size>_r<value>_ap<value>_ss.txt
-    // example: "NE_urr_v1_s15229_r1_ap0,01_ss.txt"
-    file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_ss.txt";
+    // file_name = <dataset>_<stream type>_v<version>_s<stream size>_r<value>_ap<value>_ss<seed_size>.txt
+    // example: "NE_r1_ap0,01_urr_v1_s15229_ss50.txt"
+    file_name = datasets[dataset] + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_ss" + to_string(param) + ".txt";
   }else if (type == "rtim_progress_seedSet"){
     file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_prg" + to_string(param) + "_ss.txt";
   }else if(type == "imm_seedSet"){
