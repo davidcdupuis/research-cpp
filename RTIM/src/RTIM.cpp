@@ -1074,7 +1074,7 @@ void RTIM::computeSeedScoreMenu(){
     break;
   }
   file_path += input;
-  importSeedSet(input);
+  importSeedSet(file_path);
   sleep(SLEEP);
   clearLines(5);
   seedFile = input;
