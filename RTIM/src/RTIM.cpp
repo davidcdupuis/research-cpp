@@ -199,7 +199,7 @@ void RTIM::live(){
   bool newProgress = true;
   while (infile >> user){
     sum ++;
-    cout << "User: " << user << " dataset: " << args.dataset << endl;
+    //cout << "User: " << user << " dataset: " << args.dataset << endl;
     if (args.dataset == "test"){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
     }
