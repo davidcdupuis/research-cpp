@@ -131,9 +131,9 @@ void RTIM::pre_process(){
         save = print_progress(nb_threads, finishedProcess, nodes, startTime, nb_nodes, save);
       }
       // Compute the influence score of a node in G
-      // score = graph.influenceScore({i}, 1);
       clock_t nodeStart = clock();
-      score = graph.influenceScorePath(i, args.depth,"shortest", args.edge_weight, args.min_weight);
+      score = graph.influenceScore({i}, args.depth);
+      // score = graph.influenceScorePath(i, args.depth,"shortest", args.edge_weight, args.min_weight);
       double duration = (clock() - nodeStart)/(double)CLOCKS_PER_SEC;
       // score = graph.influenceScoreNeighbors(i);
       infScores[i] = score;
