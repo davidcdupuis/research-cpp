@@ -400,22 +400,23 @@ void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, 
 
 void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, double& runtime, double& score){
   string file_path = "../../data/" + args.dataset + "/logs/seed_set_score.log";
-  printInColor("cyan", "Saving seed score log to: " + file);
+  printInColor("cyan", "Saving seed score log to: " + file_path);
   ofstream seedScoreLogFile;
   seedScoreLogFile.open(file_path, fstream::app);
-  seedScoreLogFile << "file name: " << file << endl;
-  seedScoreLogFile << "start: " << startDate << endl;
-  seedScoreLogFile << "end: " << endDate << endl;
-  seedScoreLogFile << "run time: " << runtime << endl;
-  seedScoreLogFile << "seed size: " << seedSet.size() << endl;
-  seedScoreLogFile << "score: " << score << endl;
+  seedScoreLogFile << "File name  : " << file << endl;
+  seedScoreLogFile << "Start date : " << startDate << endl;
+  seedScoreLogFile << "End date   : " << endDate << endl;
+  seedScoreLogFile << "Runtime    : " << runtime << endl;
+  seedScoreLogFile << "Seed size  : " << seedSet.size() << endl;
+  seedScoreLogFile << "Inf. score : " << score << endl;
+  seedScoreLogFile << "-----------------------------------------------" << endl;
   seedScoreLogFile.close();
 }
 
 
 void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, double& runtime, double& score){
   string file_path = "../../data/" + args.dataset + "/logs/seed_set_score.csv";
-  printInColor("cyan", "Saving seed score csv to: " + file);
+  printInColor("cyan", "Saving seed score csv to: " + file_path);
 
   // dataset,file_name, startDate, endDate, runtime, seed size, score
   ofstream seedScoreCSVFile;
