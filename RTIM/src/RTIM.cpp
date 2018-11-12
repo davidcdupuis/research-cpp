@@ -362,7 +362,7 @@ void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, s
   printInColor("cyan", "Saving live log to: " + file);
   ofstream liveLogFile;
   liveLogFile.open(file, fstream::app);
-  liveLogFile << "File name       : " << args.generateFileName("rtim_seedSet") << endl;
+  liveLogFile << "File name       : " << args.generateFileName("rtim_seedSet", seedSet.size()) << endl;
   liveLogFile << "Start date      : " << startDatetime << endl;
   liveLogFile << "End date        : " << endDatetime << endl;
   liveLogFile << "Duration        : " << cleanTime(runtime, "s") << endl;
