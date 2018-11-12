@@ -113,7 +113,7 @@ class Graph
       *
       * @return int: number of activated nodes
     */
-    int influenceSimulation(const std::vector<int>& seed_set, int depth=10000, double minEdgeWeight=0) const;
+    int influenceSimulation(const std::vector<int>& seed_set, bool *visited, int depth=10000, double minEdgeWeight=0) const;
 
 
     /**
