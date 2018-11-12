@@ -400,7 +400,7 @@ void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, 
 
 void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, double& runtime, double& score){
   string file_path = "../../data/" + args.dataset + "/logs/seed_set_score.log";
-  printInColor("cyan", "Saving seed score log to: " + file);
+  printInColor("cyan", "Saving seed score log to: " + file_path);
   ofstream seedScoreLogFile;
   seedScoreLogFile.open(file_path, fstream::app);
   seedScoreLogFile << "file name: " << file << endl;
@@ -415,7 +415,7 @@ void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, doubl
 
 void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, double& runtime, double& score){
   string file_path = "../../data/" + args.dataset + "/logs/seed_set_score.csv";
-  printInColor("cyan", "Saving seed score csv to: " + file);
+  printInColor("cyan", "Saving seed score csv to: " + file_path);
 
   // dataset,file_name, startDate, endDate, runtime, seed size, score
   ofstream seedScoreCSVFile;
@@ -1074,7 +1074,7 @@ void RTIM::computeSeedScoreMenu(){
     break;
   }
   file_path += input;
-  importSeedSet(input);
+  importSeedSet(file_path);
   sleep(SLEEP);
   clearLines(5);
   seedFile = input;
