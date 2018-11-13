@@ -10,7 +10,7 @@ def compare(dataset, file1, file2):
         Open both files together, compare each line and save to f1_f2_comparison.txt
         Print number of values that are greater by a score of 5 and those smalle
     '''
-    folder = 'data/{}/rtim/'.format(dataset)
+    folder = '../data/{}/rtim/'.format(dataset)
     t1 = file1.rstrip('.txt')
     t2 = file2.rstrip('.txt')
     file3 = folder + '{}_{}_comparison.txt'.format(t1, t2)
