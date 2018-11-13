@@ -131,9 +131,9 @@ void RTIM::pre_process(){
         save = print_progress(nb_threads, finishedProcess, nodes, startTime, nb_nodes, save);
       }
       // Compute the influence score of a node in G
-      // score = graph.influenceScore({i}, 1);
       clock_t nodeStart = clock();
-      score = graph.influenceScorePath(i, args.depth,"shortest", args.edge_weight, args.min_weight);
+      score = graph.influenceScore({i}, 1);
+      //score = graph.influenceScorePath(i, args.depth,"shortest", args.edge_weight, args.min_weight);
       double duration = (clock() - nodeStart)/(double)CLOCKS_PER_SEC;
       // score = graph.influenceScoreNeighbors(i);
       infScores[i] = score;
@@ -346,10 +346,10 @@ void RTIM::seedSetTest(string file_path){
   importSeedSet(file_path);
   if(seedSet.size() <= 300){
     cout << "Computing influence score of seed set with max depth." << endl;
-    score = graph.influenceScore(seedSet);
+    score = graph.influenceScoreParallel(seedSet);
   }else{
     cout << "Computing influence score of seed set with depth of 3." << endl;
-    score = graph.influenceScore(seedSet, 3);
+    score = graph.influenceScoreParallel(seedSet, 3);
   }
   cout << "Seed score is: " << score << endl;
 }
@@ -706,7 +706,7 @@ void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
   cout << "Computing seed set score." << endl;
   double start = omp_get_wtime();
   double score;
-  score = graph.influenceScore(seedSet, depth, minEdgeWeight);
+  score = graph.influenceScoreParallel(seedSet, depth, minEdgeWeight);
   double delta = omp_get_wtime() - start;
   cout << "Seed set score is: " << score << " / " << graph.nodes << " computed in: " << cleanTime(delta, "s") << endl;
   cout << "------------------------------------------------------------------------------------------" << endl;
@@ -1173,7 +1173,7 @@ void RTIM::run(){
       double score;
       string startDate = getLocalDatetime();
       clock_t startTime = clock();
-      score = graph.influenceScore(seedSet);
+      score = graph.influenceScoreParallel(seedSet);
       double duration = (clock() - startTime)/(double)CLOCKS_PER_SEC;
       string endDate = getLocalDatetime();
       string txt = "> Influence score of seed set is: " + to_string(score);

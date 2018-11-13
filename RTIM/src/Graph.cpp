@@ -21,6 +21,7 @@ Graph::Graph(Arguments& arguments){
   args = arguments;
 }
 
+
 Graph::Graph(Arguments& arguments, bool import){
   //srand(time(NULL));
   args = arguments;
@@ -127,12 +128,34 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, double minE
   int values[sim] = {};
   bool visitedOriginal[nodes] = {};
   bool visited[nodes];
-  memcpy(visited, visitedOriginal, nodes);
-  #pragma omp parallel shared(depth, seed_set, values)
-  #pragma omp for
   for (int i = 0; i < sim; i++){
     // run influence simulation
+    memcpy(visited, visitedOriginal, nodes);
     values[i] = influenceSimulation(seed_set, visited, depth, minEdgeWeight);
+  }
+  for(int i = 0; i < sim; i++){
+    sum += values[i];
+  }
+  double score = sum/(double)sim;
+  // cout << "Influence score is " << score << endl;
+  return score;
+}
+
+
+double Graph::influenceScoreParallel(const vector<int>& seed_set, int depth, double minEdgeWeight, int sim) const{
+  // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
+  int sum = 0;
+  int values[sim] = {};
+  bool visitedOriginal[nodes] = {};
+  #pragma omp parallel shared(depth, seed_set, values)
+  {
+    bool visited[nodes];
+    #pragma omp for
+    for (int i = 0; i < sim; i++){
+      // run influence simulation
+      memcpy(visited, visitedOriginal, nodes);
+      values[i] = influenceSimulation(seed_set, visited, depth, minEdgeWeight);
+    }
   }
   for(int i = 0; i < sim; i++){
     sum += values[i];
