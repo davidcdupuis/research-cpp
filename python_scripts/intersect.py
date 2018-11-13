@@ -34,34 +34,34 @@ def generatePath(type, size=0):
     path = ""
     if (type == "imm"):
         # data/nethept/imm/basic/NE_k50_e0,1_ss.txt
-        path = "data/{}/imm/basic/".format(args.dataset)
+        path = "../data/{}/imm/basic/".format(args.dataset)
         path += "{}_k{}_e{}_ss.txt".format(datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon))
     elif (type == "rtim"):
         # data/nethept/rtim/live/NE_k50_r5_ap0,8_urr_v1_s15229_ss45.txt
-        path = "data/{}/rtim/live/".format(args.dataset)
+        path = "../data/{}/rtim/live/".format(args.dataset)
         path += "{}_k{}_r{}_ap{}_{}_v{}_s{}_ss{}.txt".format(datasets[args.dataset], args.rtimK, args.reach, properDoubleFormat(args.activationProb), keywords[args.model], args.version, args.streamSize, args.rtimSeedSize)
     elif (type == "stream"):
         # data/nethept/streams/urr/v1/NE_urr_v1_s15229_st.txt
-        path = "data/{}/streams/{}/v{}/".format(args.dataset, args.model, args.version)
+        path = "../data/{}/streams/{}/v{}/".format(args.dataset, args.model, args.version)
         path += "{}_{}_v{}_s{}_st.txt".format(datasets[args.dataset], keywords[args.model], args.version, args.streamSize)
     elif (type == "imm_progress"):
         # data/nethept/imm/live/progress/NE_k50_e0,5_urr_v1_s15229_prg.txt
-        path = "data/{}/imm/live/progress/".format(args.dataset)
+        path = "../data/{}/imm/live/progress/".format(args.dataset)
         path += "{}_k{}_e{}_{}_v{}_s{}_prg.txt".format(datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), keywords[args.model], args.version, args.streamSize)
     elif (type == "rtim_intersect"):
         # data/nethept/imm/rtim_common/NE_k50_e0,1_k50_r5_ap0,8_urr_v1_s15229_ss20.txt
-        path = "data/{}/imm/rtim_common/".format(args.dataset)
+        path = "../data/{}/imm/rtim_common/".format(args.dataset)
         path += "{}_k{}_e{}_k{}_r{}_ap{}_ss{}_{}_v{}_s{}_common{}.txt".format(datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), args.rtimK, args.reach, properDoubleFormat(args.activationProb), args.rtimSeedSize, keywords[args.model], args.version, args.streamSize, size)
     elif (type == "stream_intersect"):
         # data/{}/live/NE_k50_e0,1_urr_v1_s15229_ss25.txt
-        path = "data/{}/live/".format(args.dataset)
+        path = "../data/{}/live/".format(args.dataset)
         path += "{}_k{}_e{}_{}_v{}_s{}_ss{}.txt".format(datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), keywords[args.model], args.version, args.streamSize, size)
     return path
 
 
 def numberNodes():
     nodes = 0
-    file_name = 'data/{0}/attributes.txt'.format(args.dataset)
+    file_name = '../data/{0}/attributes.txt'.format(args.dataset)
     with open(file_name, 'r') as f:
         nodes = int(next(f).strip("n=").strip("\n"))
     print("Number of nodes: {}".format(nodes))
@@ -165,7 +165,7 @@ def saveCommonLog(type, immSeed, otherArray, intersect):
     elif (type == "stream"):
         otherFile = generatePath("stream")
         commonFile = generatePath("stream_intersect", len(intersect))
-    path = 'data/{0}/logs/intersect.log'.format(args.dataset)
+    path = '../data/{0}/logs/intersect.log'.format(args.dataset)
     with open(path, 'a') as f:
         f.write("IMM seed set")
         f.write(" - file_name: {}".format(immFile))
@@ -184,7 +184,7 @@ def saveCommonLog(type, immSeed, otherArray, intersect):
 
 
 def saveBothLog(streamIntersectSize, rtimIntersectSize, noRTIMSize):
-    path = "data/{}/logs/intersect.log".format(args.dataset)
+    path = "../data/{}/logs/intersect.log".format(args.dataset)
     with open(path, 'a') as f:
         f.write("IMM")
         f.write(" - epsilon = {}".format(args.epsilon))

@@ -22,7 +22,7 @@ datasets = {
 
 def numberNodes(dataset):
     nodes = 0
-    file_name = 'data/{0}/attributes.txt'.format(dataset)
+    file_name = '../data/{0}/attributes.txt'.format(dataset)
     with open(file_name, 'r') as f:
         nodes = int(next(f).strip("n=").strip("\n"))
     print("Number of nodes: {}".format(nodes))
@@ -35,7 +35,7 @@ def rand_repeat(dataset, nodes, size, num=1):
     '''
     # initialize array of size 'nodes'
     for i in range(1, num + 1):
-        file_name = 'data/{0}/streams/uniform_rand_repeat/v{1}/{2}_urr_v{1}_s{3}_st.txt'.format(dataset, i, datasets[dataset] ,size)
+        file_name = '../data/{0}/streams/uniform_rand_repeat/v{1}/{2}_urr_v{1}_s{3}_st.txt'.format(dataset, i, datasets[dataset] ,size)
         stream = [random.choice(range(nodes)) for _ in range(size)]
         with open(file_name, 'w', newline='') as f:
             writer = csv.writer(f)
@@ -45,7 +45,7 @@ def rand_repeat(dataset, nodes, size, num=1):
 
 def rand_no_repeat(dataset, nodes, size, num=1):
     for i in range(1, num + 1):
-        file_name = 'data/{0}/streams/uniform_rand_no_repeat/v{1}/{2}_urnr_v{1}_s{3}_st.txt'.format(dataset, i, datasets[dataset] ,size)
+        file_name = '../data/{0}/streams/uniform_rand_no_repeat/v{1}/{2}_urnr_v{1}_s{3}_st.txt'.format(dataset, i, datasets[dataset] ,size)
         stream = random.sample(range(nodes), size)
         with open(file_name, 'w', newline='') as f:
             writer = csv.writer(f)
