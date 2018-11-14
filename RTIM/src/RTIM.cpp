@@ -1008,7 +1008,10 @@ void RTIM::liveMenu(){
   }
   // asking for stream size
   while(1){
-    cout << "> stream size (" << nodes << "): ";
+    if(nodes > 1000000){
+      args.streamSize = 1000000;
+    }
+    cout << "> stream size (" << args.streamSize << "): ";
     getline(cin, input);
     if(input != ""){
       try{
@@ -1021,9 +1024,9 @@ void RTIM::liveMenu(){
         clearLines(2);
       }
     }else{
-      args.streamSize = nodes;
-      //clearLines(1);
-      cout << "> stream size (" << args.streamSize << "): ";
+      // args.streamSize = nodes;
+      clearLines(1);
+      cout << "> stream size (" << args.streamSize << "): " << args.streamSize << endl;
       break;
     }
   }
