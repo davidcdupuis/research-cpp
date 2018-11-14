@@ -23,3 +23,11 @@ nethept,uniform_rand_repeat,1,15229,5,0.8,2,700,700,6e-06,0.047346
 nethept,uniform_rand_repeat,1,15229,5,0.8,2,750,745,4e-06,0.046502
 nethept,uniform_rand_repeat,1,15229,5.5,0.8,2,750,750,4e-06,0.047807
 nethept,uniform_rand_repeat,1,15229,5.5,0.8,2,800,800,4e-06,0.048662
+nethept,uniform_rand_repeat,1,15229,1,0.8,2,800,147,4e-06,0.063175
+nethept,uniform_rand_repeat,1,15229,1,0.8,2,800,147,3e-06,0.016663
+nethept,uniform_rand_repeat,1,15229,1.5,0.8,2,800,202,3e-06,0.017786
+nethept,uniform_rand_repeat,1,15229,2,0.8,2,800,284,3e-06,0.019612
+nethept,uniform_rand_repeat,1,15229,3,0.8,2,800,433,3e-06,0.023081
+nethept,uniform_rand_repeat,1,15229,4,0.8,2,800,613,1.6e-05,0.028495
+nethept,uniform_rand_repeat,1,15229,5,0.8,2,800,745,5e-06,0.031768
+nethept,uniform_rand_repeat,1,15229,5.5,0.8,2,800,800,1.2e-05,0.032361

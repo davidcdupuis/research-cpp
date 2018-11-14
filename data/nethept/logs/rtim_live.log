@@ -142,3 +142,51 @@ End date        : Mon Nov 12 16:35:54 2018
 Duration        : 0.048662 seconds
 Max update time : 0.000004 seconds
 ----------------------------------------------------
+File name       : NE_r1_ap0,8_urr_v1_s15229_ss0.txt
+Start date      : Wed Nov 14 13:40:26 2018
+End date        : Wed Nov 14 13:40:34 2018
+Duration        : 0.063175 seconds
+Max update time : 0.000004 seconds
+----------------------------------------------------
+File name       : NE_k800_r1_ap0,8_urr_v1_s15229_ss147.txt
+Start date      : Wed Nov 14 13:43:10 2018
+End date        : Wed Nov 14 13:43:17 2018
+Duration        : 0.016663 seconds
+Max update time : 0.000003 seconds
+----------------------------------------------------
+File name       : NE_k800_r1,5_ap0,8_urr_v1_s15229_ss202.txt
+Start date      : Wed Nov 14 13:45:51 2018
+End date        : Wed Nov 14 13:45:58 2018
+Duration        : 0.017786 seconds
+Max update time : 0.000003 seconds
+----------------------------------------------------
+File name       : NE_k800_r2_ap0,8_urr_v1_s15229_ss284.txt
+Start date      : Wed Nov 14 13:46:14 2018
+End date        : Wed Nov 14 13:46:21 2018
+Duration        : 0.019612 seconds
+Max update time : 0.000003 seconds
+----------------------------------------------------
+File name       : NE_k800_r3_ap0,8_urr_v1_s15229_ss433.txt
+Start date      : Wed Nov 14 13:46:49 2018
+End date        : Wed Nov 14 13:46:56 2018
+Duration        : 0.023081 seconds
+Max update time : 0.000003 seconds
+----------------------------------------------------
+File name       : NE_k800_r4_ap0,8_urr_v1_s15229_ss613.txt
+Start date      : Wed Nov 14 13:47:20 2018
+End date        : Wed Nov 14 13:47:27 2018
+Duration        : 0.028495 seconds
+Max update time : 0.000016 seconds
+----------------------------------------------------
+File name       : NE_k800_r5_ap0,8_urr_v1_s15229_ss745.txt
+Start date      : Wed Nov 14 13:47:51 2018
+End date        : Wed Nov 14 13:47:58 2018
+Duration        : 0.031768 seconds
+Max update time : 0.000005 seconds
+----------------------------------------------------
+File name       : NE_k800_r5,5_ap0,8_urr_v1_s15229_ss800.txt
+Start date      : Wed Nov 14 13:48:11 2018
+End date        : Wed Nov 14 13:48:18 2018
+Duration        : 0.032361 seconds
+Max update time : 0.000012 seconds
+----------------------------------------------------
