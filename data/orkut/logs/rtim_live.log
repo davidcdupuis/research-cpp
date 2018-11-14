@@ -4,3 +4,45 @@ End date        : Wed Nov 14 15:10:48 2018
 Duration        : 2.541031 seconds
 Max update time : 0.000132 seconds
 ----------------------------------------------------
+File name       : OR_k800_r0,5_ap0,8_urr_v1_s1000000_ss800.txt
+Start date      : Wed Nov 14 17:46:33 2018
+End date        : Wed Nov 14 17:46:43 2018
+Duration        : 2.568513 seconds
+Max update time : 0.000136 seconds
+----------------------------------------------------
+File name       : OR_k800_r0,25_ap0,8_urr_v1_s1000000_ss800.txt
+Start date      : Wed Nov 14 17:47:48 2018
+End date        : Wed Nov 14 17:47:57 2018
+Duration        : 2.577377 seconds
+Max update time : 0.000209 seconds
+----------------------------------------------------
+File name       : OR_k800_r0,1_ap0,8_urr_v1_s1000000_ss800.txt
+Start date      : Wed Nov 14 17:48:18 2018
+End date        : Wed Nov 14 17:48:28 2018
+Duration        : 2.693740 seconds
+Max update time : 0.000268 seconds
+----------------------------------------------------
+File name       : OR_k800_r0,05_ap0,8_urr_v1_s1000000_ss491.txt
+Start date      : Wed Nov 14 17:49:41 2018
+End date        : Wed Nov 14 17:49:51 2018
+Duration        : 2.736865 seconds
+Max update time : 0.000269 seconds
+----------------------------------------------------
+File name       : OR_k800_r0,025_ap0,8_urr_v1_s1000000_ss263.txt
+Start date      : Wed Nov 14 17:50:12 2018
+End date        : Wed Nov 14 17:50:22 2018
+Duration        : 2.708277 seconds
+Max update time : 0.000240 seconds
+----------------------------------------------------
+File name       : OR_k800_r0,025_ap0,8_urr_v1_s1000000_ss263.txt
+Start date      : Wed Nov 14 17:50:55 2018
+End date        : Wed Nov 14 17:51:05 2018
+Duration        : 2.703928 seconds
+Max update time : 0.000237 seconds
+----------------------------------------------------
+File name       : OR_k800_r0,01_ap0,8_urr_v1_s1000000_ss89.txt
+Start date      : Wed Nov 14 17:51:26 2018
+End date        : Wed Nov 14 17:51:35 2018
+Duration        : 2.701972 seconds
+Max update time : 0.000283 seconds
+----------------------------------------------------
