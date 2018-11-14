@@ -1,1 +1,2 @@
 dataset,streamModel,streamVersion,streamSize,reach,theta_ap,depth,maxSeedSize,actualSeedSize,maxUpdateTime,runtime
+orkut,uniform_rand_repeat,1,1000000,1,0.8,2,800,800,0.000132,2.54103
