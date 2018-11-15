@@ -47,7 +47,7 @@ if __name__ == "__main__":
     '''
         * -d        | --dataset         | dataset
         * -ss       | --seedSize        | original seed set size
-        * -origK     | --origK            | original k
+        * -origK    | --origK            | original k
         * -k        | --k               | desired seed set size
         * -r        | --reach           |
         * -ap       | --activationProb  |
@@ -57,12 +57,12 @@ if __name__ == "__main__":
     '''
     parser = argparse.ArgumentParser(description="Seed Set Extractor")
     parser.add_argument("-d","--dataset",default="test")
-    parser.add_argument("-rtimK", "--rtimK", type=int)
+    parser.add_argument("-rtimK", "--rtimK", type=int, default=800)
     parser.add_argument("-ss","--rtimSeedSize", type=int, default=800)
-    parser.add_argument("-r", "--reach", type=float)
-    parser.add_argument("-ap", "--activationProb", type=float)
-    parser.add_argument("-m", "--model")
-    parser.add_argument("-v", "--version")
+    parser.add_argument("-r", "--reach", type=float, default=1)
+    parser.add_argument("-ap", "--activationProb", type=float, default=0.8)
+    parser.add_argument("-m", "--model", default="uniform_rand_repeat")
+    parser.add_argument("-v", "--version", type=int, default=1)
     parser.add_argument("-stream", "--streamSize")
     parser.add_argument("-k", "--k", type=int, default=50)
 
