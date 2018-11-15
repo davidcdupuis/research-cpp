@@ -32,12 +32,22 @@ def printArgs():
     print("STREAM INTERSECT: {}".format(generatePath("stream_intersect")))
 
 
+def extractSeedSet(args):
+    seedSet = tools.importSeedSet(args, "rtim")
+    path = "../data/{}/rtim/live/".format(args.dataset)
+    path += "{}_k{}_r{}_ap{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.k, tools.properDoubleFormat(args.reach), tools.properDoubleFormat(args.activationProb), settings.keywords[args.model], args.version, args.streamSize, args.k)
+    with open(path, 'w', newline='') as f:
+        writer = csv.writer(f)
+        for i in range(args.k):
+            writer.writerow([seedSet[i]])
+    print("Saved seed set of size {} to {}".format(args.k, path))
+
 
 if __name__ == "__main__":
     '''
         * -d        | --dataset         | dataset
         * -ss       | --seedSize        | original seed set size
-        * -maxK     | --maxK            | original k
+        * -origK     | --origK            | original k
         * -k        | --k               | desired seed set size
         * -r        | --reach           |
         * -ap       | --activationProb  |
@@ -47,17 +57,15 @@ if __name__ == "__main__":
     '''
     parser = argparse.ArgumentParser(description="Seed Set Extractor")
     parser.add_argument("-d","--dataset",default="test")
-    parser.add_argument("-ss","--seedSize", type=int, default=800)
-    parser.add_argument("")
+    parser.add_argument("-rtimK", "--rtimK", type=int)
+    parser.add_argument("-ss","--rtimSeedSize", type=int, default=800)
+    parser.add_argument("-r", "--reach", type=float)
+    parser.add_argument("-ap", "--activationProb", type=float)
+    parser.add_argument("-m", "--model")
+    parser.add_argument("-v", "--version")
+    parser.add_argument("-stream", "--streamSize")
     parser.add_argument("-k", "--k", type=int, default=50)
-    parser.add_argument("")
-    parser.add_argument("")
-    parser.add_argument("")
-    parser.add_argument("")
-    parser.add_argument("")
 
     args = parser.parse_args()
 
-    seedSet = tools.importSeedSet(args, "rtim")
-    for i in range(args.k + 1):
-        print(seedSet[i])
+    extractSeedSet(args)
