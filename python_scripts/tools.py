@@ -40,8 +40,11 @@ def generatePath(args, type, size=0):
         path += "{}_k{}_e{}_k{}_r{}_ap{}_ss{}_{}_v{}_s{}_common{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), args.rtimK, properDoubleFormat(args.reach), properDoubleFormat(args.activationProb), args.rtimSeedSize, settings.keywords[args.model], args.version, args.streamSize, size)
     elif (type == "stream_intersect"):
         # data/{}/live/NE_k50_e0,1_urr_v1_s15229_ss25.txt
-        path = "../data/{}/live/".format(args.dataset)
+        path = "../data/{}/imm/live/".format(args.dataset)
         path += "{}_k{}_e{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), settings.keywords[args.model], args.version, args.streamSize, size)
+    elif (type == "no_rtim"):
+        path = "../data/{}/imm/live/no_rtim/".format(args.dataset)
+        path += "{}_immK{}_e{}_rtimK{}_r{}_ap{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), args.rtimK, properDoubleFormat(args.reach), properDoubleFormat(args.activationProb), settings.keywords[args.model], args.version, args.streamSize, args.rtimSeedSize)
     return path
 
 '''
