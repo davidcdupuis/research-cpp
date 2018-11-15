@@ -47,7 +47,7 @@ if __name__ == "__main__":
     '''
         * -d        | --dataset         | dataset
         * -ss       | --seedSize        | original seed set size
-        * -origK    | --origK            | original k
+        * -origK    | --origK           | original k
         * -k        | --k               | desired seed set size
         * -r        | --reach           |
         * -ap       | --activationProb  |
