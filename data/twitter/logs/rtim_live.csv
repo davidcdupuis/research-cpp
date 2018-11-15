@@ -1,0 +1,16 @@
+twitter,uniform_rand_repeat,1,1000000,1,0.8,2,800,800,0.024098,28.4882
+twitter,uniform_rand_repeat,1,1000000,0.5,0.8,2,800,800,0.021137,28.1997
+twitter,uniform_rand_repeat,1,1000000,0.25,0.8,2,800,800,0.023771,28.4463
+twitter,uniform_rand_repeat,1,1000000,0.1,0.8,2,800,800,0.023887,28.2532
+twitter,uniform_rand_repeat,1,1000000,0.05,0.8,2,800,490,0.022974,28.292
+twitter,uniform_rand_repeat,1,1000000,0.025,0.8,2,800,242,0.024017,28.2687
+twitter,uniform_rand_repeat,1,1000000,0.01,0.8,2,800,105,0.023629,28.6688
+twitter,uniform_rand_repeat,1,1000000,0.005,0.8,2,800,56,0.023937,28.2119
+twitter,uniform_rand_repeat,2,1000000,1,0.8,2,800,800,0.002085,27.7974
+twitter,uniform_rand_repeat,2,1000000,0.5,0.8,2,800,800,0.014292,27.9
+twitter,uniform_rand_repeat,2,1000000,0.25,0.8,2,800,800,0.013942,27.974
+twitter,uniform_rand_repeat,2,1000000,0.1,0.8,2,800,800,0.024958,28.2134
+twitter,uniform_rand_repeat,2,1000000,0.05,0.8,2,800,497,0.024333,28.2945
+twitter,uniform_rand_repeat,2,1000000,0.025,0.8,2,800,244,0.024437,28.2296
+twitter,uniform_rand_repeat,2,1000000,0.01,0.8,2,800,108,0.024805,28.2488
+twitter,uniform_rand_repeat,2,1000000,0.005,0.8,2,800,49,0.023911,28.2028
