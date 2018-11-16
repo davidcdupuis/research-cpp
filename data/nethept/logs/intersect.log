@@ -1,0 +1,90 @@
+IMM
+ - epsilon = 0.01
+ - size = 50
+RTIM
+ - reach = 1
+ - ap = 0.8
+ - size = 50
+STREAM
+ - model = uniform_rand_repeat
+ - version = 1
+ - size = 15229
+(IMM ∩ Stream) size = 28
+(IMM ∩ RTIM) size = 10
+((IMM ∩ Stream) \ RTIM) size = 18
+----------------------------------------------------
+IMM
+ - epsilon = 0.01
+ - size = 100
+RTIM
+ - reach = 1
+ - ap = 0.8
+ - size = 100
+STREAM
+ - model = uniform_rand_repeat
+ - version = 1
+ - size = 15229
+(IMM ∩ Stream) size = 61
+(IMM ∩ RTIM) size = 46
+((IMM ∩ Stream) \ RTIM) size = 15
+----------------------------------------------------
+IMM
+ - epsilon = 0.01
+ - size = 150
+RTIM
+ - reach = 1.5
+ - ap = 0.8
+ - size = 150
+STREAM
+ - model = uniform_rand_repeat
+ - version = 1
+ - size = 15229
+(IMM ∩ Stream) size = 89
+(IMM ∩ RTIM) size = 69
+((IMM ∩ Stream) \ RTIM) size = 20
+----------------------------------------------------
+IMM
+ - epsilon = 0.01
+ - size = 200
+RTIM
+ - reach = 1.5
+ - ap = 0.8
+ - size = 200
+STREAM
+ - model = uniform_rand_repeat
+ - version = 1
+ - size = 15229
+(IMM ∩ Stream) size = 111
+(IMM ∩ RTIM) size = 95
+((IMM ∩ Stream) \ RTIM) size = 16
+----------------------------------------------------
+IMM
+ - epsilon = 0.01
+ - size = 250
+RTIM
+ - reach = 2.0
+ - ap = 0.8
+ - size = 250
+STREAM
+ - model = uniform_rand_repeat
+ - version = 1
+ - size = 15229
+(IMM ∩ Stream) size = 141
+(IMM ∩ RTIM) size = 113
+((IMM ∩ Stream) \ RTIM) size = 28
+----------------------------------------------------
+IMM
+ - epsilon = 0.01
+ - size = 300
+RTIM
+ - reach = 3.0
+ - ap = 0.8
+ - size = 300
+STREAM
+ - model = uniform_rand_repeat
+ - version = 1
+ - size = 15229
+(IMM ∩ Stream) size = 171
+(IMM ∩ RTIM) size = 130
+((IMM ∩ Stream) \ RTIM) size = 41
+----------------------------------------------------

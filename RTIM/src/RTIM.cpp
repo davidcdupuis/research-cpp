@@ -132,8 +132,8 @@ void RTIM::pre_process(){
       }
       // Compute the influence score of a node in G
       clock_t nodeStart = clock();
-      score = graph.influenceScore({i}, 1);
-      //score = graph.influenceScorePath(i, args.depth,"shortest", args.edge_weight, args.min_weight);
+      score = graph.influenceScore({i}, args.depth);
+      // score = graph.influenceScorePath(i, args.depth,"shortest", args.edge_weight, args.min_weight);
       double duration = (clock() - nodeStart)/(double)CLOCKS_PER_SEC;
       // score = graph.influenceScoreNeighbors(i);
       infScores[i] = score;
@@ -199,7 +199,7 @@ void RTIM::live(){
   bool newProgress = true;
   while (infile >> user){
     sum ++;
-    cout << "User: " << user << " dataset: " << args.dataset << endl;
+    //cout << "User: " << user << " dataset: " << args.dataset << endl;
     if (args.dataset == "test"){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
     }
@@ -362,7 +362,7 @@ void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, s
   printInColor("cyan", "Saving live log to: " + file);
   ofstream liveLogFile;
   liveLogFile.open(file, fstream::app);
-  liveLogFile << "File name       : " << args.generateFileName("rtim_seedSet") << endl;
+  liveLogFile << "File name       : " << args.generateFileName("rtim_seedSet", seedSet.size()) << endl;
   liveLogFile << "Start date      : " << startDatetime << endl;
   liveLogFile << "End date        : " << endDatetime << endl;
   liveLogFile << "Duration        : " << cleanTime(runtime, "s") << endl;
@@ -403,12 +403,13 @@ void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, doubl
   printInColor("cyan", "Saving seed score log to: " + file_path);
   ofstream seedScoreLogFile;
   seedScoreLogFile.open(file_path, fstream::app);
-  seedScoreLogFile << "file name: " << file << endl;
-  seedScoreLogFile << "start: " << startDate << endl;
-  seedScoreLogFile << "end: " << endDate << endl;
-  seedScoreLogFile << "run time: " << runtime << endl;
-  seedScoreLogFile << "seed size: " << seedSet.size() << endl;
-  seedScoreLogFile << "score: " << score << endl;
+  seedScoreLogFile << "File name  : " << file << endl;
+  seedScoreLogFile << "Start date : " << startDate << endl;
+  seedScoreLogFile << "End date   : " << endDate << endl;
+  seedScoreLogFile << "Runtime    : " << runtime << endl;
+  seedScoreLogFile << "Seed size  : " << seedSet.size() << endl;
+  seedScoreLogFile << "Inf. score : " << score << endl;
+  seedScoreLogFile << "-----------------------------------------------" << endl;
   seedScoreLogFile.close();
 }
 
@@ -1007,7 +1008,10 @@ void RTIM::liveMenu(){
   }
   // asking for stream size
   while(1){
-    cout << "> stream size (" << nodes << "): ";
+    if(nodes > 1000000 && args.streamSize == -1){
+      args.streamSize = 1000000;
+    }
+    cout << "> stream size (" << args.streamSize << "): ";
     getline(cin, input);
     if(input != ""){
       try{
@@ -1020,9 +1024,9 @@ void RTIM::liveMenu(){
         clearLines(2);
       }
     }else{
-      args.streamSize = nodes;
-      //clearLines(1);
-      cout << "> stream size (" << args.streamSize << "): ";
+      // args.streamSize = nodes;
+      clearLines(1);
+      cout << "> stream size (" << args.streamSize << "): " << args.streamSize << endl;
       break;
     }
   }

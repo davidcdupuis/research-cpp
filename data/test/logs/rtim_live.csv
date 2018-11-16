@@ -13,3 +13,5 @@ test,uniform_rand_repeat,1,20,50,0,8,2,20,7,2e-06,0.001784
 test,uniform_rand_repeat,1,20,20,0,8,2,10,10,1e-06,0.001012
 test,uniform_rand_repeat,1,20,20,0,8,2,10,5,2e-06,0.0008
 test,uniform_rand_repeat,1,20,30,0.8,2,10,6,1e-06,0.000853
+test,uniform_rand_repeat,1,20,30,0.8,2,10,6,1e-06,0.000844
+test,uniform_rand_repeat,1,20,20,0.8,2,10,5,1e-06,0.000715

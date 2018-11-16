@@ -1,98 +1,140 @@
+File name  : DB_k350_e0,5_ss.txt
+Start date : Fri Nov 16 01:00:14 2018
+End date   : Fri Nov 16 01:00:17 2018
+Duration   : 2.26522
+SeedSize   : 350
+Est. score : 20820.8
+-----------------------------------------------------
+File name  : DB_k350_e0,1_ss.txt
+Start date : Fri Nov 16 01:00:17 2018
+End date   : Fri Nov 16 01:00:33 2018
+Duration   : 16.417
+SeedSize   : 350
+Est. score : 20378.2
+-----------------------------------------------------
+File name  : DB_k400_e0,5_ss.txt
+Start date : Fri Nov 16 01:00:33 2018
+End date   : Fri Nov 16 01:00:38 2018
+Duration   : 4.44941
+SeedSize   : 400
+Est. score : 22222.7
+-----------------------------------------------------
+File name  : DB_k400_e0,1_ss.txt
+Start date : Fri Nov 16 01:00:38 2018
+End date   : Fri Nov 16 01:00:43 2018
+Duration   : 4.94174
+SeedSize   : 400
+Est. score : 22223.5
+-----------------------------------------------------
+File name  : DB_k450_e0,5_ss.txt
+Start date : Fri Nov 16 01:00:44 2018
+End date   : Fri Nov 16 01:00:49 2018
+Duration   : 5.0976
+SeedSize   : 450
+Est. score : 23972.7
+-----------------------------------------------------
+File name  : DB_k450_e0,1_ss.txt
+Start date : Fri Nov 16 01:00:49 2018
+End date   : Fri Nov 16 01:00:55 2018
+Duration   : 5.50829
+SeedSize   : 450
+Est. score : 23967.6
+-----------------------------------------------------
 File name  : DB_k50_e0,5_ss.txt
-Start date : Wed Nov  7 14:50:27 2018
-End date   : Wed Nov  7 14:50:28 2018
-Duration   : 0.764572
+Start date : Fri Nov 16 01:02:07 2018
+End date   : Fri Nov 16 01:02:08 2018
+Duration   : 1.00422
 SeedSize   : 50
 Est. score : 5237.08
 -----------------------------------------------------
 File name  : DB_k50_e0,1_ss.txt
-Start date : Wed Nov  7 15:39:02 2018
-End date   : Wed Nov  7 15:39:11 2018
-Duration   : 9.38952
+Start date : Fri Nov 16 01:02:08 2018
+End date   : Fri Nov 16 01:02:20 2018
+Duration   : 11.6397
 SeedSize   : 50
-Est. score : 5209.19
------------------------------------------------------
-File name  : DB_k50_e0,01_ss.txt
-Start date : Wed Nov  7 15:39:18 2018
-End date   : Wed Nov  7 15:54:53 2018
-Duration   : 935.652
-SeedSize   : 50
-Est. score : 5184.67
+Est. score : 5189.64
 -----------------------------------------------------
 File name  : DB_k100_e0,5_ss.txt
-Start date : Wed Nov  7 16:01:45 2018
-End date   : Wed Nov  7 16:01:46 2018
-Duration   : 1.05563
+Start date : Fri Nov 16 01:02:20 2018
+End date   : Fri Nov 16 01:02:22 2018
+Duration   : 1.74086
 SeedSize   : 100
-Est. score : 8907.57
+Est. score : 8678.34
 -----------------------------------------------------
 File name  : DB_k100_e0,1_ss.txt
-Start date : Wed Nov  7 16:01:50 2018
-End date   : Wed Nov  7 16:02:00 2018
-Duration   : 10.3319
+Start date : Fri Nov 16 01:02:22 2018
+End date   : Fri Nov 16 01:02:25 2018
+Duration   : 2.45218
 SeedSize   : 100
-Est. score : 8689.68
------------------------------------------------------
-File name  : DB_k100_e0,01_ss.txt
-Start date : Wed Nov  7 16:02:05 2018
-End date   : Wed Nov  7 16:21:26 2018
-Duration   : 1160.54
-SeedSize   : 100
-Est. score : 8654.91
+Est. score : 8672.21
 -----------------------------------------------------
 File name  : DB_k150_e0,5_ss.txt
-Start date : Wed Nov  7 16:24:38 2018
-End date   : Wed Nov  7 16:24:39 2018
-Duration   : 1.19488
+Start date : Fri Nov 16 01:02:25 2018
+End date   : Fri Nov 16 01:02:27 2018
+Duration   : 2.05663
 SeedSize   : 150
-Est. score : 11824.3
+Est. score : 11512.5
 -----------------------------------------------------
 File name  : DB_k150_e0,1_ss.txt
-Start date : Wed Nov  7 16:25:17 2018
-End date   : Wed Nov  7 16:25:28 2018
-Duration   : 10.7767
+Start date : Fri Nov 16 01:02:27 2018
+End date   : Fri Nov 16 01:02:29 2018
+Duration   : 2.54243
 SeedSize   : 150
-Est. score : 11521
+Est. score : 11517.6
 -----------------------------------------------------
 File name  : DB_k200_e0,5_ss.txt
-Start date : Wed Nov  7 16:25:40 2018
-End date   : Wed Nov  7 16:25:42 2018
-Duration   : 1.42854
+Start date : Fri Nov 16 01:02:30 2018
+End date   : Fri Nov 16 01:02:32 2018
+Duration   : 2.50501
 SeedSize   : 200
-Est. score : 14446.4
+Est. score : 14025.8
 -----------------------------------------------------
 File name  : DB_k200_e0,1_ss.txt
-Start date : Wed Nov  7 16:25:46 2018
-End date   : Wed Nov  7 16:25:57 2018
-Duration   : 11.567
+Start date : Fri Nov 16 01:02:32 2018
+End date   : Fri Nov 16 01:02:35 2018
+Duration   : 3.13168
 SeedSize   : 200
-Est. score : 14034
+Est. score : 14023
 -----------------------------------------------------
 File name  : DB_k250_e0,5_ss.txt
-Start date : Wed Nov  7 17:21:06 2018
-End date   : Wed Nov  7 17:21:08 2018
-Duration   : 1.72506
+Start date : Fri Nov 16 01:02:36 2018
+End date   : Fri Nov 16 01:02:39 2018
+Duration   : 3.1569
 SeedSize   : 250
-Est. score : 16885.6
+Est. score : 16278.6
 -----------------------------------------------------
 File name  : DB_k250_e0,1_ss.txt
-Start date : Wed Nov  7 17:21:12 2018
-End date   : Wed Nov  7 17:21:24 2018
-Duration   : 12.4287
+Start date : Fri Nov 16 01:02:39 2018
+End date   : Fri Nov 16 01:02:43 2018
+Duration   : 4.05464
 SeedSize   : 250
-Est. score : 16307.6
+Est. score : 16272
 -----------------------------------------------------
 File name  : DB_k300_e0,5_ss.txt
-Start date : Wed Nov  7 17:21:40 2018
-End date   : Wed Nov  7 17:21:42 2018
-Duration   : 1.64137
+Start date : Fri Nov 16 01:02:43 2018
+End date   : Fri Nov 16 01:02:47 2018
+Duration   : 3.80167
 SeedSize   : 300
-Est. score : 18967.3
+Est. score : 18344.3
 -----------------------------------------------------
 File name  : DB_k300_e0,1_ss.txt
-Start date : Wed Nov  7 17:21:58 2018
-End date   : Wed Nov  7 17:22:13 2018
-Duration   : 14.677
+Start date : Fri Nov 16 01:02:47 2018
+End date   : Fri Nov 16 01:02:54 2018
+Duration   : 6.4838
 SeedSize   : 300
-Est. score : 18353.8
+Est. score : 18353.9
+-----------------------------------------------------
+File name  : DB_k33_e0,5_ss.txt
+Start date : Fri Nov 16 01:02:54 2018
+End date   : Fri Nov 16 01:02:55 2018
+Duration   : 0.928015
+SeedSize   : 33
+Est. score : 3744.57
+-----------------------------------------------------
+File name  : DB_k33_e0,1_ss.txt
+Start date : Fri Nov 16 01:02:55 2018
+End date   : Fri Nov 16 01:02:56 2018
+Duration   : 1.01908
+SeedSize   : 33
+Est. score : 3744.57
 -----------------------------------------------------

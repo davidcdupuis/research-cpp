@@ -1,1 +1,1 @@
-dataset,file_name,strt,end,runtime,seed_size,score
+dataset, imm_k, imm_e, rtim_k, reach, ap, runtime, seedSize, infScore
