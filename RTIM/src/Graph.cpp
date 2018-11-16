@@ -21,6 +21,7 @@ Graph::Graph(Arguments& arguments){
   args = arguments;
 }
 
+
 Graph::Graph(Arguments& arguments, bool import){
   //srand(time(NULL));
   args = arguments;
@@ -125,11 +126,36 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, double minE
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   int sum = 0;
   int values[sim] = {};
-  #pragma omp parallel shared(depth, seed_set, values)
-  #pragma omp for
+  bool visitedOriginal[nodes] = {};
+  bool visited[nodes];
   for (int i = 0; i < sim; i++){
     // run influence simulation
-    values[i] = influenceSimulation(seed_set, depth, minEdgeWeight);
+    memcpy(visited, visitedOriginal, nodes);
+    values[i] = influenceSimulation(seed_set, visited, depth, minEdgeWeight);
+  }
+  for(int i = 0; i < sim; i++){
+    sum += values[i];
+  }
+  double score = sum/(double)sim;
+  // cout << "Influence score is " << score << endl;
+  return score;
+}
+
+
+double Graph::influenceScoreParallel(const vector<int>& seed_set, int depth, double minEdgeWeight, int sim) const{
+  // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
+  int sum = 0;
+  int values[sim] = {};
+  bool visitedOriginal[nodes] = {};
+  #pragma omp parallel shared(depth, seed_set, values)
+  {
+    bool visited[nodes];
+    #pragma omp for
+    for (int i = 0; i < sim; i++){
+      // run influence simulation
+      memcpy(visited, visitedOriginal, nodes);
+      values[i] = influenceSimulation(seed_set, visited, depth, minEdgeWeight);
+    }
   }
   for(int i = 0; i < sim; i++){
     sum += values[i];
@@ -142,10 +168,13 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, double minE
 
 void Graph::influenceScoreValues(std::vector<double>& values, const std::vector<int>& seed_set, int depth, int sim) const{
   values.resize(sim, 0);
+  bool visitedOriginal[nodes] = {};
+  bool visited[nodes];
+  memcpy(visited, visitedOriginal, nodes);
   #pragma omp parallel shared(depth, seed_set, values)
   #pragma omp for
   for (int i = 0; i < sim; i++){
-    values[i] = influenceSimulation(seed_set, depth);
+    values[i] = influenceSimulation(seed_set, visited, depth);
   }
 }
 
@@ -187,14 +216,16 @@ double Graph::influenceScoreNeighbors(int node) const{
 }
 
 
-int Graph::influenceSimulation(const vector<int>& seed_set, int depth, double minEdgeWeight) const{
+int Graph::influenceSimulation(const vector<int>& seed_set, bool *visited, int depth, double minEdgeWeight) const{
   // cout << "depth: " << depth << endl;
   int activated = 0;
-  vector<int> activated_nodes;
+  // vector<int> activated_nodes;
+  // bool visited[nodes] = {};
   double r;
   // seed nodes are already activated
   for(int node: seed_set){
-    activated_nodes.push_back(node);
+    // activated_nodes.push_back(node);
+    visited[node] = 1;
   }
   // simulate inf propagation from each seed node
   random_device rd;
@@ -217,13 +248,13 @@ int Graph::influenceSimulation(const vector<int>& seed_set, int depth, double mi
           // cout << "(" << neighbor.first << " - " << r << ") ";
           // cout << neighbor.first << " - ";
           // check if neighbor is not in activated nodes
-          if (!(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end())
-              && (r <= neighbor.second)){
-
+          // !(find(activated_nodes.begin(), activated_nodes.end(), neighbor.first)!=activated_nodes.end())
+          if ( visited[neighbor.first] == 0 && r <= neighbor.second){
             // if influence increment activated,
             // add to queue, and activated_nodes and increase depth.
             activated += 1;
-            activated_nodes.push_back(neighbor.first);
+            // activated_nodes.push_back(neighbor.first);
+            visited[neighbor.first] = 1;
             // check if max depth is reached
             if(curr.second + 1 <= depth){
               queue.push(make_pair(neighbor.first, curr.second + 1));
