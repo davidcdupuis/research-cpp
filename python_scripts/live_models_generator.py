@@ -8,6 +8,8 @@ import argparse
 import random
 import csv
 import settings
+import numpy
+import tools
 
 models = ['rand_repeat', 'rand_no_repeat', 'random_long']
 
@@ -45,6 +47,41 @@ def rand_no_repeat(dataset, nodes, size, num=1):
                 writer.writerow([val])
         print("> Saved rand_no_repeat data to {}".format(file_name))
 
+
+def getDistribution(dataset, nodes):
+    inDegrees = numpy.zeros((nodes,), dtype=int)
+    outDegrees = numpy.zeros((nodes,), dtype=int)
+
+    file_path = '../data/{0}/{0}_wc.inf'.format(args.dataset)
+    print("Reading graph from: {}".format(file_path))
+    with open(file_path, 'r') as f:
+        for line in f:
+            vals = line.rstrip("\n").split(" ")
+            left = int(vals[0])
+            right = int(vals[1])
+            outDegrees[left] += 1
+            inDegrees[right] += 1
+    # print("in    : {}".format(inDegrees))
+    # print("out   : {}".format(outDegrees))
+    sumDegrees = inDegrees + outDegrees
+    # print("sum   : {}".format(sumDegrees))
+    total = numpy.sum(sumDegrees)
+    # print("total = {}".format(total))
+    distribution = 1.0 * sumDegrees / total
+    # print("distib: {}".format(distribution))
+    return distribution
+
+
+def inNOut_repeat(dataset, nodes, streamSize, distribution):
+    file_name = '../data/{0}/streams/inNOut_repeat/{1}_inoutr_s{2}_st.txt'.format(dataset, settings.datasets[dataset], streamSize)
+    choices = numpy.random.choice(numpy.arange(nodes,), streamSize, p=distribution)
+    with open(file_name, 'w') as f:
+        writer = csv.writer(f)
+        for choice in choices:
+            writer.writerow([choice])
+    print("> Saved inNOut_repeat to {}".format(file_name))
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Live Models generator")
     parser.add_argument('-m', '--model', default="uniform_rand_repeat",
@@ -63,12 +100,25 @@ if __name__ == "__main__":
 
     # graph, _ = research_data.import_graph_data(args.dataset)
     # keys = graph.keys()
-    nodes = numberNodes(args.dataset)
-    if (args.stream == -1):
-        args.stream = nodes
-    print("Stream size: {}".format(args.stream))
+    nodes = tools.numberNodes(args)
 
     if args.model == "uniform_rand_repeat":
+        if (args.stream == -1):
+            args.stream = nodes
+        print("Stream size: {}".format(args.stream))
         rand_repeat(args.dataset, nodes, args.stream, args.number)
     elif args.model == "uniform_rand_no_repeat":
+        if (args.stream == -1):
+            args.stream = nodes
+        print("Stream size: {}".format(args.stream))
         rand_no_repeat(args.dataset, nodes, args.stream, args.number)
+    elif args.model == "inNOut_repeat":
+        if (args.stream == -1):
+            args.stream = int(nodes / 10)
+        # print("Stream size: {}".format(args.stream))
+        # print(numpy.arange(1,5))
+        # choices = numpy.random.choice(numpy.arange(1,5), 10, p=[0.2,0.3,0.3,0.2])
+        # print(choices)
+        distribution = getDistribution(args.dataset, nodes)
+        # print(distribution)
+        inNOut_repeat(args.dataset, nodes, args.stream, distribution)

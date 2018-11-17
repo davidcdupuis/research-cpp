@@ -10,5 +10,6 @@ datasets = {
 
 keywords = {
     'uniform_rand_repeat' : 'urr',
-    'uniform_rand_no_repeat' : 'urnr'
+    'uniform_rand_no_repeat' : 'urnr',
+    'inNOut_repeat' : 'inoutr'
 }
