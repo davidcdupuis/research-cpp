@@ -30,3 +30,4 @@ IMM/imm_continuous
 IMM/imm_discrete
 
 python_scripts/__py_cache__
+python_scripts/*.pyc
