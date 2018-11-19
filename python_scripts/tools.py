@@ -24,27 +24,46 @@ def generatePath(args, type, size=0):
         path += "{}_k{}_e{}_ss.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon))
     elif (type == "rtim"):
         # data/nethept/rtim/live/NE_k50_r5_ap0,8_urr_v1_s15229_ss45.txt
-        path = "../data/{}/rtim/live_{}/".format(args.dataset, settings.keywords[args.model])
-        path += "{}_k{}_r{}_ap{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.rtimK, properDoubleFormat(args.reach), properDoubleFormat(args.activationProb), settings.keywords[args.model], args.version, args.streamSize, args.rtimSeedSize)
+        path = "../data/{}/rtim/live/{}/".format(args.dataset, settings.keywords[args.model])
+        if (args.model == "inNOut_repeat"):
+            path += "{}_k{}_r{}_ap{}_{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.rtimK, properDoubleFormat(args.reach), properDoubleFormat(args.activationProb), settings.keywords[args.model], args.streamSize, args.rtimSeedSize)
+        else:
+            path += "{}_k{}_r{}_ap{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.rtimK, properDoubleFormat(args.reach), properDoubleFormat(args.activationProb), settings.keywords[args.model], args.version, args.streamSize, args.rtimSeedSize)
     elif (type == "stream"):
         # data/nethept/streams/urr/v1/NE_urr_v1_s15229_st.txt
-        path = "../data/{}/streams/{}/v{}/".format(args.dataset, args.model, args.version)
-        path += "{}_{}_v{}_s{}_st.txt".format(settings.datasets[args.dataset], settings.keywords[args.model], args.version, args.streamSize)
+        if (args.model == "inNOut_repeat"):
+            path = "../data/{}/streams/{}/".format(args.dataset, args.model)
+            path += "{}_{}_s{}_st.txt".format(settings.datasets[args.dataset], settings.keywords[args.model], args.streamSize)
+        else:
+            path = "../data/{}/streams/{}/v{}/".format(args.dataset, args.model, args.version)
+            path += "{}_{}_v{}_s{}_st.txt".format(settings.datasets[args.dataset], settings.keywords[args.model], args.version, args.streamSize)
     elif (type == "imm_progress"):
         # data/nethept/imm/live/progress/NE_k50_e0,5_urr_v1_s15229_prg.txt
         path = "../data/{}/imm/live_{}/progress/".format(args.dataset, settings.keywords[args.model])
-        path += "{}_k{}_e{}_{}_v{}_s{}_prg.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), settings.keywords[args.model], args.version, args.streamSize)
+        if (args.model == "inNOut_repeat"):
+            path += "{}_k{}_e{}_{}_s{}_prg.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), settings.keywords[args.model], args.streamSize)
+        else:
+            path += "{}_k{}_e{}_{}_v{}_s{}_prg.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), settings.keywords[args.model], args.version, args.streamSize)
     elif (type == "rtim_intersect"):
         # data/nethept/imm/rtim_common/NE_k50_e0,1_k50_r5_ap0,8_urr_v1_s15229_ss20.txt
         path = "../data/{}/imm/rtim_common_{}/".format(args.dataset, settings.keywords[args.model])
-        path += "{}_k{}_e{}_k{}_r{}_ap{}_ss{}_{}_v{}_s{}_common{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), args.rtimK, properDoubleFormat(args.reach), properDoubleFormat(args.activationProb), args.rtimSeedSize, settings.keywords[args.model], args.version, args.streamSize, size)
+        if (args.model == "inNOut_repeat"):
+            path += "{}_k{}_e{}_k{}_r{}_ap{}_ss{}_{}_s{}_common{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), args.rtimK, properDoubleFormat(args.reach), properDoubleFormat(args.activationProb), args.rtimSeedSize, settings.keywords[args.model], args.streamSize, size)
+        else:
+            path += "{}_k{}_e{}_k{}_r{}_ap{}_ss{}_{}_v{}_s{}_common{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), args.rtimK, properDoubleFormat(args.reach), properDoubleFormat(args.activationProb), args.rtimSeedSize, settings.keywords[args.model], args.version, args.streamSize, size)
     elif (type == "stream_intersect"):
         # data/{}/live/NE_k50_e0,1_urr_v1_s15229_ss25.txt
         path = "../data/{}/imm/live_{}/".format(args.dataset, settings.keywords[args.model])
-        path += "{}_k{}_e{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), settings.keywords[args.model], args.version, args.streamSize, size)
+        if (args.model == "inNOut_repeat"):
+            path += "{}_k{}_e{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), settings.keywords[args.model], args.version, args.streamSize, size)
+        else:
+            path += "{}_k{}_e{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), settings.keywords[args.model], args.version, args.streamSize, size)
     elif (type == "no_rtim"):
         path = "../data/{}/imm/live_{}/no_rtim/".format(args.dataset, settings.keywords[args.model])
-        path += "{}_immK{}_e{}_rtimK{}_r{}_ap{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), args.rtimK, properDoubleFormat(args.reach), properDoubleFormat(args.activationProb), settings.keywords[args.model], args.version, args.streamSize, args.rtimSeedSize)
+        if (args.model == "inNOut_repeat"):
+            path += "{}_immK{}_e{}_rtimK{}_r{}_ap{}_{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), args.rtimK, properDoubleFormat(args.reach), properDoubleFormat(args.activationProb), settings.keywords[args.model], args.streamSize, args.rtimSeedSize)
+        else:
+            path += "{}_immK{}_e{}_rtimK{}_r{}_ap{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.immK, properDoubleFormat(args.epsilon), args.rtimK, properDoubleFormat(args.reach), properDoubleFormat(args.activationProb), settings.keywords[args.model], args.version, args.streamSize, args.rtimSeedSize)
     return path
 
 '''
