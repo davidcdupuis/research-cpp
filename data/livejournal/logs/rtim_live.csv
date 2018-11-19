@@ -7,3 +7,16 @@ livejournal,uniform_rand_repeat,1,1000000,0.05,0.8,2,800,516,0.000179,3.30422
 livejournal,uniform_rand_repeat,1,1000000,0.025,0.8,2,800,258,0.000181,3.29601
 livejournal,uniform_rand_repeat,1,1000000,0.01,0.8,2,800,113,0.00015,3.27778
 livejournal,uniform_rand_repeat,1,1000000,0.008,0.8,2,800,92,0.000184,3.29236
+livejournal,inNOut_repeat,1,339796,1,0.8,2,800,0,0,0.016962
+livejournal,inNOut_repeat,1,399796,1,0.8,2,800,800,0.000277,0.032883
+livejournal,inNOut_repeat,1,399796,0.5,0.8,2,800,800,0.000273,0.033853
+livejournal,inNOut_repeat,1,399796,0.25,0.8,2,800,800,0.000268,0.03801
+livejournal,inNOut_repeat,1,399796,0.1,0.8,2,800,800,0.00026,0.043515
+livejournal,inNOut_repeat,1,399796,0.05,0.8,2,800,800,0.000269,0.050178
+livejournal,inNOut_repeat,1,399796,0.025,0.8,2,800,800,0.000277,0.062228
+livejournal,inNOut_repeat,1,399796,0.01,0.8,2,800,800,0.000269,0.089697
+livejournal,inNOut_repeat,1,399796,0.005,0.8,2,800,800,0.000234,0.125283
+livejournal,inNOut_repeat,1,399796,0.0025,0.8,2,800,526,0.000241,0.127449
+livejournal,inNOut_repeat,1,399796,0.001,0.8,2,800,278,0.000267,0.121273
+livejournal,inNOut_repeat,1,399796,0.0005,0.8,2,800,172,0.000285,0.118054
+livejournal,inNOut_repeat,1,399796,0.00025,0.8,2,800,111,0.000279,0.114281

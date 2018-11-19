@@ -70,3 +70,45 @@ End date        : Wed Nov 14 14:45:24 2018
 Duration        : 0.396892 seconds
 Max update time : 0.000005 seconds
 ----------------------------------------------------
+File name       : DB_k800_r1_ap0,8_inoutr_s31708_ss800.txt
+Start date      : Mon Nov 19 17:55:08 2018
+End date        : Mon Nov 19 17:55:08 2018
+Duration        : 0.017346 seconds
+Max update time : 0.000008 seconds
+----------------------------------------------------
+File name       : DB_k800_r0,5_ap0,8_inoutr_s31708_ss800.txt
+Start date      : Mon Nov 19 17:55:33 2018
+End date        : Mon Nov 19 17:55:33 2018
+Duration        : 0.022488 seconds
+Max update time : 0.000007 seconds
+----------------------------------------------------
+File name       : DB_k800_r0,25_ap0,8_inoutr_s31708_ss800.txt
+Start date      : Mon Nov 19 17:56:46 2018
+End date        : Mon Nov 19 17:56:46 2018
+Duration        : 0.026081 seconds
+Max update time : 0.000020 seconds
+----------------------------------------------------
+File name       : DB_k800_r0,1_ap0,8_inoutr_s31708_ss469.txt
+Start date      : Mon Nov 19 17:57:21 2018
+End date        : Mon Nov 19 17:57:21 2018
+Duration        : 0.019932 seconds
+Max update time : 0.000006 seconds
+----------------------------------------------------
+File name       : DB_k800_r0,05_ap0,8_inoutr_s31708_ss280.txt
+Start date      : Mon Nov 19 17:57:39 2018
+End date        : Mon Nov 19 17:57:39 2018
+Duration        : 0.014887 seconds
+Max update time : 0.000016 seconds
+----------------------------------------------------
+File name       : DB_k800_r0,025_ap0,8_inoutr_s31708_ss151.txt
+Start date      : Mon Nov 19 17:57:58 2018
+End date        : Mon Nov 19 17:57:58 2018
+Duration        : 0.011342 seconds
+Max update time : 0.000004 seconds
+----------------------------------------------------
+File name       : DB_k800_r0,01_ap0,8_inoutr_s31708_ss66.txt
+Start date      : Mon Nov 19 17:58:36 2018
+End date        : Mon Nov 19 17:58:36 2018
+Duration        : 0.010352 seconds
+Max update time : 0.000005 seconds
+----------------------------------------------------
