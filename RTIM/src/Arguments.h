@@ -20,6 +20,26 @@
   *   - ...
   */
 class Arguments{
+private:
+  std::map<std::string, std::string> datasets = {
+    { "test", "TS" },
+    { "nethept", "NE" },
+    { "dblp", "DB" },
+    { "youtube", "YO" },
+    { "livejournal", "LJ" },
+    { "orkut", "OR" },
+    { "twitter", "TW"}
+  };
+  std::map<std::string, std::string> keyword = {
+    { "infScores", "infS"},
+    { "seedSet", "ss"},
+    { "stream", "st"},
+    { "uniform_rand_repeat", "urr"},
+    { "uniform_rand_no_repeat", "urnr"},
+    { "inNOut_repeat", "inoutr"},
+    { "progress", "prg"},
+  };
+
 public:
   int k = 200;                          /**< size of seed set if defined */
   int streamVersion = 1;               /**< version of stream */
@@ -56,6 +76,9 @@ public:
     * Print help menu to command line
     */
   void printHelp();
+
+
+  std::string generateDataFilePath(std::string type);
 
   /**
     Generate file_name from arguments

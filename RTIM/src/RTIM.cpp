@@ -310,12 +310,13 @@ void RTIM::saveScores(){
 
 
 void RTIM::saveSeedSet(bool progress, int progPercentage){
-  string file = "../../data/" + args.dataset + "/rtim/live/";
+  // string file = "../../data/" + args.dataset + "/rtim/live/";
+  string file;
   if(progress){
-    file += "progress/" + args.generateFileName("rtim_progress_seedSet", progPercentage);
+    file = args.generateDataFilePath("rtim_progress_seedSet") + args.generateFileName("rtim_progress_seedSet", progPercentage);
     printInColor("cyan", "Saving progress seed set to: " + file);
   }else{
-    file += args.generateFileName("rtim_seedSet", seedSet.size());
+    file = args.generateDataFilePath("rtim_seedSet") + args.generateFileName("rtim_seedSet", seedSet.size());
     printInColor("cyan", "Saving seed set to: " + file);
   }
   ofstream seedSetFile;
@@ -433,8 +434,7 @@ void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, doubl
 
 
 void RTIM::initiateProgressLog(){
-  string folder = "../../data/" + args.dataset + "/rtim/live/progress/";
-  string file = folder + args.generateFileName("rtim_progress");
+  string file = args.generateDataFilePath("rtim_progress") + args.generateFileName("rtim_progress");
   printInColor("cyan", "Initiating progress log: " + file);
   ofstream progressFile;
   progressFile.open(file);
@@ -444,8 +444,7 @@ void RTIM::initiateProgressLog(){
 
 
 void RTIM::saveProgress(int user_index, int seen, int seedSize){
-  string folder = "../../data/" + args.dataset + "/rtim/live/progress/";
-  string file = folder + args.generateFileName("rtim_progress");
+  string file = args.generateDataFilePath("rtim_progress") + args.generateFileName("rtim_progress");
   // printInColor("cyan","Saving progress: " + to_string(progress));
   ofstream progressFile;
   progressFile.open(file, fstream::app);
@@ -459,7 +458,7 @@ void RTIM::saveProgress(int user_index, int seen, int seedSize){
 
 
 void RTIM::importScores(){
-  string folder = "../../data/" + args.dataset + "/rtim/pre_process/" + args.generateFileName("get_infScores");
+  string folder = args.generateDataFilePath("get_infScores") + args.generateFileName("get_infScores");
   // cout << "Importing influence scores from: " << folder << endl;
   printInColor("cyan", "Importing influence scores from: " + folder);
   infScores.resize(nodes, 0);
@@ -479,11 +478,10 @@ void RTIM::importScores(){
 
 void RTIM::availabilityStream(){
   cout << "Generating availability stream: " << args.streamModel << "_m"<< args.streamVersion << endl;
-  string folder = "../../data/" + args.dataset + "/streams/" + args.streamModel + "/v" + to_string(args.streamVersion) + "/";
-  string file = folder + args.generateFileName("stream");
+  string file = args.generateDataFilePath("stream") + args.generateFileName("stream");
   int user;
   ofstream availabilityFile;
-  availabilityFile.open(folder);
+  availabilityFile.open(file);
   for (int i = 0; i < args.streamSize; i++){
     availabilityFile << 0 << endl;
   }

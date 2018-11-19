@@ -166,25 +166,35 @@ void Arguments::printArguments(){
 }
 
 
+string Arguments::generateDataFilePath(string type){
+  string file_path = "../../data/" + dataset + "/";
+
+  if (type == "save_infScores" || type == "get_infScores"){
+    file_path += "/rtim/pre_process/";
+  }else if (type == "rtim_seedSet"){
+    file_path += "rtim/live/" + keyword[streamModel] + "/";
+  }else if (type == "rtim_progress_seedSet"){
+    file_path += "rtim/live/" + keyword[streamModel] + "/";
+  }else if (type == "imm_seedSet"){
+    file_path += ""; // ?
+  }else if (type == "intersect"){
+    file_path += ""; // ?
+  }else if (type == "stream"){
+    if (streamModel == "inNOut_repeat"){
+      file_path += "/streams/" + streamModel + "/";
+    }else{
+      file_path += "/streams/" + streamModel + "/" + to_string(streamVersion) + "/";
+    }
+  }else if (type == "rtim_progress"){
+    file_path += "";
+  }else{
+    cout << "Type not recognized!" << endl;
+  }
+  return file_path;
+}
+
 string Arguments::generateFileName(string type, int param){
   string file_name = "";
-  map<string, string> datasets = {
-    { "test", "TS" },
-    { "nethept", "NE" },
-    { "dblp", "DB" },
-    { "youtube", "YO" },
-    { "livejournal", "LJ" },
-    { "orkut", "OR" },
-    { "twitter", "TW"}
-  };
-  map<string, string> keyword = {
-    { "infScores", "infS"},
-    { "seedSet", "ss"},
-    { "stream", "st"},
-    { "uniform_rand_repeat", "urr"},
-    { "uniform_rand_no_repeat", "urnr"},
-    { "progress", "prg"},
-  };
   // file_name = <dataset>_params_<type>
   if (type == "save_infScores"){
     // file_name = <dataset>_d<value>_m<value>_infS.txt
@@ -209,7 +219,11 @@ string Arguments::generateFileName(string type, int param){
   }else if (type == "stream"){
     // file_name = <dataset>_<type>_v<version>_s<stream size>_st.txt
     // example: "NE_urr_v1_s15229_st.txt"
-    file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_st.txt";
+    if (streamModel == "inNOut_repeat"){
+      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_st.txt";
+    }else{
+      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_st.txt";
+    }
   }else if (type == "rtim_progress"){
     // file_name = ?
     file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
