@@ -84,6 +84,12 @@ public:
 
 
   /**
+    *
+    */
+  void initializeInfluenceScores();
+
+
+  /**
     * Print influence scores
     */
   void printScores();

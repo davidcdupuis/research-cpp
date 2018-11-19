@@ -175,10 +175,8 @@ void RTIM::live(){
   initiateProgressLog();
   activationProbabilities.clear();
   activationProbabilities.resize(nodes, 0);
-  // ideally we should not repeat this if live is run more than once
-  importScores();
-  sortedScores = infScores;
-  sort(sortedScores.begin(), sortedScores.end());
+
+  // printScores();
   getInfIndex(sortedScores);
   cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
@@ -272,6 +270,14 @@ void RTIM::live(){
   // cout << "Live complete!" << endl;
   // cout << "------------------------------" << endl;
 };
+
+
+void RTIM::initializeInfluenceScores(){
+  // ideally we should not repeat this if live is run more than once
+  importScores();
+  sortedScores = infScores;
+  sort(sortedScores.begin(), sortedScores.end());
+}
 
 
 void RTIM::printScores(){
@@ -1126,35 +1132,44 @@ void RTIM::run(){
   printLocalTime("red", "Program", "starting");
   int choice = 0;
   int loadDataset;
+  int loadScores;
   while (choice != -1){
+    loadScores = 0;
     loadDataset = 0;
     switch(choice){
       case 1:
+        // repeat previous stage with same arguments
         break;
       case 2:
+        // repeat previous stage with new arguments
         stageArgumentsMenu();
         args.printArguments();
         break;
       case 3:
+        // change stage
         stageMenu();
         stageArgumentsMenu();
         args.printArguments();
         break;
       case 4:
+        // change dataset
         loadDataset = datasetMenu();
+        loadScores = 1; // inf. scores need to be imported for new dataset
         stageMenu();
         stageArgumentsMenu();
         args.printArguments();
         break;
       default:
+        // choose dataset
         loadDataset = datasetMenu();
+        loadScores = 1; // inf. scores need to be imported for new dataset
         stageMenu();
         stageArgumentsMenu();
         args.printArguments();
         break;
     }
     if(args.stage == "test"){
-      loadDataset = false;
+      loadDataset = false; // ?
     }
     if(loadDataset){
       graph.args = args;
@@ -1167,6 +1182,9 @@ void RTIM::run(){
       pre_process();
       printLocalTime("magenta", "Pre_processing", "ending");
     }else if (args.stage == "live"){
+      if(loadScores){
+        initializeInfluenceScores();
+      }
       printLocalTime("magenta", "Live", "starting");
       live();
       printLocalTime("magenta", "Live", "ending");
