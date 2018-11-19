@@ -170,7 +170,7 @@ string Arguments::generateDataFilePath(string type){
   string file_path = "../../data/" + dataset + "/";
 
   if (type == "save_infScores" || type == "get_infScores"){
-    file_path += "/rtim/pre_process/";
+    file_path += "rtim/pre_process/";
   }else if (type == "rtim_seedSet"){
     file_path += "rtim/live/" + keyword[streamModel] + "/";
   }else if (type == "rtim_progress_seedSet"){
@@ -181,17 +181,18 @@ string Arguments::generateDataFilePath(string type){
     file_path += ""; // ?
   }else if (type == "stream"){
     if (streamModel == "inNOut_repeat"){
-      file_path += "/streams/" + streamModel + "/";
+      file_path += "streams/" + streamModel + "/";
     }else{
-      file_path += "/streams/" + streamModel + "/" + to_string(streamVersion) + "/";
+      file_path += "streams/" + streamModel + "/" + to_string(streamVersion) + "/";
     }
   }else if (type == "rtim_progress"){
-    file_path += "";
+    file_path += "rtim/live/progress/" + keyword[streamModel] + "/";
   }else{
     cout << "Type not recognized!" << endl;
   }
   return file_path;
 }
+
 
 string Arguments::generateFileName(string type, int param){
   string file_name = "";
@@ -205,9 +206,17 @@ string Arguments::generateFileName(string type, int param){
   }else if (type == "rtim_seedSet"){
     // file_name = <dataset>_<stream type>_v<version>_s<stream size>_r<value>_ap<value>_ss<seed_size>.txt
     // example: "NE_r1_ap0,01_urr_v1_s15229_ss50.txt"
-    file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_ss" + to_string(param) + ".txt";
+    if (streamModel == "inNOut_repeat"){
+      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_ss" + to_string(param) + ".txt";
+    }else{
+      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_ss" + to_string(param) + ".txt";
+    }
   }else if (type == "rtim_progress_seedSet"){
-    file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_prg" + to_string(param) + "_ss.txt";
+    if (streamModel == "inNOut_repeat"){
+      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_prg" + to_string(param) + "_ss.txt";
+    }else{
+      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_prg" + to_string(param) + "_ss.txt";
+    }
   }else if(type == "imm_seedSet"){
     // file_name = <dataset>_k<value>_e<value>_ss.txt
     // example: "NE_k200_e0,01_ss.txt"
@@ -215,7 +224,11 @@ string Arguments::generateFileName(string type, int param){
   }else if (type == "intersect"){
     // file_name = <dataset>_k<value>_e<value>_st_urr_v<stream version>_s<stream size>_ss.txt
     // example: "NE_k50_0,5_st_urr_v1_s15229_ss.txt"
-    file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_ss.txt";
+    if (streamModel == "inNOut_repeat"){
+      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_ss.txt";
+    }else{
+      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_ss.txt";
+    }
   }else if (type == "stream"){
     // file_name = <dataset>_<type>_v<version>_s<stream size>_st.txt
     // example: "NE_urr_v1_s15229_st.txt"
@@ -226,7 +239,11 @@ string Arguments::generateFileName(string type, int param){
     }
   }else if (type == "rtim_progress"){
     // file_name = ?
-    file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
+    if (streamModel == "inNOut_repeat"){
+      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_prg.csv";
+    }else{
+      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
+    }
   }
 
   return file_name;

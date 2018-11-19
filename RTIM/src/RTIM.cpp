@@ -183,7 +183,7 @@ void RTIM::live(){
   cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
   // read availability stream
-  string folder = "../../data/" + args.dataset + "/streams/" + args.streamModel + "/v" + to_string(args.streamVersion) + "/" + args.generateFileName("stream");
+  string folder = args.generateDataFilePath("stream") + args.generateFileName("stream");
   int user;
   // cout << "Reading availability stream: " << folder << endl;
   printInColor("cyan", "Reading availability stream: " + folder);
@@ -961,10 +961,10 @@ void RTIM::liveMenu(){
   }
   // asking for stream model
   while(1){
-    cout << "> stream model [rand_repeat, rand_no_repeat](" << args.streamModel << "): ";
+    cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << args.streamModel << "): ";
     getline(cin, input);
     if(input != ""){
-      if(input == "rand_repeat" || input == "rand_no_repeat"){
+      if(input == "uniform_rand_repeat" || input == "uniform_rand_no_repeat" || input == "inNOut_repeat"){
         args.streamModel = input;
         break;
       }else{
@@ -974,7 +974,7 @@ void RTIM::liveMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> stream model [rand_repeat, rand_no_repeat](" << args.streamModel << "): " << args.streamModel << endl;
+      cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << args.streamModel << "): " << args.streamModel << endl;
       break;
     }
   }
