@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
 
 '''
     Python script which extracts a seed set of size k from a larger seed set
@@ -62,7 +63,7 @@ if __name__ == "__main__":
     parser.add_argument("-d","--dataset",default="test")
     parser.add_argument("-rtimK", "--rtimK", type=int, default=800)
     parser.add_argument("-ss","--rtimSeedSize", type=int, default=800)
-    parser.add_argument("-r", "--reach", type=float, default=1)
+    parser.add_argument("-r", "--reach", default=1)
     parser.add_argument("-ap", "--activationProb", type=float, default=0.8)
     parser.add_argument("-m", "--model", default="uniform_rand_repeat")
     parser.add_argument("-v", "--version", type=int, default=1)
