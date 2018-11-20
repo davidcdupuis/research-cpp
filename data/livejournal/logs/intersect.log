@@ -88,3 +88,93 @@ STREAM
 (IMM ∩ RTIM) size = 43
 ((IMM ∩ Stream) \ RTIM) size = 31
 ----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 50
+RTIM
+ - reach = 0.00025
+ - ap = 0.8
+ - size = 50
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 399796
+(IMM ∩ Stream) size = 50
+(IMM ∩ RTIM) size = 45
+((IMM ∩ Stream) \ RTIM) size = 5
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 100
+RTIM
+ - reach = 0.00025
+ - ap = 0.8
+ - size = 100
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 399796
+(IMM ∩ Stream) size = 100
+(IMM ∩ RTIM) size = 89
+((IMM ∩ Stream) \ RTIM) size = 11
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 150
+RTIM
+ - reach = 0.0005
+ - ap = 0.8
+ - size = 150
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 399796
+(IMM ∩ Stream) size = 150
+(IMM ∩ RTIM) size = 120
+((IMM ∩ Stream) \ RTIM) size = 30
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 200
+RTIM
+ - reach = 0.001
+ - ap = 0.8
+ - size = 200
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 399796
+(IMM ∩ Stream) size = 200
+(IMM ∩ RTIM) size = 156
+((IMM ∩ Stream) \ RTIM) size = 44
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 250
+RTIM
+ - reach = 0.001
+ - ap = 0.8
+ - size = 250
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 399796
+(IMM ∩ Stream) size = 250
+(IMM ∩ RTIM) size = 195
+((IMM ∩ Stream) \ RTIM) size = 55
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 300
+RTIM
+ - reach = 0.0025
+ - ap = 0.8
+ - size = 300
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 399796
+(IMM ∩ Stream) size = 300
+(IMM ∩ RTIM) size = 227
+((IMM ∩ Stream) \ RTIM) size = 73
+----------------------------------------------------

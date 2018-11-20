@@ -199,7 +199,7 @@ if __name__ == "__main__":
     parser.add_argument('-v', '--version', type=int, default=1)
 
     # RTIM ARGUMENTS
-    parser.add_argument('-r', '--reach', type=float, default=1)
+    parser.add_argument('-r', '--reach', default=1)
     parser.add_argument('-ap','--activationProb', type=float, default=0.8)
     parser.add_argument('-rtimK', '--rtimK', type=int,default=50)
     parser.add_argument('-rtimS', '--rtimSeedSize', type=int, default=50)
