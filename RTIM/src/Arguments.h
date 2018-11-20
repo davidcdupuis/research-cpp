@@ -72,6 +72,11 @@ public:
   void printArguments();
 
 
+  void printDatasetArguments();
+
+
+  void printStageArguments();
+
   /**
     * Print help menu to command line
     */

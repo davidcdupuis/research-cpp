@@ -25,3 +25,8 @@ test,inNOut_repeat,1,2,70,0.8,2,10,1,2e-06,0.000333
 test,inNOut_repeat,1,2,60,0.8,2,10,1,1e-06,0.000195
 test,inNOut_repeat,1,2,60,0.8,2,10,1,1e-06,0.000302
 test,inNOut_repeat,1,2,70,0.8,2,10,1,1e-06,0.000354
+test,inNOut_repeat,1,2,50,0.8,2,10,1,1e-06,0.000187
+test,inNOut_repeat,1,2,50,0.8,2,10,1,1e-06,0.00024
+test,inNOut_repeat,1,2,1,0.8,2,10,0,0,0.000158
+test,inNOut_repeat,1,-1,1,0.8,2,10,0,0,0.000131
+test,inNOut_repeat,1,2,50,0.8,2,10,1,1e-06,0.000251

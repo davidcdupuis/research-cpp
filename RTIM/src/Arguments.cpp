@@ -166,6 +166,41 @@ void Arguments::printArguments(){
 }
 
 
+void Arguments::printDatasetArguments(){
+  cout << "------------- Dataset --------------" << endl;
+  cout << "- name         : "; printInColor("yellow", dataset);
+  cout << "- model        : "; printInColor("yellow", model);
+  if(edge_weight == -1){
+    cout << "- edge weights : "; printInColor("yellow", "weighted cascade");
+  }else{
+    cout << "- edge weights : "; printInColor("yellow", properStringDouble(edge_weight));
+  }
+  cout << "------------------------------------" << endl;
+}
+
+
+void Arguments::printStageArguments(){
+  cout << "------------- " << stage << " --------------" << endl;
+  if( stage == "live"){
+    cout << "STREAM" << endl;
+    cout << "- model        : "; printInColor("yellow", streamModel);
+    if (streamModel != "inNOut_repeat"){
+      cout << "- version      : "; printInColor("yellow", to_string(streamVersion));
+    }
+    cout << "- size         : "; printInColor("yellow", to_string(streamSize));
+    cout << "RTIM" << endl;
+    cout << "- k            : "; printInColor("yellow", to_string(k));
+    cout << "- reach        : "; printInColor("yellow", properStringDouble(reach));
+    cout << "- ap           : "; printInColor("yellow", properStringDouble(theta_ap));
+  }else if ( stage == "pre_process"){
+    cout << "RTIM" << endl;
+    cout << "- depth      : "; printInColor("yellow", to_string(depth));
+    cout << "- min weight : "; printInColor("yellow", properStringDouble(min_weight));
+  }
+  cout << "------------------------------------" << endl;
+}
+
+
 string Arguments::generateDataFilePath(string type){
   string file_path = "../../data/" + dataset + "/";
 
