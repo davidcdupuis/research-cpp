@@ -1,1 +1,9 @@
 dataset, imm_k, imm_e, rtim_k, reach, ap, runtime, seedSize, infScore
+nethept,NE_k50_e0,01_ss.txt,Wed Nov 21 17:54:07 2018,Wed Nov 21 17:54:07 2018,3.25317,50,966.459
+nethept,NE_k100_e0,01_ss.txt,Wed Nov 21 17:55:25 2018,Wed Nov 21 17:55:25 2018,4.68157,100,1518.04
+nethept,NE_k150_e0,01_ss.txt,Wed Nov 21 17:57:58 2018,Wed Nov 21 17:57:58 2018,5.57353,150,1955.15
+nethept,NE_k200_e0,01_ss.txt,Wed Nov 21 17:58:52 2018,Wed Nov 21 17:58:52 2018,6.2335,200,2324.96
+nethept,NE_k250_e0,01_ss.txt,Wed Nov 21 17:59:23 2018,Wed Nov 21 17:59:23 2018,6.78737,250,2658.47
+nethept,NE_k300_e0,01_ss.txt,Wed Nov 21 17:59:57 2018,Wed Nov 21 17:59:57 2018,7.88425,300,2962.2
+nethept,inoutr/NE_k50_r0,5_ap0,8_inoutr_s1522_ss50.txt,Wed Nov 21 18:03:01 2018,Wed Nov 21 18:03:01 2018,3.08586,50,879.387
+nethept,inoutr/NE_100_r1_ap0,8_inoutr_s1522_ss100.txt,Wed Nov 21 18:04:08 2018,Wed Nov 21 18:04:08 2018,0.379794,0,0

@@ -1,1 +1,57 @@
 
+File name  : NE_k50_e0,01_ss.txt
+Start date : Wed Nov 21 17:54:07 2018
+End date   : Wed Nov 21 17:54:07 2018
+Runtime    : 3.25317
+Seed size  : 50
+Inf. score : 966.459
+-----------------------------------------------
+File name  : NE_k100_e0,01_ss.txt
+Start date : Wed Nov 21 17:55:25 2018
+End date   : Wed Nov 21 17:55:25 2018
+Runtime    : 4.68157
+Seed size  : 100
+Inf. score : 1518.04
+-----------------------------------------------
+File name  : NE_k150_e0,01_ss.txt
+Start date : Wed Nov 21 17:57:58 2018
+End date   : Wed Nov 21 17:57:58 2018
+Runtime    : 5.57353
+Seed size  : 150
+Inf. score : 1955.15
+-----------------------------------------------
+File name  : NE_k200_e0,01_ss.txt
+Start date : Wed Nov 21 17:58:52 2018
+End date   : Wed Nov 21 17:58:52 2018
+Runtime    : 6.2335
+Seed size  : 200
+Inf. score : 2324.96
+-----------------------------------------------
+File name  : NE_k250_e0,01_ss.txt
+Start date : Wed Nov 21 17:59:23 2018
+End date   : Wed Nov 21 17:59:23 2018
+Runtime    : 6.78737
+Seed size  : 250
+Inf. score : 2658.47
+-----------------------------------------------
+File name  : NE_k300_e0,01_ss.txt
+Start date : Wed Nov 21 17:59:57 2018
+End date   : Wed Nov 21 17:59:57 2018
+Runtime    : 7.88425
+Seed size  : 300
+Inf. score : 2962.2
+-----------------------------------------------
+File name  : inoutr/NE_k50_r0,5_ap0,8_inoutr_s1522_ss50.txt
+Start date : Wed Nov 21 18:03:01 2018
+End date   : Wed Nov 21 18:03:01 2018
+Runtime    : 3.08586
+Seed size  : 50
+Inf. score : 879.387
+-----------------------------------------------
+File name  : inoutr/NE_100_r1_ap0,8_inoutr_s1522_ss100.txt
+Start date : Wed Nov 21 18:04:08 2018
+End date   : Wed Nov 21 18:04:08 2018
+Runtime    : 0.379794
+Seed size  : 0
+Inf. score : 0
+-----------------------------------------------
