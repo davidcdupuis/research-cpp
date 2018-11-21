@@ -50,6 +50,7 @@ public:
   std::string streamModel = "inNOut_repeat"; /**< name of availability model */
   std::string stage;                  /**< pre|live|evaluate */
   std::string model = "ic";           /**< model of weights: ic|lt, default is ic */
+  std::string seedSetPath;
 
   double reach = 1;                       /**< reach to define inf. threshold = percentage */
   double theta_ap = 0.8;              /**< activation probability threshold [0, 1] */

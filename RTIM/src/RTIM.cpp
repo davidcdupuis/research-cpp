@@ -1079,7 +1079,7 @@ void RTIM::computeSeedScoreMenu(){
   cout << "Choose a folder: " << endl;
   cout << "   [1] rtim/live/" << endl;
   cout << "   [2] imm/basic/" << endl;
-  cout << "   [3] imm/intersect/" << endl;
+  cout << "   [3] imm/" << endl;
   while(choice == -1){
     cout <<  "> choice: ";
     string val;
@@ -1093,7 +1093,7 @@ void RTIM::computeSeedScoreMenu(){
         file_path += "imm/basic/";
         break;
       case 3:
-        file_path += "imm/intersect/";
+        file_path += "imm/";
         break;
       default:
         cout << "Error: choice not recognized!" << endl;
@@ -1114,6 +1114,7 @@ void RTIM::computeSeedScoreMenu(){
     break;
   }
   file_path += input;
+  args.seedSetPath = file_path;
   importSeedSet(file_path);
   sleep(SLEEP);
   clearLines(5);
@@ -1237,7 +1238,7 @@ void RTIM::run(){
       score = graph.influenceScoreParallel(seedSet);
       double duration = (clock() - startTime)/(double)CLOCKS_PER_SEC;
       string endDate = getLocalDatetime();
-      string txt = "> Influence score of seed set is: " + to_string(score);
+      string txt = "Influence score of seed set is : " + to_string(score);
       printInColor("cyan", txt);
       saveSeedScoreLog(seedFile, startDate, endDate, duration, score);
       saveSeedScoreCSV(seedFile, startDate, endDate, duration, score);

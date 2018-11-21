@@ -196,6 +196,8 @@ void Arguments::printStageArguments(){
     cout << "RTIM" << endl;
     cout << "- depth      : "; printInColor("yellow", to_string(depth));
     cout << "- min weight : "; printInColor("yellow", properStringDouble(min_weight));
+  }else if (stage == "compute_seed_score"){
+    cout << "- file path    : "; printInColor("yellow", seedSetPath);
   }
   cout << "------------------------------------" << endl;
 }
