@@ -27,10 +27,10 @@ void run_with_parameter(InfGraph &g, Argument & arg) //const
   vector<int> k_values{500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000};
   vector<double> epsilon_values{0.1};
 
-  for (int i = 0; i < 10; i++){
+  for (size_t i = 0; i < k_values.size(); i++){
     arg.k = k_values[i];
     cout << "Arguments Seed Size: " << arg.k << endl;
-    for (int j = 0; j < 2; j++){
+    for (size_t j = 0; j < epsilon_values.size(); j++){
       g.seedSet.clear();
       arg.epsilon = epsilon_values[j];
       cout << "Arguments epsilon: " << arg.epsilon << endl;
