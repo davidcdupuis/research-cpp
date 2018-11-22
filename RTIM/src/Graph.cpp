@@ -144,7 +144,7 @@ double Graph::influenceScore(const vector<int>& seed_set, int depth, double minE
 
 double Graph::influenceScoreParallel(const vector<int>& seed_set, int depth, double minEdgeWeight, int sim) const{
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
-  int sum = 0;
+  unsigned long long sum = 0;
   int values[sim] = {};
   bool visitedOriginal[nodes] = {};
   #pragma omp parallel shared(depth, seed_set, values)
@@ -159,8 +159,9 @@ double Graph::influenceScoreParallel(const vector<int>& seed_set, int depth, dou
   }
   for(int i = 0; i < sim; i++){
     sum += values[i];
+    //cout << "sum: " << sum << endl;
   }
-  double score = sum/(double)sim;
+  long double score = sum/(double)sim;
   // cout << "Influence score is " << score << endl;
   return score;
 }

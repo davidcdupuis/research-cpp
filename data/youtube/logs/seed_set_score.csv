@@ -1,9 +1,14 @@
-youtube,live_inoutr/YO_k50_e0,1_inoutr_v1_s113489_ss50.txt,Thu Nov 22 11:10:02 2018,Thu Nov 22 11:10:09 2018,402.791,50,149803
-youtube,live_inoutr/YO_k100_e0,1_inoutr_v1_s113489_ss100.txt,Thu Nov 22 11:10:39 2018,Thu Nov 22 11:10:49 2018,521.364,100,196324
-youtube,live_inoutr/YO_k150_e0,1_inoutr_v1_s113489_ss150.txt,Thu Nov 22 11:11:19 2018,Thu Nov 22 11:11:31 2018,604.396,150,-203095
-youtube,live_inoutr/YO_k200_e0,1_inoutr_v1_s113489_ss200.txt,Thu Nov 22 11:12:55 2018,Thu Nov 22 11:13:08 2018,650.723,200,-180361
-youtube,live_inoutr/YO_k250_e0,1_inoutr_v1_s113489_ss250.txt,Thu Nov 22 11:17:08 2018,Thu Nov 22 11:17:22 2018,687.256,250,-162265
-youtube,live_inoutr/YO_k300_e0,1_inoutr_v1_s113489_ss300.txt,Thu Nov 22 11:17:44 2018,Thu Nov 22 11:17:58 2018,728.126,300,-147261
-youtube,inoutr/YO_k50_r0,0005_ap0,8_inoutr_s113489_ss50.txt ,Thu Nov 22 11:20:57 2018,Thu Nov 22 11:20:57 2018,3.33412,0,0
-youtube,inoutr/YO_k50_r0,0005_ap0,8_inoutr_s113489_ss50.txt,Thu Nov 22 11:22:32 2018,Thu Nov 22 11:22:40 2018,422.092,50,144529
-youtube,inoutr/YO_k100_r0,0005_ap0,8_inoutr_s113489_ss100.txt,Thu Nov 22 11:24:46 2018,Thu Nov 22 11:24:56 2018,528.828,100,187617
+youtube,live_inoutr/YO_k50_e0,1_inoutr_v1_s113489_ss50.txt,Thu Nov 22 15:54:41 2018,Thu Nov 22 15:54:48 2018,404.983,50,149818
+youtube,live_inoutr/YO_k100_e0,1_inoutr_v1_s113489_ss100.txt,Thu Nov 22 15:55:27 2018,Thu Nov 22 15:55:37 2018,534.561,100,196319
+youtube,live_inoutr/YO_k150_e0,1_inoutr_v1_s113489_ss150.txt,Thu Nov 22 15:56:08 2018,Thu Nov 22 15:56:20 2018,599.815,150,226382
+youtube,live_inoutr/YO_k200_e0,1_inoutr_v1_s113489_ss200.txt,Thu Nov 22 15:56:38 2018,Thu Nov 22 15:56:51 2018,655.364,200,249071
+youtube,live_inoutr/YO_k250_e0,1_inoutr_v1_s113489_ss250.txt,Thu Nov 22 15:57:09 2018,Thu Nov 22 15:57:23 2018,700.781,250,267167
+youtube,live_inoutr/YO_k300_e0,1_inoutr_v1_s113489_ss300.txt,Thu Nov 22 15:57:37 2018,Thu Nov 22 15:57:52 2018,724.13,300,282217
+youtube,inoutr/YO_k50_e0,0005_ap0,8_inoutr_s113489_ss50.txt,Thu Nov 22 16:02:28 2018,Thu Nov 22 16:02:28 2018,3.16886,0,0
+youtube,inoutr/YO_k50_r0,0005_ap0,8_inoutr_s113489_ss50.txt,Thu Nov 22 16:04:50 2018,Thu Nov 22 16:04:59 2018,416.411,50,144435
+youtube,inoutr/YO_k100_r0,0005_ap0,8_inoutr_s113489_ss100.txt,Thu Nov 22 16:05:14 2018,Thu Nov 22 16:05:24 2018,526.036,100,187584
+youtube,inoutr/YO_k150_r0,0005_ap0,8_inoutr_s113489_ss150.txt,Thu Nov 22 16:05:35 2018,Thu Nov 22 16:05:47 2018,594.857,150,217606
+youtube,inoutr/YO_k200_r0,0005_ap0,8_inoutr_s113489_ss200.txt,Thu Nov 22 16:06:09 2018,Thu Nov 22 16:06:22 2018,651.708,200,237247
+youtube,inoutr/YO_k250_r0,0005_ap0,8_inoutr_s113489_ss250.txt,Thu Nov 22 16:06:55 2018,Thu Nov 22 16:06:55 2018,3.2818,0,0
+youtube,inoutr/YO_k250_r0,001_ap0,8_inoutr_s113489_ss250.txt,Thu Nov 22 16:07:31 2018,Thu Nov 22 16:07:45 2018,696.398,250,255016
+youtube,inoutr/YO_k300_r0,001_ap0,8_inoutr_s113489_ss300.txt,Thu Nov 22 16:08:03 2018,Thu Nov 22 16:08:17 2018,720.826,300,270106
