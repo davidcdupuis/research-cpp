@@ -1,0 +1,63 @@
+File name  : live_inoutr/YO_k50_e0,1_inoutr_v1_s113489_ss50.txt
+Start date : Thu Nov 22 11:10:02 2018
+End date   : Thu Nov 22 11:10:09 2018
+Runtime    : 402.791
+Seed size  : 50
+Inf. score : 149803
+-----------------------------------------------
+File name  : live_inoutr/YO_k100_e0,1_inoutr_v1_s113489_ss100.txt
+Start date : Thu Nov 22 11:10:39 2018
+End date   : Thu Nov 22 11:10:49 2018
+Runtime    : 521.364
+Seed size  : 100
+Inf. score : 196324
+-----------------------------------------------
+File name  : live_inoutr/YO_k150_e0,1_inoutr_v1_s113489_ss150.txt
+Start date : Thu Nov 22 11:11:19 2018
+End date   : Thu Nov 22 11:11:31 2018
+Runtime    : 604.396
+Seed size  : 150
+Inf. score : -203095
+-----------------------------------------------
+File name  : live_inoutr/YO_k200_e0,1_inoutr_v1_s113489_ss200.txt
+Start date : Thu Nov 22 11:12:55 2018
+End date   : Thu Nov 22 11:13:08 2018
+Runtime    : 650.723
+Seed size  : 200
+Inf. score : -180361
+-----------------------------------------------
+File name  : live_inoutr/YO_k250_e0,1_inoutr_v1_s113489_ss250.txt
+Start date : Thu Nov 22 11:17:08 2018
+End date   : Thu Nov 22 11:17:22 2018
+Runtime    : 687.256
+Seed size  : 250
+Inf. score : -162265
+-----------------------------------------------
+File name  : live_inoutr/YO_k300_e0,1_inoutr_v1_s113489_ss300.txt
+Start date : Thu Nov 22 11:17:44 2018
+End date   : Thu Nov 22 11:17:58 2018
+Runtime    : 728.126
+Seed size  : 300
+Inf. score : -147261
+-----------------------------------------------
+File name  : inoutr/YO_k50_r0,0005_ap0,8_inoutr_s113489_ss50.txt 
+Start date : Thu Nov 22 11:20:57 2018
+End date   : Thu Nov 22 11:20:57 2018
+Runtime    : 3.33412
+Seed size  : 0
+Inf. score : 0
+-----------------------------------------------
+File name  : inoutr/YO_k50_r0,0005_ap0,8_inoutr_s113489_ss50.txt
+Start date : Thu Nov 22 11:22:32 2018
+End date   : Thu Nov 22 11:22:40 2018
+Runtime    : 422.092
+Seed size  : 50
+Inf. score : 144529
+-----------------------------------------------
+File name  : inoutr/YO_k100_r0,0005_ap0,8_inoutr_s113489_ss100.txt
+Start date : Thu Nov 22 11:24:46 2018
+End date   : Thu Nov 22 11:24:56 2018
+Runtime    : 528.828
+Seed size  : 100
+Inf. score : 187617
+-----------------------------------------------

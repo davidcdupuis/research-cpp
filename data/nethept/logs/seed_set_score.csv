@@ -7,3 +7,14 @@ nethept,NE_k250_e0,01_ss.txt,Wed Nov 21 17:59:23 2018,Wed Nov 21 17:59:23 2018,6
 nethept,NE_k300_e0,01_ss.txt,Wed Nov 21 17:59:57 2018,Wed Nov 21 17:59:57 2018,7.88425,300,2962.2
 nethept,inoutr/NE_k50_r0,5_ap0,8_inoutr_s1522_ss50.txt,Wed Nov 21 18:03:01 2018,Wed Nov 21 18:03:01 2018,3.08586,50,879.387
 nethept,inoutr/NE_100_r1_ap0,8_inoutr_s1522_ss100.txt,Wed Nov 21 18:04:08 2018,Wed Nov 21 18:04:08 2018,0.379794,0,0
+nethept,inoutr/NE_k100_r1_ap0,8_inoutr_s1522_ss100.txt,Thu Nov 22 10:38:51 2018,Thu Nov 22 10:38:51 2018,4.64955,100,1339.31
+nethept,inoutr/NE_k150_r2_ap0,8_inoutr_s1522_ss150.txt,Thu Nov 22 10:41:04 2018,Thu Nov 22 10:41:04 2018,5.00377,150,1641.41
+nethept,inoutr/NE_k200_r3_ap0,8_inoutr_s1522_ss200.txt,Thu Nov 22 10:41:22 2018,Thu Nov 22 10:41:23 2018,6.00838,200,1941.22
+nethept,inoutr/NE_k250_r4_ap0,8_inoutr_s1522_ss250.txt,Thu Nov 22 10:42:00 2018,Thu Nov 22 10:42:00 2018,6.306,250,2178.95
+nethept,inoutr/NE_k300_r5_ap0,8_inoutr_s1522_ss300.txt,Thu Nov 22 10:43:26 2018,Thu Nov 22 10:43:26 2018,6.95844,300,2409.61
+nethept,live_inoutr/NE_k50_e0,01_inoutr_v1_s1522_ss29.txt,Thu Nov 22 10:52:03 2018,Thu Nov 22 10:52:03 2018,2.38665,29,651.335
+nethept,live_inoutr/NE_k100_e0,01_inoutr_v1_s1522_ss51.txt,Thu Nov 22 10:52:45 2018,Thu Nov 22 10:52:45 2018,3.02994,51,928
+nethept,live_inoutr/NE_k150_e0,01_inoutr_v1_s1522_ss74.txt,Thu Nov 22 10:53:22 2018,Thu Nov 22 10:53:22 2018,3.53864,74,1156.43
+nethept,live_inoutr/NE_k200_e0,01_inoutr_v1_s1522_ss88.txt,Thu Nov 22 10:53:38 2018,Thu Nov 22 10:53:39 2018,3.92536,88,1280.73
+nethept,live_inoutr/NE_k250_e0,01_inoutr_v1_s1522_ss102.txt,Thu Nov 22 10:53:55 2018,Thu Nov 22 10:53:56 2018,4.18637,102,1388.69
+nethept,live_inoutr/NE_k300_e0,01_inoutr_v1_s1522_ss118.txt,Thu Nov 22 10:54:10 2018,Thu Nov 22 10:54:10 2018,4.41013,118,1502.59
