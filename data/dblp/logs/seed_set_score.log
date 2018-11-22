@@ -1,0 +1,126 @@
+File name  : DB_k50_e0,1_ss.txt
+Start date : Thu Nov 22 19:02:01 2018
+End date   : Thu Nov 22 19:02:01 2018
+Runtime    : 20.1471
+Seed size  : 50
+Inf. score : 5185.98
+-----------------------------------------------
+File name  : DB_k100_e0,1_ss.txt
+Start date : Thu Nov 22 19:02:36 2018
+End date   : Thu Nov 22 19:02:37 2018
+Runtime    : 31.1305
+Seed size  : 100
+Inf. score : 8648.64
+-----------------------------------------------
+File name  : DB_k150_e0,1_ss.txt
+Start date : Thu Nov 22 19:03:01 2018
+End date   : Thu Nov 22 19:03:02 2018
+Runtime    : 40.0318
+Seed size  : 150
+Inf. score : 11462.5
+-----------------------------------------------
+File name  : DB_k200_e0,1_ss.txt
+Start date : Thu Nov 22 19:03:25 2018
+End date   : Thu Nov 22 19:03:26 2018
+Runtime    : 46.2878
+Seed size  : 200
+Inf. score : 13977.7
+-----------------------------------------------
+File name  : DB_k250_e0,1_ss.txt
+Start date : Thu Nov 22 19:04:02 2018
+End date   : Thu Nov 22 19:04:03 2018
+Runtime    : 54.8814
+Seed size  : 250
+Inf. score : 16240.8
+-----------------------------------------------
+File name  : DB_k300_e0,1_ss.txt
+Start date : Thu Nov 22 19:04:27 2018
+End date   : Thu Nov 22 19:04:28 2018
+Runtime    : 62.044
+Seed size  : 300
+Inf. score : 18330.2
+-----------------------------------------------
+File name  : live_inoutr/DB_k50_e0,1_inoutr_v1_s31708_ss46.txt
+Start date : Thu Nov 22 19:05:34 2018
+End date   : Thu Nov 22 19:05:34 2018
+Runtime    : 18.278
+Seed size  : 46
+Inf. score : 4850.34
+-----------------------------------------------
+File name  : live_inoutr/DB_k100_e0,1_inoutr_v1_s31708_ss89.txt
+Start date : Thu Nov 22 19:05:54 2018
+End date   : Thu Nov 22 19:05:54 2018
+Runtime    : 27.2044
+Seed size  : 89
+Inf. score : 7883.88
+-----------------------------------------------
+File name  : live_inoutr/DB_k150_e0,1_inoutr_v1_s31708_ss135.txt
+Start date : Thu Nov 22 19:06:19 2018
+End date   : Thu Nov 22 19:06:20 2018
+Runtime    : 37.3861
+Seed size  : 135
+Inf. score : 10533.8
+-----------------------------------------------
+File name  : live_inoutr/DB_k200_e0,1_inoutr_v1_s31708_ss175.txt
+Start date : Thu Nov 22 19:06:46 2018
+End date   : Thu Nov 22 19:06:47 2018
+Runtime    : 43.2575
+Seed size  : 175
+Inf. score : 12575.7
+-----------------------------------------------
+File name  : live_inoutr/DB_k250_e0,1_inoutr_v1_s31708_ss214.txt
+Start date : Thu Nov 22 19:07:22 2018
+End date   : Thu Nov 22 19:07:24 2018
+Runtime    : 48.3435
+Seed size  : 214
+Inf. score : 14398.3
+-----------------------------------------------
+File name  : live_inoutr/DB_k300_e0,1_inoutr_v1_s31708_ss254.txt
+Start date : Thu Nov 22 19:07:56 2018
+End date   : Thu Nov 22 19:07:58 2018
+Runtime    : 49.8468
+Seed size  : 254
+Inf. score : 16105.2
+-----------------------------------------------
+File name  : inoutr/DB_k50_r0,01_ap0,8_inoutr_s31708_ss50.txt
+Start date : Thu Nov 22 19:08:23 2018
+End date   : Thu Nov 22 19:08:24 2018
+Runtime    : 17.3908
+Seed size  : 50
+Inf. score : 4915.22
+-----------------------------------------------
+File name  : inoutr/DB_k100_r0,025_ap0,8_inoutr_s31708_ss100.txt
+Start date : Thu Nov 22 19:08:51 2018
+End date   : Thu Nov 22 19:08:52 2018
+Runtime    : 27.2481
+Seed size  : 100
+Inf. score : 7884.39
+-----------------------------------------------
+File name  : inoutr/DB_k150_r0,025_ap0,8_inoutr_s31708_ss150.txt
+Start date : Thu Nov 22 19:09:25 2018
+End date   : Thu Nov 22 19:09:26 2018
+Runtime    : 33.6478
+Seed size  : 150
+Inf. score : 10914.3
+-----------------------------------------------
+File name  : inoutr/DB_k200_r0,05_ap0,8_inoutr_s31708_ss200.txt
+Start date : Thu Nov 22 19:09:48 2018
+End date   : Thu Nov 22 19:09:49 2018
+Runtime    : 43.3528
+Seed size  : 200
+Inf. score : 12924.3
+-----------------------------------------------
+File name  : inoutr/DB_k250_r0,05_ap0,8_inoutr_s31708_ss250.txt
+Start date : Thu Nov 22 19:10:36 2018
+End date   : Thu Nov 22 19:10:37 2018
+Runtime    : 49.2328
+Seed size  : 250
+Inf. score : 15312.2
+-----------------------------------------------
+File name  : inoutr/DB_k300_r0,1_ap0,8_inoutr_s31708_ss300.txt
+Start date : Thu Nov 22 19:11:00 2018
+End date   : Thu Nov 22 19:11:01 2018
+Runtime    : 54.7172
+Seed size  : 300
+Inf. score : 16659.3
+-----------------------------------------------

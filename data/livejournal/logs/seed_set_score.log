@@ -1,0 +1,91 @@
+File name  : LJ_k50_e0,1_ss.txt
+Start date : Thu Nov 22 19:24:53 2018
+End date   : Thu Nov 22 19:25:17 2018
+Runtime    : 1199.57
+Seed size  : 50
+Inf. score : 102621
+-----------------------------------------------
+File name  : LJ_k100_e0,1_ss.txt
+Start date : Thu Nov 22 19:25:49 2018
+End date   : Thu Nov 22 19:26:21 2018
+Runtime    : 1578.13
+Seed size  : 100
+Inf. score : 141812
+-----------------------------------------------
+File name  : LJ_k150_e0,1_ss.txt
+Start date : Thu Nov 22 19:26:52 2018
+End date   : Thu Nov 22 19:27:28 2018
+Runtime    : 1835.58
+Seed size  : 150
+Inf. score : 165662
+-----------------------------------------------
+File name  : LJ_k200_e0,1_ss.txt
+Start date : Thu Nov 22 19:27:57 2018
+End date   : Thu Nov 22 19:28:38 2018
+Runtime    : 2053.16
+Seed size  : 200
+Inf. score : 185065
+-----------------------------------------------
+File name  : LJ_k250_e0,1_ss.txt
+Start date : Thu Nov 22 19:29:08 2018
+End date   : Thu Nov 22 19:29:53 2018
+Runtime    : 2220.45
+Seed size  : 250
+Inf. score : 201463
+-----------------------------------------------
+File name  : LJ_k300_e0,1_ss.txt
+Start date : Thu Nov 22 19:30:41 2018
+End date   : Thu Nov 22 19:31:28 2018
+Runtime    : 2365.46
+Seed size  : 300
+Inf. score : 216455
+-----------------------------------------------
+File name  : live_inoutr/LJ_k50_e0,1_inoutr_v1_s399796_ss50.txt
+Start date : Thu Nov 22 19:34:13 2018
+End date   : Thu Nov 22 19:34:36 2018
+Runtime    : 1151.69
+Seed size  : 50
+Inf. score : 102662
+-----------------------------------------------
+File name  : inoutr/LJ_k50_r0,00025_ap0,8_inoutr_s399796_ss50.txt
+Start date : Thu Nov 22 19:35:37 2018
+End date   : Thu Nov 22 19:36:00 2018
+Runtime    : 1130.88
+Seed size  : 50
+Inf. score : 101766
+-----------------------------------------------
+File name  : inoutr/LJ_k100_r0,00025_ap0,8_inoutr_s399796_ss100.txt
+Start date : Thu Nov 22 19:37:31 2018
+End date   : Thu Nov 22 19:38:02 2018
+Runtime    : 1552.14
+Seed size  : 100
+Inf. score : 139576
+-----------------------------------------------
+File name  : inoutr/LJ_k150_r0,0005_ap0,8_inoutr_s399796_ss150.txt
+Start date : Thu Nov 22 19:38:46 2018
+End date   : Thu Nov 22 19:39:22 2018
+Runtime    : 1814.8
+Seed size  : 150
+Inf. score : 162143
+-----------------------------------------------
+File name  : inoutr/LJ_k200_r0,001_ap0,8_inoutr_s399796_ss200.txt
+Start date : Thu Nov 22 19:40:06 2018
+End date   : Thu Nov 22 19:40:46 2018
+Runtime    : 2018.77
+Seed size  : 200
+Inf. score : 180844
+-----------------------------------------------
+File name  : inoutr/LJ_k250_r0,001_ap0,8_inoutr_s399796_ss250.txt
+Start date : Thu Nov 22 19:41:26 2018
+End date   : Thu Nov 22 19:42:10 2018
+Runtime    : 2179.03
+Seed size  : 250
+Inf. score : 196669
+-----------------------------------------------
+File name  : inoutr/LJ_k300_r0,0025_ap0,8_inoutr_s399796_ss300.txt
+Start date : Thu Nov 22 19:42:41 2018
+End date   : Thu Nov 22 19:43:28 2018
+Runtime    : 2348.38
+Seed size  : 300
+Inf. score : 208399
+-----------------------------------------------
