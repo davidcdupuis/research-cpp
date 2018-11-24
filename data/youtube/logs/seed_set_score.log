@@ -103,3 +103,241 @@ Runtime    : 1159.5
 Seed size  : 10000
 Inf. score : 598711
 -----------------------------------------------
+File name  : YO_k1000_e0,1_ss.txt
+Start date : Sat Nov 24 17:51:32 2018
+End date   : Sat Nov 24 17:51:48 2018
+Runtime    : 815.757
+Seed size  : 1000
+Inf. score : 387572
+-----------------------------------------------
+File name  : YO_k2000_e0,1_ss.txt
+Start date : Sat Nov 24 17:52:51 2018
+End date   : Sat Nov 24 17:53:08 2018
+Runtime    : 917.689
+Seed size  : 2000
+Inf. score : 448734
+-----------------------------------------------
+File name  : YO_k3000_e0,1_ss.txt
+Start date : Sat Nov 24 17:53:41 2018
+End date   : Sat Nov 24 17:54:00 2018
+Runtime    : 979.342
+Seed size  : 3000
+Inf. score : 485264
+-----------------------------------------------
+File name  : YO_k4000_e0,1_ss.txt
+Start date : Sat Nov 24 17:55:36 2018
+End date   : Sat Nov 24 17:55:56 2018
+Runtime    : 1025.48
+Seed size  : 4000
+Inf. score : 511380
+-----------------------------------------------
+File name  : YO_k5000_e0,1_ss.txt
+Start date : Sat Nov 24 17:56:24 2018
+End date   : Sat Nov 24 17:56:44 2018
+Runtime    : 1055.53
+Seed size  : 5000
+Inf. score : 532139
+-----------------------------------------------
+File name  : YO_k6000_Ee0,1_ss.txt
+Start date : Sat Nov 24 17:57:20 2018
+End date   : Sat Nov 24 17:57:20 2018
+Runtime    : 2.30039
+Seed size  : 0
+Inf. score : 0
+-----------------------------------------------
+File name  : YO_k6000_e0,1Ã_ss.txt
+Start date : Sat Nov 24 17:57:47 2018
+End date   : Sat Nov 24 17:57:47 2018
+Runtime    : 2.11661
+Seed size  : 0
+Inf. score : 0
+-----------------------------------------------
+File name  : YO_k6000_e0,1_ss.txt
+Start date : Sat Nov 24 17:58:12 2018
+End date   : Sat Nov 24 17:58:33 2018
+Runtime    : 1088.82
+Seed size  : 6000
+Inf. score : 549297
+-----------------------------------------------
+File name  : YO_k7000_e0,1_ss.txt
+Start date : Sat Nov 24 17:59:02 2018
+End date   : Sat Nov 24 17:59:24 2018
+Runtime    : 1109.96
+Seed size  : 7000
+Inf. score : 563892
+-----------------------------------------------
+File name  : YO_k8000_e0,1_ss.txt
+Start date : Sat Nov 24 18:00:24 2018
+End date   : Sat Nov 24 18:00:46 2018
+Runtime    : 1140.08
+Seed size  : 8000
+Inf. score : 576774
+-----------------------------------------------
+File name  : YO_k9000_e0,1_ss.txt
+Start date : Sat Nov 24 18:01:09 2018
+End date   : Sat Nov 24 18:01:32 2018
+Runtime    : 1157.61
+Seed size  : 9000
+Inf. score : 588278
+-----------------------------------------------
+File name  : YO_k10000_e0,1_ss.txt
+Start date : Sat Nov 24 18:02:15 2018
+End date   : Sat Nov 24 18:02:37 2018
+Runtime    : 1173.35
+Seed size  : 10000
+Inf. score : 598709
+-----------------------------------------------
+File name  : live_inoutr/YO_k1000_e0,1_inoutr_v1_s113489_ss995.txt
+Start date : Sat Nov 24 18:09:02 2018
+End date   : Sat Nov 24 18:09:18 2018
+Runtime    : 834.354
+Seed size  : 995
+Inf. score : 386948
+-----------------------------------------------
+File name  : live_inoutr/YO_k2000_e0,1_inoutr_v1_s113489_ss1921.txt
+Start date : Sat Nov 24 18:10:02 2018
+End date   : Sat Nov 24 18:10:20 2018
+Runtime    : 948.075
+Seed size  : 1921
+Inf. score : 444134
+-----------------------------------------------
+File name  : live_inoutr/YO_k3000_e0,1_inoutr_v1_s113489_ss2776.txt
+Start date : Sat Nov 24 18:15:39 2018
+End date   : Sat Nov 24 18:15:59 2018
+Runtime    : 1018.47
+Seed size  : 2776
+Inf. score : 475665
+-----------------------------------------------
+File name  : live_inoutr/YO_k4000_e0,1_inoutr_v1_s113489_ss3545.txt
+Start date : Sat Nov 24 18:16:53 2018
+End date   : Sat Nov 24 18:17:13 2018
+Runtime    : 1065.86
+Seed size  : 3545
+Inf. score : 496197
+-----------------------------------------------
+File name  : live_inoutr/YO_k5000_e0,1_inoutr_v1_s113489_ss4256.txt
+Start date : Sat Nov 24 18:17:54 2018
+End date   : Sat Nov 24 18:18:15 2018
+Runtime    : 1113.31
+Seed size  : 4256
+Inf. score : 511299
+-----------------------------------------------
+File name  : live_inoutr/YO_k6000_e0,1_inoutr_v1_s113489_ss4899.txt
+Start date : Sat Nov 24 18:18:53 2018
+End date   : Sat Nov 24 18:19:15 2018
+Runtime    : 1121.23
+Seed size  : 4899
+Inf. score : 522673
+-----------------------------------------------
+File name  : live_inoutr/YO_k7000_e0,1_inoutr_v1_s113489_ss5515.txt
+Start date : Sat Nov 24 18:21:26 2018
+End date   : Sat Nov 24 18:21:47 2018
+Runtime    : 1143.57
+Seed size  : 5515
+Inf. score : 532049
+-----------------------------------------------
+File name  : live_inoutr/YO_k8000_e0,1_inoutr_v1_s113489_ss6085.txt
+Start date : Sat Nov 24 18:23:16 2018
+End date   : Sat Nov 24 18:23:38 2018
+Runtime    : 1148.72
+Seed size  : 6085
+Inf. score : 539699
+-----------------------------------------------
+File name  : live_inoutr/YO_k9000_e0,1_inoutr_v1_s113489_ss6629.txt
+Start date : Sat Nov 24 18:29:58 2018
+End date   : Sat Nov 24 18:30:21 2018
+Runtime    : 1171.58
+Seed size  : 6629
+Inf. score : 546258
+-----------------------------------------------
+File name  : live_inoutr/YO_k10000_e0,1_inoutr_v1_s113489_ss7134.txt
+Start date : Sat Nov 24 18:31:37 2018
+End date   : Sat Nov 24 18:31:59 2018
+Runtime    : 1175.94
+Seed size  : 7134
+Inf. score : 551889
+-----------------------------------------------
+File name  : inoutr/YO_k1000_r0,01_ap0,8_inoutr_s113489_ss1000.txt
+Start date : Sat Nov 24 18:44:31 2018
+End date   : Sat Nov 24 18:44:48 2018
+Runtime    : 841.828
+Seed size  : 1000
+Inf. score : 369649
+-----------------------------------------------
+File name  : inoutr/YO_k2000_r0,025_ap0,8_inoutr_s113489_ss2000.txt
+Start date : Sat Nov 24 18:46:36 2018
+End date   : Sat Nov 24 18:46:54 2018
+Runtime    : 960.684
+Seed size  : 2000
+Inf. score : 423651
+-----------------------------------------------
+File name  : inoutr/YO_k3000_r0,06_ap0,8_inoutr_s113489_ss3000.txt
+Start date : Sat Nov 24 18:47:39 2018
+End date   : Sat Nov 24 18:47:59 2018
+Runtime    : 1048.64
+Seed size  : 3000
+Inf. score : 454095
+-----------------------------------------------
+File name  : inoutr/YO_k4000_r0,09_ap0,8_inoutr_s113489_ss4000.txt
+Start date : Sat Nov 24 18:49:06 2018
+End date   : Sat Nov 24 18:49:27 2018
+Runtime    : 1079.22
+Seed size  : 4000
+Inf. score : 475681
+-----------------------------------------------
+File name  : inoutr/YO_k5000_r0.2_ap0,8_inoutr_s113489_ss5000.txt
+Start date : Sat Nov 24 18:50:10 2018
+End date   : Sat Nov 24 18:50:10 2018
+Runtime    : 2.27959
+Seed size  : 0
+Inf. score : 0
+-----------------------------------------------
+File name  : inoutr/YO_k5000_r0.2_ap0,8_inoutr_s113489_ss5000.txt
+Start date : Sat Nov 24 18:55:05 2018
+End date   : Sat Nov 24 18:55:05 2018
+Runtime    : 2.27576
+Seed size  : 0
+Inf. score : 0
+-----------------------------------------------
+File name  : inoutr/YO_k5000_r0,2_ap0,8_inoutr_s113489_ss5000.txt
+Start date : Sat Nov 24 18:58:27 2018
+End date   : Sat Nov 24 18:58:48 2018
+Runtime    : 1107.25
+Seed size  : 5000
+Inf. score : 490618
+-----------------------------------------------
+File name  : inoutr/YO_k6000_r0,2_ap0,8_inoutr_s113489_ss6000.txt
+Start date : Sat Nov 24 18:59:39 2018
+End date   : Sat Nov 24 19:00:01 2018
+Runtime    : 1135.29
+Seed size  : 6000
+Inf. score : 506414
+-----------------------------------------------
+File name  : inoutr/YO_k7000_r0,3_ap0,8_inoutr_s113489_ss7000.txt
+Start date : Sat Nov 24 19:00:50 2018
+End date   : Sat Nov 24 19:01:12 2018
+Runtime    : 1160.96
+Seed size  : 7000
+Inf. score : 517933
+-----------------------------------------------
+File name  : inoutr/YO_k8000_r0,3_ap0,8_inoutr_s113489_ss8000.txt
+Start date : Sat Nov 24 19:01:40 2018
+End date   : Sat Nov 24 19:02:02 2018
+Runtime    : 1175.83
+Seed size  : 8000
+Inf. score : 529279
+-----------------------------------------------
+File name  : inoutr/YO_k9000_r0,4_ap0,8_inoutr_s113489_ss9000.txt
+Start date : Sat Nov 24 19:02:40 2018
+End date   : Sat Nov 24 19:03:03 2018
+Runtime    : 1195.9
+Seed size  : 9000
+Inf. score : 537940
+-----------------------------------------------
+File name  : inoutr/YO_k10000_r0,5_ap0,8_inoutr_s113489_ss10000.txt
+Start date : Sat Nov 24 19:03:38 2018
+End date   : Sat Nov 24 19:04:02 2018
+Runtime    : 1209.62
+Seed size  : 10000
+Inf. score : 545503
+-----------------------------------------------
