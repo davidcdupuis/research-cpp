@@ -178,3 +178,153 @@ STREAM
 (IMM ∩ RTIM) size = 265
 ((IMM ∩ Stream) \ RTIM) size = 35
 ----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 1000
+RTIM
+ - reach = 0.0001
+ - ap = 0.8
+ - size = 1000
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 4165223
+(IMM ∩ Stream) size = 997
+(IMM ∩ RTIM) size = 803
+((IMM ∩ Stream) \ RTIM) size = 194
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 2000
+RTIM
+ - reach = 0.0005
+ - ap = 0.8
+ - size = 2000
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 4165223
+(IMM ∩ Stream) size = 1988
+(IMM ∩ RTIM) size = 1551
+((IMM ∩ Stream) \ RTIM) size = 437
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 3000
+RTIM
+ - reach = 0.001
+ - ap = 0.8
+ - size = 3000
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 4165223
+(IMM ∩ Stream) size = 2972
+(IMM ∩ RTIM) size = 2306
+((IMM ∩ Stream) \ RTIM) size = 666
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 4000
+RTIM
+ - reach = 0.001
+ - ap = 0.8
+ - size = 4000
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 4165223
+(IMM ∩ Stream) size = 3938
+(IMM ∩ RTIM) size = 3039
+((IMM ∩ Stream) \ RTIM) size = 899
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 5000
+RTIM
+ - reach = 0.002
+ - ap = 0.8
+ - size = 5000
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 4165223
+(IMM ∩ Stream) size = 4898
+(IMM ∩ RTIM) size = 3783
+((IMM ∩ Stream) \ RTIM) size = 1115
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 6000
+RTIM
+ - reach = 0.002
+ - ap = 0.8
+ - size = 6000
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 4165223
+(IMM ∩ Stream) size = 5842
+(IMM ∩ RTIM) size = 4553
+((IMM ∩ Stream) \ RTIM) size = 1289
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 7000
+RTIM
+ - reach = 0.003
+ - ap = 0.8
+ - size = 7000
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 4165223
+(IMM ∩ Stream) size = 6772
+(IMM ∩ RTIM) size = 5275
+((IMM ∩ Stream) \ RTIM) size = 1497
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 8000
+RTIM
+ - reach = 0.004
+ - ap = 0.8
+ - size = 8000
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 4165223
+(IMM ∩ Stream) size = 7703
+(IMM ∩ RTIM) size = 5972
+((IMM ∩ Stream) \ RTIM) size = 1731
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 9000
+RTIM
+ - reach = 0.004
+ - ap = 0.8
+ - size = 9000
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 4165223
+(IMM ∩ Stream) size = 8625
+(IMM ∩ RTIM) size = 6771
+((IMM ∩ Stream) \ RTIM) size = 1854
+----------------------------------------------------
+IMM
+ - epsilon = 0.1
+ - size = 10000
+RTIM
+ - reach = 0.005
+ - ap = 0.8
+ - size = 10000
+STREAM
+ - model = inNOut_repeat
+ - version = 1
+ - size = 4165223
+(IMM ∩ Stream) size = 9562
+(IMM ∩ RTIM) size = 7519
+((IMM ∩ Stream) \ RTIM) size = 2043
+----------------------------------------------------
