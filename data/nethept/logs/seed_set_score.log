@@ -139,3 +139,17 @@ Runtime    : 2.32932
 Seed size  : 100
 Inf. score : 1516
 -----------------------------------------------
+File name  : NE_k100_e0,01_ss.txt
+Start date : Sat Nov 24 11:15:40 2018
+End date   : Sat Nov 24 11:15:40 2018
+Runtime    : 4.80252
+Seed size  : 100
+Inf. score : 1515.94
+-----------------------------------------------
+File name  : NE_k100_e0,01_ss.txt
+Start date : Sat Nov 24 12:15:24 2018
+End date   : Sat Nov 24 12:15:24 2018
+Runtime    : 4.01365
+Seed size  : 100
+Inf. score : 1517.33
+-----------------------------------------------

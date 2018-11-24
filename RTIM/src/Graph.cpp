@@ -151,10 +151,12 @@ double Graph::influenceScoreParallel(const vector<int>& seed_set, int depth, dou
   #pragma omp parallel shared(depth, seed_set, values)
   {
     bool visited[nodes];
+    //bool* visited = (bool*) calloc(nodes,sizeof(bool));
     #pragma omp for
     for (int i = 0; i < sim; i++){
       // run influence simulation
       memcpy(visited, visitedOriginal, nodes);
+      //bool* visited = (bool*) calloc (nodes, sizeof(bool));
       values[i] = influenceSimulation(seed_set, visited, depth, minEdgeWeight);
     }
   }

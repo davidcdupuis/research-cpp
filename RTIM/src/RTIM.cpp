@@ -1298,4 +1298,14 @@ int main(int argn, char **argv)
   Arguments args = Arguments();
   RTIM rtim = RTIM(args);
   rtim.run();
+  /*
+  //int nodes = 41652230;
+  int nodes = 4050000;
+  bool visitedOriginal[nodes] = {};
+  bool visited[nodes];
+  for (int i = 0; i < 10000; i++){
+      //bool* visited = (bool*) calloc (nodes,sizeof(bool));
+      memcpy(visited, visitedOriginal, nodes);
+  }
+  sleep(15);*/
 }
