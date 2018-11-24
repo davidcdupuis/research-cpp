@@ -1235,7 +1235,12 @@ void RTIM::run(){
       double score;
       string startDate = getLocalDatetime();
       clock_t startTime = clock();
-      score = graph.influenceScoreParallel(seedSet);
+      if (args.dataset == "twitter"){
+        score = graph.influenceScoreParallel(seedSet, 3);
+      }else{
+        score = graph.influenceScoreParallel(seedSet);
+      }
+
       double duration = (clock() - startTime)/(double)CLOCKS_PER_SEC;
       string endDate = getLocalDatetime();
       string txt = "Influence score of seed set is : " + to_string(score);
@@ -1243,6 +1248,7 @@ void RTIM::run(){
       saveSeedScoreLog(seedFile, startDate, endDate, duration, score);
       saveSeedScoreCSV(seedFile, startDate, endDate, duration, score);
       // printLocalTime("magenta", "IMM seed test", "ending");
+      printLocalTime("magenta", "Compute seed score", "ending");
       printInColor("magenta", "----------------------------------------------");
     }else if (args.stage == "test"){
       printInColor("magenta", "----------------------------------------------");
