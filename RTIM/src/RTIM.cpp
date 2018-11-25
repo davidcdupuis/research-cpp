@@ -1236,7 +1236,7 @@ void RTIM::run(){
       string startDate = getLocalDatetime();
       clock_t startTime = clock();
       if (args.dataset == "twitter"){
-        score = graph.influenceScoreParallel(seedSet, 3);
+        score = graph.influenceScoreParallel(seedSet, 2);
       }else{
         score = graph.influenceScoreParallel(seedSet);
       }
