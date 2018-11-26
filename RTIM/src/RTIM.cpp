@@ -210,8 +210,8 @@ void RTIM::live(){
       // measure update time
       start = clock();
       //graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 1);
-      //graph.updateNeighborsAPShort(user, activationProbabilities);
-      graph.updateNeighborsAPDepth(user, activationProbabilities, 3);
+      graph.updateNeighborsAPShort(user, activationProbabilities);
+      //graph.updateNeighborsAPDepth(user, activationProbabilities, 3);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       if (duration > max_time){
         max_time = duration;
@@ -222,10 +222,12 @@ void RTIM::live(){
         cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
       }
       if (seedSet.size() == 1){
-      	cout << "First user targeted: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
+      	cout << "First user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
       }else if (seedSet.size() == args.k){
-      	cout << "Last user targeted: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
+      	cout << "Last user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
       }
+    }else if (activationProbabilities[user] < 1 && activationProbabilities[user] > args.theta_ap){
+      cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl; 
     }
     if (seedSet.size() >= args.k){
       break;
