@@ -156,7 +156,7 @@ public:
     * @param seen       : number of users seen in stream
     * @param seedSize   : current size of seed set
     */
-  void saveProgress(int progress, int seen, int seedSize);
+  void saveProgress(int user_index, double ap, double score, int seen, double infTheta, int seedSize);
 
   /**
     * Import influence scores

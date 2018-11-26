@@ -203,7 +203,7 @@ void RTIM::live(){
     }
     if (activationProbabilities[user] < args.theta_ap && infScores[user] >= sortedScores[infIndex]){
       seedSet.push_back(user);
-      saveProgress(user, sum, seedSet.size());
+      saveProgress(user,activationProbabilities[user], infScores[user], sum, sortedScores[infIndex], seedSet.size());
       double tmpAP = activationProbabilities[user];
       activationProbabilities[user] = 1.0;
       // measure update time
@@ -444,19 +444,22 @@ void RTIM::initiateProgressLog(){
   printInColor("cyan", "New progress log    : " + file);
   ofstream progressFile;
   progressFile.open(file);
-  progressFile << "seen,user_index,seed_size" << endl;
+  progressFile << "seen,influence_threshold,user_index,ap, infScore, seed_size" << endl;
   progressFile.close();
 }
 
 
-void RTIM::saveProgress(int user_index, int seen, int seedSize){
+void RTIM::saveProgress(int user_index, double ap, double score, int seen, double infTheta, int seedSize){
   string file = args.generateDataFilePath("rtim_progress") + args.generateFileName("rtim_progress");
   // printInColor("cyan","Saving progress: " + to_string(progress));
   ofstream progressFile;
   progressFile.open(file, fstream::app);
   /* progress | nodes seen | seed size */
   progressFile << seen << ",";
+  progressFile << infTheta << ",";
   progressFile << user_index << ",";
+  progressFile << ap << ",";
+  progressFile << score << ",";
   progressFile << seedSize;
   progressFile << endl;
   progressFile.close();
