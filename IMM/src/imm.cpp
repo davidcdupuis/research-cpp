@@ -24,8 +24,8 @@ void run_with_parameter(InfGraph &g, Argument & arg) //const
   cout << "--------------------------------------------------------------------------------" << endl;
   cout << arg.dataset << " k=" << arg.k << " epsilon=" << arg.epsilon <<   " " << arg.model << endl;
 
-  vector<int> k_values{500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000};
-  vector<double> epsilon_values{0.1};
+  vector<int> k_values{1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000};
+  vector<double> epsilon_values{0.05, 0.01};
 
   for (size_t i = 0; i < k_values.size(); i++){
     arg.k = k_values[i];

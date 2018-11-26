@@ -362,3 +362,101 @@ Duration   : 90.8417
 SeedSize   : 10000
 Est. score : 599762
 -----------------------------------------------------
+File name  : YO_k1000_e0,05_ss.txt
+Start date : Sun Nov 25 18:30:36 2018
+End date   : Sun Nov 25 18:33:33 2018
+Duration   : 177.501
+SeedSize   : 1000
+Est. score : 387874
+-----------------------------------------------------
+File name  : YO_k1000_e0,01_ss.txt
+Start date : Sun Nov 25 18:33:39 2018
+End date   : Sun Nov 25 19:43:19 2018
+Duration   : 4180.06
+SeedSize   : 1000
+Est. score : 387710
+-----------------------------------------------------
+File name  : YO_k1500_e0,05_ss.txt
+Start date : Sun Nov 25 19:47:27 2018
+End date   : Sun Nov 25 20:04:03 2018
+Duration   : 996.053
+SeedSize   : 1500
+Est. score : 423383
+-----------------------------------------------------
+File name  : YO_k1500_e0,01_ss.txt
+Start date : Sun Nov 25 20:09:10 2018
+End date   : Sun Nov 25 20:58:09 2018
+Duration   : 2939.59
+SeedSize   : 1500
+Est. score : 423402
+-----------------------------------------------------
+File name  : YO_k2000_e0,05_ss.txt
+Start date : Sun Nov 25 21:06:02 2018
+End date   : Sun Nov 25 21:35:51 2018
+Duration   : 1789.93
+SeedSize   : 2000
+Est. score : 449031
+-----------------------------------------------------
+File name  : YO_k2000_e0,01_ss.txt
+Start date : Sun Nov 25 21:45:02 2018
+End date   : Sun Nov 25 22:45:36 2018
+Duration   : 3634.68
+SeedSize   : 2000
+Est. score : 449032
+-----------------------------------------------------
+File name  : YO_k2500_e0,05_ss.txt
+Start date : Sun Nov 25 22:55:42 2018
+End date   : Sun Nov 25 23:34:43 2018
+Duration   : 2340.81
+SeedSize   : 2500
+Est. score : 469071
+-----------------------------------------------------
+File name  : YO_k2500_e0,01_ss.txt
+Start date : Sun Nov 25 23:46:06 2018
+End date   : Mon Nov 26 00:57:16 2018
+Duration   : 4270.3
+SeedSize   : 2500
+Est. score : 469079
+-----------------------------------------------------
+File name  : YO_k3000_e0,05_ss.txt
+Start date : Mon Nov 26 01:15:07 2018
+End date   : Mon Nov 26 02:13:24 2018
+Duration   : 3471.61
+SeedSize   : 3000
+Est. score : 485529
+-----------------------------------------------------
+File name  : YO_k3000_e0,01_ss.txt
+Start date : Mon Nov 26 02:28:50 2018
+End date   : Mon Nov 26 03:51:32 2018
+Duration   : 4961.43
+SeedSize   : 3000
+Est. score : 485528
+-----------------------------------------------------
+File name  : YO_k3500_e0,05_ss.txt
+Start date : Mon Nov 26 04:08:41 2018
+End date   : Mon Nov 26 05:11:00 2018
+Duration   : 3739.54
+SeedSize   : 3500
+Est. score : 499476
+-----------------------------------------------------
+File name  : YO_k3500_e0,01_ss.txt
+Start date : Mon Nov 26 05:29:25 2018
+End date   : Mon Nov 26 07:03:06 2018
+Duration   : 5621.85
+SeedSize   : 3500
+Est. score : 499491
+-----------------------------------------------------
+File name  : YO_k4000_e0,05_ss.txt
+Start date : Mon Nov 26 07:24:16 2018
+End date   : Mon Nov 26 08:38:32 2018
+Duration   : 4455.43
+SeedSize   : 4000
+Est. score : 511677
+-----------------------------------------------------
+File name  : YO_k4000_e0,01_ss.txt
+Start date : Mon Nov 26 09:01:01 2018
+End date   : Mon Nov 26 10:46:58 2018
+Duration   : 6356.53
+SeedSize   : 4000
+Est. score : 511674
+-----------------------------------------------------

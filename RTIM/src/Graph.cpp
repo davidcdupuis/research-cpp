@@ -146,8 +146,8 @@ double Graph::influenceScoreParallel(const vector<int>& seed_set, int depth, dou
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   unsigned long long sum = 0;
   int values[sim] = {};
-  // bool visitedOriginal[nodes] = {};
-  bool* visitedOriginal = (bool*) calloc (nodes,sizeof(bool));
+  bool visitedOriginal[nodes] = {};
+  //bool* visitedOriginal = (bool*) calloc (nodes,sizeof(bool));
   #pragma omp parallel shared(depth, seed_set, values)
   {
     bool visited[nodes];
