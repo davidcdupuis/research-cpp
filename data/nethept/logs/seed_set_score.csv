@@ -21,3 +21,9 @@ nethept,live_inoutr/NE_k300_e0,01_inoutr_v1_s1522_ss118.txt,Thu Nov 22 10:54:10 
 nethept,NE_k100_e0,01_ss.txt,Fri Nov 23 18:27:10 2018,Fri Nov 23 18:27:10 2018,2.32932,100,1516
 nethept,NE_k100_e0,01_ss.txt,Sat Nov 24 11:15:40 2018,Sat Nov 24 11:15:40 2018,4.80252,100,1515.94
 nethept,NE_k100_e0,01_ss.txt,Sat Nov 24 12:15:24 2018,Sat Nov 24 12:15:24 2018,4.01365,100,1517.33
+nethept,inoutr/NE_k800_r10_ap0,8_inoutr_s1522_ss444.txt,Mon Nov 26 12:58:06 2018,Mon Nov 26 12:58:06 2018,9.09202,444,2899.13
+nethept,inoutr/NE_k800_r10_ap0,8_inoutr_s1522_ss320.txt,Mon Nov 26 13:04:15 2018,Mon Nov 26 13:04:15 2018,0.544926,0,0
+nethept,inoutr/NE_k800_r10_ap0,1_inoutr_s1522_ss320.txt,Mon Nov 26 13:05:09 2018,Mon Nov 26 13:05:09 2018,7.30447,320,2463.13
+nethept,inoutr/NE_k444_r20_ap0,1_inoutr_s1522_ss444.txt,Mon Nov 26 13:08:44 2018,Mon Nov 26 13:08:45 2018,8.44239,444,2771.05
+nethept,inoutr/NE_k444_r18_ap0,1_inoutr_s1522_ss444.txt,Mon Nov 26 13:10:09 2018,Mon Nov 26 13:10:09 2018,8.08333,444,2818.1
+nethept,inoutr/NE_k444_r18_ap0,15_inoutr_s1522_ss444.txt,Mon Nov 26 13:11:13 2018,Mon Nov 26 13:11:13 2018,8.14708,444,2770.42

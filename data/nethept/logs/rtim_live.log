@@ -238,3 +238,39 @@ End date        : Mon Nov 26 12:47:46 2018
 Duration        : 0.006457 seconds
 Max update time : 0.000002 seconds
 ----------------------------------------------------
+File name       : NE_k800_r10_ap0,8_inoutr_s1522_ss444.txt
+Start date      : Mon Nov 26 13:02:34 2018
+End date        : Mon Nov 26 13:02:34 2018
+Duration        : 0.012474 seconds
+Max update time : 0.000007 seconds
+----------------------------------------------------
+File name       : NE_k800_r10_ap0,1_inoutr_s1522_ss320.txt
+Start date      : Mon Nov 26 13:06:36 2018
+End date        : Mon Nov 26 13:06:36 2018
+Duration        : 0.010091 seconds
+Max update time : 0.000018 seconds
+----------------------------------------------------
+File name       : NE_k444_r20_ap0,1_inoutr_s1522_ss444.txt
+Start date      : Mon Nov 26 13:08:12 2018
+End date        : Mon Nov 26 13:08:12 2018
+Duration        : 0.013773 seconds
+Max update time : 0.000005 seconds
+----------------------------------------------------
+File name       : NE_k444_r15_ap0,1_inoutr_s1522_ss394.txt
+Start date      : Mon Nov 26 13:09:17 2018
+End date        : Mon Nov 26 13:09:17 2018
+Duration        : 0.012292 seconds
+Max update time : 0.000009 seconds
+----------------------------------------------------
+File name       : NE_k444_r18_ap0,1_inoutr_s1522_ss444.txt
+Start date      : Mon Nov 26 13:09:38 2018
+End date        : Mon Nov 26 13:09:38 2018
+Duration        : 0.013320 seconds
+Max update time : 0.000018 seconds
+----------------------------------------------------
+File name       : NE_k444_r18_ap0,15_inoutr_s1522_ss444.txt
+Start date      : Mon Nov 26 13:10:49 2018
+End date        : Mon Nov 26 13:10:49 2018
+Duration        : 0.013493 seconds
+Max update time : 0.000011 seconds
+----------------------------------------------------

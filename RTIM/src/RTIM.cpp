@@ -271,7 +271,11 @@ void RTIM::live(){
 
   double estScore = 0;
   for(double ap: activationProbabilities){
-    estScore += ap;
+    if(ap > args.theta_ap){
+      estScore += 1;
+    }else{
+      estScore += ap;
+    }
   }
   printInColor("red", "estScore = " + properStringDouble(estScore));
   // cout << "Live complete!" << endl;

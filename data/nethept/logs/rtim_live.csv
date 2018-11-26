@@ -39,3 +39,9 @@ nethept,inNOut_repeat,1,1522,4,0.8,2,800,271,1.1e-05,0.032345
 nethept,inNOut_repeat,1,1522,5,0.8,2,800,308,2e-06,0.033113
 nethept,inNOut_repeat,1,1522,10,0.8,2,800,444,1.2e-05,0.009801
 nethept,inNOut_repeat,1,1522,10,0.1,2,800,320,2e-06,0.006457
+nethept,inNOut_repeat,1,1522,10,0.8,2,800,444,7e-06,0.012474
+nethept,inNOut_repeat,1,1522,10,0.1,2,800,320,1.8e-05,0.010091
+nethept,inNOut_repeat,1,1522,20,0.1,2,444,444,5e-06,0.013773
+nethept,inNOut_repeat,1,1522,15,0.1,2,444,394,9e-06,0.012292
+nethept,inNOut_repeat,1,1522,18,0.1,2,444,444,1.8e-05,0.01332
+nethept,inNOut_repeat,1,1522,18,0.15,2,444,444,1.1e-05,0.013493

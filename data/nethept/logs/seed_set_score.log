@@ -153,3 +153,45 @@ Runtime    : 4.01365
 Seed size  : 100
 Inf. score : 1517.33
 -----------------------------------------------
+File name  : inoutr/NE_k800_r10_ap0,8_inoutr_s1522_ss444.txt
+Start date : Mon Nov 26 12:58:06 2018
+End date   : Mon Nov 26 12:58:06 2018
+Runtime    : 9.09202
+Seed size  : 444
+Inf. score : 2899.13
+-----------------------------------------------
+File name  : inoutr/NE_k800_r10_ap0,8_inoutr_s1522_ss320.txt
+Start date : Mon Nov 26 13:04:15 2018
+End date   : Mon Nov 26 13:04:15 2018
+Runtime    : 0.544926
+Seed size  : 0
+Inf. score : 0
+-----------------------------------------------
+File name  : inoutr/NE_k800_r10_ap0,1_inoutr_s1522_ss320.txt
+Start date : Mon Nov 26 13:05:09 2018
+End date   : Mon Nov 26 13:05:09 2018
+Runtime    : 7.30447
+Seed size  : 320
+Inf. score : 2463.13
+-----------------------------------------------
+File name  : inoutr/NE_k444_r20_ap0,1_inoutr_s1522_ss444.txt
+Start date : Mon Nov 26 13:08:44 2018
+End date   : Mon Nov 26 13:08:45 2018
+Runtime    : 8.44239
+Seed size  : 444
+Inf. score : 2771.05
+-----------------------------------------------
+File name  : inoutr/NE_k444_r18_ap0,1_inoutr_s1522_ss444.txt
+Start date : Mon Nov 26 13:10:09 2018
+End date   : Mon Nov 26 13:10:09 2018
+Runtime    : 8.08333
+Seed size  : 444
+Inf. score : 2818.1
+-----------------------------------------------
+File name  : inoutr/NE_k444_r18_ap0,15_inoutr_s1522_ss444.txt
+Start date : Mon Nov 26 13:11:13 2018
+End date   : Mon Nov 26 13:11:13 2018
+Runtime    : 8.14708
+Seed size  : 444
+Inf. score : 2770.42
+-----------------------------------------------

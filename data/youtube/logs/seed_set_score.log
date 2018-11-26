@@ -341,3 +341,52 @@ Runtime    : 1209.62
 Seed size  : 10000
 Inf. score : 545503
 -----------------------------------------------
+File name  : inoutr/YO_k1000_r0,01_ap0,5_inoutr_s113489_ss1000.txt
+Start date : Mon Nov 26 13:26:19 2018
+End date   : Mon Nov 26 13:26:36 2018
+Runtime    : 890.847
+Seed size  : 1000
+Inf. score : 369637
+-----------------------------------------------
+File name  : inoutr/YO_k1000_r0,02_ap0,1_inoutr_s113489_ss1000.txt
+Start date : Mon Nov 26 13:27:10 2018
+End date   : Mon Nov 26 13:27:29 2018
+Runtime    : 950.274
+Seed size  : 1000
+Inf. score : 370986
+-----------------------------------------------
+File name  : inoutr/YO_k1000_r0,01_ap0,2_inoutr_s113489_ss1000.txt
+Start date : Mon Nov 26 13:38:36 2018
+End date   : Mon Nov 26 13:38:55 2018
+Runtime    : 923.143
+Seed size  : 1000
+Inf. score : 369323
+-----------------------------------------------
+File name  : inoutr/YO_k1000_r0,01_ap0,15_inoutr_s113489_ss1000.txt
+Start date : Mon Nov 26 13:39:40 2018
+End date   : Mon Nov 26 13:40:00 2018
+Runtime    : 954.572
+Seed size  : 1000
+Inf. score : 369888
+-----------------------------------------------
+File name  : inoutr/YO_k1000_r0,01_ap0,12_inoutr_s113489_ss1000.txt
+Start date : Mon Nov 26 13:40:40 2018
+End date   : Mon Nov 26 13:41:00 2018
+Runtime    : 975.457
+Seed size  : 1000
+Inf. score : 370048
+-----------------------------------------------
+File name  : inoutr/YO_k1000_r0,01_ap0,8_inoutr_s113489_ss1000.txt
+Start date : Mon Nov 26 13:42:27 2018
+End date   : Mon Nov 26 13:42:47 2018
+Runtime    : 953.999
+Seed size  : 1000
+Inf. score : 369671
+-----------------------------------------------
+File name  : inoutr/YO_k1000_r0,01_ap0,8_inoutr_s113489_ss1000.txt
+Start date : Mon Nov 26 13:43:54 2018
+End date   : Mon Nov 26 13:44:13 2018
+Runtime    : 888.831
+Seed size  : 1000
+Inf. score : 369649
+-----------------------------------------------
