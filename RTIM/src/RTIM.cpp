@@ -31,6 +31,7 @@ RTIM::RTIM(Arguments& arguments):graph(arguments){
   srand(time(NULL));
 }
 
+
 RTIM::RTIM(Arguments& arguments, bool loadGraph):graph(arguments, loadGraph){
   args = arguments;
 
@@ -267,6 +268,12 @@ void RTIM::live(){
   double liveDuration = (clock() - startLive)/(double)CLOCKS_PER_SEC;
   saveLiveLog(max_time, liveDuration, startDatetime, endDatetime);
   saveLiveCSV(graph, streamDuration, max_time, liveDuration);
+
+  double estScore = 0;
+  for(double ap: activationProbabilities){
+    estScore += ap;
+  }
+  printInColor("red", "estScore = " + properStringDouble(estScore));
   // cout << "Live complete!" << endl;
   // cout << "------------------------------" << endl;
 };

@@ -37,3 +37,5 @@ nethept,inNOut_repeat,1,1522,2,0.8,2,800,180,3e-06,0.030939
 nethept,inNOut_repeat,1,1522,3,0.8,2,800,217,2e-06,0.031716
 nethept,inNOut_repeat,1,1522,4,0.8,2,800,271,1.1e-05,0.032345
 nethept,inNOut_repeat,1,1522,5,0.8,2,800,308,2e-06,0.033113
+nethept,inNOut_repeat,1,1522,10,0.8,2,800,444,1.2e-05,0.009801
+nethept,inNOut_repeat,1,1522,10,0.1,2,800,320,2e-06,0.006457
