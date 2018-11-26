@@ -336,11 +336,14 @@ void Graph::updateNeighborsAPShort(int src, vector<double>& activationProbs) con
 
 
 void Graph::updateNeighborsAPDepth(int src, vector<double>& activationProbs, int maxDepth) const{
-  if(maxDepth > 0){
-    for(pair<int, double> neighbor: graph[src]){
-      if (activationProbs[neighbor.first] < 1){
-        activationProbs[neighbor.first] = 1 - (1 - activationProbs[neighbor.first])*(1 - neighbor.second * activationProbs[src]);
-        updateNeighborsAPDepth(neighbor.first, activationProbs, maxDepth--);
+  // cout << "(" << src << ", d=" << 1 - maxDepth << ")";
+  for(pair<int, double> neighbor: graph[src]){
+    int newDepth;
+    if (activationProbs[neighbor.first] < 1){
+      activationProbs[neighbor.first] = 1 - (1 - activationProbs[neighbor.first])*(1 - neighbor.second * activationProbs[src]);
+      if (maxDepth > 0){
+        newDepth = maxDepth - 1;
+        updateNeighborsAPDepth(neighbor.first, activationProbs, newDepth);
       }
     }
   }

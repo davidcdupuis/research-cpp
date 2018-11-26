@@ -210,8 +210,10 @@ void RTIM::live(){
       // measure update time
       start = clock();
       //graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 1);
-      graph.updateNeighborsAPShort(user, activationProbabilities);
-      //graph.updateNeighborsAPDepth(user, activationProbabilities, 3);
+      //graph.updateNeighborsAPShort(user, activationProbabilities);
+      // cout << "visiting: ";
+      graph.updateNeighborsAPDepth(user, activationProbabilities, 3);
+      // cout << endl;
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       if (duration > max_time){
         max_time = duration;
@@ -227,7 +229,7 @@ void RTIM::live(){
       	cout << "Last user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
       }
     }else if (activationProbabilities[user] < 1 && activationProbabilities[user] > args.theta_ap){
-      cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl; 
+      cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
     }
     if (seedSet.size() >= args.k){
       break;
