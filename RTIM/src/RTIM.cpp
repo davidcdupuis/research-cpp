@@ -210,7 +210,8 @@ void RTIM::live(){
       // measure update time
       start = clock();
       //graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 1);
-      graph.updateNeighborsAPShort(user, activationProbabilities);
+      //graph.updateNeighborsAPShort(user, activationProbabilities);
+      graph.updateNeighborsAPDepth(user, activationProbabilities, 3);
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       if (duration > max_time){
         max_time = duration;

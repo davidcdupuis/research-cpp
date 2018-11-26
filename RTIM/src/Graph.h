@@ -173,6 +173,12 @@ class Graph
 
 
     /**
+      * Depth first recursive function to update neighbor's AP
+      * We don't visit a neighbors who's AP = 1
+      */
+    void updateNeighborsAPDepth(int src, std::vector<double>& activationProbs, int maxDepth = 100) const;
+
+    /**
       * Function to print graph
       */
     void print();
