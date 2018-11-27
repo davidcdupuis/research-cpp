@@ -206,17 +206,25 @@ void RTIM::live(){
     if (args.dataset == "test"){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
     }
-    // check neighbors
-    int tot = 0;
-    for(pair<int, double> neighbor: graph.graph[user]){
-      if(activationProbabilities[neighbor.first] == 1){
-        tot ++;
+    if (activationProbabilities[user] < 1.0){ // no point doing this if the user is already targeted	    
+      // check neighbors
+      int tot = 0;
+      for(pair<int, double> neighbor: graph.graph[user]){
+        if(activationProbabilities[neighbor.first] == 1){
+          tot ++;
+        }
       }
-    }
-    if (tot == graph.graph[user].size()){
-      tmpInfScores[user] = 1;
-    }else{
-      tmpInfScores[user] = tmpInfScores[user] - tot;
+      double old_score = tmpInfScores[user];
+      if (tot == graph.graph[user].size()){
+        cout << "All neighbors are activated: " << user << " > ap= " << activationProbabilities[user] << "| old_score= " << old_score << endl;
+        tmpInfScores[user] = 1;
+      }else{
+        tmpInfScores[user] = tmpInfScores[user] - tot;
+	cout << "New score for : " << user << " > old_score = " << old_score << " > new_score = " << tmpInfScores[user] << endl;
+      }
+      if (tmpInfScores[user] < sortedScores[infIndex]){
+        infIndex --;
+      }
     }
     if (activationProbabilities[user] < args.theta_ap && tmpInfScores[user] >= sortedScores[infIndex]){
       seedSet.push_back(user);
@@ -235,7 +243,7 @@ void RTIM::live(){
         max_time = duration;
       }
 
-      //infIndex --;
+      infIndex --;
       if (args.dataset == "test" || args.k < 20){
         cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
       }

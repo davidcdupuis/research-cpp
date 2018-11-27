@@ -523,3 +523,17 @@ Runtime    : 903.411
 Seed size  : 1000
 Inf. score : 367249
 -----------------------------------------------
+File name  : inoutr/YO_k1000_r0,1_ap0,98_inoutr_s113489_ss1000.txt
+Start date : Tue Nov 27 14:30:54 2018
+End date   : Tue Nov 27 14:31:09 2018
+Runtime    : 794.856
+Seed size  : 1000
+Inf. score : 369054
+-----------------------------------------------
+File name  : inoutr/YO_k1000_r0,01_ap0,98_inoutr_s113489_ss1000.txt
+Start date : Tue Nov 27 14:58:27 2018
+End date   : Tue Nov 27 14:58:41 2018
+Runtime    : 760.555
+Seed size  : 1000
+Inf. score : 340701
+-----------------------------------------------
