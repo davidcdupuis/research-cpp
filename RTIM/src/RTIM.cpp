@@ -167,6 +167,10 @@ void RTIM::pre_process(){
 
 
 void RTIM::live(){
+  vector<double> tmpInfScores;
+  for(double score: infScores){
+    tmpInfScores.push_back(score);
+  }
   clock_t startLive = clock();
   string startDatetime = getLocalDatetime();
   // nodes = graph.graph.size();
@@ -200,11 +204,23 @@ void RTIM::live(){
     sum ++;
     //cout << "User: " << user << " dataset: " << args.dataset << endl;
     if (args.dataset == "test"){
-      cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
+      cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
     }
-    if (activationProbabilities[user] < args.theta_ap && infScores[user] >= sortedScores[infIndex]){
+    // check neighbors
+    int tot = 0;
+    for(pair<int, double> neighbor: graph.graph[user]){
+      if(activationProbabilities[neighbor.first] == 1){
+        tot ++;
+      }
+    }
+    if (tot == graph.graph[user].size()){
+      tmpInfScores[user] = 1;
+    }else{
+      tmpInfScores[user] = tmpInfScores[user] - tot;
+    }
+    if (activationProbabilities[user] < args.theta_ap && tmpInfScores[user] >= sortedScores[infIndex]){
       seedSet.push_back(user);
-      saveProgress(user,activationProbabilities[user], infScores[user], sum, sortedScores[infIndex], seedSet.size());
+      saveProgress(user,activationProbabilities[user], tmpInfScores[user], sum, sortedScores[infIndex], seedSet.size());
       double tmpAP = activationProbabilities[user];
       activationProbabilities[user] = 1.0;
       // measure update time
@@ -224,9 +240,9 @@ void RTIM::live(){
         cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
       }
       if (seedSet.size() == 1){
-      	cout << "First user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
+      	cout << "First user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << tmpInfScores[user] << endl;
       }else if (seedSet.size() == args.k){
-      	cout << "Last user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
+      	cout << "Last user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << tmpInfScores[user] << endl;
       }
     }else if (activationProbabilities[user] < 0.9 && activationProbabilities[user] > args.theta_ap){
       cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;

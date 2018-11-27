@@ -312,6 +312,18 @@ void Graph::shortestPathsWeightsB(double* distances, int node, int max_depth, do
 }
 
 
+double Graph::influenceLocalScore(int origine, vector<double>& scores, int node, vector<double>& activationProbs, int maxDepth) const{
+  for(pair<int, double> neighbor: graph[node]){
+    int newDepth;
+    scores[origine] = scores[origine] - activationProbs[neighbor.first];
+    if (maxDepth > 0){
+      newDepth = maxDepth - 1;
+      influenceLocalScore(origine, scores, neighbor.first, activationProbs, newDepth);
+    }
+  }
+}
+
+
 void Graph::updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth) const{
   path.insert(src);
   double new_path_weight;

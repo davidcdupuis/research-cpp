@@ -158,6 +158,11 @@ class Graph
 
 
     /**
+      * Function to update the local influence based on activated neighbors
+      */
+    double influenceLocalScore(int origine, std::vector<double>& scores, int node, std::vector<double>& activationProbs, int maxDepth = 100) const;
+
+    /**
       * Update activation probabilities of neighboring nodes
       */
     void updateNeighborsAP(int src, std::vector<double>& activationProbs, std::set<int> path, double path_weight=1, int depth=2) const;
