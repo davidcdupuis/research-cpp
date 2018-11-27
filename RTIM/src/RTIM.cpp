@@ -212,7 +212,7 @@ void RTIM::live(){
       //graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 1);
       //graph.updateNeighborsAPShort(user, activationProbabilities);
       // cout << "visiting: ";
-      graph.updateNeighborsAPDepth(user, activationProbabilities, 3);
+      graph.updateNeighborsAPDepth(user, activationProbabilities, 1);
       // cout << endl;
       duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       if (duration > max_time){
@@ -228,7 +228,7 @@ void RTIM::live(){
       }else if (seedSet.size() == args.k){
       	cout << "Last user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
       }
-    }else if (activationProbabilities[user] < 1 && activationProbabilities[user] > args.theta_ap){
+    }else if (activationProbabilities[user] < 0.9 && activationProbabilities[user] > args.theta_ap){
       cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
     }
     if (seedSet.size() >= args.k){
@@ -266,7 +266,7 @@ void RTIM::live(){
   cout << endl;
   clearLines(1);
   double streamDuration = (clock() - startStream)/(double)CLOCKS_PER_SEC;
-  cout << "Availability stream read in:  " << cleanTime(streamDuration, "ms") << endl;
+  cout << "Availability stream read in:  " << cleanTime(streamDuration, "s") << endl;
   saveSeedSet();
 
   string endDatetime = getLocalDatetime();
