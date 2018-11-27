@@ -219,7 +219,7 @@ void RTIM::live(){
         max_time = duration;
       }
 
-      infIndex --;
+      //infIndex --;
       if (args.dataset == "test" || args.k < 20){
         cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
       }
