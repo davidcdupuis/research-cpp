@@ -24,6 +24,28 @@ void printInColor(string color, string txt){
   cout << "\033[1;" + colorVal + "m" + txt + "\033[0m" << endl;
 }
 
+string getTxtInColor(string color, string txt){
+  string colorVal;
+  if(color == "red"){
+    colorVal = "31";
+  }else if (color == "green"){
+    colorVal = "32";
+  }else if (color == "yellow"){
+    colorVal = "33";
+  }else if (color == "blue"){
+    colorVal = "34";
+  }else if (color == "magenta"){
+    colorVal = "35";
+  }else if (color == "cyan"){
+    colorVal = "36";
+  }else if (color == "white"){
+    colorVal = "37";
+  }else{
+    cerr << "Error: color specified not recognized!" << endl;
+  }
+  return "\033[1;" + colorVal + "m" + txt + "\033[0m";
+}
+
 
 string cleanTime(double t, string type){
   if (type == "ms"){
@@ -133,6 +155,7 @@ string properStringDouble(double value){
   }
   return result;
 }
+
 
 void listFolderFiles(string folder){
   DIR *dir;

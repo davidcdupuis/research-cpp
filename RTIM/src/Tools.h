@@ -32,6 +32,7 @@
   void printInColor(std::string color, std::string txt);
 
 
+  std::string getTxtInColor(std::string color, std::string txt);
 /**
   *
   */
