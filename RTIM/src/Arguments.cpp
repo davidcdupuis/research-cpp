@@ -224,6 +224,8 @@ string Arguments::generateDataFilePath(string type){
     }
   }else if (type == "rtim_progress"){
     file_path += "rtim/live/progress/" + keyword[streamModel] + "/";
+  }else if (type == "stream_log"){
+    file_path += "streams/" + streamModel + "/log/";
   }else{
     cout << "Type not recognized!" << endl;
   }
@@ -280,6 +282,12 @@ string Arguments::generateFileName(string type, int param){
       file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_prg.csv";
     }else{
       file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
+    }
+  }else if (type == "stream_log"){
+    if (streamModel == "inNOut_repeat"){
+      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_prg.log";
+    }else{
+      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.log";
     }
   }
 

@@ -158,6 +158,20 @@ public:
     */
   void saveProgress(int user_index, double ap, double score, int seen, double infTheta, int seedSize);
 
+
+  /**
+    * Initiate stream log file with head
+    * stream_position | status | user_index | old_ap | ap | score | theta_score | ...
+    *  
+    */
+  void initiateStreamLog();
+
+
+  /**
+    * Save stream log
+    */
+  void saveStreamLog(int pos, int user, double ap, double oScore, double nScore, double theta_I, std::string status, int seedSize);
+
   /**
     * Import influence scores
     */

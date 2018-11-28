@@ -178,6 +178,7 @@ void RTIM::live(){
   // cout << "Running live on " << args.dataset << endl;
   seedSet.clear(); // in case live was already run with different params
   initiateProgressLog();
+  initiateStreamLog();
   activationProbabilities.clear();
   activationProbabilities.resize(nodes, 0);
 
@@ -206,7 +207,7 @@ void RTIM::live(){
     if (args.dataset == "test"){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
     }
-    if (activationProbabilities[user] < 1.0){ // no point doing this if the user is already targeted	    
+    if (activationProbabilities[user] < args.theta_ap){ // CHECK ACTIVATION PROBABILITY
       // check neighbors
       int tot = 0;
       for(pair<int, double> neighbor: graph.graph[user]){
@@ -216,76 +217,62 @@ void RTIM::live(){
       }
       double old_score = tmpInfScores[user];
       if (tot == graph.graph[user].size()){
-        cout << "All neighbors are activated: " << user << " > ap= " << activationProbabilities[user] << "| old_score= " << old_score << endl;
+        // cout << "All neighbors are activated: " << user << " > ap= " << activationProbabilities[user] << "| old_score= " << old_score << endl;
         tmpInfScores[user] = 1;
-      }else{
-        tmpInfScores[user] = tmpInfScores[user] - tot;
-	cout << "New score for : " << user << " > old_score = " << old_score << " > new_score = " << tmpInfScores[user] << endl;
-      }
-      if (tmpInfScores[user] < sortedScores[infIndex]){
-        infIndex --;
-      }
-    }
-    if (activationProbabilities[user] < args.theta_ap && tmpInfScores[user] >= sortedScores[infIndex]){
-      seedSet.push_back(user);
-      saveProgress(user,activationProbabilities[user], tmpInfScores[user], sum, sortedScores[infIndex], seedSet.size());
-      double tmpAP = activationProbabilities[user];
-      activationProbabilities[user] = 1.0;
-      // measure update time
-      start = clock();
-      //graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 1);
-      //graph.updateNeighborsAPShort(user, activationProbabilities);
-      // cout << "visiting: ";
-      graph.updateNeighborsAPDepth(user, activationProbabilities, 1);
-      // cout << endl;
-      duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-      if (duration > max_time){
-        max_time = duration;
-      }
-
-      infIndex --;
-      if (args.dataset == "test" || args.k < 20){
-        cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
-      }
-      if (seedSet.size() == 1){
-      	cout << "First user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << tmpInfScores[user] << endl;
-      }else if (seedSet.size() == args.k){
-      	cout << "Last user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << tmpInfScores[user] << endl;
-      }
-    }else if (activationProbabilities[user] < 0.9 && activationProbabilities[user] > args.theta_ap){
-      cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
-    }
-    if (seedSet.size() >= args.k){
-      break;
-    }
-
-    // print progress
-    /*
-    float progress = (float)sum/args.streamSize;
-
-    time_t currentTime;
-    time ( &currentTime );
-    double duration = difftime(currentTime,startTime);
-    double durationPerPercent = duration / progress;
-    double timeLeft = (1 - progress) * durationPerPercent;
-    int barWidth = 50;
-
-    cout << "\r[";
-    int pos = barWidth * progress;
-    for (int i = 0; i < barWidth; ++i) {
-        if (i < pos) {
-          cout << "=";
-        } else if (i == pos){
-          cout << ">";
-        } else {
-          cout << " ";
+        if (tmpInfScores[user] < sortedScores[infIndex]){
+          infIndex --;
         }
-    }
-    int progressPercentage = (int)(progress * 100.0);
-    cout << "] " << progressPercentage << " % -- (" << sum << "/" << args.streamSize << ") -- (" << duration << "s / " << timeLeft << "s)";
-    cout.flush();
-    */
+      }else if (tot > 0){
+        tmpInfScores[user] = tmpInfScores[user] - tot;
+        // cout << "New score for : " << user << " > old_score = " << old_score << " > new_score = " << tmpInfScores[user] << endl;
+        if (tmpInfScores[user] < sortedScores[infIndex]){
+          infIndex --;
+        }
+      }
 
+      if(tmpInfScores[user] >= sortedScores[infIndex]){ // CHECK INFLUENCE SCORE
+        seedSet.push_back(user); // add user to seed set
+        saveProgress(user,activationProbabilities[user], tmpInfScores[user], sum, sortedScores[infIndex], seedSet.size());
+        double tmpAP = activationProbabilities[user];
+        activationProbabilities[user] = 1.0;
+
+        // measure update time
+        start = clock();
+        //graph.updateNeighborsAP(user, activationProbabilities, {}, 1.0, 1);
+        //graph.updateNeighborsAPShort(user, activationProbabilities);
+        graph.updateNeighborsAPDepth(user, activationProbabilities, 1);
+        duration = (clock() - start)/(double)CLOCKS_PER_SEC;
+        if (duration > max_time){
+          max_time = duration;
+        }
+        // RECORD TARGETED USER
+        saveStreamLog(sum, user, tmpAP, old_score, tmpInfScores[user], sortedScores[infIndex], "targeted", seedSet.size());
+        infIndex --;
+        if (args.dataset == "test" || args.k < 20){
+          cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
+        }
+        if (seedSet.size() == 1){
+        	cout << "First user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << tmpInfScores[user] << endl;
+        }else if (seedSet.size() == args.k){
+        	cout << "Last user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << tmpInfScores[user] << endl;
+        }
+      }else{
+        //cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
+        // RECORD USER IGNORED BECAUSE SCORE TOO LOW
+        saveStreamLog(sum, user, activationProbabilities[user], old_score, tmpInfScores[user], sortedScores[infIndex], "ignored (score too low)", -1);
+      }
+      if (seedSet.size() >= args.k){
+        break;
+      }
+    }else{
+      if (activationProbabilities[user] == 1){
+        // RECORD USER IGNORED BECAUSE ALREADY TARGETED
+        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ignored (already targeted)", -1);
+      }else{
+        // RECORD USER IGNORED BECAUSE AP TOO HIGH
+        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ignored (ap too high)", -1);
+      }
+    }
   }
   cout << endl;
   clearLines(1);
@@ -503,6 +490,52 @@ void RTIM::saveProgress(int user_index, double ap, double score, int seen, doubl
   progressFile << seedSize;
   progressFile << endl;
   progressFile.close();
+}
+
+
+void RTIM::initiateStreamLog(){
+  string file = args.generateDataFilePath("stream_log") + args.generateFileName("stream_log");
+  printInColor("cyan", "New stream log    :" + file);
+  ofstream streamLog;
+  streamLog.open(file);
+  streamLog << "Dataset: " << args.dataset << endl;
+  streamLog << "STREAM: model = " << args.streamModel << "|  size = " << args.streamSize << endl;
+  streamLog << "RTIM: k = " << args.k << " | theta_ap = " << args.theta_ap << " | reach = " << args.reach << endl;
+  streamLog << "------------------------------------------------------------" << endl;
+  streamLog << left << setw(8 + 2) << "position";
+  streamLog << left << setw(8 + 2) << "user_id";
+  streamLog << left << setw(10 + 2) << "ap(user)";
+  streamLog << left << setw(15 + 2) << "sigma_old(user)";
+  streamLog << left << setw(15 + 2) << "sigma_new(user)";
+  streamLog << left << setw(8 + 2) << "theta_I";
+  streamLog << left << setw(27 + 2) << "status";
+  streamLog << left << setw(8 + 2) << "seed_size";
+  streamLog << endl;
+}
+
+
+void RTIM::saveStreamLog(int pos, int user, double ap, double oScore, double nScore, double theta_I, string status, int seedSize){
+  string file = args.generateDataFilePath("stream_log") + args.generateFileName("stream_log");
+  ofstream streamLog;
+  streamLog.open(file, fstream::app);
+  streamLog << left << setw(8 + 2) << pos;
+  streamLog << left << setw(8 + 2) << user;
+  streamLog << left << setw(10 + 2) << ap;
+  streamLog << left << setw(15 + 2) << oScore;
+  if (nScore == -1 || nScore == oScore){
+    streamLog << left << setw(15 + 2) << "-";
+  }else{
+    streamLog << left << setw(15 + 2) << nScore;
+  }
+  streamLog << left << setw(8 + 2) << theta_I;
+  streamLog << left << setw(27 + 2) << status;
+  if ( seedSize == -1){
+    streamLog << left << setw(8 + 2) << "-";
+  }else{
+    streamLog << left << setw(8 + 2) << seedSize;
+  }
+  streamLog << endl;
+  streamLog.close();
 }
 
 
@@ -793,6 +826,7 @@ int RTIM::datasetMenu(){
       graph.directory = "../../data/" + args.dataset; //necessary to readAttributes
       graph.readAttributes();
       nodes = graph.nodes;
+      args.streamSize = nodes / 10;
       sleep(2);
       lines += 3;
       break;
@@ -1347,14 +1381,8 @@ int main(int argn, char **argv)
   Arguments args = Arguments();
   RTIM rtim = RTIM(args);
   rtim.run();
-  /*
-  //int nodes = 41652230;
-  int nodes = 4050000;
-  bool visitedOriginal[nodes] = {};
-  bool visited[nodes];
-  for (int i = 0; i < 10000; i++){
-      //bool* visited = (bool*) calloc (nodes,sizeof(bool));
-      memcpy(visited, visitedOriginal, nodes);
-  }
-  sleep(15);*/
+  // for (int i = 10; i < 100000; i *= 10 ){
+  //   cout << left << setw(10) << i << left << setw(10) << i*10 << endl;
+  // }
+  // sleep(15);
 }
