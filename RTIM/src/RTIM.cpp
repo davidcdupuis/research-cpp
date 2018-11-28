@@ -827,7 +827,7 @@ int RTIM::datasetMenu(){
       graph.readAttributes();
       nodes = graph.nodes;
       args.streamSize = nodes / 10;
-      sleep(2);
+      //sleep(4);
       lines += 3;
       break;
     }
@@ -1265,7 +1265,7 @@ void RTIM::run(){
         // change dataset
         loadDataset = datasetMenu();
         loadScores = 1; // inf. scores need to be imported for new dataset
-        args.printDatasetArguments();
+        args.printDatasetArguments(graph.nodes, graph.edges);
         stageMenu();
         stageArgumentsMenu();
         args.printStageArguments();
@@ -1274,7 +1274,7 @@ void RTIM::run(){
         // choose dataset
         loadDataset = datasetMenu();
         loadScores = 1; // inf. scores need to be imported for new dataset
-        args.printDatasetArguments();
+        args.printDatasetArguments(graph.nodes, graph.edges);
         stageMenu();
         stageArgumentsMenu();
         args.printStageArguments();

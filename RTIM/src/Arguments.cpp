@@ -166,9 +166,11 @@ void Arguments::printArguments(){
 }
 
 
-void Arguments::printDatasetArguments(){
+void Arguments::printDatasetArguments(int nodes, int edges){
   cout << "------------- Dataset --------------" << endl;
   cout << "- name         : "; printInColor("yellow", dataset);
+  cout << "- nodes        : "; printInColor("yellow", to_string(nodes));
+  cout << "- edges        : "; printInColor("yellow", to_string(edges));
   cout << "- model        : "; printInColor("yellow", model);
   if(edge_weight == -1){
     cout << "- edge weights : "; printInColor("yellow", "weighted cascade");

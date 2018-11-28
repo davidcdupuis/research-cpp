@@ -73,7 +73,7 @@ public:
   void printArguments();
 
 
-  void printDatasetArguments();
+  void printDatasetArguments(int nodes, int edges);
 
 
   void printStageArguments();

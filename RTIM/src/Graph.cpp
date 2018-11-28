@@ -42,17 +42,17 @@ void Graph::addEdge(int a, int b, double w){
 void Graph::readAttributes(){
   string folder = directory + "/attributes.txt";
   ifstream infile(folder.c_str());
-  cout << "Loading attributes from: " << folder << endl;
+  //cout << "Loading attributes from: " << folder << endl;
   string s;
   while(infile >> s){
     if(s.substr(0, 2)=="n="){
       nodes = atoi(s.substr(2).c_str());
-      cout << "Number of nodes: " << nodes << endl;
+      //cout << "Number of nodes: " << nodes << endl;
       continue;
     }
     if (s.substr(0, 2) == "m="){
       edges = atoi(s.substr(2).c_str());
-      cout << "Number of edges: " << edges << endl;
+      //cout << "Number of edges: " << edges << endl;
       continue;
     }
     cerr << "Error: bad attributes!" << endl;
