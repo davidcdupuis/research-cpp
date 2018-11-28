@@ -219,13 +219,13 @@ void RTIM::live(){
       if (tot == graph.graph[user].size()){
         // cout << "All neighbors are activated: " << user << " > ap= " << activationProbabilities[user] << "| old_score= " << old_score << endl;
         tmpInfScores[user] = 1;
-        if (tmpInfScores[user] < sortedScores[infIndex]){
+        if (old_score > sortedScores[infIndex] && tmpInfScores[user] < sortedScores[infIndex]){
           infIndex --;
         }
       }else if (tot > 0){
         tmpInfScores[user] = tmpInfScores[user] - tot;
         // cout << "New score for : " << user << " > old_score = " << old_score << " > new_score = " << tmpInfScores[user] << endl;
-        if (tmpInfScores[user] < sortedScores[infIndex]){
+        if (old_score > sortedScores[infIndex] && tmpInfScores[user] < sortedScores[infIndex]){
           infIndex --;
         }
       }
