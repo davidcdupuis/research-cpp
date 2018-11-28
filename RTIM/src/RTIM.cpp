@@ -1203,8 +1203,8 @@ int RTIM::continueMenu(){
   int choice = -1;
   cout << "________________________________________" << endl;
   cout << "Continue: " << endl;
-  cout << "   [1] Repeat previous stage with same arguments" << endl;
-  cout << "   [2] Repeat previous stage with new arguments" << endl;
+  cout << "   [1] Repeat previous stage with same arguments (" << args.stage << ")" << endl;
+  cout << "   [2] Repeat previous stage with new arguments (" << args.stage << ")" << endl;
   cout << "   [3] Change stage" << endl;
   cout << "   [4] Change dataset" << endl;
   cout << "   [5] End Program" << endl;

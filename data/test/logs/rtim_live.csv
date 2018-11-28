@@ -30,3 +30,4 @@ test,inNOut_repeat,1,2,50,0.8,2,10,1,1e-06,0.00024
 test,inNOut_repeat,1,2,1,0.8,2,10,0,0,0.000158
 test,inNOut_repeat,1,-1,1,0.8,2,10,0,0,0.000131
 test,inNOut_repeat,1,2,50,0.8,2,10,1,1e-06,0.000251
+test,inNOut_repeat,1,2,10,0.8,2,10,0,0,0.000364
