@@ -167,23 +167,22 @@ void Arguments::printArguments(){
 
 
 void Arguments::printDatasetArguments(int nodes, int edges){
-  cout << "------------- " << getTxtInColor("red", "Dataset");
-  cout << " --------------" << endl;
-  cout << "- name         : " << getTxtInColor("yellow", dataset);
-  cout << " [ v = " << getTxtInColor("yellow", to_string(nodes)) << " | ";
-  cout << "e = " << getTxtInColor("yellow", to_string(edges))  << "]" << endl;
-  cout << "- model        : "; printInColor("yellow", model);
+  cout << string(13, '-') << toColor("red", " Dataset ") << string(14, '-') << endl;
+  cout << "- name         : " << toColor("yellow", dataset);
+  cout << " [ v = " << toColor("yellow", to_string(nodes)) << " | ";
+  cout << "e = " << toColor("yellow", to_string(edges))  << "]" << endl;
+  cout << "- model        : " << toColor("yellow", model) << endl;
   if(edge_weight == -1){
-    cout << "- edge weights : " << getTxtInColor("yellow", "weighted cascade") << endl;
+    cout << "- edge weights : " << toColor("yellow", "weighted cascade") << endl;
   }else{
-    cout << "- edge weights : " << getTxtInColor("yellow", properStringDouble(edge_weight)) << endl;
+    cout << "- edge weights : " << toColor("yellow", properStringDouble(edge_weight)) << endl;
   }
   cout << "------------------------------------" << endl;
 }
 
 
 void Arguments::printStageArguments(){
-  cout << "------------- " << stage << " --------------" << endl;
+  cout << "------------- " << toColor("red", stage) << " --------------" << endl;
   if( stage == "live"){
     cout << "STREAM" << endl;
     cout << "- model        : "; printInColor("yellow", streamModel);
