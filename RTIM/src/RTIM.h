@@ -35,6 +35,8 @@ public:
   std::vector<double> nodeTime;      /**< time took to compute node inf score */
   std::vector<double> sortedScores;  /**< array of sorted influence scores */
   std::vector<int> seedSet;          /**< users to target */
+  std::vector<int> immTargeted;
+  std::set<int> immSeedSet;
   std::string seedFile = "";
   std::vector<double> activationProbabilities; /**< array of activation probabilities*/
   Arguments args;                    /**< command line arguments */
@@ -49,6 +51,8 @@ public:
     */
   RTIM(Arguments& arguments, bool loadGraph);
 
+
+  void importIMMSeed();
 
   /**
     * Pre-processing stage
@@ -170,7 +174,7 @@ public:
   /**
     * Save stream log
     */
-  void saveStreamLog(int pos, int user, double ap, double oScore, double nScore, double theta_I, std::string status, int seedSize);
+  void saveStreamLog(int pos, int user, double ap, double oScore, double nScore, double theta_I, std::string rtim_status, int seedSize, int imm_targeted);
 
   /**
     * Import influence scores

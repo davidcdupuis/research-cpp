@@ -24,6 +24,7 @@ void printInColor(string color, string txt){
   cout << "\033[1;" + colorVal + "m" + txt + "\033[0m" << endl;
 }
 
+
 string toColor(string color, string txt){
   string colorVal;
   if(color == "red"){

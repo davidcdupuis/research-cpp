@@ -20,7 +20,7 @@
   *   - ...
   */
 class Arguments{
-private:
+public:
   std::map<std::string, std::string> datasets = {
     { "test", "TS" },
     { "nethept", "NE" },
@@ -40,7 +40,6 @@ private:
     { "progress", "prg"},
   };
 
-public:
   int k = 200;                          /**< size of seed set if defined */
   int streamVersion = 1;               /**< version of stream */
   int streamSize = -1;                 /**< size of stream to use*/

@@ -46,6 +46,21 @@ RTIM::RTIM(Arguments& arguments, bool loadGraph):graph(arguments, loadGraph){
 }
 
 
+void RTIM::importIMMSeed(){
+  immTargeted.resize(nodes, 0);
+  string path = "../../data/" + args.dataset + "/imm/basic/" + args.datasets[args.dataset] + "_k" + to_string(args.k) + "_e" + "0,1" + "_ss.txt";
+  cout << "Importing IMM Seed Set from " + path << endl;
+  ifstream infile(path.c_str());
+  int user;
+  while (infile >> user){
+    immTargeted[user] = 1;
+  }
+  cout << "Done import!" << endl;
+  // sleep(3);
+  // clearLines(2);
+}
+
+
 void RTIM::saveToCSV(string fileName){
   ofstream myfile;
   myfile.open(fileName);
@@ -167,6 +182,7 @@ void RTIM::pre_process(){
 
 
 void RTIM::live(){
+  importIMMSeed();
   vector<double> tmpInfScores;
   for(double score: infScores){
     tmpInfScores.push_back(score);
@@ -203,7 +219,10 @@ void RTIM::live(){
   bool newProgress = true;
   while (infile >> user){
     sum ++;
-    //cout << "User: " << user << " dataset: " << args.dataset << endl;
+
+    if (immTargeted[user]){
+      immSeedSet.insert(user);
+    }
     if (args.dataset == "test"){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
     }
@@ -247,7 +266,7 @@ void RTIM::live(){
           max_time = duration;
         }
         // RECORD TARGETED USER
-        saveStreamLog(sum, user, tmpAP, old_score, tmpInfScores[user], sortedScores[infIndex], "targeted", seedSet.size());
+        saveStreamLog(sum, user, tmpAP, old_score, tmpInfScores[user], sortedScores[infIndex], "targeted", seedSet.size(), immTargeted[user]);
         infIndex --;
         if (args.dataset == "test" || args.k < 20){
           cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
@@ -260,7 +279,7 @@ void RTIM::live(){
       }else{
         //cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
         // RECORD USER IGNORED BECAUSE SCORE TOO LOW
-        saveStreamLog(sum, user, activationProbabilities[user], old_score, tmpInfScores[user], sortedScores[infIndex], "ignored (score too low)", -1);
+        saveStreamLog(sum, user, activationProbabilities[user], old_score, tmpInfScores[user], sortedScores[infIndex], "ignored (score too low)", -1, immTargeted[user]);
       }
       if (seedSet.size() >= args.k){
         break;
@@ -268,10 +287,10 @@ void RTIM::live(){
     }else{
       if (activationProbabilities[user] == 1){
         // RECORD USER IGNORED BECAUSE ALREADY TARGETED
-        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ignored (already targeted)", -1);
+        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ignored (already targeted)", -1, immTargeted[user]);
       }else{
         // RECORD USER IGNORED BECAUSE AP TOO HIGH
-        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ignored (ap too high)", -1);
+        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ignored (ap too high)", -1, immTargeted[user]);
       }
     }
   }
@@ -295,7 +314,7 @@ void RTIM::live(){
 
   // COMPUTE SEED SET INFLUENCE SCORE WITH MC SIMULATIONS
   printInColor("magenta", "----------------------------------------------");
-  printLocalTime("magenta", "Compute seed score", "starting");
+  printLocalTime("magenta", "Compute RTIM seed score", "starting");
   string seedFile = args.generateDataFilePath("rtim_seedSet") + args.generateFileName("rtim_seedSet", seedSet.size());
   double score;
   string scoreStartDate = getLocalDatetime();
@@ -308,11 +327,27 @@ void RTIM::live(){
 
   double scoreDuration = (clock() - startTime)/(double)CLOCKS_PER_SEC;
   string scoreEndDate = getLocalDatetime();
-  printInColor("red", "\u03C3_MC(seed) = " + properStringDouble(score));
+  printInColor("red", "RTIM: \u03C3_MC(seed) = " + properStringDouble(score));
   saveSeedScoreLog(seedFile, scoreStartDate, scoreEndDate, scoreDuration, score);
   saveSeedScoreCSV(seedFile, scoreStartDate, scoreEndDate, scoreDuration, score);
   // printLocalTime("magenta", "IMM seed test", "ending");
-  printLocalTime("magenta", "Compute seed score", "ending");
+  printLocalTime("magenta", "Compute RTIM seed score", "ending");
+  printInColor("magenta", "----------------------------------------------");
+
+  printInColor("red", "IMM seed set size: " + to_string(immSeedSet.size()));
+  printInColor("magenta", "----------------------------------------------");
+  printLocalTime("magenta", "Compute RTIM seed score", "starting");
+  vector<int> vecImmSeedSet;
+  for(int seed: immSeedSet){
+    vecImmSeedSet.push_back(seed);
+  }
+  if (args.dataset == "twitter"){
+    score = graph.influenceScoreParallel(vecImmSeedSet, 2);
+  }else{
+    score = graph.influenceScoreParallel(vecImmSeedSet);
+  }
+  printInColor("red", "IMM: \u03C3_MC(seed) = " + properStringDouble(score));
+  printLocalTime("magenta", "Compute RTIM seed score", "ending");
   printInColor("magenta", "----------------------------------------------");
 };
 
@@ -526,13 +561,14 @@ void RTIM::initiateStreamLog(){
   streamLog << left << setw(15 + 2) << "sigma_old(user)";
   streamLog << left << setw(15 + 2) << "sigma_new(user)";
   streamLog << left << setw(8 + 2) << "theta_I";
-  streamLog << left << setw(27 + 2) << "status";
+  streamLog << left << setw(27 + 2) << "rtim_status";
   streamLog << left << setw(8 + 2) << "seed_size";
+  streamLog << left << setw(8 + 2) << "imm_status";
   streamLog << endl;
 }
 
 
-void RTIM::saveStreamLog(int pos, int user, double ap, double oScore, double nScore, double theta_I, string status, int seedSize){
+void RTIM::saveStreamLog(int pos, int user, double ap, double oScore, double nScore, double theta_I, string rtim_status, int seedSize, int imm_targeted){
   string file = args.generateDataFilePath("stream_log") + args.generateFileName("stream_log");
   ofstream streamLog;
   streamLog.open(file, fstream::app);
@@ -546,11 +582,16 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double oScore, double nSc
     streamLog << left << setw(15 + 2) << nScore;
   }
   streamLog << left << setw(8 + 2) << theta_I;
-  streamLog << left << setw(27 + 2) << status;
+  streamLog << left << setw(27 + 2) << rtim_status;
   if ( seedSize == -1){
     streamLog << left << setw(8 + 2) << "-";
   }else{
     streamLog << left << setw(8 + 2) << seedSize;
+  }
+  if (imm_targeted == 1){
+    streamLog << left << setw(8 + 2) << "targeted";
+  }else{
+    streamLog << left << setw(8 + 2) << "-";
   }
   streamLog << endl;
   streamLog.close();
@@ -1339,6 +1380,6 @@ int main(int argn, char **argv)
   Arguments args = Arguments();
   args.loadDatasetsData();
   RTIM rtim = RTIM(args);
-  // rtim.run();
-  rtim.runTest();
+  rtim.run();
+  // rtim.runTest();
 }
