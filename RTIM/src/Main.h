@@ -9,12 +9,20 @@ public:
 
   void mainMenu();
 
+
   void experimentsMenu();
+
+
+  void experimentsContinueMenu();
+
 
   void datasetMenu();
 
 
   void algorithmMenu();
+
+
+  void runExperiments(std::string path);
 
 
   void run();

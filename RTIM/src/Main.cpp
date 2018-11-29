@@ -38,12 +38,85 @@ void Main::mainMenu(){
 
 
 void Main::experimentsMenu(){
+  string input;
+  cout << string(24, '_') + " Experiments " + string(23, '_') << endl;
+  cout << "Input file path from: ../data/" << endl;
+  while (1){
+    cout << "> choose file [ experiments.txt ] : ";
+    getline(cin, input);
+    // check existence of file
+    // run experiments.txt
+    break;
+  }
+}
 
+void Main::experimentsContinueMenu(){
+  int choice = -1;
+  cout << string(25, '_') + " Continue " + string(25, '_') << endl;
+  cout << "Choose option:" << endl;
+  cout << " [1] Experiments Menu" << endl;
+  cout << " [2] Main menu" << endl;
+  while (choice == -1){
+    switch(choice){
+      case 1:
+        break;
+      case 2:
+        break;
+      default:
+        cout << "Error choice not recognized!" << endl;
+        sleep(2);
+        clearLines(2);
+        choice = -1;
+    }
+  }
 }
 
 
 void Main::datasetMenu(){
+  int lines = 10;
+  int choice = -1;
+  string dataset;
+  cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
+  if(args.dataset != "" && graph.graph.size() != 0){
+    cout << "Current imported dataset: " << args.dataset << endl;
+    lines++;
+  }
 
+  for (int i = 0; i < args.datasetNames.size(); i++){
+    cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + args.datasetNames[i];
+    cout << "(";
+    cout << right << setw(14) << cleanLongInt(args.datasetNodes[i]);
+    cout << ",";
+    cout << right << setw(14) << cleanLongInt(args.datasetEdges[i]);
+    cout << ")" << endl;
+  }
+  while(1){
+    cout <<  "> choice: ";
+    string val;
+    getline(cin, val);
+    choice = stoi(val);
+    dataset = args.datasetNames[choice];
+    if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
+      cout << "Dataset not recognized: " << dataset << endl;
+      sleep(SLEEP);
+      clearLines(2);
+    } else if (args.dataset == dataset){
+      cout << "Dataset has already been imported!" << endl;
+      sleep(SLEEP);
+      return 0;
+    }else{
+      args.dataset = dataset;
+      //graph.directory = "../../data/" + args.dataset; //necessary to readAttributes
+      //graph.readAttributes();
+      graph.nodes = args.datasetNodes[choice];
+      graph.edges = args.datasetEdges[choice];
+      nodes = graph.nodes;
+      args.streamSize = nodes / 10;
+      break;
+    }
+  }
+  clearLines(lines);
+  return 1;
 }
 
 
@@ -56,6 +129,20 @@ void Main::algorithmMenu(){
   cout << "\t[4] Test" << endl;
   cout << "\t[5] EXIT" << endl;
 }
+
+
+void Main::runExperiments(string path){
+  printInColor("magenta", string(60,'-'));
+  printLocalTime("magenta", "Experiments", "starting");
+  /*
+  Read each line in file.
+  If new dataset, import
+  Run algorithm with stage and parameters
+  */
+  printInColor("magenta", string(60,'-'));
+  printLocalTime("magenta", "Experiments", "ending");
+}
+
 
 void Main::run(){
   cout << endl;

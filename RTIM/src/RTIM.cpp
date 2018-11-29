@@ -209,11 +209,12 @@ void RTIM::live(){
     }
     if (activationProbabilities[user] < args.theta_ap){ // CHECK ACTIVATION PROBABILITY
       // check neighbors
-      int tot = 0;
+      double tot = 0;
       for(pair<int, double> neighbor: graph.graph[user]){
-        if(activationProbabilities[neighbor.first] == 1){
-          tot ++;
-        }
+        // if(activationProbabilities[neighbor.first] == 1){
+        //   tot ++;
+        // }
+        tot += activationProbabilities[neighbor.first];
       }
       double old_score = tmpInfScores[user];
       if (tot == graph.graph[user].size()){
@@ -575,20 +576,6 @@ void RTIM::importScores(){
 }
 
 
-void RTIM::availabilityStream(){
-  cout << "Generating availability stream: " << args.streamModel << "_m"<< args.streamVersion << endl;
-  string file = args.generateDataFilePath("stream") + args.generateFileName("stream");
-  int user;
-  ofstream availabilityFile;
-  availabilityFile.open(file);
-  for (int i = 0; i < args.streamSize; i++){
-    availabilityFile << 0 << endl;
-  }
-  availabilityFile.close();
-  cout << "Availability file saved!" << endl;
-}
-
-
 void RTIM::getInfIndex(vector<double> & sorted){
   infIndex = (int)(sorted.size() - sorted.size() * args.reach / 100);
 }
@@ -693,70 +680,6 @@ void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
 }
 
 
-void RTIM::mainMenu(){
-  int choice = -1;
-  cout << "_______________ Main Menu _______________" << endl;
-  cout << " [1] pre-configured experiments" << endl;
-  cout << " [2] personalized experiments" << endl;
-  while (choice == -1){
-    cout <<  "> choice: ";
-    string val;
-    getline(cin, val);
-    choice = stoi(val);
-    switch(choice){
-      case 1:
-        // go to experiments menu
-        break;
-      case 2:
-        // go to datasets menu
-        break;
-      default:
-        cout << "Error: stage not recognized!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
-        choice = -1;
-    }
-  }
-  clearLines(4);
-}
-
-
-void RTIM::experimentsMenu(){
-  string input;
-  cout << string(24, '_') + " Experiments " + string(23, '_') << endl;
-  cout << "Input file path from: ../data/" << endl;
-  while (1){
-    cout << "> choose file [ experiments.txt ] : ";
-    getline(cin, input);
-    // check existence of file
-    // run experiments.txt
-    break;
-  }
-}
-
-
-void RTIM::experimentsRepeatMenu(){
-  int choice = -1;
-  cout << string(25, '_') + " Continue " + string(25, '_') << endl;
-  cout << "Choose option:" << endl;
-  cout << " [1] Experiments Menu" << endl;
-  cout << " [2] Main menu" << endl;
-  while (choice == -1){
-    switch(choice){
-      case 1:
-        break;
-      case 2:
-        break;
-      default:
-        cout << "Error choice not recognized!" << endl;
-        sleep(2);
-        clearLines(2);
-        choice = -1;
-    }
-  }
-}
-
-
 int RTIM::datasetMenu(){
   int lines = 10;
   int choice = -1;
@@ -791,7 +714,7 @@ int RTIM::datasetMenu(){
       return 0;
     }else{
       args.dataset = dataset;
-      //graph.directory = "../../data/" + args.dataset; //necessary to readAttributes
+      graph.directory = "../../data/" + args.dataset; //necessary to readAttributes
       //graph.readAttributes();
       graph.nodes = args.datasetNodes[choice];
       graph.edges = args.datasetEdges[choice];
@@ -1245,7 +1168,9 @@ void RTIM::run(){
         args.printDatasetArguments(graph.nodes, graph.edges);
         stageMenu();
         stageArgumentsMenu();
-        args.printSt == "test"){
+        args.printStageArguments();
+    }
+    if (args.stage == "test"){
       loadDataset = false; // ?
     }
     if(loadDataset){

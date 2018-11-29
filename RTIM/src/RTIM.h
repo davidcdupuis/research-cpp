@@ -198,17 +198,6 @@ public:
 
 
   /**
-    * Generate availability stream
-    * NOT IMPLEMENTED
-    *
-    * @param model
-    * @param version
-    * @param size
-    */
-  // void availabilityStream();
-
-
-  /**
     * Computes the influence score threshold index based on reach
     *
     * @param sorted: array of sorted influence scores
@@ -235,10 +224,6 @@ public:
   void mainMenu();
 
 
-  void experimentsMenu();
-
-
-  void experimentsRepeatMenu();
   /**
     * Menu to get desired dataset
     * returns 0 if a new dataset needs to be imported else 1
