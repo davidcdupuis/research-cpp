@@ -73,6 +73,8 @@ public:
   void getArguments(int argn, char **argv);
 
 
+  void loadDatasetsData();
+
   /**
     * Function to print arguments out to command line
     */

@@ -877,33 +877,28 @@ void RTIM::experimentsRepeatMenu(){
 
 int RTIM::datasetMenu(){
   int lines = 10;
+  int choice = -1;
   string dataset;
   cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
   if(args.dataset != "" && graph.graph.size() != 0){
     cout << "Current imported dataset: " << args.dataset << endl;
     lines++;
   }
-  /*
+
   for (int i = 0; i < args.datasetNames.size(); i++){
-    cout << "\t" << left << setw(17) << "[" + i + "] " + args.datasetNames[i];
+    cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + args.datasetNames[i];
     cout << "(";
-    cout << right << setw(14) << to_string(args.datasetNodes[i]);
+    cout << right << setw(14) << cleanLongInt(args.datasetNodes[i]);
     cout << ",";
-    cout << right << setw(14) << to_string(args.datasetEdges[i]);
+    cout << right << setw(14) << cleanLongInt(args.datasetEdges[i]);
     cout << ")" << endl;
   }
-  */
-  cout << "Choose a [dataset] (nodes, edges): " << endl;
-  cout << "   [test]        (      20,      30)"<< endl;
-  cout << "   [nethept]     (  15_229,  62_752)" << endl;
-  cout << "   [dblp]        ( 317_080,   2.09M)" << endl;
-  cout << "   [youtube]     (   1.13M,   5.97M)" << endl;
-  cout << "   [orkut]       (   3.07M, 234.37M)" << endl;
-  cout << "   [livejournal] (   3.99M,  69.36M)" << endl;
-  cout << "   [twitter]     (  41.65M,   1.46B)" << endl;
   while(1){
-    cout <<  "> dataset name: ";
-    getline(cin, dataset);
+    cout <<  "> choice: ";
+    string val;
+    getline(cin, val);
+    choice = stoi(val);
+    dataset = args.datasetNames[choice];
     if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
       cout << "Dataset not recognized: " << dataset << endl;
       sleep(SLEEP);
@@ -914,12 +909,12 @@ int RTIM::datasetMenu(){
       return 0;
     }else{
       args.dataset = dataset;
-      graph.directory = "../../data/" + args.dataset; //necessary to readAttributes
-      graph.readAttributes();
+      //graph.directory = "../../data/" + args.dataset; //necessary to readAttributes
+      //graph.readAttributes();
+      graph.nodes = args.datasetNodes[choice];
+      graph.edges = args.datasetEdges[choice];
       nodes = graph.nodes;
       args.streamSize = nodes / 10;
-      //sleep(4);
-      //lines += 3;
       break;
     }
   }
@@ -1328,29 +1323,6 @@ int RTIM::continueMenu(){
 }
 
 
-void RTIM::loadDatasetsData(){
-  // check existence of file
-  string path = "../../data/datasets.txt";
-  string name, id;
-  int nodes, edges;
-  ifstream infile(path.c_str());
-  while(infile >> name >> id >> nodes >> edges){
-    args.datasetNames.push_back(name);
-    args.datasetIds.push_back(id);
-    args.datasetNodes.push_back(nodes);
-    args.datasetEdges.push_back(edges);
-  }
-  for (int i = 0; i < args.datasetNames.size(); i++){
-    cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + args.datasetNames[i];
-    cout << "(";
-    cout << right << setw(14) << cleanLongInt(args.datasetNodes[i]);
-    cout << ",";
-    cout << right << setw(14) << cleanLongInt(args.datasetEdges[i]);
-    cout << ")" << endl;
-  }
-}
-
-
 void RTIM::run(){
   cout << endl;
   printLocalTime("red", "Program", "starting");
@@ -1391,10 +1363,7 @@ void RTIM::run(){
         args.printDatasetArguments(graph.nodes, graph.edges);
         stageMenu();
         stageArgumentsMenu();
-        args.printStageArguments();
-        break;
-    }
-    if(args.stage == "test"){
+        args.printSt == "test"){
       loadDataset = false; // ?
     }
     if(loadDataset){
@@ -1561,12 +1530,8 @@ int main(int argn, char **argv)
 {
   // int cores = omp_get_max_threads();
   Arguments args = Arguments();
+  args.loadDatasetsData();
   RTIM rtim = RTIM(args);
   // rtim.run();
-  //rtim.runTest();
-  rtim.loadDatasetsData();
-  // for (int i = 10; i < 100000; i *= 10 ){
-  //   cout << left << setw(10) << i << left << setw(10) << i*10 << endl;
-  // }
-  // sleep(15);
+  rtim.runTest();
 }

@@ -104,6 +104,20 @@ void Arguments::getArguments(int argn, char **argv){
 }
 
 
+void Arguments::loadDatasetsData(){
+  // check existence of file
+  string path = "../../data/datasets.txt";
+  string name, id;
+  int nodes, edges;
+  ifstream infile(path.c_str());
+  while(infile >> name >> id >> nodes >> edges){
+    datasetNames.push_back(name);
+    datasetIds.push_back(id);
+    datasetNodes.push_back(nodes);
+    datasetEdges.push_back(edges);
+  }
+}
+
 void Arguments::printArguments(){
   cout << "------------- Arguments --------------" << endl;
   cout << "Dataset: ";

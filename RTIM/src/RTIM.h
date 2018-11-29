@@ -80,7 +80,7 @@ public:
   /**
     * Import live stream
     */
-  void importLiveStream();
+  // void importLiveStream();
 
 
   /**
@@ -205,7 +205,7 @@ public:
     * @param version
     * @param size
     */
-  void availabilityStream();
+  // void availabilityStream();
 
 
   /**
@@ -295,9 +295,6 @@ public:
   int continueMenu();
 
 
-  void loadDatasetsData();
-
-  
   /**
     * Function to run program
     */
