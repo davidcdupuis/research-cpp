@@ -227,19 +227,6 @@ public:
 
 
   /**
-    * Compute user influence scores based on score of neighbors
-    * DOESN'T WORK!
-    */
-  void convergenceScore();
-
-
-  /**
-    * Test Monte Carlo convergence
-    */
-  void mcConvergenceTest(int sampleSize);
-
-
-  /**
     * Test time to compute score of a seed set
     */
   void seedComputationTest(int seedSize, int depth=10000, double minEdgeWeight=1.0);
