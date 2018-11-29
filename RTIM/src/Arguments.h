@@ -58,6 +58,12 @@ public:
   double min_weight = 0;              /**< minimum weight to continue influence propagation*/
 
 
+  std::vector<std::string> datasetNames;
+  std::vector<std::string> datasetIds;
+  std::vector<int> datasetNodes;
+  std::vector<int> datasetEdges;
+
+
   /**
     * Function to get arguments from command line
     *

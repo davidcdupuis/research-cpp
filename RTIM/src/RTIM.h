@@ -245,6 +245,13 @@ public:
   void seedComputationTest(int seedSize, int depth=10000, double minEdgeWeight=1.0);
 
 
+  void mainMenu();
+
+
+  void experimentsMenu();
+
+
+  void experimentsRepeatMenu();
   /**
     * Menu to get desired dataset
     * returns 0 if a new dataset needs to be imported else 1
@@ -288,6 +295,9 @@ public:
   int continueMenu();
 
 
+  void loadDatasetsData();
+
+  
   /**
     * Function to run program
     */

@@ -27,3 +27,4 @@ nethept,inoutr/NE_k800_r10_ap0,1_inoutr_s1522_ss320.txt,Mon Nov 26 13:05:09 2018
 nethept,inoutr/NE_k444_r20_ap0,1_inoutr_s1522_ss444.txt,Mon Nov 26 13:08:44 2018,Mon Nov 26 13:08:45 2018,8.44239,444,2771.05
 nethept,inoutr/NE_k444_r18_ap0,1_inoutr_s1522_ss444.txt,Mon Nov 26 13:10:09 2018,Mon Nov 26 13:10:09 2018,8.08333,444,2818.1
 nethept,inoutr/NE_k444_r18_ap0,15_inoutr_s1522_ss444.txt,Mon Nov 26 13:11:13 2018,Mon Nov 26 13:11:13 2018,8.14708,444,2770.42
+nethept,../../data/nethept/rtim/live/inoutr/NE_k200_r1_ap0,8_inoutr_s1522_ss70.txt,Wed Nov 28 18:22:10 2018,Wed Nov 28 18:22:11 2018,-1541.64,70,1090.16

@@ -61,6 +61,9 @@
 
   std::string properStringDouble(double value);
 
+
+  std::string cleanLongInt(int value);
+
   void listFolderFiles(std::string folder);
 
 #endif

@@ -167,7 +167,7 @@ void Arguments::printArguments(){
 
 
 void Arguments::printDatasetArguments(int nodes, int edges){
-  cout << string(13, '-') << toColor("red", " Dataset ") << string(14, '-') << endl;
+  cout << string(26, '-') << toColor("red", " Dataset ") << string(25, '-') << endl;
   cout << "- name         : " << toColor("yellow", dataset);
   cout << " [ v = " << toColor("yellow", to_string(nodes)) << " | ";
   cout << "e = " << toColor("yellow", to_string(edges))  << "]" << endl;
@@ -177,13 +177,14 @@ void Arguments::printDatasetArguments(int nodes, int edges){
   }else{
     cout << "- edge weights : " << toColor("yellow", properStringDouble(edge_weight)) << endl;
   }
-  cout << "------------------------------------" << endl;
+  cout << string(60, '-') << endl;
 }
 
 
 void Arguments::printStageArguments(){
-  cout << "------------- " << toColor("red", stage) << " --------------" << endl;
+  // stages = pre-process, live, compute_seed_score
   if( stage == "live"){
+    cout << string(27, '-') << toColor("red", " live ") << string(27, '-') << endl;
     cout << "STREAM" << endl;
     cout << "- model        : "; printInColor("yellow", streamModel);
     if (streamModel != "inNOut_repeat"){
@@ -194,14 +195,16 @@ void Arguments::printStageArguments(){
     cout << "- k            : "; printInColor("yellow", to_string(k));
     cout << "- reach        : "; printInColor("yellow", properStringDouble(reach));
     cout << "- ap           : "; printInColor("yellow", properStringDouble(theta_ap));
-  }else if ( stage == "pre_process"){
+  }else if ( stage == "pre"){
+    cout << string(24, '-') << toColor("red", " pre-process ") << string(23, '-') << endl;
     cout << "RTIM" << endl;
     cout << "- depth      : "; printInColor("yellow", to_string(depth));
     cout << "- min weight : "; printInColor("yellow", properStringDouble(min_weight));
   }else if (stage == "compute_seed_score"){
+    cout << string(20, '-') + " " << toColor("red", stage) << " " + string(20, '-') << endl;
     cout << "- file path    : "; printInColor("yellow", seedSetPath);
   }
-  cout << "------------------------------------" << endl;
+  cout << string(60, '-') << endl;
 }
 
 

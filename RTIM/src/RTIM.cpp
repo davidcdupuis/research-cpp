@@ -285,17 +285,34 @@ void RTIM::live(){
   saveLiveLog(max_time, liveDuration, startDatetime, endDatetime);
   saveLiveCSV(graph, streamDuration, max_time, liveDuration);
 
+  // COMPUTE SEED SET INFLUENCE SCORE ESTIMATION BY SUMMING ACTIVATION PROBS
   double estScore = 0;
   for(double ap: activationProbabilities){
-    if(ap > args.theta_ap){
-      estScore += 1;
-    }else{
-      estScore += ap;
-    }
+    estScore += ap;
   }
-  printInColor("red", "estScore = " + properStringDouble(estScore));
-  // cout << "Live complete!" << endl;
-  // cout << "------------------------------" << endl;
+  printInColor("red", "\u03C3(seed) = " + properStringDouble(estScore));
+
+  // COMPUTE SEED SET INFLUENCE SCORE WITH MC SIMULATIONS
+  printInColor("magenta", "----------------------------------------------");
+  printLocalTime("magenta", "Compute seed score", "starting");
+  string seedFile = args.generateDataFilePath("rtim_seedSet") + args.generateFileName("rtim_seedSet", seedSet.size());
+  double score;
+  string scoreStartDate = getLocalDatetime();
+  clock_t scoreStartTime = clock();
+  if (args.dataset == "twitter"){
+    score = graph.influenceScoreParallel(seedSet, 2);
+  }else{
+    score = graph.influenceScoreParallel(seedSet);
+  }
+
+  double scoreDuration = (clock() - startTime)/(double)CLOCKS_PER_SEC;
+  string scoreEndDate = getLocalDatetime();
+  printInColor("red", "\u03C3_MC(seed) = " + properStringDouble(score));
+  saveSeedScoreLog(seedFile, scoreStartDate, scoreEndDate, scoreDuration, score);
+  saveSeedScoreCSV(seedFile, scoreStartDate, scoreEndDate, scoreDuration, score);
+  // printLocalTime("magenta", "IMM seed test", "ending");
+  printLocalTime("magenta", "Compute seed score", "ending");
+  printInColor("magenta", "----------------------------------------------");
 };
 
 
@@ -794,14 +811,88 @@ void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
 }
 
 
+void RTIM::mainMenu(){
+  int choice = -1;
+  cout << "_______________ Main Menu _______________" << endl;
+  cout << " [1] pre-configured experiments" << endl;
+  cout << " [2] personalized experiments" << endl;
+  while (choice == -1){
+    cout <<  "> choice: ";
+    string val;
+    getline(cin, val);
+    choice = stoi(val);
+    switch(choice){
+      case 1:
+        // go to experiments menu
+        break;
+      case 2:
+        // go to datasets menu
+        break;
+      default:
+        cout << "Error: stage not recognized!" << endl;
+        sleep(SLEEP);
+        clearLines(2);
+        choice = -1;
+    }
+  }
+  clearLines(4);
+}
+
+
+void RTIM::experimentsMenu(){
+  string input;
+  cout << string(24, '_') + " Experiments " + string(23, '_') << endl;
+  cout << "Input file path from: ../data/" << endl;
+  while (1){
+    cout << "> choose file [ experiments.txt ] : ";
+    getline(cin, input);
+    // check existence of file
+    // run experiments.txt
+    break;
+  }
+}
+
+
+void RTIM::experimentsRepeatMenu(){
+  int choice = -1;
+  cout << string(25, '_') + " Continue " + string(25, '_') << endl;
+  cout << "Choose option:" << endl;
+  cout << " [1] Experiments Menu" << endl;
+  cout << " [2] Main menu" << endl;
+  while (choice == -1){
+    switch(choice){
+      case 1:
+        break;
+      case 2:
+        break;
+      default:
+        cout << "Error choice not recognized!" << endl;
+        sleep(2);
+        clearLines(2);
+        choice = -1;
+    }
+  }
+}
+
+
 int RTIM::datasetMenu(){
   int lines = 10;
   string dataset;
-  cout << "________________________________________" << endl;
+  cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
   if(args.dataset != "" && graph.graph.size() != 0){
     cout << "Current imported dataset: " << args.dataset << endl;
     lines++;
   }
+  /*
+  for (int i = 0; i < args.datasetNames.size(); i++){
+    cout << "\t" << left << setw(17) << "[" + i + "] " + args.datasetNames[i];
+    cout << "(";
+    cout << right << setw(14) << to_string(args.datasetNodes[i]);
+    cout << ",";
+    cout << right << setw(14) << to_string(args.datasetEdges[i]);
+    cout << ")" << endl;
+  }
+  */
   cout << "Choose a [dataset] (nodes, edges): " << endl;
   cout << "   [test]        (      20,      30)"<< endl;
   cout << "   [nethept]     (  15_229,  62_752)" << endl;
@@ -828,7 +919,7 @@ int RTIM::datasetMenu(){
       nodes = graph.nodes;
       args.streamSize = nodes / 10;
       //sleep(4);
-      lines += 3;
+      //lines += 3;
       break;
     }
   }
@@ -839,7 +930,7 @@ int RTIM::datasetMenu(){
 
 void RTIM::stageMenu(){
   int choice = -1;
-  cout << "________________________________________" << endl;
+  cout << string(26,'_') + " Stages " + string(26,'_') << endl;
   cout << "Choose a stage: " << endl;
   cout << "   [1] pre-process"<< endl;
   cout << "   [2] live " << endl;
@@ -898,7 +989,7 @@ void RTIM::preProcessMenu(){
   int iChoice;
   double dChoice;
   string input;
-  cout << "________________________________________" << endl;
+  cout << string(60,'_') << endl;
   cout << "Input pre_process arguments" << endl;
   // asking for max search depth
   while(1){
@@ -970,7 +1061,7 @@ void RTIM::liveMenu(){
   int iChoice;
   double dChoice;
   string input;
-  cout << "________________________________________" << endl;
+  cout << string(60,'_') << endl;
   cout << "Input live arguments: [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
   // asking for seed size
   while(1){
@@ -1152,7 +1243,7 @@ void RTIM::computeSeedScoreMenu(){
   // seedSet.clear(); //in case it's a re-run
   int choice = -1;
   string file_path = "../../data/" + args.dataset + "/";
-  cout << "________________________________________" << endl;
+  cout << string(60,'_') << endl;
   cout << "Choose a folder: " << endl;
   cout << "   [1] rtim/live/" << endl;
   cout << "   [2] imm/basic/" << endl;
@@ -1201,7 +1292,7 @@ void RTIM::computeSeedScoreMenu(){
 
 int RTIM::continueMenu(){
   int choice = -1;
-  cout << "________________________________________" << endl;
+  cout << string(60, '_') << endl;
   cout << "Continue: " << endl;
   cout << "   [1] Repeat previous stage with same arguments (" << args.stage << ")" << endl;
   cout << "   [2] Repeat previous stage with new arguments (" << args.stage << ")" << endl;
@@ -1234,6 +1325,29 @@ int RTIM::continueMenu(){
   }
   clearLines(8);
   return choice;
+}
+
+
+void RTIM::loadDatasetsData(){
+  // check existence of file
+  string path = "../../data/datasets.txt";
+  string name, id;
+  int nodes, edges;
+  ifstream infile(path.c_str());
+  while(infile >> name >> id >> nodes >> edges){
+    args.datasetNames.push_back(name);
+    args.datasetIds.push_back(id);
+    args.datasetNodes.push_back(nodes);
+    args.datasetEdges.push_back(edges);
+  }
+  for (int i = 0; i < args.datasetNames.size(); i++){
+    cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + args.datasetNames[i];
+    cout << "(";
+    cout << right << setw(14) << cleanLongInt(args.datasetNodes[i]);
+    cout << ",";
+    cout << right << setw(14) << cleanLongInt(args.datasetEdges[i]);
+    cout << ")" << endl;
+  }
 }
 
 
@@ -1346,41 +1460,111 @@ void RTIM::run(){
 
 
 void RTIM::runTest(){
-  // import scores
-
-  string folder = "../../data/" + args.dataset + "/rtim/live/" + args.dataset + "_infS.txt";
-  // cout << "Importing influence scores from: " << folder << endl;
-  printInColor("cyan", "Importing influence scores from: " + folder);
-  infScores.resize(nodes, 0);
-  cout << "Size of infScores after resize: " << infScores.size() << endl;
-  int user;
-  double infScore;
-  double scoreTime;
-
-  ifstream infile(folder.c_str());
-  int count = 0;
-  while(infile >> user >> infScore >> scoreTime){
-    if (infScore < 1){
-      count ++;
-      if(count < 50){
-        cout << user << " | " << infScore << " | " << scoreTime << endl;
-      }
+  cout << endl;
+  cout << ">>> TEST RUN <<<" << endl;
+  printLocalTime("red", "Program", "starting");
+  int choice = 0;
+  int loadDataset;
+  int loadScores;
+  while (choice != -1){
+    loadScores = 0;
+    loadDataset = 0;
+    switch(choice){
+      case 1:
+        // repeat previous stage with same arguments
+        break;
+      case 2:
+        // repeat previous stage with new arguments
+        stageArgumentsMenu();
+        args.printStageArguments();
+        break;
+      case 3:
+        // change stage
+        stageMenu();
+        stageArgumentsMenu();
+        args.printStageArguments();
+        break;
+      case 4:
+        // change dataset
+        loadDataset = datasetMenu();
+        loadScores = 1; // inf. scores need to be imported for new dataset
+        args.printDatasetArguments(graph.nodes, graph.edges);
+        stageMenu();
+        stageArgumentsMenu();
+        args.printStageArguments();
+        break;
+      default:
+        // choose dataset
+        loadDataset = datasetMenu();
+        loadScores = 1; // inf. scores need to be imported for new dataset
+        args.printDatasetArguments(graph.nodes, graph.edges);
+        stageMenu();
+        stageArgumentsMenu();
+        args.printStageArguments();
+        break;
     }
-    infScores[user] = infScore;
-
+    if(args.stage == "test"){
+      loadDataset = false; // ?
+    }
+    if(loadDataset){
+      graph.args = args;
+      graph.graph.resize(graph.nodes);
+      graph.loadGraph();
+      clearLines(3);
+    }
+    if (args.stage == "pre"){
+      printInColor("magenta", string(60,'-'));
+      printLocalTime("magenta", "Pre_processing", "starting");
+      //
+      cout << "Pre-process is running..." << endl;
+      //
+      printLocalTime("magenta", "Pre_processing", "ending");
+      printInColor("magenta", string(60,'-'));
+    }else if (args.stage == "live"){
+      cout << "Initialize influence scores is running..." << endl;
+      printInColor("magenta", string(60,'-'));
+      printLocalTime("magenta", "Live", "starting");
+      //
+      cout << "Live is running..." << endl;
+      //
+      printLocalTime("magenta", "Live", "ending");
+      printInColor("magenta", string(60,'-'));
+    }else if (args.stage == "compute_seed_score"){
+      printInColor("magenta", string(60,'-'));
+      printLocalTime("magenta", "Compute seed score", "starting");
+      //
+      cout << "Computing seed score is running..." << endl;
+      //
+      printLocalTime("magenta", "Compute seed score", "ending");
+      printInColor("magenta", string(60,'-'));
+    }else if (args.stage == "test"){
+      printInColor("magenta", string(60,'-'));
+      printLocalTime("magenta", "Test", "starting");
+      //
+      cout << "Test is running..." << endl;
+      //
+      printLocalTime("magenta", "Test", "ending");
+      printInColor("magenta", string(60,'-'));
+    } else{
+      cout << "Error! stage not recognized: " << args.stage << endl;
+      exit(1);
+    }
+    choice = continueMenu();
   }
-  cout << "Number of scores < 1 in file: " << count << endl;
-  // cout << "Import successful" << endl;
-  printInColor("cyan", "Import successful");
-  printScores();
+
+  printLocalTime("red", "Program", "ending");
+  cout << endl;
 }
+
 
 int main(int argn, char **argv)
 {
   // int cores = omp_get_max_threads();
   Arguments args = Arguments();
   RTIM rtim = RTIM(args);
-  rtim.run();
+  // rtim.run();
+  //rtim.runTest();
+  rtim.loadDatasetsData();
   // for (int i = 10; i < 100000; i *= 10 ){
   //   cout << left << setw(10) << i << left << setw(10) << i*10 << endl;
   // }

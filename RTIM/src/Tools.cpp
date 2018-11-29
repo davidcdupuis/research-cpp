@@ -157,6 +157,26 @@ string properStringDouble(double value){
 }
 
 
+string cleanLongInt(int value){
+  string result = to_string(value);
+  string reverse = "";
+  int step = 0;
+  for(int i = result.length() - 1; i >= 0; i--){
+    if(step == 3){
+      step = 0;
+      reverse += "_";
+    }
+    reverse += result[i];
+    step ++;
+  }
+  result = "";
+  for(int i = reverse.length() - 1; i >= 0; i--){
+    result += reverse[i];
+  }
+  return result;
+}
+
+
 void listFolderFiles(string folder){
   DIR *dir;
   struct dirent *ent;
