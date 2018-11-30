@@ -194,3 +194,8 @@ void listFolderFiles(string folder){
   }
   std::string path = "/path/to/directory";
 }
+
+bool pathExists(const std::string& filename){
+  ifstream infile(filename.c_str());
+  return (bool)infile;
+}

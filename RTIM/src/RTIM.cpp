@@ -7,15 +7,14 @@
 #include <algorithm>
 #include <sys/stat.h>
 #include <unistd.h>
-
-#include "RTIM.h"
-
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <ctime>
 #include <sstream>
 #include <stdexcept>
+
+#include "RTIM.h"
 
 /**
   * Special color codes: https://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal
@@ -49,6 +48,10 @@ RTIM::RTIM(Arguments& arguments, bool loadGraph):graph(arguments, loadGraph){
 void RTIM::importIMMSeed(){
   immTargeted.resize(nodes, 0);
   string path = "../../data/" + args.dataset + "/imm/basic/" + args.datasets[args.dataset] + "_k" + to_string(args.k) + "_e" + "0,1" + "_ss.txt";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << endl;
+    exit(1);
+  }
   cout << "Importing IMM Seed Set from " + path << endl;
   ifstream infile(path.c_str());
   int user;
@@ -203,11 +206,15 @@ void RTIM::live(){
   cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
   // read availability stream
-  string folder = args.generateDataFilePath("stream") + args.generateFileName("stream");
+  string path = args.generateDataFilePath("stream") + args.generateFileName("stream");
   int user;
   // cout << "Reading availability stream: " << folder << endl;
-  printInColor("cyan", "Reading stream from : " + folder);
-  ifstream infile(folder.c_str());
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << endl;
+    exit(1);
+  }
+  printInColor("cyan", "Reading stream from : " + path);
+  ifstream infile(path.c_str());
   double max_time = 0;
   clock_t start;
   clock_t startStream = clock();
@@ -382,7 +389,12 @@ void RTIM::printScores(){
 
 
 void RTIM::saveScores(){
-  string file = "../../data/" + args.dataset + "/rtim/pre_process/" + args.generateFileName("save_infScores");
+  string file = "../../data/" + args.dataset + "/rtim/pre_process/";
+  if (!pathExists(file)){
+    cerr << "Error path doesn't exist: " << file << endl;
+    exit(1);
+  }
+  file += args.generateFileName("save_infScores");
   //string txt = "Saving inlfuence score to " + file;
   printInColor("cyan", "Saving inlfuence score to " + file);
   //cout << "\033[33mSaving influence scores to: " << file << "\033[0m" << endl;
@@ -402,10 +414,20 @@ void RTIM::saveSeedSet(bool progress, int progPercentage){
   // string file = "../../data/" + args.dataset + "/rtim/live/";
   string file;
   if(progress){
-    file = args.generateDataFilePath("rtim_progress_seedSet") + args.generateFileName("rtim_progress_seedSet", progPercentage);
+    file = args.generateDataFilePath("rtim_progress_seedSet");
+    if (!pathExists(file)){
+      cerr << "Error path doesn't exist: " << file << endl;
+      exit(1);
+    }
+    file += args.generateFileName("rtim_progress_seedSet", progPercentage);
     printInColor("cyan", "Saving progress seed set to: " + file);
   }else{
-    file = args.generateDataFilePath("rtim_seedSet") + args.generateFileName("rtim_seedSet", seedSet.size());
+    file = args.generateDataFilePath("rtim_seedSet");
+    if (!pathExists(file)){
+      cerr << "Error path doesn't exist: " << file << endl;
+      exit(1);
+    }
+    file += args.generateFileName("rtim_seedSet", seedSet.size());
     printInColor("cyan", "Saving seed set to  : " + file);
   }
   ofstream seedSetFile;
@@ -422,7 +444,10 @@ void RTIM::importSeedSet(string file_path){
   seedSet.clear();
   // string file = "../../data/" + args.dataset + "/" + file_path;
   cout << "Importing from: " << file_path << endl;
-
+  if (!pathExists(file_path)){
+    cerr << "Error path doesn't exist: " << file_path << endl;
+    exit(1);
+  }
   ifstream infile(file_path.c_str());
   while(infile >> user){
     seedSet.push_back(user);
@@ -447,11 +472,16 @@ void RTIM::seedSetTest(string file_path){
 
 void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, string endDatetime){
   // string file = "../../data/" + args.dataset + "/streams/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_liveLog.txt";
-  string file = "../../data/" + args.dataset + "/logs/rtim_live.log";
+  string path = "../../data/" + args.dataset + "/logs/";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << endl;
+    exit(1);
+  }
+  path += "rtim_live.log";
   //cout << "\033[33mSaving live log to: " << file << "\033[0m" << endl;
-  printInColor("cyan", "Saving live log to  : " + file);
+  printInColor("cyan", "Saving live log to  : " + path);
   ofstream liveLogFile;
-  liveLogFile.open(file, fstream::app);
+  liveLogFile.open(path, fstream::app);
   liveLogFile << "File name       : " << args.generateFileName("rtim_seedSet", seedSet.size()) << endl;
   liveLogFile << "Start date      : " << startDatetime << endl;
   liveLogFile << "End date        : " << endDatetime << endl;
@@ -465,11 +495,16 @@ void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, s
 
 
 void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, double& runtime){
-  string file = "../../data/" + args.dataset + "/logs/rtim_live.csv";
+  string path = "../../data/" + args.dataset + "/logs/";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << endl;
+    exit(1);
+  }
+  path += "rtim_live.csv";
   // cout << "\033[33mSaving live csv to: " << file << "\033[0m" << endl;
-  printInColor("cyan", "Saving live csv to  : " + file);
+  printInColor("cyan", "Saving live csv to  : " + path);
   ofstream liveCSV;
-  liveCSV.open(file, fstream::app);
+  liveCSV.open(path, fstream::app);
   /*Order of values: dataset, streamModel, streamVersion, reahc, theta_ap, depth, maxSeedSize, actualSeedSize, maxUpdateTime, runtime*/
   liveCSV << args.dataset << ",";
   liveCSV << args.streamModel << ",";
@@ -489,10 +524,15 @@ void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, 
 
 
 void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, double& runtime, double& score){
-  string file_path = "../../data/" + args.dataset + "/logs/seed_set_score.log";
-  printInColor("cyan", "Saving seed score log to: " + file_path);
+  string path = "../../data/" + args.dataset + "/logs/";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << endl;
+    exit(1);
+  }
+  path += "seed_set_score.log";
+  printInColor("cyan", "Saving seed score log to: " + path);
   ofstream seedScoreLogFile;
-  seedScoreLogFile.open(file_path, fstream::app);
+  seedScoreLogFile.open(path, fstream::app);
   seedScoreLogFile << "File name  : " << file << endl;
   seedScoreLogFile << "Start date : " << startDate << endl;
   seedScoreLogFile << "End date   : " << endDate << endl;
@@ -505,12 +545,17 @@ void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, doubl
 
 
 void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, double& runtime, double& score){
-  string file_path = "../../data/" + args.dataset + "/logs/seed_set_score.csv";
-  printInColor("cyan", "Saving seed score csv to: " + file_path);
+  string path = "../../data/" + args.dataset + "/logs/";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << endl;
+    exit(1);
+  }
+  path += "seed_set_score.csv";
+  printInColor("cyan", "Saving seed score csv to: " + path);
 
   // dataset,file_name, startDate, endDate, runtime, seed size, score
   ofstream seedScoreCSVFile;
-  seedScoreCSVFile.open(file_path, fstream::app);
+  seedScoreCSVFile.open(path, fstream::app);
   seedScoreCSVFile << args.dataset << ",";
   seedScoreCSVFile << file << ",";
   seedScoreCSVFile << startDate << ",";
@@ -523,20 +568,30 @@ void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, doubl
 
 
 void RTIM::initiateProgressLog(){
-  string file = args.generateDataFilePath("rtim_progress") + args.generateFileName("rtim_progress");
-  printInColor("cyan", "New progress log    : " + file);
+  string path = args.generateDataFilePath("rtim_progress");
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << endl;
+    exit(1);
+  }
+  path += args.generateFileName("rtim_progress");
+  printInColor("cyan", "New progress log    : " + path);
   ofstream progressFile;
-  progressFile.open(file);
+  progressFile.open(path);
   progressFile << "seen,influence_threshold,user_index,ap, infScore, seed_size" << endl;
   progressFile.close();
 }
 
 
 void RTIM::saveProgress(int user_index, double ap, double score, int seen, double infTheta, int seedSize){
-  string file = args.generateDataFilePath("rtim_progress") + args.generateFileName("rtim_progress");
+  string path = args.generateDataFilePath("rtim_progress");
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << endl;
+    exit(1);
+  }
+  path += args.generateFileName("rtim_progress");
   // printInColor("cyan","Saving progress: " + to_string(progress));
   ofstream progressFile;
-  progressFile.open(file, fstream::app);
+  progressFile.open(path, fstream::app);
   /* progress | nodes seen | seed size */
   progressFile << seen << ",";
   progressFile << infTheta << ",";
@@ -550,10 +605,15 @@ void RTIM::saveProgress(int user_index, double ap, double score, int seen, doubl
 
 
 void RTIM::initiateStreamLog(){
-  string file = args.generateDataFilePath("stream_log") + args.generateFileName("stream_log");
-  printInColor("cyan", "New stream log    :" + file);
+  string path = args.generateDataFilePath("stream_log");
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << endl;
+    exit(1);
+  }
+  path += args.generateFileName("stream_log");
+  printInColor("cyan", "New stream log    :" + path);
   ofstream streamLog;
-  streamLog.open(file);
+  streamLog.open(path);
   streamLog << "Dataset: " << args.dataset << endl;
   streamLog << "STREAM: model = " << args.streamModel << "|  size = " << args.streamSize << endl;
   streamLog << "RTIM: k = " << args.k << " | theta_ap = " << args.theta_ap << " | reach = " << args.reach << endl;
@@ -572,9 +632,14 @@ void RTIM::initiateStreamLog(){
 
 
 void RTIM::saveStreamLog(int pos, int user, double ap, double oScore, double nScore, double theta_I, string rtim_status, int seedSize, int imm_targeted){
-  string file = args.generateDataFilePath("stream_log") + args.generateFileName("stream_log");
+  string path = args.generateDataFilePath("stream_log");
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << endl;
+    exit(1);
+  }
+  path += args.generateFileName("stream_log");
   ofstream streamLog;
-  streamLog.open(file, fstream::app);
+  streamLog.open(path, fstream::app);
   streamLog << left << setw(8 + 1) << pos;
   streamLog << left << setw(8 + 1) << user;
   streamLog << left << setw(10 + 1) << ap;
@@ -604,15 +669,19 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double oScore, double nSc
 
 
 void RTIM::importScores(){
-  string folder = args.generateDataFilePath("get_infScores") + args.generateFileName("get_infScores");
+  string path = args.generateDataFilePath("get_infScores") + args.generateFileName("get_infScores");
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << endl;
+    exit(1);
+  }
   // cout << "Importing influence scores from: " << folder << endl;
-  printInColor("cyan", "Importing influence scores from: " + folder);
+  printInColor("cyan", "Importing influence scores from: " + path);
   infScores.resize(nodes, 0);
   int user;
   double infScore;
   double scoreTime;
 
-  ifstream infile(folder.c_str());
+  ifstream infile(path.c_str());
   while(infile >> user >> infScore >> scoreTime){
     infScores[user] = infScore;
   }

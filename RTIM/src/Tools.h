@@ -66,4 +66,7 @@
 
   void listFolderFiles(std::string folder);
 
+  // function to check existence of folder
+  bool pathExists(const std::string& filename);
+
 #endif
