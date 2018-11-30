@@ -220,7 +220,7 @@ void RTIM::live(){
   while (infile >> user){
     sum ++;
 
-    if (immTargeted[user]){
+    if (immTargeted[user] == 1){
       immSeedSet.insert(user);
     }
     if (args.dataset == "test"){
@@ -279,19 +279,22 @@ void RTIM::live(){
       }else{
         //cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
         // RECORD USER IGNORED BECAUSE SCORE TOO LOW
-        saveStreamLog(sum, user, activationProbabilities[user], old_score, tmpInfScores[user], sortedScores[infIndex], "ignored (score too low)", -1, immTargeted[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], old_score, tmpInfScores[user], sortedScores[infIndex], "ig. (sig. too low)", -1, immTargeted[user]);
       }
-      if (seedSet.size() >= args.k){
+      if (seedSet.size() >= args.k && immSeedSet.size() >= args.k){
         break;
       }
     }else{
       if (activationProbabilities[user] == 1){
         // RECORD USER IGNORED BECAUSE ALREADY TARGETED
-        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ignored (already targeted)", -1, immTargeted[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ig. (targeted)", -1, immTargeted[user]);
       }else{
         // RECORD USER IGNORED BECAUSE AP TOO HIGH
-        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ignored (ap too high)", -1, immTargeted[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ig. (ap too high)", -1, immTargeted[user]);
       }
+    }
+    if (immTargeted[user] == 1){
+      immTargeted[user] = 2;
     }
   }
   cout << endl;
@@ -313,7 +316,7 @@ void RTIM::live(){
   printInColor("red", "\u03C3(seed) = " + properStringDouble(estScore));
 
   // COMPUTE SEED SET INFLUENCE SCORE WITH MC SIMULATIONS
-  printInColor("magenta", "----------------------------------------------");
+  printInColor("magenta", string(60, '-'));
   printLocalTime("magenta", "Compute RTIM seed score", "starting");
   string seedFile = args.generateDataFilePath("rtim_seedSet") + args.generateFileName("rtim_seedSet", seedSet.size());
   double score;
@@ -332,10 +335,10 @@ void RTIM::live(){
   saveSeedScoreCSV(seedFile, scoreStartDate, scoreEndDate, scoreDuration, score);
   // printLocalTime("magenta", "IMM seed test", "ending");
   printLocalTime("magenta", "Compute RTIM seed score", "ending");
-  printInColor("magenta", "----------------------------------------------");
+  printInColor("magenta", string(60, '-'));
 
   printInColor("red", "IMM seed set size: " + to_string(immSeedSet.size()));
-  printInColor("magenta", "----------------------------------------------");
+  printInColor("magenta", string(60, '-'));
   printLocalTime("magenta", "Compute RTIM seed score", "starting");
   vector<int> vecImmSeedSet;
   for(int seed: immSeedSet){
@@ -348,7 +351,7 @@ void RTIM::live(){
   }
   printInColor("red", "IMM: \u03C3_MC(seed) = " + properStringDouble(score));
   printLocalTime("magenta", "Compute RTIM seed score", "ending");
-  printInColor("magenta", "----------------------------------------------");
+  printInColor("magenta", string(60, '-'));
 };
 
 
@@ -555,15 +558,15 @@ void RTIM::initiateStreamLog(){
   streamLog << "STREAM: model = " << args.streamModel << "|  size = " << args.streamSize << endl;
   streamLog << "RTIM: k = " << args.k << " | theta_ap = " << args.theta_ap << " | reach = " << args.reach << endl;
   streamLog << "------------------------------------------------------------" << endl;
-  streamLog << left << setw(8 + 2) << "position";
-  streamLog << left << setw(8 + 2) << "user_id";
-  streamLog << left << setw(10 + 2) << "ap(user)";
-  streamLog << left << setw(15 + 2) << "sigma_old(user)";
-  streamLog << left << setw(15 + 2) << "sigma_new(user)";
-  streamLog << left << setw(8 + 2) << "theta_I";
-  streamLog << left << setw(27 + 2) << "rtim_status";
-  streamLog << left << setw(8 + 2) << "seed_size";
-  streamLog << left << setw(8 + 2) << "imm_status";
+  streamLog << left << setw(8 + 1) << "position";
+  streamLog << left << setw(8 + 1) << "user_id";
+  streamLog << left << setw(10 + 1) << "ap(user)";
+  streamLog << left << setw(15 + 1) << "sigma_old(user)";
+  streamLog << left << setw(15 + 1) << "sigma_new(user)";
+  streamLog << left << setw(8 + 1) << "theta_I";
+  streamLog << left << setw(18 + 1) << "rtim_status";
+  streamLog << left << setw(9 + 1) << "seed_size";
+  streamLog << left << setw(14 + 1) << "imm_status";
   streamLog << endl;
 }
 
@@ -572,26 +575,28 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double oScore, double nSc
   string file = args.generateDataFilePath("stream_log") + args.generateFileName("stream_log");
   ofstream streamLog;
   streamLog.open(file, fstream::app);
-  streamLog << left << setw(8 + 2) << pos;
-  streamLog << left << setw(8 + 2) << user;
-  streamLog << left << setw(10 + 2) << ap;
-  streamLog << left << setw(15 + 2) << oScore;
+  streamLog << left << setw(8 + 1) << pos;
+  streamLog << left << setw(8 + 1) << user;
+  streamLog << left << setw(10 + 1) << ap;
+  streamLog << left << setw(15 + 1) << oScore;
   if (nScore == -1 || nScore == oScore){
-    streamLog << left << setw(15 + 2) << "-";
+    streamLog << left << setw(15 + 1) << "-";
   }else{
-    streamLog << left << setw(15 + 2) << nScore;
+    streamLog << left << setw(15 + 1) << nScore;
   }
-  streamLog << left << setw(8 + 2) << theta_I;
-  streamLog << left << setw(27 + 2) << rtim_status;
+  streamLog << left << setw(8 + 1) << theta_I;
+  streamLog << left << setw(18 + 1) << rtim_status;
   if ( seedSize == -1){
-    streamLog << left << setw(8 + 2) << "-";
+    streamLog << left << setw(9 + 1) << "-";
   }else{
-    streamLog << left << setw(8 + 2) << seedSize;
+    streamLog << left << setw(9 + 1) << seedSize;
   }
   if (imm_targeted == 1){
-    streamLog << left << setw(8 + 2) << "targeted";
+    streamLog << left << setw(14 + 1) << "targeted";
+  }else if(imm_targeted == 2){
+    streamLog << left << setw(14 + 1) << "ig. (targeted)";
   }else{
-    streamLog << left << setw(8 + 2) << "-";
+    streamLog << left << setw(16 + 1) << "-";
   }
   streamLog << endl;
   streamLog.close();
@@ -1221,24 +1226,24 @@ void RTIM::run(){
       clearLines(3);
     }
     if (args.stage == "pre"){
-      printInColor("magenta", "----------------------------------------------");
+      printInColor("magenta", string(60, '-'));
       printLocalTime("magenta", "Pre_processing", "starting");
       pre_process();
       printLocalTime("magenta", "Pre_processing", "ending");
       // Live starting at: Mon Nov 19 17:49:25 2018
       // ---------------------------------------------
-      printInColor("magenta", "----------------------------------------------");
+      printInColor("magenta", string(60, '-'));
     }else if (args.stage == "live"){
       if(loadScores){
         initializeInfluenceScores();
       }
-      printInColor("magenta", "----------------------------------------------");
+      printInColor("magenta", string(60, '-'));
       printLocalTime("magenta", "Live", "starting");
       live();
       printLocalTime("magenta", "Live", "ending");
-      printInColor("magenta", "----------------------------------------------");
+      printInColor("magenta", string(60, '-'));
     }else if (args.stage == "compute_seed_score"){
-      printInColor("magenta", "----------------------------------------------");
+      printInColor("magenta", string(60, '-'));
       printLocalTime("magenta", "Compute seed score", "starting");
       double score;
       string startDate = getLocalDatetime();
@@ -1257,13 +1262,13 @@ void RTIM::run(){
       saveSeedScoreCSV(seedFile, startDate, endDate, duration, score);
       // printLocalTime("magenta", "IMM seed test", "ending");
       printLocalTime("magenta", "Compute seed score", "ending");
-      printInColor("magenta", "----------------------------------------------");
+      printInColor("magenta", string(60, '-'));
     }else if (args.stage == "test"){
-      printInColor("magenta", "----------------------------------------------");
+      printInColor("magenta", string(60, '-'));
       printLocalTime("magenta", "Test", "starting");
       runTest();
       printLocalTime("magenta", "Test", "ending");
-      printInColor("magenta", "----------------------------------------------");
+      printInColor("magenta", string(60, '-'));
     } else{
       cout << "Error! stage not recognized: " << args.stage << endl;
       exit(1);
