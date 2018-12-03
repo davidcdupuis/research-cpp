@@ -362,6 +362,46 @@ void Graph::updateNeighborsAPDepth(int src, vector<double>& activationProbs, int
 }
 
 
+void Graph::updateInfluenceScore(double &infScore,int src, vector<double>& activationProbs, vector<double>& tmpAPs, int depth) const{
+  int activated = 0;
+  tmpAPs[src] = 1;
+  queue< pair<int, int> > queue;
+  // queue.push(src);
+  double sum = 0;
+  // first check all neighbors of src
+  for(pair<int, double> neighbor: graph[src]){
+    if(activationProbs[neighbor.first] == 1){ //neighbor is activated
+      activated += 1;
+      sum += neighbor.second;
+    }
+    tmpAPs[neighbor.first] = 1 - (1 - tmpAPs[neighbor.first])*(1 - neighbor.second*tmpAPs[src]);
+    sum += tmpAPs[neighbor.first];
+    queue.push(make_pair(neighbor.first, 1));
+  }
+  if( activated == graph[src].size()){ // if all neighbors are activated score = 1
+    infScore = 1;
+    return;
+  }
+  if (depth > 1){
+    while(!queue.empty()){
+      pair<int, int> curr = queue.front();
+      queue.pop();
+      for(pair<int, double> neighbor: graph[curr.first]){
+        tmpAPs[neighbor.first] = 1 - (1 - tmpAPs[neighbor.first])*(1 - neighbor.second*tmpAPs[curr.first]);
+        sum += tmpAPs[neighbor.first];
+        if(curr.second + 1 <= depth){
+          queue.push(make_pair(neighbor.first, curr.second + 1));
+        }
+      }
+    }
+    infScore -= sum;
+    return;
+  }
+
+
+}
+
+
 void Graph::print(){
   cout << args.dataset << " graph:" << endl;
   for(int i = 0; i < nodes; i++){

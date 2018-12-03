@@ -234,6 +234,7 @@ void RTIM::live(){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
     }
     if (activationProbabilities[user] < args.theta_ap){ // CHECK ACTIVATION PROBABILITY
+      // ADD FUNCTION TO PROPERLY UPDATE INFLUENCE SCORE, RECORD TIME
       // check neighbors
       double tot = 0;
       for(pair<int, double> neighbor: graph.graph[user]){

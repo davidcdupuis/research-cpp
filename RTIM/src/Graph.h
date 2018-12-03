@@ -183,6 +183,9 @@ class Graph
       */
     void updateNeighborsAPDepth(int src, std::vector<double>& activationProbs, int maxDepth = 100) const;
 
+
+    void updateInfluenceScore(double &infScore, int src, std::vector<double>& activationProbs, std::vector<double>& tmpAPs, int depth=2) const;
+
     /**
       * Function to print graph
       */
