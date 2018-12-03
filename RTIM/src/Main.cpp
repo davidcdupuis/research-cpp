@@ -1,12 +1,19 @@
 #include "Main.h"
-#include "Tools.h"
-#include "Arguments.h"
-#include "RTIM.h"
-#include "Graph.h"
 
-#include <string>
+#include <unistd.h>
+#include <iomanip>
 
 using namespace std;
+
+const int SLEEP = 2;
+
+Main::Main(){
+  // should we initialize object arguments here?
+  args = Arguments();
+  args.loadDatasetsData();
+  srand(time(NULL));
+}
+
 
 void Main::mainMenu(){
   int choice = -1;
@@ -50,6 +57,7 @@ void Main::experimentsMenu(){
   }
 }
 
+
 void Main::experimentsContinueMenu(){
   int choice = -1;
   cout << string(25, '_') + " Continue " + string(25, '_') << endl;
@@ -59,8 +67,10 @@ void Main::experimentsContinueMenu(){
   while (choice == -1){
     switch(choice){
       case 1:
+        experimentsMenu();
         break;
       case 2:
+        mainMenu();
         break;
       default:
         cout << "Error choice not recognized!" << endl;
@@ -72,15 +82,15 @@ void Main::experimentsContinueMenu(){
 }
 
 
-void Main::datasetMenu(){
+void Main::datasetsMenu(){
   int lines = 10;
   int choice = -1;
   string dataset;
   cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
-  if(args.dataset != "" && graph.graph.size() != 0){
-    cout << "Current imported dataset: " << args.dataset << endl;
-    lines++;
-  }
+  // if(args.dataset != "" && graph.graph.size() != 0){
+  //   cout << "Current imported dataset: " << args.dataset << endl;
+  //   lines++;
+  // }
 
   for (int i = 0; i < args.datasetNames.size(); i++){
     cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + args.datasetNames[i];
@@ -103,20 +113,20 @@ void Main::datasetMenu(){
     } else if (args.dataset == dataset){
       cout << "Dataset has already been imported!" << endl;
       sleep(SLEEP);
-      return 0;
+      // return 0;
     }else{
       args.dataset = dataset;
       //graph.directory = "../../data/" + args.dataset; //necessary to readAttributes
       //graph.readAttributes();
-      graph.nodes = args.datasetNodes[choice];
-      graph.edges = args.datasetEdges[choice];
-      nodes = graph.nodes;
-      args.streamSize = nodes / 10;
+      // graph.nodes = args.datasetNodes[choice];
+      // graph.edges = args.datasetEdges[choice];
+      // nodes = graph.nodes;
+      // args.streamSize = nodes / 10;
       break;
     }
   }
   clearLines(lines);
-  return 1;
+  // return 1;
 }
 
 
@@ -128,6 +138,33 @@ void Main::algorithmMenu(){
   cout << "\t[3] Compute Score"<< endl;
   cout << "\t[4] Test" << endl;
   cout << "\t[5] EXIT" << endl;
+  while (choice == -1){
+    cout <<  "> choice: ";
+    string val;
+    getline(cin, val);
+    choice = stoi(val);
+    switch(choice){
+      case 1:
+        // run rtim
+        break;
+      case 2:
+        // run imm
+        break;
+      case 3:
+        // run compute score
+        break;
+      case 4:
+        // run test
+        break;
+      case 5:
+        // exit
+      default:
+        cout << "Error choice not recognized!" << endl;
+        sleep(2);
+        clearLines(2);
+        choice = -1;
+    }
+  }
 }
 
 
@@ -148,89 +185,12 @@ void Main::run(){
   cout << endl;
   cout << ">>> TEST RUN <<<" << endl;
   printLocalTime("red", "Program", "starting");
-  int choice = 0;
-  int loadDataset;
-  int loadScores;
-  while (choice != -1){
-    loadScores = 0;
-    loadDataset = 0;
-    switch(choice){
-      case 1:
-        // PREVIOUS STAGE SAME ARGUMENTS
-        break;
-      case 2:
-        // PREVIOUS STAGE MENU
-        break;
-      case 3:
-        // ALGORITHM MENU
-        break;
-      case 4:
-        // DATASET MENU
-        break;
-      case 5:
-        // EXPERIMENTS MENU
-        break;
-      default:
-        // MAIN MENU
-        mainMenu();
-        // datasetMenu();
-        algorithmMenu();
-        // varies with algorithm
-        break;
-    }
-    if(loadDataset){
-      graph.args = args;
-      graph.graph.resize(graph.nodes);
-      graph.loadGraph();
-      clearLines(3);
-    }
-    if (args.stage == "pre"){
-      printInColor("magenta", string(60,'-'));
-      printLocalTime("magenta", "Pre_processing", "starting");
-      //
-      cout << "Pre-process is running..." << endl;
-      //
-      printLocalTime("magenta", "Pre_processing", "ending");
-      printInColor("magenta", string(60,'-'));
-    }else if (args.stage == "live"){
-      cout << "Initialize influence scores is running..." << endl;
-      printInColor("magenta", string(60,'-'));
-      printLocalTime("magenta", "Live", "starting");
-      //
-      cout << "Live is running..." << endl;
-      //
-      printLocalTime("magenta", "Live", "ending");
-      printInColor("magenta", string(60,'-'));
-    }else if (args.stage == "compute_seed_score"){
-      printInColor("magenta", string(60,'-'));
-      printLocalTime("magenta", "Compute seed score", "starting");
-      //
-      cout << "Computing seed score is running..." << endl;
-      //
-      printLocalTime("magenta", "Compute seed score", "ending");
-      printInColor("magenta", string(60,'-'));
-    }else if (args.stage == "test"){
-      printInColor("magenta", string(60,'-'));
-      printLocalTime("magenta", "Test", "starting");
-      //
-      cout << "Test is running..." << endl;
-      //
-      printLocalTime("magenta", "Test", "ending");
-      printInColor("magenta", string(60,'-'));
-    } else{
-      cout << "Error! stage not recognized: " << args.stage << endl;
-      exit(1);
-    }
-    choice = continueMenu();
-  }
-
+  mainMenu();
   printLocalTime("red", "Program", "ending");
-  cout << endl;
 }
+
 
 int main(){
   Main main = Main();
-  Arguments args = Arguments();
-  args.loadDatasetsData();
   main.run();
 }
