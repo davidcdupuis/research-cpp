@@ -628,6 +628,8 @@ void RTIM::initiateStreamLog(){
   streamLog << left << setw(18 + 1) << "rtim_status";
   streamLog << left << setw(9 + 1) << "seed_size";
   streamLog << left << setw(14 + 1) << "imm_status";
+  streamLog << left << setw(8 +1) << "in_degree";
+  streamLog << left << setw(8 +1) << "out_degree";
   streamLog << endl;
 }
 
@@ -664,6 +666,8 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double oScore, double nSc
   }else{
     streamLog << left << setw(16 + 1) << "-";
   }
+  // streamLog << left << setw(8 + 1) << inDegree;
+  // streamLog << left << setw(8 + 1) << outDegree;
   streamLog << endl;
   streamLog.close();
 }

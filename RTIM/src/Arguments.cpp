@@ -237,11 +237,7 @@ string Arguments::generateDataFilePath(string type){
   }else if (type == "intersect"){
     file_path += ""; // ?
   }else if (type == "stream"){
-    if (streamModel == "inNOut_repeat"){
-      file_path += "streams/" + streamModel + "/";
-    }else{
-      file_path += "streams/" + streamModel + "/" + to_string(streamVersion) + "/";
-    }
+    file_path += "streams/" + streamModel + "/" + to_string(streamVersion) + "/";
   }else if (type == "rtim_progress"){
     file_path += "rtim/live/progress/" + keyword[streamModel] + "/";
   }else if (type == "stream_log"){
@@ -265,17 +261,9 @@ string Arguments::generateFileName(string type, int param){
   }else if (type == "rtim_seedSet"){
     // file_name = <dataset>_<stream type>_v<version>_s<stream size>_r<value>_ap<value>_ss<seed_size>.txt
     // example: "NE_r1_ap0,01_urr_v1_s15229_ss50.txt"
-    if (streamModel == "inNOut_repeat"){
-      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_ss" + to_string(param) + ".txt";
-    }else{
-      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_ss" + to_string(param) + ".txt";
-    }
+    file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_ss" + to_string(param) + ".txt";
   }else if (type == "rtim_progress_seedSet"){
-    if (streamModel == "inNOut_repeat"){
-      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_prg" + to_string(param) + "_ss.txt";
-    }else{
-      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_prg" + to_string(param) + "_ss.txt";
-    }
+    file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_prg" + to_string(param) + "_ss.txt";
   }else if(type == "imm_seedSet"){
     // file_name = <dataset>_k<value>_e<value>_ss.txt
     // example: "NE_k200_e0,01_ss.txt"
@@ -283,32 +271,15 @@ string Arguments::generateFileName(string type, int param){
   }else if (type == "intersect"){
     // file_name = <dataset>_k<value>_e<value>_st_urr_v<stream version>_s<stream size>_ss.txt
     // example: "NE_k50_0,5_st_urr_v1_s15229_ss.txt"
-    if (streamModel == "inNOut_repeat"){
-      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_ss.txt";
-    }else{
-      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_ss.txt";
-    }
+    file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_ss.txt";
   }else if (type == "stream"){
     // file_name = <dataset>_<type>_v<version>_s<stream size>_st.txt
     // example: "NE_urr_v1_s15229_st.txt"
-    if (streamModel == "inNOut_repeat"){
-      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_st.txt";
-    }else{
-      file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_st.txt";
-    }
+    file_name = datasets[dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_st.txt";
   }else if (type == "rtim_progress"){
-    // file_name = ?
-    if (streamModel == "inNOut_repeat"){
-      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_prg.csv";
-    }else{
-      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
-    }
+    file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
   }else if (type == "stream_log"){
-    if (streamModel == "inNOut_repeat"){
-      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_s" + to_string(streamSize) + "_prg.log";
-    }else{
-      file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.log";
-    }
+    file_name = datasets[dataset] + "_k" + to_string(k) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.log";
   }
 
   return file_name;

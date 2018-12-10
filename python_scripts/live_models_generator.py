@@ -59,17 +59,46 @@ def getDistribution(dataset, nodes):
             vals = line.rstrip("\n").split(" ")
             left = int(vals[0])
             right = int(vals[1])
+
             outDegrees[left] += 1
             inDegrees[right] += 1
+            print("({0}, out: {1}) | ({2}, in: {3})".format(left, outDegrees[left], right, inDegrees[right]))
     # print("in    : {}".format(inDegrees))
     # print("out   : {}".format(outDegrees))
+    # for i in range(nodes):
+    #     print(inDegrees[i], outDegrees[i])
     sumDegrees = inDegrees + outDegrees
     # print("sum   : {}".format(sumDegrees))
     total = numpy.sum(sumDegrees)
     # print("total = {}".format(total))
     distribution = 1.0 * sumDegrees / total
     # print("distib: {}".format(distribution))
+
     return distribution
+
+
+def save_degrees():
+    inDegrees = numpy.zeros((nodes,), dtype=int)
+    outDegrees = numpy.zeros((nodes,), dtype=int)
+
+    file_path = '../data/{0}/{0}_wc.inf'.format(args.dataset)
+    print("Reading graph from: {}".format(file_path))
+    with open(file_path, 'r') as f:
+        for line in f:
+            vals = line.rstrip("\n").split(" ")
+            left = int(vals[0])
+            right = int(vals[1])
+            outDegrees[left] += 1
+            inDegrees[right] += 1
+
+    file_path = '../data/{0}/{0}_degrees.txt'.format(args.dataset)
+    print("Saving degrees too: {}".format(file_path))
+    with open(file_path, 'w') as f:
+        writer = csv.writer(f, delimiter=' ')
+        writer.writerow(['user', 'in', 'out'])
+        for i in range(nodes):
+            writer.writerow([i, inDegrees[i], outDegrees[i]])
+    print("> Saved degrees to {}".format(file_path))
 
 
 def inNOut_repeat(dataset, nodes, streamSize, distribution, version):
@@ -121,5 +150,7 @@ if __name__ == "__main__":
         # choices = numpy.random.choice(numpy.arange(1,5), 10, p=[0.2,0.3,0.3,0.2])
         # print(choices)
         distribution = getDistribution(args.dataset, nodes)
-        # print(distribution)
-        inNOut_repeat(args.dataset, nodes, args.stream, distribution, args.version)
+        #print(distribution)
+        # inNOut_repeat(args.dataset, nodes, args.stream, distribution, args.version)
+    elif args.model == "degrees":
+        save_degrees()

@@ -3,22 +3,27 @@ boost_1_66_0/
 # Youtube
 data/youtube/streams/
 data/youtube/rtim/pre_process/
+data/youtube/youtube_degrees.txt
 
 # LiveJournal
 data/livejournal/streams/
 data/livejournal/rtim/pre_process/
+data/livejournal/livejournal_degrees.txt
 
 # Twitter
 data/twitter/streams/
 data/twitter/rtim/pre_process/
+data/twitter/twitter_degrees.txt
 
 # Orkut
 data/orkut/streams
 data/orkut/rtim/pre_process
+data/orkut/orkut_degrees.txt
 
 # DBLP
 data/dblp/streams
 data/orkut/rtim/pre_process
+data/dblp/dblp_degrees.txt
 
 *.inf
 
