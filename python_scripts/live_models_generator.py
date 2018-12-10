@@ -72,8 +72,8 @@ def getDistribution(dataset, nodes):
     return distribution
 
 
-def inNOut_repeat(dataset, nodes, streamSize, distribution):
-    file_name = '../data/{0}/streams/inNOut_repeat/{1}_inoutr_s{2}_st.txt'.format(dataset, settings.datasets[dataset], streamSize)
+def inNOut_repeat(dataset, nodes, streamSize, distribution, version):
+    file_name = '../data/{0}/streams/inNOut_repeat/v{3}/{1}_inoutr_v{3}_s{2}_st.txt'.format(dataset, settings.datasets[dataset], streamSize, version)
     choices = numpy.random.choice(numpy.arange(nodes,), streamSize, p=distribution)
     with open(file_name, 'w') as f:
         writer = csv.writer(f)
@@ -93,6 +93,7 @@ if __name__ == "__main__":
     # parser.add_argument('-V', '--nodes', type=int, help='number of nodes')
     parser.add_argument('-s', '--stream', type=int, default=-1,
                         help='size of stream')
+    parser.add_argument('-v', '--version', type=int, default=-1, help='version')
     args = parser.parse_args()
 
     print("Model [{}]".format(args.model))
@@ -121,4 +122,4 @@ if __name__ == "__main__":
         # print(choices)
         distribution = getDistribution(args.dataset, nodes)
         # print(distribution)
-        inNOut_repeat(args.dataset, nodes, args.stream, distribution)
+        inNOut_repeat(args.dataset, nodes, args.stream, distribution, args.version)

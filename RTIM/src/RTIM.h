@@ -52,7 +52,11 @@ public:
   RTIM(Arguments& arguments, bool loadGraph);
 
 
-  void importIMMSeed();
+  /**
+    *     PRE-PROCESSING
+    *       FUNCTIONS
+    *
+    */
 
   /**
     * Pre-processing stage
@@ -62,30 +66,6 @@ public:
     * @param max_depth: maximum depth for inf. score computation
     */
   void pre_process();//const Graph& graph);
-
-
-  /**
-    * Live stage
-    * For stream of user decide to target, if targeted update activation
-    * probability of neighboring nodes
-    *
-    * @param graph
-    * @param max_size
-    * @param model
-    * @param version
-    * @param size
-    * @param ap
-    * @param infReach
-    *
-    */
-  void live();
-
-
-  /**
-    * Import live stream
-    */
-  // void importLiveStream();
-
 
   /**
     *
@@ -103,6 +83,33 @@ public:
     */
   void saveScores();
 
+
+  /**
+    *        LIVE
+    *      FUNCTIONS
+    *
+    */
+
+  /**
+   * Live stage
+   * For stream of user decide to target, if targeted update activation
+   * probability of neighboring nodes
+   *
+   * @param graph
+   * @param max_size
+   * @param model
+   * @param version
+   * @param size
+   * @param ap
+   * @param infReach
+   *
+   */
+  void live();
+
+
+  void importIMMSeed();
+
+
   /**
     * Save seed set to appropriate file
     */
@@ -113,7 +120,6 @@ public:
     * Import seed set at file_path starting a ../../data/<dataset>
     */
   void importSeedSet(std::string file_path);
-
 
 
   /**
@@ -186,7 +192,7 @@ public:
     *
     * @param fileName
     */
-  void saveToCSV(std::string fileName);
+  // void saveToCSV(std::string fileName);
 
   /**
     * Print progress
@@ -224,16 +230,10 @@ public:
     */
   void seedComputationTest(int seedSize, int depth=10000, double minEdgeWeight=1.0);
 
-
-  void mainMenu();
-
-
   /**
-    * Menu to get desired dataset
-    * returns 0 if a new dataset needs to be imported else 1
+    *    RTIM
+    *    RUN
     */
-  int datasetMenu();
-
 
   /**
     * Menu to get desired stage
@@ -278,5 +278,29 @@ public:
 
 
   void runTest();
+
+
+  void testStagesMenu();
+
+  void testPreProcessScoresMenu();
+
+  void testLiveMenu();
+
+  void testContinueMenu();
+
+  void rtimRun();
+
+  /**
+    *     MAIN
+    *     CLASS
+    */
+  void mainMenu();
+
+
+  /**
+    * Menu to get desired dataset
+    * returns 0 if a new dataset needs to be imported else 1
+    */
+  int datasetMenu();
 };
 #endif
