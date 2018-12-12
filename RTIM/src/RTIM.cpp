@@ -185,6 +185,7 @@ void RTIM::pre_process(){
 
 
 void RTIM::live(){
+  importDegrees();
   importIMMSeed();
   vector<double> tmpInfScores;
   for(double score: infScores){
@@ -277,7 +278,7 @@ void RTIM::live(){
           max_time = duration;
         }
         // RECORD TARGETED USER
-        saveStreamLog(sum, user, tmpAP, duration, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "targeted", seedSet.size(), immTargeted[user]);
+        saveStreamLog(sum, user, tmpAP, duration, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "targeted", seedSet.size(), immTargeted[user], inDegree[user], outDegree[user]);
         infIndex --;
         if (args.dataset == "test" || args.k < 20){
           cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
@@ -290,7 +291,7 @@ void RTIM::live(){
       }else{
         //cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
         // RECORD USER IGNORED BECAUSE SCORE TOO LOW
-        saveStreamLog(sum, user, activationProbabilities[user], -1, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "ig. (sig. too low)", -1, immTargeted[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "ig. (sig. too low)", -1, immTargeted[user], inDegree[user], outDegree[user]);
       }
       if (seedSet.size() >= args.k && immSeedSet.size() >= args.k){
         break;
@@ -298,10 +299,10 @@ void RTIM::live(){
     }else{
       if (activationProbabilities[user] == 1){
         // RECORD USER IGNORED BECAUSE ALREADY TARGETED
-        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (targeted)", -1, immTargeted[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (targeted)", -1, immTargeted[user], inDegree[user], outDegree[user]);
       }else{
         // RECORD USER IGNORED BECAUSE AP TOO HIGH
-        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (ap too high)", -1, immTargeted[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (ap too high)", -1, immTargeted[user], inDegree[user], outDegree[user]);
       }
     }
     if (immTargeted[user] == 1){
@@ -639,7 +640,7 @@ void RTIM::initiateStreamLog(){
 }
 
 
-void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, string rtim_status, int seedSize, int imm_targeted){
+void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, string rtim_status, int seedSize, int imm_targeted, int inDeg, int outDeg){
   string path = args.generateDataFilePath("stream_log");
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << " at line 642 " << endl;
@@ -681,10 +682,10 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oS
   }else if(imm_targeted == 2){
     streamLog << left << setw(14 + 1) << "ig. (targeted)";
   }else{
-    streamLog << left << setw(16 + 1) << "-";
+    streamLog << left << setw(14 + 1) << "-";
   }
-  // streamLog << left << setw(9 + 1) << inDegree;
-  // streamLog << left << setw(9 + 1) << outDegree;
+  streamLog << left << setw(9 + 1) << inDeg;
+  streamLog << left << setw(9 + 1) << outDeg;
   streamLog << endl;
   streamLog.close();
 }
@@ -710,6 +711,27 @@ void RTIM::importScores(){
   // cout << "Import successful" << endl;
   printInColor("cyan", "Import successful");
   printScores();
+}
+
+
+void RTIM::importDegrees(){
+  string path = "../../data/" + args.dataset + "/" + args.dataset + "_degrees.txt";
+  int user, inDeg, outDeg;
+  // if (!pathExists(path)){
+  //   cerr < "Error in importDegrees, path doesn't exist: " << path << endl;
+  //   exit(1);
+  // }
+  printInColor("cyan", "Importing degrees from: " + path);
+  inDegree.resize(nodes, 0);
+  outDegree.resize(nodes, 0);
+  ifstream infile(path.c_str());
+  string str;
+  getline(infile, str);
+  while(infile >> user >> inDeg >> outDeg){
+    inDegree[user] = inDeg;
+    outDegree[user] = outDeg;
+  }
+  printInColor("cyan", "Import degrees successful");
 }
 
 
@@ -755,7 +777,7 @@ void RTIM::getInfIndex(vector<double> & sorted){
 //   } else{
 //     cerr << file1 << " not opened!" << endl;
 //   }
-// 
+//
 //
 //   // import scores to vector
 //   importScores();
