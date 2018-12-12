@@ -237,11 +237,11 @@ string Arguments::generateDataFilePath(string type){
   }else if (type == "intersect"){
     file_path += ""; // ?
   }else if (type == "stream"){
-    file_path += "streams/" + streamModel + "/" + to_string(streamVersion) + "/";
+    file_path += "streams/" + streamModel + "/v" + to_string(streamVersion) + "/";
   }else if (type == "rtim_progress"){
     file_path += "rtim/live/progress/" + keyword[streamModel] + "/";
   }else if (type == "stream_log"){
-    file_path += "streams/" + streamModel + "/log/";
+    file_path += "streams/" + streamModel + "/v" + to_string(streamVersion) + "/log/";
   }else{
     cout << "Type not recognized!" << endl;
   }

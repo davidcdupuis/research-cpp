@@ -180,7 +180,7 @@ public:
   /**
     * Save stream log
     */
-  void saveStreamLog(int pos, int user, double ap, double oScore, double nScore, double theta_I, std::string rtim_status, int seedSize, int imm_targeted);
+  void saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, std::string rtim_status, int seedSize, int imm_targeted);
 
   /**
     * Import influence scores

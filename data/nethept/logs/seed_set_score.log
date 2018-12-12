@@ -328,3 +328,24 @@ Runtime    : -1540.22
 Seed size  : 0
 Inf. score : 0
 -----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/NE_k200_r1_ap0,8_inoutr_v1_s1522_ss49.txt
+Start date : Mon Dec 10 16:57:42 2018
+End date   : Mon Dec 10 16:57:42 2018
+Runtime    : -1543.07
+Seed size  : 49
+Inf. score : 839.963
+-----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/NE_k200_r1_ap0,8_inoutr_v1_s1522_ss49.txt
+Start date : Wed Dec 12 15:09:50 2018
+End date   : Wed Dec 12 15:09:50 2018
+Runtime    : -1543.24
+Seed size  : 49
+Inf. score : 839.164
+-----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/NE_k200_r1_ap0,8_inoutr_v1_s1522_ss49.txt
+Start date : Wed Dec 12 15:22:57 2018
+End date   : Wed Dec 12 15:22:58 2018
+Runtime    : -1543.21
+Seed size  : 49
+Inf. score : 839.225
+-----------------------------------------------

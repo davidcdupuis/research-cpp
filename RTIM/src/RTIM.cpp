@@ -221,6 +221,7 @@ void RTIM::live(){
   time_t startTime;
   time ( &startTime );
   double duration;
+  double inf_duration;
   int sum = 0;
   int previousProgress = -1;
   bool newProgress = true;
@@ -237,12 +238,14 @@ void RTIM::live(){
       // ADD FUNCTION TO PROPERLY UPDATE INFLUENCE SCORE, RECORD TIME
       // check neighbors
       double tot = 0;
+      start = clock();
       for(pair<int, double> neighbor: graph.graph[user]){
         // if(activationProbabilities[neighbor.first] == 1){
         //   tot ++;
         // }
         tot += activationProbabilities[neighbor.first];
       }
+      inf_duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       double old_score = tmpInfScores[user];
       if (tot == graph.graph[user].size()){
         // cout << "All neighbors are activated: " << user << " > ap= " << activationProbabilities[user] << "| old_score= " << old_score << endl;
@@ -274,7 +277,7 @@ void RTIM::live(){
           max_time = duration;
         }
         // RECORD TARGETED USER
-        saveStreamLog(sum, user, tmpAP, old_score, tmpInfScores[user], sortedScores[infIndex], "targeted", seedSet.size(), immTargeted[user]);
+        saveStreamLog(sum, user, tmpAP, duration, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "targeted", seedSet.size(), immTargeted[user]);
         infIndex --;
         if (args.dataset == "test" || args.k < 20){
           cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
@@ -287,7 +290,7 @@ void RTIM::live(){
       }else{
         //cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
         // RECORD USER IGNORED BECAUSE SCORE TOO LOW
-        saveStreamLog(sum, user, activationProbabilities[user], old_score, tmpInfScores[user], sortedScores[infIndex], "ig. (sig. too low)", -1, immTargeted[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "ig. (sig. too low)", -1, immTargeted[user]);
       }
       if (seedSet.size() >= args.k && immSeedSet.size() >= args.k){
         break;
@@ -295,10 +298,10 @@ void RTIM::live(){
     }else{
       if (activationProbabilities[user] == 1){
         // RECORD USER IGNORED BECAUSE ALREADY TARGETED
-        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ig. (targeted)", -1, immTargeted[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (targeted)", -1, immTargeted[user]);
       }else{
         // RECORD USER IGNORED BECAUSE AP TOO HIGH
-        saveStreamLog(sum, user, activationProbabilities[user], tmpInfScores[user], -1, sortedScores[infIndex], "ig. (ap too high)", -1, immTargeted[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (ap too high)", -1, immTargeted[user]);
       }
     }
     if (immTargeted[user] == 1){
@@ -608,7 +611,7 @@ void RTIM::saveProgress(int user_index, double ap, double score, int seen, doubl
 void RTIM::initiateStreamLog(){
   string path = args.generateDataFilePath("stream_log");
   if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
+    cerr << "Error path doesn't exist: " << path << " at line 611"<< endl;
     exit(1);
   }
   path += args.generateFileName("stream_log");
@@ -621,37 +624,51 @@ void RTIM::initiateStreamLog(){
   streamLog << "------------------------------------------------------------" << endl;
   streamLog << left << setw(8 + 1) << "position";
   streamLog << left << setw(8 + 1) << "user_id";
-  streamLog << left << setw(10 + 1) << "ap(user)";
-  streamLog << left << setw(15 + 1) << "sigma_old(user)";
-  streamLog << left << setw(15 + 1) << "sigma_new(user)";
+  streamLog << left << setw(10 + 1) << "ap";
+  streamLog << left << setw(10 + 1) << "ap_time(s)";
+  streamLog << left << setw(10 + 1) << "inf_old";
+  streamLog << left << setw(10 + 1) << "inf_new";
+  streamLog << left << setw(11 + 1) << "inf_time(s)";
   streamLog << left << setw(8 + 1) << "theta_I";
   streamLog << left << setw(18 + 1) << "rtim_status";
   streamLog << left << setw(9 + 1) << "seed_size";
   streamLog << left << setw(14 + 1) << "imm_status";
-  streamLog << left << setw(8 +1) << "in_degree";
-  streamLog << left << setw(8 +1) << "out_degree";
+  streamLog << left << setw(9 + 1) << "in_degree";
+  streamLog << left << setw(9 + 1) << "out_degree";
   streamLog << endl;
 }
 
 
-void RTIM::saveStreamLog(int pos, int user, double ap, double oScore, double nScore, double theta_I, string rtim_status, int seedSize, int imm_targeted){
+void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, string rtim_status, int seedSize, int imm_targeted){
   string path = args.generateDataFilePath("stream_log");
   if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
+    cerr << "Error path doesn't exist: " << path << " at line 642 " << endl;
     exit(1);
   }
   path += args.generateFileName("stream_log");
   ofstream streamLog;
   streamLog.open(path, fstream::app);
+  streamLog << setprecision(5);
   streamLog << left << setw(8 + 1) << pos;
   streamLog << left << setw(8 + 1) << user;
   streamLog << left << setw(10 + 1) << ap;
-  streamLog << left << setw(15 + 1) << oScore;
-  if (nScore == -1 || nScore == oScore){
-    streamLog << left << setw(15 + 1) << "-";
+  if (ap_time == -1){
+    streamLog << left << setw(10 + 1) << "-";
   }else{
-    streamLog << left << setw(15 + 1) << nScore;
+    streamLog << left << setw(10 + 1) << ap_time;
   }
+  streamLog << left << setw(10 + 1) << oScore;
+  if (nScore == -1 || nScore == oScore){
+    streamLog << left << setw(10 + 1) << "-";
+  }else{
+    streamLog << left << setw(10 + 1) << nScore;
+  }
+  if (inf_time == -1){
+    streamLog << left << setw(11 + 1) << "-";
+  }else{
+    streamLog << left << setw(11 + 1) << inf_time;
+  }
+
   streamLog << left << setw(8 + 1) << theta_I;
   streamLog << left << setw(18 + 1) << rtim_status;
   if ( seedSize == -1){
@@ -666,8 +683,8 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double oScore, double nSc
   }else{
     streamLog << left << setw(16 + 1) << "-";
   }
-  // streamLog << left << setw(8 + 1) << inDegree;
-  // streamLog << left << setw(8 + 1) << outDegree;
+  // streamLog << left << setw(9 + 1) << inDegree;
+  // streamLog << left << setw(9 + 1) << outDegree;
   streamLog << endl;
   streamLog.close();
 }
@@ -1276,7 +1293,7 @@ void RTIM::liveMenu(){
 
 
 // TEST LIVE MENU
-void testLiveMenu(){
+void RTIM::testLiveMenu(){
   int iChoice;
   double dChoice;
   string input;
@@ -1571,7 +1588,7 @@ void RTIM::testContinueMenu(){
         testPreProcessScoresMenu();
         break;
       case 3:
-        testStageMenu();
+        testStagesMenu();
         break;
       case 4:
         // change algorithm
@@ -1585,7 +1602,7 @@ void RTIM::testContinueMenu(){
         // return val
         clearLines(8);
         cout << "Programming ending: \"Have a nice day!\"      "<< endl;
-        return -1;
+        // return -1;
       default:
         cout << "Error: choice not recognized!" << endl;
         choice = -1;
