@@ -38,6 +38,9 @@ public:
   void runExperiments(std::string path);
 
 
+  void readExperiments(std::string path);
+
+
   void run();
 };
 

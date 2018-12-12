@@ -718,63 +718,63 @@ void RTIM::getInfIndex(vector<double> & sorted){
 }
 
 
-void RTIM::outgoing(){
-  string file = "../../data/" + args.dataset + "/" + args.dataset + "_outgoing.txt";
-  ofstream outgoingFile;
-  outgoingFile.open(file);
-  if (outgoingFile.is_open()){
-    cout << "Saving # of outgoing neighbors" << endl;
-    // for each node in graph compute outgoing and save to dataset_outgoing.txt
-    for(int i = 0; i < graph.graph.size(); i++){
-      outgoingFile << i  << " " << graph.graph[i].size() << endl;
-    }
-    outgoingFile.close();
-    cout << "Number of outgoing neighbors saved successfully" << endl;
-  } else {
-    cerr << file << " not opened!" << endl;
-  }
-
-}
-
-
-void RTIM::mergeOutgoingScores(){
-  string dir = "../../data/" + args.dataset + "/";
-  // import outgoing to vector
-  string file1 = dir + args.dataset + "_outgoing.txt";
-  vector<int> outgoing;
-  outgoing.resize(nodes, 0);
-  ifstream outgoingFile;
-  outgoingFile.open(file1);
-  if (outgoingFile.is_open()){
-    int user, out;
-    while (outgoingFile >> user >> out){
-      cout << user << "," << out << endl;
-      outgoing[user] = out;
-    }
-    outgoingFile.close();
-  } else{
-    cerr << file1 << " not opened!" << endl;
-  }
-
-
-  // import scores to vector
-  importScores();
-
-  // save both to file
-  string file3 = dir + args.dataset + "_nodeinfo.txt";
-
-  ofstream nodeInfoFile;
-
-  nodeInfoFile.open(file3);
-  if (nodeInfoFile.is_open()){
-    for (int i = 0; i < infScores.size(); i++){
-      nodeInfoFile << i << " " << infScores[i] << " " << outgoing[i] << endl;
-    }
-    cout << file3 << " saved successfully!" << endl;
-  }else{
-    cerr << file3 << " not opened!" << endl;
-  }
-}
+// void RTIM::outgoing(){
+//   string file = "../../data/" + args.dataset + "/" + args.dataset + "_outgoing.txt";
+//   ofstream outgoingFile;
+//   outgoingFile.open(file);
+//   if (outgoingFile.is_open()){
+//     cout << "Saving # of outgoing neighbors" << endl;
+//     // for each node in graph compute outgoing and save to dataset_outgoing.txt
+//     for(int i = 0; i < graph.graph.size(); i++){
+//       outgoingFile << i  << " " << graph.graph[i].size() << endl;
+//     }
+//     outgoingFile.close();
+//     cout << "Number of outgoing neighbors saved successfully" << endl;
+//   } else {
+//     cerr << file << " not opened!" << endl;
+//   }
+//
+// }
+//
+//
+// void RTIM::mergeOutgoingScores(){
+//   string dir = "../../data/" + args.dataset + "/";
+//   // import outgoing to vector
+//   string file1 = dir + args.dataset + "_outgoing.txt";
+//   vector<int> outgoing;
+//   outgoing.resize(nodes, 0);
+//   ifstream outgoingFile;
+//   outgoingFile.open(file1);
+//   if (outgoingFile.is_open()){
+//     int user, out;
+//     while (outgoingFile >> user >> out){
+//       cout << user << "," << out << endl;
+//       outgoing[user] = out;
+//     }
+//     outgoingFile.close();
+//   } else{
+//     cerr << file1 << " not opened!" << endl;
+//   }
+// 
+//
+//   // import scores to vector
+//   importScores();
+//
+//   // save both to file
+//   string file3 = dir + args.dataset + "_nodeinfo.txt";
+//
+//   ofstream nodeInfoFile;
+//
+//   nodeInfoFile.open(file3);
+//   if (nodeInfoFile.is_open()){
+//     for (int i = 0; i < infScores.size(); i++){
+//       nodeInfoFile << i << " " << infScores[i] << " " << outgoing[i] << endl;
+//     }
+//     cout << file3 << " saved successfully!" << endl;
+//   }else{
+//     cerr << file3 << " not opened!" << endl;
+//   }
+// }
 
 
 void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){

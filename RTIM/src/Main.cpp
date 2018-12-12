@@ -51,8 +51,8 @@ void Main::experimentsMenu(){
   while (1){
     cout << "> choose file [ experiments.txt ] : ";
     getline(cin, input);
-    // check existence of file
     // run experiments.txt
+    runExperiments("../../data/experiments.txt");
     break;
   }
 }
@@ -171,13 +171,29 @@ void Main::algorithmMenu(){
 void Main::runExperiments(string path){
   printInColor("magenta", string(60,'-'));
   printLocalTime("magenta", "Experiments", "starting");
-  /*
-  Read each line in file.
-  If new dataset, import
-  Run algorithm with stage and parameters
-  */
+  //
+  readExperiments(path);
+  //
   printInColor("magenta", string(60,'-'));
   printLocalTime("magenta", "Experiments", "ending");
+}
+
+
+void Main::readExperiments(string path){
+
+  if (!pathExists(path)){
+    cerr << "Error in readExperiments, path doesn't exist: " << path << endl;
+    exit(1);
+  }
+  cout << "reading experiments" << endl;
+  string line;
+  ifstream infile(path.c_str());
+  for(string line; getline(infile, line);){
+    if (line[0] != '#'){
+      args.getArguments(line);
+      args.printArguments();
+    }
+  }
 }
 
 
@@ -192,5 +208,6 @@ void Main::run(){
 
 int main(){
   Main main = Main();
-  main.run();
+  //main.run();
+  main.runExperiments("../../data/experiments.txt");
 }

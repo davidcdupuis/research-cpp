@@ -4,6 +4,9 @@
 #include "Tools.h"
 
 #include <string>
+#include <sstream>
+#include <iterator>
+#include <iostream>
 
 /**
   * @file Arguments.h
@@ -50,6 +53,7 @@ public:
   std::string stage;                  /**< pre|live|evaluate */
   std::string model = "ic";           /**< model of weights: ic|lt, default is ic */
   std::string seedSetPath;
+  std::string algorithm;
 
   double reach = 1;                       /**< reach to define inf. threshold = percentage */
   double theta_ap = 0.8;              /**< activation probability threshold [0, 1] */
@@ -70,6 +74,9 @@ public:
     * @param argv
     */
   void getArguments(int argn, char **argv);
+
+
+  void getArguments(std::string line);
 
 
   void loadDatasetsData();

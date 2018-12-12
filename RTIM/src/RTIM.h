@@ -34,6 +34,8 @@ public:
   std::vector<double> infScores;     /**< array of influence scores */
   std::vector<double> nodeTime;      /**< time took to compute node inf score */
   std::vector<double> sortedScores;  /**< array of sorted influence scores */
+  std::vector<int> inDegree;
+  std::vector<int> outDegree;
   std::vector<int> seedSet;          /**< users to target */
   std::vector<int> immTargeted;
   std::set<int> immSeedSet;
@@ -214,15 +216,15 @@ public:
     */
   void getInfIndex(std::vector<double> & sorted);
 
-  /**
-    * Compute number of outgoing neighbors and save to file
-    */
-  void outgoing();
-
-  /**
-    * Merges outgoing file with influence score of defined file
-    */
-  void mergeOutgoingScores();
+  // /**
+  //   * Compute number of outgoing neighbors and save to file
+  //   */
+  // void outgoing();
+  //
+  // /**
+  //   * Merges outgoing file with influence score of defined file
+  //   */
+  // void mergeOutgoingScores();
 
 
   /**

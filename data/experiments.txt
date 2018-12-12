@@ -5,9 +5,7 @@
 # -algo --algorithm     : name of algorithm to run [rtim, imm]
 # -stage                : name of stage to run [pre, live]
 #
-
 # -...
-
 # example : -d nethept -algo rtim -stage pre -...
-
--d nethept -algo rtim -stage pre ...
+-d nethept -algo rtim -stage pre
+-d nethept -algo imm -k 50 -e 0.1

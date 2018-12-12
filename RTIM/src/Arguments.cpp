@@ -104,6 +104,89 @@ void Arguments::getArguments(int argn, char **argv){
 }
 
 
+void Arguments::getArguments(string line){
+  istringstream iss(line);
+  vector<string> words{istream_iterator<string>{iss}, istream_iterator<string>{}};
+  for(string s: words){
+    cout << s << " ";
+  }
+  cout << endl;
+  for (int i=0; i < words.size(); i++){
+    // define stage to run
+    if (words[i] == string("-stage")){
+      if ((words[i + 1] != string("pre")) && (words[i + 1] != string("live")) && (words[i + 1] != string("newStream")) && (words[i + 1] != string("special"))){
+        cerr << "Error: stage not recognized [ " << words[i + 1] << " ]"<< endl;
+        exit(1);
+      }else{
+        stage = words[i + 1];
+      }
+    }
+
+    // define dataset to use
+    if (words[i] == string("-dataset")){
+      // verify if dataset among list of available datasets in directory
+      dataset = words[i + 1];
+      if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
+        cerr << "Dataset not recognized: " << dataset << endl;
+        exit(1);
+      }
+    }
+
+    // define model to use
+    if (words[i] == string("-model")){
+      model = words[i + 1];
+      if (model != "wc" && model != "ic"){
+        cerr << "Model not recognized: " << model << endl;
+        exit(1);
+      }
+    }
+
+    if (words[i] == string("-depth")){
+      depth = stoi(words[i + 1]);
+    }
+
+    // to help define inf. threshold, percentage of top influencers
+    if (words[i] == string("-reach")){
+      reach = stoi(words[i + 1]);
+    }
+
+    // activation probability [0, 1]
+    if (words[i] == string("-actprob")){
+      theta_ap = stof(words[i + 1]);
+    }
+
+    // max size of seed set to find
+    if (words[i] == string("-k") || words[i] == string("--size")){
+      k = stoi(words[i + 1]);
+    }
+
+    if (words[i] == string("-streamModel")){
+      streamModel = words[i + 1];
+    }
+
+    if (words[i] == string("-streamVersion")){
+      streamVersion = stoi(words[i + 1]);
+    }
+
+    if (words[i] == string("-streamSize")){
+      streamSize = stoi(words[i + 1]);
+    }
+
+    if (words[i] == string("-edge")){
+      edge_weight = stof(words[i + 1]);
+    }
+
+    if (words[i] == string("-minWeight")){
+      min_weight = stof(words[i + 1]);
+    }
+
+    if (words[i] == "-algo" || words[i] == "--algorithm"){
+      algorithm = words[i+1];
+    }
+  }
+}
+
+
 void Arguments::loadDatasetsData(){
   // check existence of file
   string path = "../../data/datasets.txt";
