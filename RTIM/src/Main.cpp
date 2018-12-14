@@ -11,6 +11,8 @@ Main::Main(){
   // should we initialize object arguments here?
   args = Arguments();
   args.loadDatasetsData();
+  // graph = Graph(args);
+  // rtim(args);
   srand(time(NULL));
 }
 
@@ -65,6 +67,10 @@ void Main::experimentsContinueMenu(){
   cout << " [1] Experiments Menu" << endl;
   cout << " [2] Main menu" << endl;
   while (choice == -1){
+    string val;
+    getline(cin, val);
+    // test if int
+    choice = stoi(val);
     switch(choice){
       case 1:
         experimentsMenu();
@@ -83,7 +89,7 @@ void Main::experimentsContinueMenu(){
 
 
 void Main::datasetsMenu(){
-  int lines = 10;
+  int lines = args.datasetNames.size() + 2;
   int choice = -1;
   string dataset;
   cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
@@ -126,6 +132,7 @@ void Main::datasetsMenu(){
     }
   }
   clearLines(lines);
+  algorithmMenu();
   // return 1;
 }
 
@@ -146,9 +153,11 @@ void Main::algorithmMenu(){
     switch(choice){
       case 1:
         // run rtim
+        rtim.run();
         break;
       case 2:
         // run imm
+        // imm.run();
         break;
       case 3:
         // run compute score
@@ -176,6 +185,7 @@ void Main::runExperiments(string path){
   //
   printInColor("magenta", string(60,'-'));
   printLocalTime("magenta", "Experiments", "ending");
+  experimentsContinueMenu();
 }
 
 
@@ -208,6 +218,6 @@ void Main::run(){
 
 int main(){
   Main main = Main();
-  //main.run();
-  main.runExperiments("../../data/experiments.txt");
+  main.run();
+  // main.datasetsMenu();
 }
