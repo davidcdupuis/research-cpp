@@ -20,13 +20,10 @@ public:
   Main();
 
 
+  void run();
+
+
   void mainMenu();
-
-
-  void experimentsMenu();
-
-
-  void experimentsContinueMenu();
 
 
   void datasetsMenu();
@@ -35,13 +32,16 @@ public:
   void algorithmMenu();
 
 
-  void runExperiments(std::string path);
+  void experimentsMenu();
 
 
   void readExperiments(std::string path);
 
 
-  void run();
+  void runExperiments(std::string path);
+
+
+  void experimentsContinueMenu();
 };
 
 #endif
