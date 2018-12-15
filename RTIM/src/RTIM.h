@@ -27,32 +27,53 @@
 */
 class RTIM{
 public:
-  int nodes;                         /**< number of nodes in graph */
-  int simulations;                   /**< # simulations for inf score */
+  std::map<std::string, std::string> datasets = {
+    { "test", "TS" },
+    { "nethept", "NE" },
+    { "dblp", "DB" },
+    { "youtube", "YO" },
+    { "livejournal", "LJ" },
+    { "orkut", "OR" },
+    { "twitter", "TW"}
+  };
+  std::map<std::string, std::string> keyword = {
+    { "infScores", "infS"},
+    { "seedSet", "ss"},
+    { "stream", "st"},
+    { "uniform_rand_repeat", "urr"},
+    { "uniform_rand_no_repeat", "urnr"},
+    { "inNOut_repeat", "inoutr"},
+    { "progress", "prg"},
+  };
+  // int nodes;                         /**< number of nodes in graph */
+  // int simulations;                   /**< # simulations for inf score */
   int infIndex;                      /**< index of influence score threshold */
+  int maxSeedSize = 200;               /**< size of seed set if defined */
+  int streamVersion = 1;               /**< version of stream */
+  int streamSize = -1;                 /**< size of stream to use*/
+  int maxDepth = 2;                    /**< max depth for monte carlo simulations */
+
+  double minEdgeWeight = 0;              /**< minimum weight to continue influence propagation*/
+  double reach = 1;                       /**< reach to define inf. threshold = percentage */
+  double theta_ap = 0.8;              /**< activation probability threshold [0, 1] */
+
+  std::string seedSetPath;
+  std::string streamModel = "inNOut_repeat"; /**< name of availability model */
+  std::string stage;                  /**< pre|live|evaluate */
 
   std::vector<double> infScores;     /**< array of influence scores */
   std::vector<double> nodeTime;      /**< time took to compute node inf score */
   std::vector<double> sortedScores;  /**< array of sorted influence scores */
-  std::vector<int> inDegree;
-  std::vector<int> outDegree;
+
   std::vector<int> seedSet;          /**< users to target */
   std::vector<int> immTargeted;
   std::set<int> immSeedSet;
   std::string seedFile = "";
   std::vector<double> activationProbabilities; /**< array of activation probabilities*/
-  Arguments args;                    /**< command line arguments */
+  // Arguments args;                    /**< command line arguments */
   Graph graph;
 
-  RTIM(Arguments& arguments);
-
-  /**
-    * Constructor
-    *
-    * @param dataset: name of dataset to use
-    */
-  RTIM(Arguments& arguments, bool loadGraph);
-
+  RTIM(Graph& g);
 
   /**
     *     PRE-PROCESSING
@@ -85,6 +106,8 @@ public:
     */
   void saveScores();
 
+
+  void printStageParams();
 
   /**
     *        LIVE
@@ -189,8 +212,6 @@ public:
     */
   void importScores();
 
-
-  void importDegrees();
 
   /**
     * Save influence scores
@@ -302,10 +323,14 @@ public:
   void mainMenu();
 
 
-  /**
-    * Menu to get desired dataset
-    * returns 0 if a new dataset needs to be imported else 1
-    */
-  int datasetMenu();
+  // /**
+  //   * Menu to get desired dataset
+  //   * returns 0 if a new dataset needs to be imported else 1
+  //   */
+  // int datasetMenu();
+
+  std::string generateDataFilePath(std::string type);
+
+  std::string generateFileName(std::string type, int param = 0);
 };
 #endif

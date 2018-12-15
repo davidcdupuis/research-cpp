@@ -25,29 +25,30 @@ using namespace std;
 const int SLEEP = 2; // duration of sleep
 
 
-RTIM::RTIM(Arguments& arguments):graph(arguments){
-  args = arguments;
+RTIM::RTIM(Graph& g){
+  graph = g;
+  // args = arguments;
   srand(time(NULL));
 }
 
 
-RTIM::RTIM(Arguments& arguments, bool loadGraph):graph(arguments, loadGraph){
-  args = arguments;
-
-  if (args.streamSize == -1){
-    args.streamSize = graph.nodes;
-  }
-  if (args.k == -1){
-    args.k = graph.nodes;
-  }
-  nodes = graph.nodes;
-  srand(time(NULL));
-}
+// RTIM::RTIM(Arguments& arguments, bool loadGraph):graph(arguments, loadGraph){
+//   args = arguments;
+//
+//   if (streamSize == -1){
+//     streamSize = graph.nodes;
+//   }
+//   if (maxSeedSize == -1){
+//     maxSeedSize = graph.nodes;
+//   }
+//   nodes = graph.nodes;
+//   srand(time(NULL));
+// }
 
 
 void RTIM::importIMMSeed(){
-  immTargeted.resize(nodes, 0);
-  string path = "../../data/" + args.dataset + "/imm/basic/" + args.datasets[args.dataset] + "_k" + to_string(args.k) + "_e" + "0,1" + "_ss.txt";
+  immTargeted.resize(graph.nodes, 0);
+  string path = "../../data/" + graph.dataset + "/imm/basic/" + datasets[graph.dataset] + "_k" + to_string(maxSeedSize) + "_e" + "0,1" + "_ss.txt";
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << endl;
     exit(1);
@@ -116,13 +117,13 @@ int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time
 
 void RTIM::pre_process(){
   // for each node in graph compute influence score
-  // cout << "Running pre_process on " << args.dataset << endl;
+  // cout << "Running pre_process on " << graph.dataset << endl;
   double score;
   // nodes = graph.graph.size();
 
   // infScores.reserve(nodes);
-  infScores.resize(nodes, 0);
-  nodeTime.resize(nodes, 0);
+  infScores.resize(graph.nodes, 0);
+  nodeTime.resize(graph.nodes, 0);
   // for(int i = 0; i < nodes; i++){
   //   infScores.push_back(0);
   // }
@@ -145,14 +146,14 @@ void RTIM::pre_process(){
     }
     #pragma omp barrier
     #pragma omp for schedule(dynamic) nowait
-    for(int i = 0; i < nodes; i++){
+    for(int i = 0; i < graph.nodes; i++){
       if (num_thread == 0){
-        save = print_progress(nb_threads, finishedProcess, nodes, startTime, nb_nodes, save);
+        save = print_progress(nb_threads, finishedProcess, graph.nodes, startTime, nb_nodes, save);
       }
       // Compute the influence score of a node in G
       clock_t nodeStart = clock();
-      score = graph.influenceScore({i}, args.depth);
-      // score = graph.influenceScorePath(i, args.depth,"shortest", args.edge_weight, args.min_weight);
+      score = graph.influenceScore({i}, maxDepth);
+      // score = graph.influenceScorePath(i, maxDepth,"shortest", args.edge_weight, minEdgeWeight);
       double duration = (clock() - nodeStart)/(double)CLOCKS_PER_SEC;
       // score = graph.influenceScoreNeighbors(i);
       infScores[i] = score;
@@ -167,9 +168,9 @@ void RTIM::pre_process(){
     }
     if (num_thread == 0){
       while (finishedProcess != nb_threads) {
-        save = print_progress(nb_threads, finishedProcess, nodes, startTime, nb_nodes, save);
+        save = print_progress(nb_threads, finishedProcess, graph.nodes, startTime, nb_nodes, save);
       }
-      save = print_progress(nb_threads, finishedProcess, nodes, startTime, nb_nodes, save);
+      save = print_progress(nb_threads, finishedProcess, graph.nodes, startTime, nb_nodes, save);
     }
 
   }
@@ -185,7 +186,7 @@ void RTIM::pre_process(){
 
 
 void RTIM::live(){
-  importDegrees();
+  graph.importDegrees();
   importIMMSeed();
   vector<double> tmpInfScores;
   for(double score: infScores){
@@ -195,19 +196,19 @@ void RTIM::live(){
   string startDatetime = getLocalDatetime();
   // nodes = graph.graph.size();
   // cout << "-------------------------------" << endl;
-  // cout << "Running live on " << args.dataset << endl;
+  // cout << "Running live on " << graph.dataset << endl;
   seedSet.clear(); // in case live was already run with different params
   initiateProgressLog();
   initiateStreamLog();
   activationProbabilities.clear();
-  activationProbabilities.resize(nodes, 0);
+  activationProbabilities.resize(graph.nodes, 0);
 
   // printScores();
   getInfIndex(sortedScores);
   cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
   // read availability stream
-  string path = args.generateDataFilePath("stream") + args.generateFileName("stream");
+  string path = generateDataFilePath("stream") + generateFileName("stream");
   int user;
   // cout << "Reading availability stream: " << folder << endl;
   if (!pathExists(path)){
@@ -232,10 +233,10 @@ void RTIM::live(){
     if (immTargeted[user] == 1){
       immSeedSet.insert(user);
     }
-    if (args.dataset == "test"){
+    if (graph.dataset == "test"){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
     }
-    if (activationProbabilities[user] < args.theta_ap){ // CHECK ACTIVATION PROBABILITY
+    if (activationProbabilities[user] < theta_ap){ // CHECK ACTIVATION PROBABILITY
       // ADD FUNCTION TO PROPERLY UPDATE INFLUENCE SCORE, RECORD TIME
       // check neighbors
       double tot = 0;
@@ -278,31 +279,31 @@ void RTIM::live(){
           max_time = duration;
         }
         // RECORD TARGETED USER
-        saveStreamLog(sum, user, tmpAP, duration, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "targeted", seedSet.size(), immTargeted[user], inDegree[user], outDegree[user]);
+        saveStreamLog(sum, user, tmpAP, duration, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "targeted", seedSet.size(), immTargeted[user], graph.inDegrees[user], graph.outDegrees[user]);
         infIndex --;
-        if (args.dataset == "test" || args.k < 20){
+        if (graph.dataset == "test" || maxSeedSize < 20){
           cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
         }
         if (seedSet.size() == 1){
         	cout << "First user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << tmpInfScores[user] << endl;
-        }else if (seedSet.size() == args.k){
+        }else if (seedSet.size() == maxSeedSize){
         	cout << "Last user targeted: " << user << ": pos = " << sum << ", old_ap = " << tmpAP << ", score = " << tmpInfScores[user] << endl;
         }
       }else{
         //cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
         // RECORD USER IGNORED BECAUSE SCORE TOO LOW
-        saveStreamLog(sum, user, activationProbabilities[user], -1, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "ig. (sig. too low)", -1, immTargeted[user], inDegree[user], outDegree[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "ig. (sig. too low)", -1, immTargeted[user], graph.inDegrees[user], graph.outDegrees[user]);
       }
-      if (seedSet.size() >= args.k && immSeedSet.size() >= args.k){
+      if (seedSet.size() >= maxSeedSize && immSeedSet.size() >= maxSeedSize){
         break;
       }
     }else{
       if (activationProbabilities[user] == 1){
         // RECORD USER IGNORED BECAUSE ALREADY TARGETED
-        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (targeted)", -1, immTargeted[user], inDegree[user], outDegree[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (targeted)", -1, immTargeted[user], graph.inDegrees[user], graph.outDegrees[user]);
       }else{
         // RECORD USER IGNORED BECAUSE AP TOO HIGH
-        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (ap too high)", -1, immTargeted[user], inDegree[user], outDegree[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (ap too high)", -1, immTargeted[user], graph.inDegrees[user], graph.outDegrees[user]);
       }
     }
     if (immTargeted[user] == 1){
@@ -330,11 +331,11 @@ void RTIM::live(){
   // COMPUTE SEED SET INFLUENCE SCORE WITH MC SIMULATIONS
   printInColor("magenta", string(60, '-'));
   printLocalTime("magenta", "Compute RTIM seed score", "starting");
-  string seedFile = args.generateDataFilePath("rtim_seedSet") + args.generateFileName("rtim_seedSet", seedSet.size());
+  string seedFile = generateDataFilePath("rtim_seedSet") + generateFileName("rtim_seedSet", seedSet.size());
   double score;
   string scoreStartDate = getLocalDatetime();
   clock_t scoreStartTime = clock();
-  if (args.dataset == "twitter"){
+  if (graph.dataset == "twitter"){
     score = graph.influenceScoreParallel(seedSet, 2);
   }else{
     score = graph.influenceScoreParallel(seedSet);
@@ -356,7 +357,7 @@ void RTIM::live(){
   for(int seed: immSeedSet){
     vecImmSeedSet.push_back(seed);
   }
-  if (args.dataset == "twitter"){
+  if (graph.dataset == "twitter"){
     score = graph.influenceScoreParallel(vecImmSeedSet, 2);
   }else{
     score = graph.influenceScoreParallel(vecImmSeedSet);
@@ -394,12 +395,12 @@ void RTIM::printScores(){
 
 
 void RTIM::saveScores(){
-  string file = "../../data/" + args.dataset + "/rtim/pre_process/";
+  string file = "../../data/" + graph.dataset + "/rtim/pre_process/";
   if (!pathExists(file)){
     cerr << "Error path doesn't exist: " << file << endl;
     exit(1);
   }
-  file += args.generateFileName("save_infScores");
+  file += generateFileName("save_infScores");
   //string txt = "Saving inlfuence score to " + file;
   printInColor("cyan", "Saving inlfuence score to " + file);
   //cout << "\033[33mSaving influence scores to: " << file << "\033[0m" << endl;
@@ -416,23 +417,23 @@ void RTIM::saveScores(){
 
 
 void RTIM::saveSeedSet(bool progress, int progPercentage){
-  // string file = "../../data/" + args.dataset + "/rtim/live/";
+  // string file = "../../data/" + graph.dataset + "/rtim/live/";
   string file;
   if(progress){
-    file = args.generateDataFilePath("rtim_progress_seedSet");
+    file = generateDataFilePath("rtim_progress_seedSet");
     if (!pathExists(file)){
       cerr << "Error path doesn't exist: " << file << endl;
       exit(1);
     }
-    file += args.generateFileName("rtim_progress_seedSet", progPercentage);
+    file += generateFileName("rtim_progress_seedSet", progPercentage);
     printInColor("cyan", "Saving progress seed set to: " + file);
   }else{
-    file = args.generateDataFilePath("rtim_seedSet");
+    file = generateDataFilePath("rtim_seedSet");
     if (!pathExists(file)){
       cerr << "Error path doesn't exist: " << file << endl;
       exit(1);
     }
-    file += args.generateFileName("rtim_seedSet", seedSet.size());
+    file += generateFileName("rtim_seedSet", seedSet.size());
     printInColor("cyan", "Saving seed set to  : " + file);
   }
   ofstream seedSetFile;
@@ -447,7 +448,7 @@ void RTIM::saveSeedSet(bool progress, int progPercentage){
 void RTIM::importSeedSet(string file_path){
   int user;
   seedSet.clear();
-  // string file = "../../data/" + args.dataset + "/" + file_path;
+  // string file = "../../data/" + graph.dataset + "/" + file_path;
   cout << "Importing from: " << file_path << endl;
   if (!pathExists(file_path)){
     cerr << "Error path doesn't exist: " << file_path << endl;
@@ -476,8 +477,8 @@ void RTIM::seedSetTest(string file_path){
 
 
 void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, string endDatetime){
-  // string file = "../../data/" + args.dataset + "/streams/" + args.streamModel + "/" + args.streamModel + "_m" + to_string(args.streamVersion) + "/" + args.dataset + "_liveLog.txt";
-  string path = "../../data/" + args.dataset + "/logs/";
+  // string file = "../../data/" + graph.dataset + "/streams/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + graph.dataset + "_liveLog.txt";
+  string path = "../../data/" + graph.dataset + "/logs/";
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << endl;
     exit(1);
@@ -487,7 +488,7 @@ void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, s
   printInColor("cyan", "Saving live log to  : " + path);
   ofstream liveLogFile;
   liveLogFile.open(path, fstream::app);
-  liveLogFile << "File name       : " << args.generateFileName("rtim_seedSet", seedSet.size()) << endl;
+  liveLogFile << "File name       : " << generateFileName("rtim_seedSet", seedSet.size()) << endl;
   liveLogFile << "Start date      : " << startDatetime << endl;
   liveLogFile << "End date        : " << endDatetime << endl;
   liveLogFile << "Duration        : " << cleanTime(runtime, "s") << endl;
@@ -500,7 +501,7 @@ void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, s
 
 
 void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, double& runtime){
-  string path = "../../data/" + args.dataset + "/logs/";
+  string path = "../../data/" + graph.dataset + "/logs/";
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << endl;
     exit(1);
@@ -511,14 +512,14 @@ void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, 
   ofstream liveCSV;
   liveCSV.open(path, fstream::app);
   /*Order of values: dataset, streamModel, streamVersion, reahc, theta_ap, depth, maxSeedSize, actualSeedSize, maxUpdateTime, runtime*/
-  liveCSV << args.dataset << ",";
-  liveCSV << args.streamModel << ",";
-  liveCSV << args.streamVersion << ",";
-  liveCSV << args.streamSize << ",";
-  liveCSV << args.reach << ",";
-  liveCSV << args.theta_ap << ",";
-  liveCSV << args.depth << ",";
-  liveCSV << args.k << ",";
+  liveCSV << graph.dataset << ",";
+  liveCSV << streamModel << ",";
+  liveCSV << streamVersion << ",";
+  liveCSV << streamSize << ",";
+  liveCSV << reach << ",";
+  liveCSV << theta_ap << ",";
+  liveCSV << maxDepth << ",";
+  liveCSV << maxSeedSize << ",";
   liveCSV << seedSet.size() << ",";
   liveCSV << maxTime << ",";
   liveCSV << runtime << endl;
@@ -529,7 +530,7 @@ void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, 
 
 
 void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, double& runtime, double& score){
-  string path = "../../data/" + args.dataset + "/logs/";
+  string path = "../../data/" + graph.dataset + "/logs/";
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << endl;
     exit(1);
@@ -550,7 +551,7 @@ void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, doubl
 
 
 void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, double& runtime, double& score){
-  string path = "../../data/" + args.dataset + "/logs/";
+  string path = "../../data/" + graph.dataset + "/logs/";
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << endl;
     exit(1);
@@ -561,7 +562,7 @@ void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, doubl
   // dataset,file_name, startDate, endDate, runtime, seed size, score
   ofstream seedScoreCSVFile;
   seedScoreCSVFile.open(path, fstream::app);
-  seedScoreCSVFile << args.dataset << ",";
+  seedScoreCSVFile << graph.dataset << ",";
   seedScoreCSVFile << file << ",";
   seedScoreCSVFile << startDate << ",";
   seedScoreCSVFile << endDate << ",";
@@ -573,12 +574,12 @@ void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, doubl
 
 
 void RTIM::initiateProgressLog(){
-  string path = args.generateDataFilePath("rtim_progress");
+  string path = generateDataFilePath("rtim_progress");
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << endl;
     exit(1);
   }
-  path += args.generateFileName("rtim_progress");
+  path += generateFileName("rtim_progress");
   printInColor("cyan", "New progress log    : " + path);
   ofstream progressFile;
   progressFile.open(path);
@@ -588,12 +589,12 @@ void RTIM::initiateProgressLog(){
 
 
 void RTIM::saveProgress(int user_index, double ap, double score, int seen, double infTheta, int seedSize){
-  string path = args.generateDataFilePath("rtim_progress");
+  string path = generateDataFilePath("rtim_progress");
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << endl;
     exit(1);
   }
-  path += args.generateFileName("rtim_progress");
+  path += generateFileName("rtim_progress");
   // printInColor("cyan","Saving progress: " + to_string(progress));
   ofstream progressFile;
   progressFile.open(path, fstream::app);
@@ -610,18 +611,18 @@ void RTIM::saveProgress(int user_index, double ap, double score, int seen, doubl
 
 
 void RTIM::initiateStreamLog(){
-  string path = args.generateDataFilePath("stream_log");
+  string path = generateDataFilePath("stream_log");
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << " at line 611"<< endl;
     exit(1);
   }
-  path += args.generateFileName("stream_log");
+  path += generateFileName("stream_log");
   printInColor("cyan", "New stream log    :" + path);
   ofstream streamLog;
   streamLog.open(path);
-  streamLog << "Dataset: " << args.dataset << endl;
-  streamLog << "STREAM: model = " << args.streamModel << "|  size = " << args.streamSize << endl;
-  streamLog << "RTIM: k = " << args.k << " | theta_ap = " << args.theta_ap << " | reach = " << args.reach << endl;
+  streamLog << "Dataset: " << graph.dataset << endl;
+  streamLog << "STREAM: model = " << streamModel << "|  size = " << streamSize << endl;
+  streamLog << "RTIM: k = " << maxSeedSize << " | theta_ap = " << theta_ap << " | reach = " << reach << endl;
   streamLog << "------------------------------------------------------------" << endl;
   streamLog << left << setw(8 + 1) << "position";
   streamLog << left << setw(8 + 1) << "user_id";
@@ -641,12 +642,12 @@ void RTIM::initiateStreamLog(){
 
 
 void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, string rtim_status, int seedSize, int imm_targeted, int inDeg, int outDeg){
-  string path = args.generateDataFilePath("stream_log");
+  string path = generateDataFilePath("stream_log");
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << " at line 642 " << endl;
     exit(1);
   }
-  path += args.generateFileName("stream_log");
+  path += generateFileName("stream_log");
   ofstream streamLog;
   streamLog.open(path, fstream::app);
   streamLog << setprecision(5);
@@ -692,14 +693,14 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oS
 
 
 void RTIM::importScores(){
-  string path = args.generateDataFilePath("get_infScores") + args.generateFileName("get_infScores");
+  string path = generateDataFilePath("get_infScores") + generateFileName("get_infScores");
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << endl;
     exit(1);
   }
   // cout << "Importing influence scores from: " << folder << endl;
   printInColor("cyan", "Importing influence scores from: " + path);
-  infScores.resize(nodes, 0);
+  infScores.resize(graph.nodes, 0);
   int user;
   double infScore;
   double scoreTime;
@@ -714,34 +715,14 @@ void RTIM::importScores(){
 }
 
 
-void RTIM::importDegrees(){
-  string path = "../../data/" + args.dataset + "/" + args.dataset + "_degrees.txt";
-  int user, inDeg, outDeg;
-  // if (!pathExists(path)){
-  //   cerr < "Error in importDegrees, path doesn't exist: " << path << endl;
-  //   exit(1);
-  // }
-  printInColor("cyan", "Importing degrees from: " + path);
-  inDegree.resize(nodes, 0);
-  outDegree.resize(nodes, 0);
-  ifstream infile(path.c_str());
-  string str;
-  getline(infile, str);
-  while(infile >> user >> inDeg >> outDeg){
-    inDegree[user] = inDeg;
-    outDegree[user] = outDeg;
-  }
-  printInColor("cyan", "Import degrees successful");
-}
-
 
 void RTIM::getInfIndex(vector<double> & sorted){
-  infIndex = (int)(sorted.size() - sorted.size() * args.reach / 100);
+  infIndex = (int)(sorted.size() - sorted.size() * reach / 100);
 }
 
 
 // void RTIM::outgoing(){
-//   string file = "../../data/" + args.dataset + "/" + args.dataset + "_outgoing.txt";
+//   string file = "../../data/" + graph.dataset + "/" + graph.dataset + "_outgoing.txt";
 //   ofstream outgoingFile;
 //   outgoingFile.open(file);
 //   if (outgoingFile.is_open()){
@@ -760,9 +741,9 @@ void RTIM::getInfIndex(vector<double> & sorted){
 //
 //
 // void RTIM::mergeOutgoingScores(){
-//   string dir = "../../data/" + args.dataset + "/";
+//   string dir = "../../data/" + graph.dataset + "/";
 //   // import outgoing to vector
-//   string file1 = dir + args.dataset + "_outgoing.txt";
+//   string file1 = dir + graph.dataset + "_outgoing.txt";
 //   vector<int> outgoing;
 //   outgoing.resize(nodes, 0);
 //   ifstream outgoingFile;
@@ -783,7 +764,7 @@ void RTIM::getInfIndex(vector<double> & sorted){
 //   importScores();
 //
 //   // save both to file
-//   string file3 = dir + args.dataset + "_nodeinfo.txt";
+//   string file3 = dir + graph.dataset + "_nodeinfo.txt";
 //
 //   ofstream nodeInfoFile;
 //
@@ -802,7 +783,7 @@ void RTIM::getInfIndex(vector<double> & sorted){
 void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
   // select random nodes from graph to generate seed
   cout << "------------------------------------------------------------------------------------------" << endl;
-  cout << "Starting seed computation test on " << args.dataset << " > seed size: " << seedSize << " | depth: " << depth << "| minEdgeWeight: " << minEdgeWeight  <<  endl;
+  cout << "Starting seed computation test on " << graph.dataset << " > seed size: " << seedSize << " | depth: " << depth << "| minEdgeWeight: " << minEdgeWeight  <<  endl;
   if (seedSize > graph.nodes){
     cerr << "Error: Seed set size larger than graph size!" << endl;
     exit(1);
@@ -832,59 +813,86 @@ void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
   cout << "Computing seed set score." << endl;
   double start = omp_get_wtime();
   double score;
-  score = graph.influenceScoreParallel(seedSet, depth, minEdgeWeight);
+  score = graph.influenceScoreParallel(seedSet, maxDepth, minEdgeWeight);
   double delta = omp_get_wtime() - start;
   cout << "Seed set score is: " << score << " / " << graph.nodes << " computed in: " << cleanTime(delta, "s") << endl;
   cout << "------------------------------------------------------------------------------------------" << endl;
 }
 
 
-int RTIM::datasetMenu(){
-  int lines = 10;
-  int choice = -1;
-  string dataset;
-  cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
-  if(args.dataset != "" && graph.graph.size() != 0){
-    cout << "Current imported dataset: " << args.dataset << endl;
-    lines++;
-  }
-
-  for (int i = 0; i < args.datasetNames.size(); i++){
-    cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + args.datasetNames[i];
-    cout << "(";
-    cout << right << setw(14) << cleanLongInt(args.datasetNodes[i]);
-    cout << ",";
-    cout << right << setw(14) << cleanLongInt(args.datasetEdges[i]);
-    cout << ")" << endl;
-  }
-  while(1){
-    cout <<  "> choice: ";
-    string val;
-    getline(cin, val);
-    choice = stoi(val);
-    dataset = args.datasetNames[choice];
-    if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
-      cout << "Dataset not recognized: " << dataset << endl;
-      sleep(SLEEP);
-      clearLines(2);
-    } else if (args.dataset == dataset){
-      cout << "Dataset has already been imported!" << endl;
-      sleep(SLEEP);
-      return 0;
-    }else{
-      args.dataset = dataset;
-      graph.directory = "../../data/" + args.dataset; //necessary to readAttributes
-      //graph.readAttributes();
-      graph.nodes = args.datasetNodes[choice];
-      graph.edges = args.datasetEdges[choice];
-      nodes = graph.nodes;
-      args.streamSize = nodes / 10;
-      break;
+void RTIM::printStageParams(){
+  // stages = pre-process, live, compute_seed_score
+  if( stage == "live"){
+    cout << string(27, '-') << toColor("red", " live ") << string(27, '-') << endl;
+    cout << "STREAM" << endl;
+    cout << "- model        : "; printInColor("yellow", streamModel);
+    if (streamModel != "inNOut_repeat"){
+      cout << "- version      : "; printInColor("yellow", to_string(streamVersion));
     }
+    cout << "- size         : "; printInColor("yellow", to_string(streamSize));
+    cout << "RTIM" << endl;
+    cout << "- k            : "; printInColor("yellow", to_string(maxSeedSize));
+    cout << "- reach        : "; printInColor("yellow", properStringDouble(reach));
+    cout << "- ap           : "; printInColor("yellow", properStringDouble(theta_ap));
+  }else if ( stage == "pre"){
+    cout << string(24, '-') << toColor("red", " pre-process ") << string(23, '-') << endl;
+    cout << "RTIM" << endl;
+    cout << "- depth      : "; printInColor("yellow", to_string(maxDepth));
+    cout << "- min weight : "; printInColor("yellow", properStringDouble(minEdgeWeight));
+  }else if (stage == "compute_seed_score"){
+    cout << string(20, '-') + " " << toColor("red", stage) << " " + string(20, '-') << endl;
+    cout << "- file path    : "; printInColor("yellow", seedSetPath);
   }
-  clearLines(lines);
-  return 1;
+  cout << string(60, '-') << endl;
 }
+
+
+// int RTIM::datasetMenu(){
+//   int lines = 10;
+//   int choice = -1;
+//   string dataset;
+//   cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
+//   if(graph.dataset != "" && graph.graph.size() != 0){
+//     cout << "Current imported dataset: " << graph.dataset << endl;
+//     lines++;
+//   }
+//
+//   for (int i = 0; i < graph.datasetNames.size(); i++){
+//     cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + graph.datasetNames[i];
+//     cout << "(";
+//     cout << right << setw(14) << cleanLongInt(graph.datasetNodes[i]);
+//     cout << ",";
+//     cout << right << setw(14) << cleanLongInt(graph.datasetEdges[i]);
+//     cout << ")" << endl;
+//   }
+//   while(1){
+//     cout <<  "> choice: ";
+//     string val;
+//     getline(cin, val);
+//     choice = stoi(val);
+//     dataset = graph.datasetNames[choice];
+//     if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
+//       cout << "Dataset not recognized: " << dataset << endl;
+//       sleep(SLEEP);
+//       clearLines(2);
+//     } else if (graph.dataset == dataset){
+//       cout << "Dataset has already been imported!" << endl;
+//       sleep(SLEEP);
+//       return 0;
+//     }else{
+//       graph.dataset = dataset;
+//       graph.datasetDir = "../../data/" + graph.dataset; //necessary to readAttributes
+//       //graph.readAttributes();
+//       graph.nodes = graph.datasetNodes[choice];
+//       graph.edges = graph.datasetEdges[choice];
+//       // nodes = graph.nodes;
+//       streamSize = graph.nodes / 10;
+//       break;
+//     }
+//   }
+//   clearLines(lines);
+//   return 1;
+// }
 
 
 void RTIM::stageMenu(){
@@ -903,16 +911,16 @@ void RTIM::stageMenu(){
     choice = stoi(val);
     switch(choice){
       case 1:
-        args.stage = "pre";
+        stage = "pre";
         break;
       case 2:
-        args.stage = "live";
+        stage = "live";
         break;
       case 3:
-        args.stage = "compute_seed_score";
+        stage = "compute_seed_score";
         break;
       case 4:
-      args.stage = "test";
+      stage = "test";
         break;
       case 5:
         cout << "Program ending: Have a nice day!" << endl;
@@ -974,13 +982,13 @@ void RTIM::testStagesMenu(){
 
 
 void RTIM::stageArgumentsMenu(){
-  if (args.stage == "pre"){
+  if (stage == "pre"){
     preProcessMenu();
-  }else if (args.stage == "live"){
+  }else if (stage == "live"){
     liveMenu();
-  }else if (args.stage == "compute_seed_score"){
+  }else if (stage == "compute_seed_score"){
     computeSeedScoreMenu();
-  }else if (args.stage != "test"){
+  }else if (stage != "test"){
     cout << "Error: Stage not recognized!" << endl;
     exit(1);
   }
@@ -995,17 +1003,17 @@ void RTIM::preProcessMenu(){
   cout << "Input pre_process arguments" << endl;
   // asking for max search depth
   while(1){
-    cout << "> depth (" << args.depth << "): ";
+    cout << "> depth (" << maxDepth << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         iChoice = stoi(input);
 
         if (iChoice >= 1 && iChoice <= 10000){
-          args.depth = iChoice;
+          maxDepth = iChoice;
           clearLines(1);
-          cout << "> depth (" << args.depth << "): ";
-          printInColor("yellow", to_string(args.depth));
+          cout << "> depth (" << maxDepth << "): ";
+          printInColor("yellow", to_string(maxDepth));
           break;
         }else{
           cout << "Error: depth must be int between 1 and 10000!" << endl;
@@ -1019,23 +1027,23 @@ void RTIM::preProcessMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> depth (" << args.depth << "): ";
-      printInColor("yellow", to_string(args.depth));
+      cout << "> depth (" << maxDepth << "): ";
+      printInColor("yellow", to_string(maxDepth));
       break;
     }
   }
   // asking for minimum path weight
   while(1){
-    cout << "> minimum path weight(" << args.min_weight << "): ";
+    cout << "> minimum path weight(" << minEdgeWeight << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         dChoice = stod(input);
         if (dChoice >= 0 && dChoice <= 1.0){
-          args.min_weight = dChoice;
+          minEdgeWeight = dChoice;
           clearLines(1);
-          cout << "> minimum path weight(" << args.min_weight << "): ";
-          printInColor("yellow", properStringDouble(args.min_weight));
+          cout << "> minimum path weight(" << minEdgeWeight << "): ";
+          printInColor("yellow", properStringDouble(minEdgeWeight));
           break;
         }else{
           cout << "Error: minimum path weight must be a probability!" << endl;
@@ -1049,8 +1057,8 @@ void RTIM::preProcessMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> minimum path weight(" << args.min_weight << "): ";
-      printInColor("yellow", properStringDouble(args.min_weight));
+      cout << "> minimum path weight(" << minEdgeWeight << "): ";
+      printInColor("yellow", properStringDouble(minEdgeWeight));
       break;
     }
   }
@@ -1068,17 +1076,17 @@ void RTIM::testPreProcessScoresMenu(){
   cout << "Input pre_process arguments" << endl;
   // asking for max search depth
   while(1){
-    cout << "> depth (" << args.depth << "): ";
+    cout << "> depth (" << maxDepth << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         iChoice = stoi(input);
 
         if (iChoice >= 1 && iChoice <= 10000){
-          args.depth = iChoice;
+          maxDepth = iChoice;
           clearLines(1);
-          cout << "> depth (" << args.depth << "): ";
-          printInColor("yellow", to_string(args.depth));
+          cout << "> depth (" << maxDepth << "): ";
+          printInColor("yellow", to_string(maxDepth));
           break;
         }else{
           cout << "Error: depth must be int between 1 and 10000!" << endl;
@@ -1092,23 +1100,23 @@ void RTIM::testPreProcessScoresMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> depth (" << args.depth << "): ";
-      printInColor("yellow", to_string(args.depth));
+      cout << "> depth (" << maxDepth << "): ";
+      printInColor("yellow", to_string(maxDepth));
       break;
     }
   }
   // asking for minimum path weight
   while(1){
-    cout << "> minimum path weight(" << args.min_weight << "): ";
+    cout << "> minimum path weight(" << minEdgeWeight << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         dChoice = stod(input);
         if (dChoice >= 0 && dChoice <= 1.0){
-          args.min_weight = dChoice;
+          minEdgeWeight = dChoice;
           clearLines(1);
-          cout << "> minimum path weight(" << args.min_weight << "): ";
-          printInColor("yellow", properStringDouble(args.min_weight));
+          cout << "> minimum path weight(" << minEdgeWeight << "): ";
+          printInColor("yellow", properStringDouble(minEdgeWeight));
           break;
         }else{
           cout << "Error: minimum path weight must be a probability!" << endl;
@@ -1122,8 +1130,8 @@ void RTIM::testPreProcessScoresMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> minimum path weight(" << args.min_weight << "): ";
-      printInColor("yellow", properStringDouble(args.min_weight));
+      cout << "> minimum path weight(" << minEdgeWeight << "): ";
+      printInColor("yellow", properStringDouble(minEdgeWeight));
       break;
     }
   }
@@ -1140,20 +1148,20 @@ void RTIM::liveMenu(){
   cout << "Input live arguments: [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
   // asking for seed size
   while(1){
-    cout << "> seed size (" << args.k << "): ";
+    cout << "> seed size (" << maxSeedSize << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         iChoice = stoi(input);
-        if(iChoice > nodes){
-          cout << "Error: seed size larger than current graph: " << iChoice << " / " << nodes << endl;
+        if(iChoice > graph.nodes){
+          cout << "Error: seed size larger than current graph: " << iChoice << " / " << graph.nodes << endl;
           sleep(SLEEP + 2);
           clearLines(2);
         }else{
-          args.k = iChoice;
+          maxSeedSize = iChoice;
           clearLines(1);
-          cout << "> seed size (" << args.k << "): ";
-          printInColor("yellow", to_string(args.k));
+          cout << "> seed size (" << maxSeedSize << "): ";
+          printInColor("yellow", to_string(maxSeedSize));
           break;
         }
       }catch(invalid_argument& e){
@@ -1162,30 +1170,30 @@ void RTIM::liveMenu(){
         clearLines(2);
       }
     }else{
-      if(args.k > nodes){
-        cout << "Error: seed size larger than current graph: " << args.k << " / " << nodes << endl;
+      if(maxSeedSize > graph.nodes){
+        cout << "Error: seed size larger than current graph: " << maxSeedSize << " / " << graph.nodes << endl;
         sleep(SLEEP + 2);
         clearLines(2);
       }else{
         clearLines(1);
-        cout << "> seed size (" << args.k << "): ";
-        printInColor("yellow", to_string(args.k));
+        cout << "> seed size (" << maxSeedSize << "): ";
+        printInColor("yellow", to_string(maxSeedSize));
         break;
       }
     }
   }
   // asking for reach
   while(1){
-    cout << "> reach (" << properStringDouble(args.reach) << "): ";
+    cout << "> reach (" << properStringDouble(reach) << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         dChoice = stof(input);
         if (dChoice > 0 && dChoice < 100){
-          args.reach = dChoice;
+          reach = dChoice;
           clearLines(1);
-          cout << "> reach (" << properStringDouble(args.reach) << "): ";
-          printInColor("yellow", properStringDouble(args.reach));
+          cout << "> reach (" << properStringDouble(reach) << "): ";
+          printInColor("yellow", properStringDouble(reach));
           break;
         }else{
           cout << "Error: expecting int value between 1 and 100!" << endl;
@@ -1199,22 +1207,22 @@ void RTIM::liveMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> reach (" << properStringDouble(args.reach) << "): ";
-      printInColor("yellow", properStringDouble(args.reach));
+      cout << "> reach (" << properStringDouble(reach) << "): ";
+      printInColor("yellow", properStringDouble(reach));
       break;
     }
   }
   // asking for activation probability
   while(1){
-    cout << "> activation probability threshold (" << properStringDouble(args.theta_ap) << "): ";
+    cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
     getline(cin, input);
     if(input != ""){
       dChoice = stod(input);
       if(dChoice >= 0.0 && dChoice <= 1.0){
-        args.theta_ap = dChoice;
+        theta_ap = dChoice;
         clearLines(1);
-        cout << "> activation probability threshold (" << properStringDouble(args.theta_ap) << "): ";
-        printInColor("yellow", properStringDouble(args.theta_ap));
+        cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
+        printInColor("yellow", properStringDouble(theta_ap));
         break;
       }else{
         cout << "Error: Input must be a probability!" << endl;
@@ -1223,21 +1231,21 @@ void RTIM::liveMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> activation probability threshold (" << properStringDouble(args.theta_ap) << "): ";
-      printInColor("yellow", properStringDouble(args.theta_ap));
+      cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
+      printInColor("yellow", properStringDouble(theta_ap));
       break;
     }
   }
   // asking for stream model
   while(1){
-    cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << args.streamModel << "): ";
+    cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
     getline(cin, input);
     if(input != ""){
       if(input == "uniform_rand_repeat" || input == "uniform_rand_no_repeat" || input == "inNOut_repeat"){
-        args.streamModel = input;
+        streamModel = input;
         clearLines(1);
-        cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << args.streamModel << "): ";
-        printInColor("yellow", args.streamModel);
+        cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+        printInColor("yellow", streamModel);
         break;
       }else{
         cout << "Error: Input must be a valid stream model!" << endl;
@@ -1246,23 +1254,23 @@ void RTIM::liveMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << args.streamModel << "): ";
-      printInColor("yellow", args.streamModel);
+      cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+      printInColor("yellow", streamModel);
       break;
     }
   }
   // asking for stream version
   while(1){
-    cout << "> stream version [1, 2, 3] (" << args.streamVersion << "): ";
+    cout << "> stream version [1, 2, 3] (" << streamVersion << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         iChoice = stoi(input);
         if(iChoice == 1 || iChoice == 2 || iChoice == 3){
-          args.streamVersion = iChoice;
+          streamVersion = iChoice;
           clearLines(1);
           cout << "> stream version [1, 2, 3]: ";
-          printInColor("yellow", to_string(args.streamVersion));
+          printInColor("yellow", to_string(streamVersion));
           break;
         }else{
           cout << "Error: stream version doesn't exist!" << endl;
@@ -1277,24 +1285,24 @@ void RTIM::liveMenu(){
     }else{
       clearLines(1);
       cout << "> stream version [1, 2, 3]: ";
-      printInColor("yellow", to_string(args.streamVersion));
+      printInColor("yellow", to_string(streamVersion));
       break;
     }
   }
   // asking for stream size
   while(1){
-    if(nodes > 1000000 && args.streamSize == -1){
-      args.streamSize = 1000000;
+    if(graph.nodes > 1000000 && streamSize == -1){
+      streamSize = 1000000;
     }
-    cout << "> stream size (" << args.streamSize << "): ";
+    cout << "> stream size (" << streamSize << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         iChoice = stoi(input);
-        args.streamSize = iChoice;
+        streamSize = iChoice;
         clearLines(1);
-        cout << "> stream size (" << args.streamSize << "): ";
-        printInColor("yellow", to_string(args.streamSize));
+        cout << "> stream size (" << streamSize << "): ";
+        printInColor("yellow", to_string(streamSize));
         break;
       }catch(invalid_argument& e){
         cout << "Error: invalid input!" << endl;
@@ -1302,10 +1310,10 @@ void RTIM::liveMenu(){
         clearLines(2);
       }
     }else{
-      // args.streamSize = nodes;
+      // streamSize = nodes;
       clearLines(1);
-      cout << "> stream size (" << args.streamSize << "): ";
-      printInColor("yellow", to_string(args.streamSize));
+      cout << "> stream size (" << streamSize << "): ";
+      printInColor("yellow", to_string(streamSize));
       break;
     }
   }
@@ -1323,20 +1331,20 @@ void RTIM::testLiveMenu(){
   cout << "Input live arguments: [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
   // asking for seed size
   while(1){
-    cout << "> seed size (" << args.k << "): ";
+    cout << "> seed size (" << maxSeedSize << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         iChoice = stoi(input);
-        if(iChoice > nodes){
-          cout << "Error: seed size larger than current graph: " << iChoice << " / " << nodes << endl;
+        if(iChoice > graph.nodes){
+          cout << "Error: seed size larger than current graph: " << iChoice << " / " << graph.nodes << endl;
           sleep(SLEEP + 2);
           clearLines(2);
         }else{
-          args.k = iChoice;
+          maxSeedSize = iChoice;
           clearLines(1);
-          cout << "> seed size (" << args.k << "): ";
-          printInColor("yellow", to_string(args.k));
+          cout << "> seed size (" << maxSeedSize << "): ";
+          printInColor("yellow", to_string(maxSeedSize));
           break;
         }
       }catch(invalid_argument& e){
@@ -1345,30 +1353,30 @@ void RTIM::testLiveMenu(){
         clearLines(2);
       }
     }else{
-      if(args.k > nodes){
-        cout << "Error: seed size larger than current graph: " << args.k << " / " << nodes << endl;
+      if(maxSeedSize > graph.nodes){
+        cout << "Error: seed size larger than current graph: " << maxSeedSize << " / " << graph.nodes << endl;
         sleep(SLEEP + 2);
         clearLines(2);
       }else{
         clearLines(1);
-        cout << "> seed size (" << args.k << "): ";
-        printInColor("yellow", to_string(args.k));
+        cout << "> seed size (" << maxSeedSize << "): ";
+        printInColor("yellow", to_string(maxSeedSize));
         break;
       }
     }
   }
   // asking for reach
   while(1){
-    cout << "> reach (" << properStringDouble(args.reach) << "): ";
+    cout << "> reach (" << properStringDouble(reach) << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         dChoice = stof(input);
         if (dChoice > 0 && dChoice < 100){
-          args.reach = dChoice;
+          reach = dChoice;
           clearLines(1);
-          cout << "> reach (" << properStringDouble(args.reach) << "): ";
-          printInColor("yellow", properStringDouble(args.reach));
+          cout << "> reach (" << properStringDouble(reach) << "): ";
+          printInColor("yellow", properStringDouble(reach));
           break;
         }else{
           cout << "Error: expecting int value between 1 and 100!" << endl;
@@ -1382,22 +1390,22 @@ void RTIM::testLiveMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> reach (" << properStringDouble(args.reach) << "): ";
-      printInColor("yellow", properStringDouble(args.reach));
+      cout << "> reach (" << properStringDouble(reach) << "): ";
+      printInColor("yellow", properStringDouble(reach));
       break;
     }
   }
   // asking for activation probability
   while(1){
-    cout << "> activation probability threshold (" << properStringDouble(args.theta_ap) << "): ";
+    cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
     getline(cin, input);
     if(input != ""){
       dChoice = stod(input);
       if(dChoice >= 0.0 && dChoice <= 1.0){
-        args.theta_ap = dChoice;
+        theta_ap = dChoice;
         clearLines(1);
-        cout << "> activation probability threshold (" << properStringDouble(args.theta_ap) << "): ";
-        printInColor("yellow", properStringDouble(args.theta_ap));
+        cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
+        printInColor("yellow", properStringDouble(theta_ap));
         break;
       }else{
         cout << "Error: Input must be a probability!" << endl;
@@ -1406,21 +1414,21 @@ void RTIM::testLiveMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> activation probability threshold (" << properStringDouble(args.theta_ap) << "): ";
-      printInColor("yellow", properStringDouble(args.theta_ap));
+      cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
+      printInColor("yellow", properStringDouble(theta_ap));
       break;
     }
   }
   // asking for stream model
   while(1){
-    cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << args.streamModel << "): ";
+    cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
     getline(cin, input);
     if(input != ""){
       if(input == "uniform_rand_repeat" || input == "uniform_rand_no_repeat" || input == "inNOut_repeat"){
-        args.streamModel = input;
+        streamModel = input;
         clearLines(1);
-        cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << args.streamModel << "): ";
-        printInColor("yellow", args.streamModel);
+        cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+        printInColor("yellow", streamModel);
         break;
       }else{
         cout << "Error: Input must be a valid stream model!" << endl;
@@ -1429,23 +1437,23 @@ void RTIM::testLiveMenu(){
       }
     }else{
       clearLines(1);
-      cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << args.streamModel << "): ";
-      printInColor("yellow", args.streamModel);
+      cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+      printInColor("yellow", streamModel);
       break;
     }
   }
   // asking for stream version
   while(1){
-    cout << "> stream version [1, 2, 3] (" << args.streamVersion << "): ";
+    cout << "> stream version [1, 2, 3] (" << streamVersion << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         iChoice = stoi(input);
         if(iChoice == 1 || iChoice == 2 || iChoice == 3){
-          args.streamVersion = iChoice;
+          streamVersion = iChoice;
           clearLines(1);
           cout << "> stream version [1, 2, 3]: ";
-          printInColor("yellow", to_string(args.streamVersion));
+          printInColor("yellow", to_string(streamVersion));
           break;
         }else{
           cout << "Error: stream version doesn't exist!" << endl;
@@ -1460,24 +1468,24 @@ void RTIM::testLiveMenu(){
     }else{
       clearLines(1);
       cout << "> stream version [1, 2, 3]: ";
-      printInColor("yellow", to_string(args.streamVersion));
+      printInColor("yellow", to_string(streamVersion));
       break;
     }
   }
   // asking for stream size
   while(1){
-    if(nodes > 1000000 && args.streamSize == -1){
-      args.streamSize = 1000000;
+    if(graph.nodes > 1000000 && streamSize == -1){
+      streamSize = 1000000;
     }
-    cout << "> stream size (" << args.streamSize << "): ";
+    cout << "> stream size (" << streamSize << "): ";
     getline(cin, input);
     if(input != ""){
       try{
         iChoice = stoi(input);
-        args.streamSize = iChoice;
+        streamSize = iChoice;
         clearLines(1);
-        cout << "> stream size (" << args.streamSize << "): ";
-        printInColor("yellow", to_string(args.streamSize));
+        cout << "> stream size (" << streamSize << "): ";
+        printInColor("yellow", to_string(streamSize));
         break;
       }catch(invalid_argument& e){
         cout << "Error: invalid input!" << endl;
@@ -1485,10 +1493,10 @@ void RTIM::testLiveMenu(){
         clearLines(2);
       }
     }else{
-      // args.streamSize = nodes;
+      // streamSize = nodes;
       clearLines(1);
-      cout << "> stream size (" << args.streamSize << "): ";
-      printInColor("yellow", to_string(args.streamSize));
+      cout << "> stream size (" << streamSize << "): ";
+      printInColor("yellow", to_string(streamSize));
       break;
     }
   }
@@ -1500,7 +1508,7 @@ void RTIM::testLiveMenu(){
 void RTIM::computeSeedScoreMenu(){
   // seedSet.clear(); //in case it's a re-run
   int choice = -1;
-  string file_path = "../../data/" + args.dataset + "/";
+  string file_path = "../../data/" + graph.dataset + "/";
   cout << string(60,'_') << endl;
   cout << "Choose a folder: " << endl;
   cout << "   [1] rtim/live/" << endl;
@@ -1540,7 +1548,7 @@ void RTIM::computeSeedScoreMenu(){
     break;
   }
   file_path += input;
-  args.seedSetPath = file_path;
+  seedSetPath = file_path;
   importSeedSet(file_path);
   sleep(SLEEP);
   clearLines(5);
@@ -1552,8 +1560,8 @@ int RTIM::continueMenu(){
   int choice = -1;
   cout << string(60, '_') << endl;
   cout << "Continue: " << endl;
-  cout << "   [1] Repeat previous stage with same arguments (" << args.stage << ")" << endl;
-  cout << "   [2] Repeat previous stage with new arguments (" << args.stage << ")" << endl;
+  cout << "   [1] Repeat previous stage with same arguments (" << stage << ")" << endl;
+  cout << "   [2] Repeat previous stage with new arguments (" << stage << ")" << endl;
   cout << "   [3] Change stage" << endl;
   cout << "   [4] Change dataset" << endl;
   cout << "   [5] End Program" << endl;
@@ -1590,8 +1598,8 @@ void RTIM::testContinueMenu(){
   int choice = -1;
   cout << string(60, '_') << endl;
   cout << "Continue: " << endl;
-  cout << "   [1] Repeat previous stage with same arguments (" << args.stage << ")" << endl;
-  cout << "   [2] Repeat previous stage with new arguments (" << args.stage << ")" << endl;
+  cout << "   [1] Repeat previous stage with same arguments (" << stage << ")" << endl;
+  cout << "   [2] Repeat previous stage with new arguments (" << stage << ")" << endl;
   cout << "   [3] Change stage" << endl;
   cout << "   [4] Change algorithm" << endl;
   cout << "   [5] Change dataset" << endl;
@@ -1635,221 +1643,264 @@ void RTIM::testContinueMenu(){
 }
 
 
-void RTIM::run(){
-  cout << endl;
-  printLocalTime("red", "Program", "starting");
-  int choice = 0;
-  int loadDataset;
-  int loadScores;
-  while (choice != -1){
-    loadScores = 0;
-    loadDataset = 0;
-    switch(choice){
-      case 1:
-        // repeat previous stage with same arguments
-        break;
-      case 2:
-        // repeat previous stage with new arguments
-        stageArgumentsMenu();
-        args.printStageArguments();
-        break;
-      case 3:
-        // change stage
-        stageMenu();
-        stageArgumentsMenu();
-        args.printStageArguments();
-        break;
-      case 4:
-        // change dataset
-        loadDataset = datasetMenu();
-        loadScores = 1; // inf. scores need to be imported for new dataset
-        args.printDatasetArguments(graph.nodes, graph.edges);
-        stageMenu();
-        stageArgumentsMenu();
-        args.printStageArguments();
-        break;
-      default:
-        // choose dataset
-        loadDataset = datasetMenu();
-        loadScores = 1; // inf. scores need to be imported for new dataset
-        args.printDatasetArguments(graph.nodes, graph.edges);
-        stageMenu();
-        stageArgumentsMenu();
-        args.printStageArguments();
-    }
-    if (args.stage == "test"){
-      loadDataset = false; // ?
-    }
-    if(loadDataset){
-      graph.args = args;
-      graph.graph.resize(graph.nodes);
-      graph.loadGraph();
-      clearLines(3);
-    }
-    if (args.stage == "pre"){
-      printInColor("magenta", string(60, '-'));
-      printLocalTime("magenta", "Pre_processing", "starting");
-      pre_process();
-      printLocalTime("magenta", "Pre_processing", "ending");
-      // Live starting at: Mon Nov 19 17:49:25 2018
-      // ---------------------------------------------
-      printInColor("magenta", string(60, '-'));
-    }else if (args.stage == "live"){
-      if(loadScores){
-        initializeInfluenceScores();
-      }
-      printInColor("magenta", string(60, '-'));
-      printLocalTime("magenta", "Live", "starting");
-      live();
-      printLocalTime("magenta", "Live", "ending");
-      printInColor("magenta", string(60, '-'));
-    }else if (args.stage == "compute_seed_score"){
-      printInColor("magenta", string(60, '-'));
-      printLocalTime("magenta", "Compute seed score", "starting");
-      double score;
-      string startDate = getLocalDatetime();
-      clock_t startTime = clock();
-      if (args.dataset == "twitter"){
-        score = graph.influenceScoreParallel(seedSet, 2);
-      }else{
-        score = graph.influenceScoreParallel(seedSet);
-      }
+// void RTIM::run(){
+//   cout << endl;
+//   printLocalTime("red", "Program", "starting");
+//   int choice = 0;
+//   int loadDataset;
+//   int loadScores;
+//   while (choice != -1){
+//     loadScores = 0;
+//     loadDataset = 0;
+//     switch(choice){
+//       case 1:
+//         // repeat previous stage with same arguments
+//         break;
+//       case 2:
+//         // repeat previous stage with new arguments
+//         stageArgumentsMenu();
+//         printStageParams();
+//         break;
+//       case 3:
+//         // change stage
+//         stageMenu();
+//         stageArgumentsMenu();
+//         printStageParams();
+//         break;
+//       case 4:
+//         // change dataset
+//         loadDataset = datasetMenu();
+//         loadScores = 1; // inf. scores need to be imported for new dataset
+//         // printDatasetArguments(graph.nodes, graph.edges);
+//         stageMenu();
+//         stageArgumentsMenu();
+//         printStageParams();
+//         break;
+//       default:
+//         // choose dataset
+//         loadDataset = datasetMenu();
+//         loadScores = 1; // inf. scores need to be imported for new dataset
+//         // args.printDatasetArguments(graph.nodes, graph.edges);
+//         stageMenu();
+//         stageArgumentsMenu();
+//         printStageParams();
+//     }
+//     if (stage == "test"){
+//       loadDataset = false; // ?
+//     }
+//     if(loadDataset){
+//       // graph.args = args;
+//       graph.graph.resize(graph.nodes);
+//       graph.loadGraph();
+//       clearLines(3);
+//     }
+//     if (stage == "pre"){
+//       printInColor("magenta", string(60, '-'));
+//       printLocalTime("magenta", "Pre_processing", "starting");
+//       pre_process();
+//       printLocalTime("magenta", "Pre_processing", "ending");
+//       // Live starting at: Mon Nov 19 17:49:25 2018
+//       // ---------------------------------------------
+//       printInColor("magenta", string(60, '-'));
+//     }else if (stage == "live"){
+//       if(loadScores){
+//         initializeInfluenceScores();
+//       }
+//       printInColor("magenta", string(60, '-'));
+//       printLocalTime("magenta", "Live", "starting");
+//       live();
+//       printLocalTime("magenta", "Live", "ending");
+//       printInColor("magenta", string(60, '-'));
+//     }else if (stage == "compute_seed_score"){
+//       printInColor("magenta", string(60, '-'));
+//       printLocalTime("magenta", "Compute seed score", "starting");
+//       double score;
+//       string startDate = getLocalDatetime();
+//       clock_t startTime = clock();
+//       if (graph.dataset == "twitter"){
+//         score = graph.influenceScoreParallel(seedSet, 2);
+//       }else{
+//         score = graph.influenceScoreParallel(seedSet);
+//       }
+//
+//       double duration = (clock() - startTime)/(double)CLOCKS_PER_SEC;
+//       string endDate = getLocalDatetime();
+//       string txt = "Influence score of seed set is : " + to_string(score);
+//       printInColor("cyan", txt);
+//       saveSeedScoreLog(seedFile, startDate, endDate, duration, score);
+//       saveSeedScoreCSV(seedFile, startDate, endDate, duration, score);
+//       // printLocalTime("magenta", "IMM seed test", "ending");
+//       printLocalTime("magenta", "Compute seed score", "ending");
+//       printInColor("magenta", string(60, '-'));
+//     }else if (stage == "test"){
+//       printInColor("magenta", string(60, '-'));
+//       printLocalTime("magenta", "Test", "starting");
+//       runTest();
+//       printLocalTime("magenta", "Test", "ending");
+//       printInColor("magenta", string(60, '-'));
+//     } else{
+//       cout << "Error! stage not recognized: " << stage << endl;
+//       exit(1);
+//     }
+//     choice = continueMenu();
+//   }
+//
+//   printLocalTime("red", "Program", "ending");
+//   cout << endl;
+// }
 
-      double duration = (clock() - startTime)/(double)CLOCKS_PER_SEC;
-      string endDate = getLocalDatetime();
-      string txt = "Influence score of seed set is : " + to_string(score);
-      printInColor("cyan", txt);
-      saveSeedScoreLog(seedFile, startDate, endDate, duration, score);
-      saveSeedScoreCSV(seedFile, startDate, endDate, duration, score);
-      // printLocalTime("magenta", "IMM seed test", "ending");
-      printLocalTime("magenta", "Compute seed score", "ending");
-      printInColor("magenta", string(60, '-'));
-    }else if (args.stage == "test"){
-      printInColor("magenta", string(60, '-'));
-      printLocalTime("magenta", "Test", "starting");
-      runTest();
-      printLocalTime("magenta", "Test", "ending");
-      printInColor("magenta", string(60, '-'));
-    } else{
-      cout << "Error! stage not recognized: " << args.stage << endl;
-      exit(1);
-    }
-    choice = continueMenu();
-  }
 
-  printLocalTime("red", "Program", "ending");
-  cout << endl;
-}
-
-
-void RTIM::runTest(){
-  cout << endl;
-  cout << ">>> TEST RUN <<<" << endl;
-  printLocalTime("red", "Program", "starting");
-  int choice = 0;
-  int loadDataset;
-  int loadScores;
-  while (choice != -1){
-    loadScores = 0;
-    loadDataset = 0;
-    switch(choice){
-      case 1:
-        // repeat previous stage with same arguments
-        break;
-      case 2:
-        // repeat previous stage with new arguments
-        stageArgumentsMenu();
-        args.printStageArguments();
-        break;
-      case 3:
-        // change stage
-        stageMenu();
-        stageArgumentsMenu();
-        args.printStageArguments();
-        break;
-      case 4:
-        // change dataset
-        loadDataset = datasetMenu();
-        loadScores = 1; // inf. scores need to be imported for new dataset
-        args.printDatasetArguments(graph.nodes, graph.edges);
-        stageMenu();
-        stageArgumentsMenu();
-        args.printStageArguments();
-        break;
-      default:
-        // choose dataset
-        loadDataset = datasetMenu();
-        loadScores = 1; // inf. scores need to be imported for new dataset
-        args.printDatasetArguments(graph.nodes, graph.edges);
-        stageMenu();
-        stageArgumentsMenu();
-        args.printStageArguments();
-        break;
-    }
-    if(args.stage == "test"){
-      loadDataset = false; // ?
-    }
-    if(loadDataset){
-      graph.args = args;
-      graph.graph.resize(graph.nodes);
-      graph.loadGraph();
-      clearLines(3);
-    }
-    if (args.stage == "pre"){
-      printInColor("magenta", string(60,'-'));
-      printLocalTime("magenta", "Pre_processing", "starting");
-      //
-      cout << "Pre-process is running..." << endl;
-      //
-      printLocalTime("magenta", "Pre_processing", "ending");
-      printInColor("magenta", string(60,'-'));
-    }else if (args.stage == "live"){
-      cout << "Initialize influence scores is running..." << endl;
-      printInColor("magenta", string(60,'-'));
-      printLocalTime("magenta", "Live", "starting");
-      //
-      cout << "Live is running..." << endl;
-      //
-      printLocalTime("magenta", "Live", "ending");
-      printInColor("magenta", string(60,'-'));
-    }else if (args.stage == "compute_seed_score"){
-      printInColor("magenta", string(60,'-'));
-      printLocalTime("magenta", "Compute seed score", "starting");
-      //
-      cout << "Computing seed score is running..." << endl;
-      //
-      printLocalTime("magenta", "Compute seed score", "ending");
-      printInColor("magenta", string(60,'-'));
-    }else if (args.stage == "test"){
-      printInColor("magenta", string(60,'-'));
-      printLocalTime("magenta", "Test", "starting");
-      //
-      cout << "Test is running..." << endl;
-      //
-      printLocalTime("magenta", "Test", "ending");
-      printInColor("magenta", string(60,'-'));
-    } else{
-      cout << "Error! stage not recognized: " << args.stage << endl;
-      exit(1);
-    }
-    choice = continueMenu();
-  }
-
-  printLocalTime("red", "Program", "ending");
-  cout << endl;
-}
+// void RTIM::runTest(){
+//   cout << endl;
+//   cout << ">>> TEST RUN <<<" << endl;
+//   printLocalTime("red", "Program", "starting");
+//   int choice = 0;
+//   int loadDataset;
+//   int loadScores;
+//   while (choice != -1){
+//     loadScores = 0;
+//     loadDataset = 0;
+//     switch(choice){
+//       case 1:
+//         // repeat previous stage with same arguments
+//         break;
+//       case 2:
+//         // repeat previous stage with new arguments
+//         stageArgumentsMenu();
+//         printStageParams();
+//         break;
+//       case 3:
+//         // change stage
+//         stageMenu();
+//         stageArgumentsMenu();
+//         printStageParams();
+//         break;
+//       case 4:
+//         // change dataset
+//         loadDataset = datasetMenu();
+//         loadScores = 1; // inf. scores need to be imported for new dataset
+//         // args.printDatasetArguments(graph.nodes, graph.edges);
+//         stageMenu();
+//         stageArgumentsMenu();
+//         printStageParams();
+//         break;
+//       default:
+//         // choose dataset
+//         loadDataset = datasetMenu();
+//         loadScores = 1; // inf. scores need to be imported for new dataset
+//         // args.printDatasetArguments(graph.nodes, graph.edges);
+//         stageMenu();
+//         stageArgumentsMenu();
+//         printStageParams();
+//         break;
+//     }
+//     if(stage == "test"){
+//       loadDataset = false; // ?
+//     }
+//     if(loadDataset){
+//       // graph.args = args;
+//       graph.graph.resize(graph.nodes);
+//       graph.loadGraph();
+//       clearLines(3);
+//     }
+//     if (stage == "pre"){
+//       printInColor("magenta", string(60,'-'));
+//       printLocalTime("magenta", "Pre_processing", "starting");
+//       //
+//       cout << "Pre-process is running..." << endl;
+//       //
+//       printLocalTime("magenta", "Pre_processing", "ending");
+//       printInColor("magenta", string(60,'-'));
+//     }else if (stage == "live"){
+//       cout << "Initialize influence scores is running..." << endl;
+//       printInColor("magenta", string(60,'-'));
+//       printLocalTime("magenta", "Live", "starting");
+//       //
+//       cout << "Live is running..." << endl;
+//       //
+//       printLocalTime("magenta", "Live", "ending");
+//       printInColor("magenta", string(60,'-'));
+//     }else if (stage == "compute_seed_score"){
+//       printInColor("magenta", string(60,'-'));
+//       printLocalTime("magenta", "Compute seed score", "starting");
+//       //
+//       cout << "Computing seed score is running..." << endl;
+//       //
+//       printLocalTime("magenta", "Compute seed score", "ending");
+//       printInColor("magenta", string(60,'-'));
+//     }else if (stage == "test"){
+//       printInColor("magenta", string(60,'-'));
+//       printLocalTime("magenta", "Test", "starting");
+//       //
+//       cout << "Test is running..." << endl;
+//       //
+//       printLocalTime("magenta", "Test", "ending");
+//       printInColor("magenta", string(60,'-'));
+//     } else{
+//       cout << "Error! stage not recognized: " << stage << endl;
+//       exit(1);
+//     }
+//     choice = continueMenu();
+//   }
+//
+//   printLocalTime("red", "Program", "ending");
+//   cout << endl;
+// }
 
 
 void RTIM::rtimRun(){
   testStagesMenu();
 }
 
+
+string RTIM::generateDataFilePath(string type){
+  string file_path = "../../data/" + graph.dataset + "/";
+  if (type == "save_infScores" || type == "get_infScores"){
+    file_path += "rtim/pre_process/";
+  }else if (type == "rtim_seedSet"){
+    file_path += "rtim/live/" + keyword[streamModel] + "/";
+  }else if (type == "rtim_progress_seedSet"){
+    file_path += "rtim/live/" + keyword[streamModel] + "/";
+  }else if (type == "stream"){
+    file_path += "streams/" + streamModel + "/v" + to_string(streamVersion) + "/";
+  }else if (type == "rtim_progress"){
+    file_path += "rtim/live/progress/" + keyword[streamModel] + "/";
+  }else if (type == "stream_log"){
+    file_path += "streams/" + streamModel + "/v" + to_string(streamVersion) + "/log/";
+  }else{
+    cout << "Type not recognized!" << endl;
+  }
+  return file_path;
+}
+
+
+string RTIM::generateFileName(string type, int param){
+  string file_name = "";
+  if (type == "save_infScores"){
+    file_name = datasets[graph.dataset] + "_d" + properStringDouble(maxDepth) + "_m" + properStringDouble(minEdgeWeight) + "_infS.txt";
+  }else if (type == "get_infScores"){
+    file_name = datasets[graph.dataset] + "_infS.txt";
+  }else if (type == "rtim_seedSet"){
+    file_name = datasets[graph.dataset] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_ss" + to_string(param) + ".txt";
+  }else if (type == "rtim_progress_seedSet"){
+    file_name = datasets[graph.dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_prg" + to_string(param) + "_ss.txt";
+  }else if (type == "stream"){
+    file_name = datasets[graph.dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_st.txt";
+  }else if (type == "rtim_progress"){
+    file_name = datasets[graph.dataset] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
+  }else if (type == "stream_log"){
+    file_name = datasets[graph.dataset] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.log";
+  }
+  return file_name;
+}
+
 int main(int argn, char **argv)
 {
   // int cores = omp_get_max_threads();
-  Arguments args = Arguments();
-  args.loadDatasetsData();
-  RTIM rtim = RTIM(args);
+  // Arguments args = Arguments();
+  // minEdgeWeight.loadDatasetsData();
+  Graph graph = Graph("nethept");
+  RTIM rtim = RTIM(graph);
   rtim.run();
   // rtim.runTest();
 }

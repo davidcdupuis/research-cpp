@@ -17,20 +17,10 @@
 using namespace std;
 
 
-Graph::Graph(Arguments& arguments){
-  args = arguments;
-}
-
-
-Graph::Graph(Arguments& arguments, bool import){
-  //srand(time(NULL));
-  args = arguments;
-  directory = "../../data/" + args.dataset;
+Graph::Graph(string datasetName){
+  dataset = datasetName;
+  datasetDir = "../../data/" + dataset;
   readAttributes();
-  if (import){
-    graph.resize(nodes);
-    loadGraph();
-  }
 }
 
 
@@ -40,7 +30,7 @@ void Graph::addEdge(int a, int b, double w){
 
 
 void Graph::readAttributes(){
-  string folder = directory + "/attributes.txt";
+  string folder = datasetDir + "/attributes.txt";
   ifstream infile(folder.c_str());
   //cout << "Loading attributes from: " << folder << endl;
   string s;
@@ -64,7 +54,7 @@ void Graph::readAttributes(){
 
 void Graph::loadGraph(){
   clock_t start = clock();
-  string graph_file = directory + "/" + args.dataset + "_wc.inf";
+  string graph_file = datasetDir + "/" + dataset + "_wc.inf";
   cout << "Loading graph from: " << graph_file << endl;
   FILE *fin = fopen(graph_file.c_str(), "r");
   if (!(fin != 0)){
@@ -91,11 +81,12 @@ void Graph::loadGraph(){
       cerr << "ASSERT FAIL @ " << __FILE__ << ":" << __LINE__ << ":(" << user2 << " >= " << nodes << ")" << endl;
       exit(1);
     }
-    if (args.edge_weight == -1){
-      addEdge(user1, user2, weight);
-    } else { // if(args.edge_weight!= -1 && (args.edge_weight >= 0.0 || args.edge_weight <= 1.0))
-      addEdge(user1, user2, args.edge_weight);
-    }
+    // if (edgeWeight == -1){
+    //   addEdge(user1, user2, weight);
+    // } else { // if(args.edge_weight!= -1 && (args.edge_weight >= 0.0 || args.edge_weight <= 1.0))
+    //   addEdge(user1, user2, args.edge_weight);
+    // }
+    addEdge(user1, user2, weight);
     // print progress
     /*
     float progress = (float)i/edges;
@@ -119,6 +110,27 @@ void Graph::loadGraph(){
   cout << "Graph import done in: " << cleanTime(duration, "ms") << endl;
   fclose(fin);
   sleep(3);
+}
+
+
+void Graph::importDegrees(){
+  string path = "../../data/" + dataset + "/" + dataset + "_degrees.txt";
+  int user, inDeg, outDeg;
+  // if (!pathExists(path)){
+  //   cerr < "Error in importDegrees, path doesn't exist: " << path << endl;
+  //   exit(1);
+  // }
+  printInColor("cyan", "Importing degrees from: " + path);
+  inDegrees.resize(nodes, 0);
+  outDegrees.resize(nodes, 0);
+  ifstream infile(path.c_str());
+  string str;
+  getline(infile, str);
+  while(infile >> user >> inDeg >> outDeg){
+    inDegrees[user] = inDeg;
+    outDegrees[user] = outDeg;
+  }
+  printInColor("cyan", "Import degrees successful");
 }
 
 
@@ -403,7 +415,7 @@ void Graph::updateInfluenceScore(double &infScore,int src, vector<double>& activ
 
 
 void Graph::print(){
-  cout << args.dataset << " graph:" << endl;
+  cout << dataset << " graph:" << endl;
   for(int i = 0; i < nodes; i++){
     for (int j = 0; j < graph[i].size(); j++){
       cout << "(" << i << ")" << "-[" << graph[i][j].second << "]->"<< "(" << graph[i][j].first << ")" << endl;

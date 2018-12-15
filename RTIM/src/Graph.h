@@ -22,27 +22,18 @@
 class Graph
 {
   public:
-    std::string directory;              /**< directory of dataset */
-    int nodes;                          /**< number of nodes */
-    int edges;                          /**< number of edges*/
+    std::string dataset;          // name of dataset
+    std::string datasetDir;       /**< directory of dataset */
+    std::string infModel = "IC";         // influence model
+    int nodes;                    /**< number of nodes */
+    int edges;                    /**< number of edges*/
+    int simulations;              // number of simulations to run for inf score
+    std::vector<int> inDegrees;
+    std::vector<int> outDegrees;
     std::vector<std::vector<std::pair<int, double> > > graph;
-    Arguments args;                     /**< Command line arguments */
+    // Arguments args;                     /**< Command line arguments */
 
-    /**
-      * Graph constructor
-      *
-      * @param arguments: Arguments object to hold important information on program
-      */
-    Graph(Arguments& arguments);
-
-    /**
-      * Graph Constructor
-      *
-      * @param arguments: Arguments object to hold important information on program
-      * @param import: bool value to determine whether to import graph or not
-      */
-    Graph(Arguments& arguments, bool import);
-
+    Graph(std::string datasetName);
 
     /**
       * Function to add an edge
@@ -53,18 +44,20 @@ class Graph
       */
     void addEdge(int a, int b, double w);
 
-
     /**
       * Function to read attributes.txt
       */
     void readAttributes();
-
 
     /**
       * Function to import graph from file
       */
     void loadGraph();
 
+    /**
+      * Function to import node degree info
+      */
+    void importDegrees();
 
     /**
       * Function to compute influence score of a seed set using Monte Carlo simulations SEQUENTIALLY
