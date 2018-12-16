@@ -7,10 +7,10 @@ using namespace std;
 
 const int SLEEP = 2;
 
-Main::Main():args(),graph(){
+Main::Main():graph(){
   // should we initialize object arguments here?
-  args.loadDatasetsData();
-  // rtim(args);
+  loadDatasetsData();
+  // rtim = RTIM(graph);
   srand(time(NULL));
 }
 
@@ -43,9 +43,11 @@ void Main::mainMenu(){
     choice = stoi(val);
     switch(choice){
       case 1:
+        clearLines(4);
         experimentsMenu();
         break;
       case 2:
+        clearLines(4);
         datasetsMenu();
         break;
       default:
@@ -67,6 +69,7 @@ void Main::experimentsMenu(){
     cout << "> choose file [ experiments.txt ] : ";
     getline(cin, input);
     // run experiments.txt
+    clearLines(3);
     runExperiments("../../data/experiments.txt");
     break;
   }
@@ -80,15 +83,18 @@ void Main::experimentsContinueMenu(){
   cout << " [1] Experiments Menu" << endl;
   cout << " [2] Main menu" << endl;
   while (choice == -1){
+    cout <<  "> choice: ";
     string val;
     getline(cin, val);
     // test if int
     choice = stoi(val);
     switch(choice){
       case 1:
+        clearLines(5);
         experimentsMenu();
         break;
       case 2:
+        clearLines(5);
         mainMenu();
         break;
       default:
@@ -102,7 +108,7 @@ void Main::experimentsContinueMenu(){
 
 
 void Main::datasetsMenu(){
-  int lines = args.datasetNames.size() + 2;
+  int lines = datasetNames.size() + 2;
   int choice = -1;
   string dataset;
   cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
@@ -111,12 +117,12 @@ void Main::datasetsMenu(){
   //   lines++;
   // }
 
-  for (int i = 0; i < args.datasetNames.size(); i++){
-    cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + args.datasetNames[i];
+  for (int i = 0; i < datasetNames.size(); i++){
+    cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + datasetNames[i];
     cout << "(";
-    cout << right << setw(14) << cleanLongInt(args.datasetNodes[i]);
+    cout << right << setw(14) << cleanLongInt(datasetNodes[i]);
     cout << ",";
-    cout << right << setw(14) << cleanLongInt(args.datasetEdges[i]);
+    cout << right << setw(14) << cleanLongInt(datasetEdges[i]);
     cout << ")" << endl;
   }
   while(1){
@@ -124,19 +130,19 @@ void Main::datasetsMenu(){
     string val;
     getline(cin, val);
     choice = stoi(val);
-    dataset = args.datasetNames[choice];
+    dataset = datasetNames[choice];
     if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
       cout << "Dataset not recognized: " << dataset << endl;
       sleep(SLEEP);
       clearLines(2);
-    } else if (args.dataset == dataset){
+    } else if (dataset == dataset){
       cout << "Dataset has already been imported!" << endl;
       sleep(SLEEP);
       // return 0;
     }else{
-      args.dataset = dataset;
-      //graph.directory = "../../data/" + args.dataset; //necessary to readAttributes
-      //graph.readAttributes();
+      graph.dataset = dataset;
+      graph.datasetDir = "../../data/" + graph.dataset; //necessary to readAttributes
+      graph.readAttributes();
       // graph.nodes = args.datasetNodes[choice];
       // graph.edges = args.datasetEdges[choice];
       // nodes = graph.nodes;
@@ -145,6 +151,7 @@ void Main::datasetsMenu(){
     }
   }
   clearLines(lines);
+  printDatasetArguments();
   algorithmMenu();
   // return 1;
 }
@@ -166,7 +173,7 @@ void Main::algorithmMenu(){
     switch(choice){
       case 1:
         // run rtim
-        rtim.run();
+        // rtim.stagesMenu();
         break;
       case 2:
         // run imm
@@ -213,8 +220,8 @@ void Main::readExperiments(string path){
   ifstream infile(path.c_str());
   for(string line; getline(infile, line);){
     if (line[0] != '#'){
-      args.getArguments(line);
-      args.printArguments();
+      // getArguments(line);
+      // printArguments();
     }
   }
 }
@@ -229,186 +236,186 @@ void Main::run(){
 }
 
 
-void Main::printDatasetArguments(int nodes, int edges){
+void Main::printDatasetArguments(){
   cout << string(26, '-') << toColor("red", " Dataset ") << string(25, '-') << endl;
-  cout << "- name         : " << toColor("yellow", dataset);
-  cout << " [ v = " << toColor("yellow", to_string(nodes)) << " | ";
-  cout << "e = " << toColor("yellow", to_string(edges))  << "]" << endl;
-  cout << "- model        : " << toColor("yellow", model) << endl;
-  if(edge_weight == -1){
+  cout << "- name         : " << toColor("yellow", graph.dataset);
+  cout << " [ v = " << toColor("yellow", to_string(graph.nodes)) << " | ";
+  cout << "e = " << toColor("yellow", to_string(graph.edges))  << "]" << endl;
+  cout << "- model        : " << toColor("yellow", graph.infModel) << endl;
+  if(graph.edgeWeight == -1){
     cout << "- edge weights : " << toColor("yellow", "weighted cascade") << endl;
   }else{
-    cout << "- edge weights : " << toColor("yellow", properStringDouble(edge_weight)) << endl;
+    cout << "- edge weights : " << toColor("yellow", properStringDouble(graph.edgeWeight)) << endl;
   }
   cout << string(60, '-') << endl;
 }
 
 
-void Main::getArguments(int argn, char **argv){
-  for (int i = 0; i < argn; i++)
-  {
-    // print help
-    if (argv[i] == string("-help") || argv[i] == string("--help") || argn == 1){
-      printHelp();
-      exit(1);
-    }
+// void Main::getArguments(int argn, char **argv){
+//   for (int i = 0; i < argn; i++)
+//   {
+//     // print help
+//     if (argv[i] == string("-help") || argv[i] == string("--help") || argn == 1){
+//       printHelp();
+//       exit(1);
+//     }
+//
+//     // define stage to run
+//     if (argv[i] == string("-stage")){
+//       if ((argv[i + 1] != string("pre")) && (argv[i + 1] != string("live")) && (argv[i + 1] != string("newStream")) && (argv[i + 1] != string("special"))){
+//         cerr << "Error: stage not recognized [ " << argv[i + 1] << " ]"<< endl;
+//         exit(1);
+//       }else{
+//         stage = argv[i + 1];
+//       }
+//     }
+//
+//     // define dataset to use
+//     if (argv[i] == string("-dataset")){
+//       // verify if dataset among list of available datasets in directory
+//       dataset = argv[i + 1];
+//       if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
+//         cerr << "Dataset not recognized: " << dataset << endl;
+//         exit(1);
+//       }
+//     }
+//
+//     // define model to use
+//     if (argv[i] == string("-model")){
+//       model = argv[i + 1];
+//       if (model != "wc" && model != "ic"){
+//         cerr << "Model not recognized: " << model << endl;
+//         exit(1);
+//       }
+//     }
+//
+//     if (argv[i] == string("-depth")){
+//       depth = atoi(argv[i + 1]);
+//     }
+//
+//     // to help define inf. threshold, percentage of top influencers
+//     if (argv[i] == string("-reach")){
+//       reach = atoi(argv[i + 1]);
+//     }
+//
+//     // activation probability [0, 1]
+//     if (argv[i] == string("-actprob")){
+//       theta_ap = atof(argv[i + 1]);
+//     }
+//
+//     // max size of seed set to find
+//     if (argv[i] == string("-k") || argv[i] == string("--size")){
+//       k = atoi(argv[i + 1]);
+//     }
+//
+//     if (argv[i] == string("-streamModel")){
+//       streamModel = argv[i + 1];
+//     }
+//
+//     if (argv[i] == string("-streamVersion")){
+//       streamVersion = atoi(argv[i + 1]);
+//     }
+//
+//     if (argv[i] == string("-streamSize")){
+//       streamSize = atoi(argv[i + 1]);
+//     }
+//
+//     if (argv[i] == string("-edge")){
+//       edge_weight = atof(argv[i + 1]);
+//     }
+//
+//     if (argv[i] == string("-minWeight")){
+//       min_weight = atof(argv[i + 1]);
+//     }
+//
+//   }
+// }
+//
+//
+// void Main::getArguments(string line){
+//   istringstream iss(line);
+//   vector<string> words{istream_iterator<string>{iss}, istream_iterator<string>{}};
+//   for(string s: words){
+//     cout << s << " ";
+//   }
+//   cout << endl;
+//   for (int i=0; i < words.size(); i++){
+//     // define stage to run
+//     if (words[i] == string("-stage")){
+//       if ((words[i + 1] != string("pre")) && (words[i + 1] != string("live")) && (words[i + 1] != string("newStream")) && (words[i + 1] != string("special"))){
+//         cerr << "Error: stage not recognized [ " << words[i + 1] << " ]"<< endl;
+//         exit(1);
+//       }else{
+//         stage = words[i + 1];
+//       }
+//     }
+//
+//     // define dataset to use
+//     if (words[i] == string("-dataset")){
+//       // verify if dataset among list of available datasets in directory
+//       dataset = words[i + 1];
+//       if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
+//         cerr << "Dataset not recognized: " << dataset << endl;
+//         exit(1);
+//       }
+//     }
+//
+//     // define model to use
+//     if (words[i] == string("-model")){
+//       model = words[i + 1];
+//       if (model != "wc" && model != "ic"){
+//         cerr << "Model not recognized: " << model << endl;
+//         exit(1);
+//       }
+//     }
+//
+//     if (words[i] == string("-depth")){
+//       depth = stoi(words[i + 1]);
+//     }
+//
+//     // to help define inf. threshold, percentage of top influencers
+//     if (words[i] == string("-reach")){
+//       reach = stoi(words[i + 1]);
+//     }
+//
+//     // activation probability [0, 1]
+//     if (words[i] == string("-actprob")){
+//       theta_ap = stof(words[i + 1]);
+//     }
+//
+//     // max size of seed set to find
+//     if (words[i] == string("-k") || words[i] == string("--size")){
+//       k = stoi(words[i + 1]);
+//     }
+//
+//     if (words[i] == string("-streamModel")){
+//       streamModel = words[i + 1];
+//     }
+//
+//     if (words[i] == string("-streamVersion")){
+//       streamVersion = stoi(words[i + 1]);
+//     }
+//
+//     if (words[i] == string("-streamSize")){
+//       streamSize = stoi(words[i + 1]);
+//     }
+//
+//     if (words[i] == string("-edge")){
+//       edge_weight = stof(words[i + 1]);
+//     }
+//
+//     if (words[i] == string("-minWeight")){
+//       min_weight = stof(words[i + 1]);
+//     }
+//
+//     if (words[i] == "-algo" || words[i] == "--algorithm"){
+//       algorithm = words[i+1];
+//     }
+//   }
+// }
 
-    // define stage to run
-    if (argv[i] == string("-stage")){
-      if ((argv[i + 1] != string("pre")) && (argv[i + 1] != string("live")) && (argv[i + 1] != string("newStream")) && (argv[i + 1] != string("special"))){
-        cerr << "Error: stage not recognized [ " << argv[i + 1] << " ]"<< endl;
-        exit(1);
-      }else{
-        stage = argv[i + 1];
-      }
-    }
-
-    // define dataset to use
-    if (argv[i] == string("-dataset")){
-      // verify if dataset among list of available datasets in directory
-      dataset = argv[i + 1];
-      if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
-        cerr << "Dataset not recognized: " << dataset << endl;
-        exit(1);
-      }
-    }
-
-    // define model to use
-    if (argv[i] == string("-model")){
-      model = argv[i + 1];
-      if (model != "wc" && model != "ic"){
-        cerr << "Model not recognized: " << model << endl;
-        exit(1);
-      }
-    }
-
-    if (argv[i] == string("-depth")){
-      depth = atoi(argv[i + 1]);
-    }
-
-    // to help define inf. threshold, percentage of top influencers
-    if (argv[i] == string("-reach")){
-      reach = atoi(argv[i + 1]);
-    }
-
-    // activation probability [0, 1]
-    if (argv[i] == string("-actprob")){
-      theta_ap = atof(argv[i + 1]);
-    }
-
-    // max size of seed set to find
-    if (argv[i] == string("-k") || argv[i] == string("--size")){
-      k = atoi(argv[i + 1]);
-    }
-
-    if (argv[i] == string("-streamModel")){
-      streamModel = argv[i + 1];
-    }
-
-    if (argv[i] == string("-streamVersion")){
-      streamVersion = atoi(argv[i + 1]);
-    }
-
-    if (argv[i] == string("-streamSize")){
-      streamSize = atoi(argv[i + 1]);
-    }
-
-    if (argv[i] == string("-edge")){
-      edge_weight = atof(argv[i + 1]);
-    }
-
-    if (argv[i] == string("-minWeight")){
-      min_weight = atof(argv[i + 1]);
-    }
-
-  }
-}
-
-
-void Main::getArguments(string line){
-  istringstream iss(line);
-  vector<string> words{istream_iterator<string>{iss}, istream_iterator<string>{}};
-  for(string s: words){
-    cout << s << " ";
-  }
-  cout << endl;
-  for (int i=0; i < words.size(); i++){
-    // define stage to run
-    if (words[i] == string("-stage")){
-      if ((words[i + 1] != string("pre")) && (words[i + 1] != string("live")) && (words[i + 1] != string("newStream")) && (words[i + 1] != string("special"))){
-        cerr << "Error: stage not recognized [ " << words[i + 1] << " ]"<< endl;
-        exit(1);
-      }else{
-        stage = words[i + 1];
-      }
-    }
-
-    // define dataset to use
-    if (words[i] == string("-dataset")){
-      // verify if dataset among list of available datasets in directory
-      dataset = words[i + 1];
-      if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
-        cerr << "Dataset not recognized: " << dataset << endl;
-        exit(1);
-      }
-    }
-
-    // define model to use
-    if (words[i] == string("-model")){
-      model = words[i + 1];
-      if (model != "wc" && model != "ic"){
-        cerr << "Model not recognized: " << model << endl;
-        exit(1);
-      }
-    }
-
-    if (words[i] == string("-depth")){
-      depth = stoi(words[i + 1]);
-    }
-
-    // to help define inf. threshold, percentage of top influencers
-    if (words[i] == string("-reach")){
-      reach = stoi(words[i + 1]);
-    }
-
-    // activation probability [0, 1]
-    if (words[i] == string("-actprob")){
-      theta_ap = stof(words[i + 1]);
-    }
-
-    // max size of seed set to find
-    if (words[i] == string("-k") || words[i] == string("--size")){
-      k = stoi(words[i + 1]);
-    }
-
-    if (words[i] == string("-streamModel")){
-      streamModel = words[i + 1];
-    }
-
-    if (words[i] == string("-streamVersion")){
-      streamVersion = stoi(words[i + 1]);
-    }
-
-    if (words[i] == string("-streamSize")){
-      streamSize = stoi(words[i + 1]);
-    }
-
-    if (words[i] == string("-edge")){
-      edge_weight = stof(words[i + 1]);
-    }
-
-    if (words[i] == string("-minWeight")){
-      min_weight = stof(words[i + 1]);
-    }
-
-    if (words[i] == "-algo" || words[i] == "--algorithm"){
-      algorithm = words[i+1];
-    }
-  }
-}
 
 int main(){
   Main main = Main();
   main.run();
-  // main.datasetsMenu();
 }

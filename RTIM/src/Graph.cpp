@@ -17,10 +17,10 @@
 using namespace std;
 
 
-Graph::Graph(string datasetName){
-  dataset = datasetName;
-  datasetDir = "../../data/" + dataset;
-  readAttributes();
+Graph::Graph(){
+  // dataset = datasetName;
+  // datasetDir = "../../data/" + dataset;
+  // readAttributes();
 }
 
 

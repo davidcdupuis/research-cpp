@@ -36,7 +36,7 @@ public:
   std::vector<int> datasetEdges;
 
   Graph graph;
-  RTIM rtim;
+  // RTIM rtim;
   //IMM imm;
 
   Main();
@@ -69,7 +69,7 @@ public:
   void experimentsContinueMenu();
 
 
-  void printDatasetArguments(int nodes, int edges);
+  void printDatasetArguments();
 
 
   void getArguments(int argn, char **argv);

@@ -28,12 +28,12 @@ class Graph
     int nodes;                    /**< number of nodes */
     int edges;                    /**< number of edges*/
     int simulations;              // number of simulations to run for inf score
+    double edgeWeight = -1;
     std::vector<int> inDegrees;
     std::vector<int> outDegrees;
     std::vector<std::vector<std::pair<int, double> > > graph;
-    // Arguments args;                     /**< Command line arguments */
 
-    Graph(std::string datasetName);
+    Graph();
 
     /**
       * Function to add an edge

@@ -1899,8 +1899,8 @@ int main(int argn, char **argv)
   // int cores = omp_get_max_threads();
   // Arguments args = Arguments();
   // minEdgeWeight.loadDatasetsData();
-  Graph graph = Graph("nethept");
+  Graph graph = Graph();
   RTIM rtim = RTIM(graph);
-  rtim.run();
+  rtim.rtimRun();
   // rtim.runTest();
 }
