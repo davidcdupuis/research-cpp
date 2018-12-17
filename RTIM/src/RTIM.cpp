@@ -66,18 +66,6 @@ void RTIM::importIMMSeed(){
 }
 
 
-// void RTIM::saveToCSV(string fileName){
-//   ofstream myfile;
-//   myfile.open(fileName);
-//   myfile << "i,score\n";
-//   for (int j = 0; j < nodes; j++){
-//       myfile << j << "," << infScores[j] << "\n";
-//   }
-//   //myfile << "semicolon"; // ?
-//   myfile.close();
-// }
-
-
 int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save){
   int j, sum = 0;
   for (j = 0; j < nb_threads; j++){
@@ -722,65 +710,6 @@ void RTIM::getInfIndex(vector<double> & sorted){
 }
 
 
-// void RTIM::outgoing(){
-//   string file = "../../data/" + graph.dataset + "/" + graph.dataset + "_outgoing.txt";
-//   ofstream outgoingFile;
-//   outgoingFile.open(file);
-//   if (outgoingFile.is_open()){
-//     cout << "Saving # of outgoing neighbors" << endl;
-//     // for each node in graph compute outgoing and save to dataset_outgoing.txt
-//     for(int i = 0; i < graph.graph.size(); i++){
-//       outgoingFile << i  << " " << graph.graph[i].size() << endl;
-//     }
-//     outgoingFile.close();
-//     cout << "Number of outgoing neighbors saved successfully" << endl;
-//   } else {
-//     cerr << file << " not opened!" << endl;
-//   }
-//
-// }
-//
-//
-// void RTIM::mergeOutgoingScores(){
-//   string dir = "../../data/" + graph.dataset + "/";
-//   // import outgoing to vector
-//   string file1 = dir + graph.dataset + "_outgoing.txt";
-//   vector<int> outgoing;
-//   outgoing.resize(nodes, 0);
-//   ifstream outgoingFile;
-//   outgoingFile.open(file1);
-//   if (outgoingFile.is_open()){
-//     int user, out;
-//     while (outgoingFile >> user >> out){
-//       cout << user << "," << out << endl;
-//       outgoing[user] = out;
-//     }
-//     outgoingFile.close();
-//   } else{
-//     cerr << file1 << " not opened!" << endl;
-//   }
-//
-//
-//   // import scores to vector
-//   importScores();
-//
-//   // save both to file
-//   string file3 = dir + graph.dataset + "_nodeinfo.txt";
-//
-//   ofstream nodeInfoFile;
-//
-//   nodeInfoFile.open(file3);
-//   if (nodeInfoFile.is_open()){
-//     for (int i = 0; i < infScores.size(); i++){
-//       nodeInfoFile << i << " " << infScores[i] << " " << outgoing[i] << endl;
-//     }
-//     cout << file3 << " saved successfully!" << endl;
-//   }else{
-//     cerr << file3 << " not opened!" << endl;
-//   }
-// }
-
-
 void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
   // select random nodes from graph to generate seed
   cout << "------------------------------------------------------------------------------------------" << endl;
@@ -846,54 +775,6 @@ void RTIM::printStageParams(){
   }
   cout << string(60, '-') << endl;
 }
-
-
-// int RTIM::datasetMenu(){
-//   int lines = 10;
-//   int choice = -1;
-//   string dataset;
-//   cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
-//   if(graph.dataset != "" && graph.graph.size() != 0){
-//     cout << "Current imported dataset: " << graph.dataset << endl;
-//     lines++;
-//   }
-//
-//   for (int i = 0; i < graph.datasetNames.size(); i++){
-//     cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + graph.datasetNames[i];
-//     cout << "(";
-//     cout << right << setw(14) << cleanLongInt(graph.datasetNodes[i]);
-//     cout << ",";
-//     cout << right << setw(14) << cleanLongInt(graph.datasetEdges[i]);
-//     cout << ")" << endl;
-//   }
-//   while(1){
-//     cout <<  "> choice: ";
-//     string val;
-//     getline(cin, val);
-//     choice = stoi(val);
-//     dataset = graph.datasetNames[choice];
-//     if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
-//       cout << "Dataset not recognized: " << dataset << endl;
-//       sleep(SLEEP);
-//       clearLines(2);
-//     } else if (graph.dataset == dataset){
-//       cout << "Dataset has already been imported!" << endl;
-//       sleep(SLEEP);
-//       return 0;
-//     }else{
-//       graph.dataset = dataset;
-//       graph.datasetDir = "../../data/" + graph.dataset; //necessary to readAttributes
-//       //graph.readAttributes();
-//       graph.nodes = graph.datasetNodes[choice];
-//       graph.edges = graph.datasetEdges[choice];
-//       // nodes = graph.nodes;
-//       streamSize = graph.nodes / 10;
-//       break;
-//     }
-//   }
-//   clearLines(lines);
-//   return 1;
-// }
 
 
 void RTIM::stageMenu(){
@@ -1644,7 +1525,7 @@ void RTIM::testContinueMenu(){
 }
 
 
-// void RTIM::run(){
+void RTIM::run(){
 //   cout << endl;
 //   printLocalTime("red", "Program", "starting");
 //   int choice = 0;
@@ -1748,10 +1629,10 @@ void RTIM::testContinueMenu(){
 //
 //   printLocalTime("red", "Program", "ending");
 //   cout << endl;
-// }
+}
 
 
-// void RTIM::runTest(){
+void RTIM::runTest(){
 //   cout << endl;
 //   cout << ">>> TEST RUN <<<" << endl;
 //   printLocalTime("red", "Program", "starting");
@@ -1846,7 +1727,7 @@ void RTIM::testContinueMenu(){
 //
 //   printLocalTime("red", "Program", "ending");
 //   cout << endl;
-// }
+}
 
 
 void RTIM::rtimRun(){

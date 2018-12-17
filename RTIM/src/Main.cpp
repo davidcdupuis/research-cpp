@@ -1,8 +1,5 @@
 #include "Main.h"
 
-#include <unistd.h>
-#include <iomanip>
-
 using namespace std;
 
 const int SLEEP = 2;
@@ -219,8 +216,8 @@ void Main::readExperiments(string path){
   ifstream infile(path.c_str());
   for(string line; getline(infile, line);){
     if (line[0] != '#'){
-      // getArguments(line);
-      // printArguments();
+      getArguments(line);
+      printDatasetArguments();
     }
   }
 }
@@ -247,6 +244,87 @@ void Main::printDatasetArguments(){
     cout << "- edge weights : " << toColor("yellow", properStringDouble(graph.edgeWeight)) << endl;
   }
   cout << string(60, '-') << endl;
+}
+
+
+void Main::getArguments(int argn, char **argv){
+//   for (int i = 0; i < argn; i++)
+//   {
+//     // print help
+//     if (argv[i] == string("-help") || argv[i] == string("--help") || argn == 1){
+//       printHelp();
+//       exit(1);
+//     }
+//
+//     // define stage to run
+//     if (argv[i] == string("-stage")){
+//       if ((argv[i + 1] != string("pre")) && (argv[i + 1] != string("live")) && (argv[i + 1] != string("newStream")) && (argv[i + 1] != string("special"))){
+//         cerr << "Error: stage not recognized [ " << argv[i + 1] << " ]"<< endl;
+//         exit(1);
+//       }else{
+//         stage = argv[i + 1];
+//       }
+//     }
+//
+//     // define dataset to use
+//     if (argv[i] == string("-dataset")){
+//       // verify if dataset among list of available datasets in directory
+//       dataset = argv[i + 1];
+//       if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
+//         cerr << "Dataset not recognized: " << dataset << endl;
+//         exit(1);
+//       }
+//     }
+//
+//     // define model to use
+//     if (argv[i] == string("-model")){
+//       model = argv[i + 1];
+//       if (model != "wc" && model != "ic"){
+//         cerr << "Model not recognized: " << model << endl;
+//         exit(1);
+//       }
+//     }
+//
+//     if (argv[i] == string("-depth")){
+//       depth = atoi(argv[i + 1]);
+//     }
+//
+//     // to help define inf. threshold, percentage of top influencers
+//     if (argv[i] == string("-reach")){
+//       reach = atoi(argv[i + 1]);
+//     }
+//
+//     // activation probability [0, 1]
+//     if (argv[i] == string("-actprob")){
+//       theta_ap = atof(argv[i + 1]);
+//     }
+//
+//     // max size of seed set to find
+//     if (argv[i] == string("-k") || argv[i] == string("--size")){
+//       k = atoi(argv[i + 1]);
+//     }
+//
+//     if (argv[i] == string("-streamModel")){
+//       streamModel = argv[i + 1];
+//     }
+//
+//     if (argv[i] == string("-streamVersion")){
+//       streamVersion = atoi(argv[i + 1]);
+//     }
+//
+//     if (argv[i] == string("-streamSize")){
+//       streamSize = atoi(argv[i + 1]);
+//     }
+//
+//     if (argv[i] == string("-edge")){
+//       edge_weight = atof(argv[i + 1]);
+//     }
+//
+//     if (argv[i] == string("-minWeight")){
+//       min_weight = atof(argv[i + 1]);
+//     }
+//
+//   }
 }
 
 
@@ -335,5 +413,6 @@ void Main::getArguments(string line){
 
 int main(int argn, char **argv){
   Main main = Main();
+  // if has arguments run with arguments else run program
   main.run();
 }

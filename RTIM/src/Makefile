@@ -8,17 +8,14 @@ all: $(EXEC)
 # rtim: Arguments.o Graph.o RTIM.o Tools.o
 # 	$(CXX) -fopenmp -o rtim Arguments.o Graph.o RTIM.o Tools.o
 
-main: Arguments.o Graph.o RTIM.o Tools.o Main.o
-	$(CXX) -fopenmp -o main Arguments.o Graph.o RTIM.o Tools.o Main.o
+main: Graph.o RTIM.o Tools.o Main.o
+	$(CXX) -fopenmp -o main Graph.o RTIM.o Tools.o Main.o
 
-RTIM.o: RTIM.cpp Graph.cpp Arguments.cpp Graph.h RTIM.h Arguments.h Tools.cpp Tools.h
+RTIM.o: RTIM.cpp Graph.cpp Graph.h RTIM.h Tools.cpp Tools.h
 	$(CXX) -fopenmp -c RTIM.cpp
 
-Graph.o: Graph.cpp Arguments.cpp Graph.h Arguments.h Tools.cpp Tools.h
+Graph.o: Graph.cpp Graph.h Tools.cpp Tools.h
 	$(CXX) -fopenmp -c Graph.cpp
-
-Arguments.o: Arguments.cpp Arguments.h Tools.cpp Tools.h
-	$(CXX) -c Arguments.cpp
 
 Tools.o: Tools.cpp Tools.h
 	$(CXX) -c Tools.cpp

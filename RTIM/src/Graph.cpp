@@ -17,11 +17,7 @@
 using namespace std;
 
 
-Graph::Graph(){
-  // dataset = datasetName;
-  // datasetDir = "../../data/" + dataset;
-  // readAttributes();
-}
+Graph::Graph(){}
 
 
 void Graph::addEdge(int a, int b, double w){

@@ -1,7 +1,11 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
-// #include "Arguments.h"
+#include <unistd.h>
+#include <iomanip>
+#include <iostream>
+#include <string>
+
 #include "RTIM.h"
 #include "Tools.h"
 #include "Graph.h"
