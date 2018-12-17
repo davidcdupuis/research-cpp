@@ -25,8 +25,9 @@ using namespace std;
 const int SLEEP = 2; // duration of sleep
 
 
-RTIM::RTIM(Graph& g){
-  graph = g;
+RTIM::RTIM(Graph& g):graph(g){
+  // https://stackoverflow.com/questions/7449813/c-object-referencing-in-classes
+  // graph = g;
   // args = arguments;
   srand(time(NULL));
 }
@@ -1901,6 +1902,6 @@ int main(int argn, char **argv)
   // minEdgeWeight.loadDatasetsData();
   Graph graph = Graph();
   RTIM rtim = RTIM(graph);
-  rtim.rtimRun();
+  // rtim.rtimRun();
   // rtim.runTest();
 }

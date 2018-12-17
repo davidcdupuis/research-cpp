@@ -24,7 +24,7 @@ Tools.o: Tools.cpp Tools.h
 	$(CXX) -c Tools.cpp
 
 Main.o: Main.cpp Main.h
-	$(CXX) -c Main.cpp
+	$(CXX) -fopenmp -c Main.cpp
 
 clean:
 	rm -rf *.o

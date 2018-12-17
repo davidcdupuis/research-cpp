@@ -7,10 +7,9 @@ using namespace std;
 
 const int SLEEP = 2;
 
-Main::Main():graph(){
+Main::Main(Graph& g, RTIM& r):graph(g),rtim(r){
   // should we initialize object arguments here?
   loadDatasetsData();
-  // rtim = RTIM(graph);
   srand(time(NULL));
 }
 
@@ -173,7 +172,7 @@ void Main::algorithmMenu(){
     switch(choice){
       case 1:
         // run rtim
-        // rtim.stagesMenu();
+        // rtim.stageMenu();
         break;
       case 2:
         // run imm
@@ -415,7 +414,9 @@ void Main::printDatasetArguments(){
 // }
 
 
-int main(){
-  Main main = Main();
-  main.run();
+int main(int argn, char **argv){
+  Graph graph = Graph();
+  RTIM rtim(graph);
+  // Main main = Main(graph, rtim);
+  // main.run();
 }

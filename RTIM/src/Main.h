@@ -36,10 +36,10 @@ public:
   std::vector<int> datasetEdges;
 
   Graph graph;
-  // RTIM rtim;
+  RTIM rtim;
   //IMM imm;
 
-  Main();
+  Main(Graph& g, RTIM& r);
 
 
   void loadDatasetsData();
