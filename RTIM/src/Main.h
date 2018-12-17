@@ -39,7 +39,7 @@ public:
   RTIM rtim;
   //IMM imm;
 
-  Main(Graph& g, RTIM& r);
+  Main();
 
 
   void loadDatasetsData();

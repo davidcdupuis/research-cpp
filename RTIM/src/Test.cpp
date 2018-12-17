@@ -29,7 +29,7 @@ Algorithm::Algorithm(Graph& g):graph(g){
 }
 
 Main::Main(Graph& g, Algorithm& a):graph(g),algo(a){
-  graph = g;
+  // graph = g;
 }
 
 int main(){

@@ -7,7 +7,7 @@ using namespace std;
 
 const int SLEEP = 2;
 
-Main::Main(Graph& g, RTIM& r):graph(g),rtim(r){
+Main::Main():graph(),rtim(graph){
   // should we initialize object arguments here?
   loadDatasetsData();
   srand(time(NULL));
@@ -250,173 +250,90 @@ void Main::printDatasetArguments(){
 }
 
 
-// void Main::getArguments(int argn, char **argv){
-//   for (int i = 0; i < argn; i++)
-//   {
-//     // print help
-//     if (argv[i] == string("-help") || argv[i] == string("--help") || argn == 1){
-//       printHelp();
-//       exit(1);
-//     }
-//
-//     // define stage to run
-//     if (argv[i] == string("-stage")){
-//       if ((argv[i + 1] != string("pre")) && (argv[i + 1] != string("live")) && (argv[i + 1] != string("newStream")) && (argv[i + 1] != string("special"))){
-//         cerr << "Error: stage not recognized [ " << argv[i + 1] << " ]"<< endl;
-//         exit(1);
-//       }else{
-//         stage = argv[i + 1];
-//       }
-//     }
-//
-//     // define dataset to use
-//     if (argv[i] == string("-dataset")){
-//       // verify if dataset among list of available datasets in directory
-//       dataset = argv[i + 1];
-//       if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
-//         cerr << "Dataset not recognized: " << dataset << endl;
-//         exit(1);
-//       }
-//     }
-//
-//     // define model to use
-//     if (argv[i] == string("-model")){
-//       model = argv[i + 1];
-//       if (model != "wc" && model != "ic"){
-//         cerr << "Model not recognized: " << model << endl;
-//         exit(1);
-//       }
-//     }
-//
-//     if (argv[i] == string("-depth")){
-//       depth = atoi(argv[i + 1]);
-//     }
-//
-//     // to help define inf. threshold, percentage of top influencers
-//     if (argv[i] == string("-reach")){
-//       reach = atoi(argv[i + 1]);
-//     }
-//
-//     // activation probability [0, 1]
-//     if (argv[i] == string("-actprob")){
-//       theta_ap = atof(argv[i + 1]);
-//     }
-//
-//     // max size of seed set to find
-//     if (argv[i] == string("-k") || argv[i] == string("--size")){
-//       k = atoi(argv[i + 1]);
-//     }
-//
-//     if (argv[i] == string("-streamModel")){
-//       streamModel = argv[i + 1];
-//     }
-//
-//     if (argv[i] == string("-streamVersion")){
-//       streamVersion = atoi(argv[i + 1]);
-//     }
-//
-//     if (argv[i] == string("-streamSize")){
-//       streamSize = atoi(argv[i + 1]);
-//     }
-//
-//     if (argv[i] == string("-edge")){
-//       edge_weight = atof(argv[i + 1]);
-//     }
-//
-//     if (argv[i] == string("-minWeight")){
-//       min_weight = atof(argv[i + 1]);
-//     }
-//
-//   }
-// }
-//
-//
-// void Main::getArguments(string line){
-//   istringstream iss(line);
-//   vector<string> words{istream_iterator<string>{iss}, istream_iterator<string>{}};
-//   for(string s: words){
-//     cout << s << " ";
-//   }
-//   cout << endl;
-//   for (int i=0; i < words.size(); i++){
-//     // define stage to run
-//     if (words[i] == string("-stage")){
-//       if ((words[i + 1] != string("pre")) && (words[i + 1] != string("live")) && (words[i + 1] != string("newStream")) && (words[i + 1] != string("special"))){
-//         cerr << "Error: stage not recognized [ " << words[i + 1] << " ]"<< endl;
-//         exit(1);
-//       }else{
-//         stage = words[i + 1];
-//       }
-//     }
-//
-//     // define dataset to use
-//     if (words[i] == string("-dataset")){
-//       // verify if dataset among list of available datasets in directory
-//       dataset = words[i + 1];
-//       if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
-//         cerr << "Dataset not recognized: " << dataset << endl;
-//         exit(1);
-//       }
-//     }
-//
-//     // define model to use
-//     if (words[i] == string("-model")){
-//       model = words[i + 1];
-//       if (model != "wc" && model != "ic"){
-//         cerr << "Model not recognized: " << model << endl;
-//         exit(1);
-//       }
-//     }
-//
-//     if (words[i] == string("-depth")){
-//       depth = stoi(words[i + 1]);
-//     }
-//
-//     // to help define inf. threshold, percentage of top influencers
-//     if (words[i] == string("-reach")){
-//       reach = stoi(words[i + 1]);
-//     }
-//
-//     // activation probability [0, 1]
-//     if (words[i] == string("-actprob")){
-//       theta_ap = stof(words[i + 1]);
-//     }
-//
-//     // max size of seed set to find
-//     if (words[i] == string("-k") || words[i] == string("--size")){
-//       k = stoi(words[i + 1]);
-//     }
-//
-//     if (words[i] == string("-streamModel")){
-//       streamModel = words[i + 1];
-//     }
-//
-//     if (words[i] == string("-streamVersion")){
-//       streamVersion = stoi(words[i + 1]);
-//     }
-//
-//     if (words[i] == string("-streamSize")){
-//       streamSize = stoi(words[i + 1]);
-//     }
-//
-//     if (words[i] == string("-edge")){
-//       edge_weight = stof(words[i + 1]);
-//     }
-//
-//     if (words[i] == string("-minWeight")){
-//       min_weight = stof(words[i + 1]);
-//     }
-//
-//     if (words[i] == "-algo" || words[i] == "--algorithm"){
-//       algorithm = words[i+1];
-//     }
-//   }
-// }
+void Main::getArguments(string line){
+  istringstream iss(line);
+  vector<string> words{istream_iterator<string>{iss}, istream_iterator<string>{}};
+  for(string s: words){
+    cout << s << " ";
+  }
+  cout << endl;
+  for (int i=0; i < words.size(); i++){
+    // define stage to run
+    if (words[i] == string("-stage")){
+      if ((words[i + 1] != string("pre")) && (words[i + 1] != string("live")) && (words[i + 1] != string("newStream")) && (words[i + 1] != string("special"))){
+        cerr << "Error: stage not recognized [ " << words[i + 1] << " ]"<< endl;
+        exit(1);
+      }else{
+        rtim.stage = words[i + 1];
+      }
+    }
+
+    // define dataset to use
+    if (words[i] == string("-dataset")){
+      // verify if dataset among list of available datasets in directory
+      graph.dataset = words[i + 1];
+      if(graph.dataset != "test" && graph.dataset != "nethept" && graph.dataset != "dblp" && graph.dataset != "orkut" && graph.dataset != "youtube" && graph.dataset != "twitter" && graph.dataset != "livejournal"){
+        cerr << "Dataset not recognized: " << graph.dataset << endl;
+        exit(1);
+      }
+    }
+
+    // define model to use
+    if (words[i] == string("-model")){
+      graph.infModel = words[i + 1];
+      if (graph.infModel != "wc" && graph.infModel != "ic"){
+        cerr << "Model not recognized: " << graph.infModel << endl;
+        exit(1);
+      }
+    }
+
+    if (words[i] == string("-depth")){
+      rtim.maxDepth = stoi(words[i + 1]);
+    }
+
+    // to help define inf. threshold, percentage of top influencers
+    if (words[i] == string("-reach")){
+      rtim.reach = stoi(words[i + 1]);
+    }
+
+    // activation probability [0, 1]
+    if (words[i] == string("-actprob")){
+      rtim.theta_ap = stof(words[i + 1]);
+    }
+
+    // max size of seed set to find
+    if (words[i] == string("-k") || words[i] == string("--size")){
+      rtim.maxSeedSize = stoi(words[i + 1]);
+    }
+
+    if (words[i] == string("-streamModel")){
+      rtim.streamModel = words[i + 1];
+    }
+
+    if (words[i] == string("-streamVersion")){
+      rtim.streamVersion = stoi(words[i + 1]);
+    }
+
+    if (words[i] == string("-streamSize")){
+      rtim.streamSize = stoi(words[i + 1]);
+    }
+
+    if (words[i] == string("-edge")){
+      graph.edgeWeight = stof(words[i + 1]);
+    }
+
+    if (words[i] == string("-minWeight")){
+      rtim.minEdgeWeight = stof(words[i + 1]);
+    }
+
+    if (words[i] == "-algo" || words[i] == "--algorithm"){
+      algorithm = words[i+1];
+    }
+  }
+}
 
 
 int main(int argn, char **argv){
-  Graph graph = Graph();
-  RTIM rtim(graph);
-  // Main main = Main(graph, rtim);
-  // main.run();
+  Main main = Main();
+  main.run();
 }

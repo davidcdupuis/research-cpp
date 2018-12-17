@@ -1895,13 +1895,13 @@ string RTIM::generateFileName(string type, int param){
   return file_name;
 }
 
-int main(int argn, char **argv)
-{
-  // int cores = omp_get_max_threads();
-  // Arguments args = Arguments();
-  // minEdgeWeight.loadDatasetsData();
-  Graph graph = Graph();
-  RTIM rtim = RTIM(graph);
-  // rtim.rtimRun();
-  // rtim.runTest();
-}
+// int main(int argn, char **argv)
+// {
+//   // int cores = omp_get_max_threads();
+//   // Arguments args = Arguments();
+//   // minEdgeWeight.loadDatasetsData();
+//   Graph graph = Graph();
+//   RTIM rtim = RTIM(graph);
+//   // rtim.rtimRun();
+//   // rtim.runTest();
+// }

@@ -70,7 +70,7 @@ public:
   std::set<int> immSeedSet;
   std::string seedFile = "";
   std::vector<double> activationProbabilities; /**< array of activation probabilities*/
-  Graph graph;
+  Graph& graph;
 
   RTIM(Graph& g);
 
