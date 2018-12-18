@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
+#include <iterator>
 #include <string>
 
 #include "RTIM.h"
@@ -55,22 +57,22 @@ public:
   void mainMenu();
 
 
-  void datasetsMenu();
+  int datasetsMenu();
 
 
-  void algorithmMenu();
+  int algorithmMenu();
 
 
-  void experimentsMenu();
+  int experimentsMenu();
 
 
   void readExperiments(std::string path);
 
 
-  void runExperiments(std::string path);
+  int runExperiments(std::string path);
 
 
-  void experimentsContinueMenu();
+  int experimentsContinueMenu();
 
 
   void printDatasetArguments();

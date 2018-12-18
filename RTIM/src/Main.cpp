@@ -27,57 +27,69 @@ void Main::loadDatasetsData(){
 
 
 void Main::mainMenu(){
-  int choice = -1;
-  cout << string(25, '_') + " Main Menu " + string(24, '_') << endl;
-  cout << " [1] pre-configured experiments" << endl;
-  cout << " [2] personalized experiments" << endl;
-  while (choice == -1){
-    cout <<  "> choice: ";
-    string val;
-    getline(cin, val);
-    // test if int
-    choice = stoi(val);
-    switch(choice){
-      case 1:
-        clearLines(4);
-        experimentsMenu();
-        break;
-      case 2:
-        clearLines(4);
-        datasetsMenu();
-        break;
-      default:
-        cout << "Error: choice not recognized!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
-        choice = -1;
+  int result = 0;
+  while(result == 0){
+    int choice = -1;
+    cout << string(25, '_') + " Main Menu " + string(24, '_') << endl;
+    cout << " [1] pre-configured experiments" << endl;
+    cout << " [2] personalized experiments" << endl;
+    while (choice == -1){
+      cout <<  "> choice: ";
+      string val;
+      getline(cin, val);
+      // test if int
+      choice = stoi(val);
+      switch(choice){
+        case 1:
+          clearLines(4);
+          result = experimentsMenu();
+
+          break;
+        case 2:
+          clearLines(4);
+          result = datasetsMenu();
+          break;
+        default:
+          cout << "Error: choice not recognized!" << endl;
+          sleep(SLEEP);
+          clearLines(2);
+          choice = -1;
+      }
     }
   }
+  return;
   clearLines(4);
 }
 
 
-void Main::experimentsMenu(){
+int Main::experimentsMenu(){
   string input;
-  cout << string(24, '_') + " Experiments " + string(23, '_') << endl;
-  cout << "Input file path from: ../data/" << endl;
-  while (1){
-    cout << "> choose file [ experiments.txt ] : ";
-    getline(cin, input);
-    // run experiments.txt
-    clearLines(3);
-    runExperiments("../../data/experiments.txt");
-    break;
+  int result = 0;
+  while(result == 0){
+    cout << string(24, '_') + " Experiments " + string(23, '_') << endl;
+    cout << "Input file path from: ../data/" << endl;
+    while (1){
+      cout << "> choose file [ experiments.txt ] : ";
+      getline(cin, input);
+      // run experiments.txt
+      clearLines(3);
+      result = runExperiments("../../data/experiments.txt");
+      break;
+    }
+    if(result > 0){
+      return result - 1;
+    }
   }
 }
 
 
-void Main::experimentsContinueMenu(){
+int Main::experimentsContinueMenu(){
   int choice = -1;
   cout << string(25, '_') + " Continue " + string(25, '_') << endl;
   cout << "Choose option:" << endl;
   cout << " [1] Experiments Menu" << endl;
   cout << " [2] Main menu" << endl;
+  cout << " [3] Exit Program" << endl;
   while (choice == -1){
     cout <<  "> choice: ";
     string val;
@@ -86,13 +98,16 @@ void Main::experimentsContinueMenu(){
     choice = stoi(val);
     switch(choice){
       case 1:
-        clearLines(5);
-        experimentsMenu();
-        break;
+        clearLines(6);
+        // experimentsMenu();
+        return 0;
       case 2:
-        clearLines(5);
-        mainMenu();
-        break;
+        clearLines(6);
+        // mainMenu();
+        return 1;
+      case 3:
+        clearLines(6);
+        return 2;
       default:
         cout << "Error choice not recognized!" << endl;
         sleep(2);
@@ -103,7 +118,7 @@ void Main::experimentsContinueMenu(){
 }
 
 
-void Main::datasetsMenu(){
+int Main::datasetsMenu(){
   int lines = datasetNames.size() + 2;
   int choice = -1;
   string dataset;
@@ -153,7 +168,7 @@ void Main::datasetsMenu(){
 }
 
 
-void Main::algorithmMenu(){
+int Main::algorithmMenu(){
   int choice = -1;
   cout << string(24,'_') + " Algorithms " + string(24,'_') << endl;
   cout << "\t[1] RTIM" << endl;
@@ -193,20 +208,19 @@ void Main::algorithmMenu(){
 }
 
 
-void Main::runExperiments(string path){
+int Main::runExperiments(string path){
   printInColor("magenta", string(60,'-'));
   printLocalTime("magenta", "Experiments", "starting");
   //
   readExperiments(path);
   //
-  printInColor("magenta", string(60,'-'));
   printLocalTime("magenta", "Experiments", "ending");
-  experimentsContinueMenu();
+  printInColor("magenta", string(60,'-'));
+  return experimentsContinueMenu();
 }
 
 
 void Main::readExperiments(string path){
-
   if (!pathExists(path)){
     cerr << "Error in readExperiments, path doesn't exist: " << path << endl;
     exit(1);
@@ -225,7 +239,6 @@ void Main::readExperiments(string path){
 
 void Main::run(){
   cout << endl;
-  cout << ">>> TEST RUN <<<" << endl;
   printLocalTime("red", "Program", "starting");
   mainMenu();
   printLocalTime("red", "Program", "ending");
@@ -415,4 +428,5 @@ int main(int argn, char **argv){
   Main main = Main();
   // if has arguments run with arguments else run program
   main.run();
+
 }

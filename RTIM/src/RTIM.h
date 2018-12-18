@@ -304,7 +304,7 @@ public:
   void runTest();
 
 
-  void testStagesMenu();
+  int stagesMenu();
 
   void testPreProcessScoresMenu();
 

@@ -26,9 +26,6 @@ const int SLEEP = 2; // duration of sleep
 
 
 RTIM::RTIM(Graph& g):graph(g){
-  // https://stackoverflow.com/questions/7449813/c-object-referencing-in-classes
-  // graph = g;
-  // args = arguments;
   srand(time(NULL));
 }
 
@@ -704,7 +701,6 @@ void RTIM::importScores(){
 }
 
 
-
 void RTIM::getInfIndex(vector<double> & sorted){
   infIndex = (int)(sorted.size() - sorted.size() * reach / 100);
 }
@@ -820,7 +816,7 @@ void RTIM::stageMenu(){
 }
 
 // TEST STAGE MENU
-void RTIM::testStagesMenu(){
+int RTIM::stagesMenu(){
   int choice = -1;
   cout << string(26,'_') + " Stages " + string(26,'_') << endl;
   cout << "Choose a stage: " << endl;
@@ -837,21 +833,20 @@ void RTIM::testStagesMenu(){
     switch(choice){
       case 1:
         // pre-process scores menu
+        preProcessMenu();
         break;
       case 2:
         // pre-process probabilities menu
         break;
       case 3:
         // live menu
+        liveMenu();
         break;
       case 4:
         // test menu
         break;
       case 5:
-        cout << "Program ending: Have a nice day!" << endl;
-        printLocalTime("red", "Program", "ending");
-        cout << endl;
-        exit(1);
+        return 3;
       default:
         cout << "Error: stage not recognized!" << endl;
         sleep(SLEEP);
@@ -860,6 +855,7 @@ void RTIM::testStagesMenu(){
     }
   }
   clearLines(8);
+  return choice;
 }
 
 
@@ -1500,7 +1496,7 @@ void RTIM::testContinueMenu(){
         testPreProcessScoresMenu();
         break;
       case 3:
-        testStagesMenu();
+        stagesMenu();
         break;
       case 4:
         // change algorithm
@@ -1731,7 +1727,7 @@ void RTIM::runTest(){
 
 
 void RTIM::rtimRun(){
-  testStagesMenu();
+  stagesMenu();
 }
 
 
