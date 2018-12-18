@@ -190,6 +190,7 @@ void RTIM::live(){
   activationProbabilities.resize(graph.nodes, 0);
 
   // printScores();
+  cout << "getting inf index" << endl;
   getInfIndex(sortedScores);
   cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
@@ -760,7 +761,7 @@ void RTIM::printStageParams(){
     cout << "- k            : "; printInColor("yellow", to_string(maxSeedSize));
     cout << "- reach        : "; printInColor("yellow", properStringDouble(reach));
     cout << "- ap           : "; printInColor("yellow", properStringDouble(theta_ap));
-  }else if ( stage == "pre"){
+  }else if ( stage == "pre-process scores"){
     cout << string(24, '-') << toColor("red", " pre-process ") << string(23, '-') << endl;
     cout << "RTIM" << endl;
     cout << "- depth      : "; printInColor("yellow", to_string(maxDepth));
@@ -915,6 +916,11 @@ int RTIM::preProcessMenu(){
       }
       sleep(SLEEP);
       clearLines(4);
+    }
+    printStageParams();
+    if(!graph.loaded){
+      graph.loadGraph();
+      graph.loaded = true;
     }
     pre_process();
     result = continueMenu();
@@ -1179,8 +1185,13 @@ int RTIM::liveMenu(){
       sleep(SLEEP+1);
       clearLines(8);
     }
-
-    //live();
+    printStageParams();
+    if(!graph.loaded){
+      graph.loadGraph();
+      graph.loaded = true;
+    }
+    // cout << graph.graph.size() << endl;
+    live();
     result = continueMenu();
   }
   return result - 1;

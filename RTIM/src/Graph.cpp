@@ -49,6 +49,7 @@ void Graph::readAttributes(){
 
 
 void Graph::loadGraph(){
+  graph.resize(nodes);
   clock_t start = clock();
   string graph_file = datasetDir + "/" + dataset + "_wc.inf";
   cout << "Loading graph from: " << graph_file << endl;

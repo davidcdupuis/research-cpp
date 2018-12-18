@@ -155,6 +155,7 @@ int Main::datasetsMenu(){
       }else{
         graph.dataset = datasetNames[choice];
         graph.datasetDir = "../../data/" + graph.dataset; //necessary to readAttributes
+        graph.loaded = false;
         graph.readAttributes();
         // graph.nodes = args.datasetNodes[choice];
         // graph.edges = args.datasetEdges[choice];

@@ -28,6 +28,7 @@ class Graph
     int edges;                    /**< number of edges*/
     int simulations;              // number of simulations to run for inf score
     double edgeWeight = -1;
+    bool loaded = false; //true if dataset has been loaded 
     std::vector<int> inDegrees;
     std::vector<int> outDegrees;
     std::vector<std::vector<std::pair<int, double> > > graph;
