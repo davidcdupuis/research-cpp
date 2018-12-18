@@ -190,7 +190,6 @@ void RTIM::live(){
   activationProbabilities.resize(graph.nodes, 0);
 
   // printScores();
-  cout << "getting inf index" << endl;
   getInfIndex(sortedScores);
   cout << "Starting influence score threshold: " << sortedScores[infIndex] << endl;
 
@@ -604,7 +603,7 @@ void RTIM::initiateStreamLog(){
     exit(1);
   }
   path += generateFileName("stream_log");
-  printInColor("cyan", "New stream log    :" + path);
+  printInColor("cyan", "New stream log      : " + path);
   ofstream streamLog;
   streamLog.open(path);
   streamLog << "Dataset: " << graph.dataset << endl;
@@ -1186,10 +1185,15 @@ int RTIM::liveMenu(){
       clearLines(8);
     }
     printStageParams();
+    // if(loadScores){
+    //   initializeInfluenceScores();
+    //   loadScores = false;
+    // }
     if(!graph.loaded){
       graph.loadGraph();
       graph.loaded = true;
     }
+    initializeInfluenceScores();
     // cout << graph.graph.size() << endl;
     live();
     result = continueMenu();
