@@ -1,5 +1,5 @@
 Dataset: nethept
-STREAM: model = inNOut_repeat|  size = 1522
+STREAM: model = inNOut_repeat|  size = -1
 RTIM: k = 200 | theta_ap = 0.8 | reach = 1
 ------------------------------------------------------------
 position user_id  ap         ap_time(s) inf_old    inf_new    inf_time(s) theta_I  rtim_status        seed_size imm_status     in_degree out_degree

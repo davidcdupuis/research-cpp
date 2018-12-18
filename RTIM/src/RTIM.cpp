@@ -773,89 +773,59 @@ void RTIM::printStageParams(){
 }
 
 
-void RTIM::stageMenu(){
-  int choice = -1;
-  cout << string(26,'_') + " Stages " + string(26,'_') << endl;
-  cout << "Choose a stage: " << endl;
-  cout << "   [1] pre-process"<< endl;
-  cout << "   [2] live " << endl;
-  cout << "   [3] compute seed score" << endl;
-  cout << "   [4] test " << endl;
-  cout << "   [5] EXIT PROGRAM " << endl;
-  while(choice == -1){
-    cout <<  "> choice: ";
-    string val;
-    getline(cin, val);
-    choice = stoi(val);
-    switch(choice){
-      case 1:
-        stage = "pre";
-        break;
-      case 2:
-        stage = "live";
-        break;
-      case 3:
-        stage = "compute_seed_score";
-        break;
-      case 4:
-      stage = "test";
-        break;
-      case 5:
-        cout << "Program ending: Have a nice day!" << endl;
-        printLocalTime("red", "Program", "ending");
-        cout << endl;
-        exit(1);
-      default:
-        cout << "Error: stage not recognized!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
-        choice = -1;
-    }
-  }
-  clearLines(8);
-}
-
-// TEST STAGE MENU
 int RTIM::stagesMenu(){
-  int choice = -1;
-  cout << string(26,'_') + " Stages " + string(26,'_') << endl;
-  cout << "Choose a stage: " << endl;
-  cout << "   [1] Pre-process scores"<< endl;
-  cout << "   [2] Pre-process probabilities" << endl;
-  cout << "   [3] Live" << endl;
-  cout << "   [4] Test " << endl;
-  cout << "   [5] EXIT PROGRAM " << endl;
-  while(choice == -1){
-    cout <<  "> choice: ";
-    string val;
-    getline(cin, val);
-    choice = stoi(val);
-    switch(choice){
-      case 1:
-        // pre-process scores menu
-        preProcessMenu();
-        break;
-      case 2:
-        // pre-process probabilities menu
-        break;
-      case 3:
-        // live menu
-        liveMenu();
-        break;
-      case 4:
-        // test menu
-        break;
-      case 5:
-        return 3;
-      default:
-        cout << "Error: stage not recognized!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
-        choice = -1;
+  int result = 0;
+  while (result == 0){
+    int choice = -1;
+    cout << string(26,'_') + " Stages " + string(26,'_') << endl;
+    cout << "Choose a stage: " << endl;
+    cout << "   [1] Pre-process scores"<< endl;
+    cout << "   [2] Pre-process probabilities" << endl;
+    cout << "   [3] Live" << endl;
+    cout << "   [4] Test " << endl;
+    cout << "   [5] EXIT PROGRAM " << endl;
+    while(choice == -1){
+      cout <<  "> choice: ";
+      string val;
+      getline(cin, val);
+      choice = stoi(val);
+      switch(choice){
+        case 1:
+          // pre-process scores menu
+          clearLines(8);
+          stage = "pre-process scores";
+          result = preProcessMenu();
+          break;
+        case 2:
+          // pre-process probabilities menu
+          clearLines(8);
+          stage = "pre-process APs";
+          break;
+        case 3:
+          // live menu
+          clearLines(8);
+          stage = "live";
+          result = liveMenu();
+          break;
+        case 4:
+          // test menu
+          clearLines(8);
+          // result = testMenu();
+          break;
+        case 5:
+          // EXIT
+          clearLines(8);
+          return 3;
+        default:
+          cout << "Error: choice not recognized!" << endl;
+          sleep(SLEEP);
+          clearLines(2);
+          choice = -1;
+      }
     }
+    //clearLines(8);
   }
-  clearLines(8);
-  return choice;
+  return result - 1;
 }
 
 
@@ -873,75 +843,83 @@ void RTIM::stageArgumentsMenu(){
 }
 
 
-void RTIM::preProcessMenu(){
-  int iChoice;
-  double dChoice;
-  string input;
-  cout << string(60,'_') << endl;
-  cout << "Input pre_process arguments" << endl;
-  // asking for max search depth
-  while(1){
-    cout << "> depth (" << maxDepth << "): ";
-    getline(cin, input);
-    if(input != ""){
-      try{
-        iChoice = stoi(input);
+int RTIM::preProcessMenu(){
+  int result = 0;
+  while (result == 0 || result == -1){
+    if(result == 0){ // ask for new arguments
+      int iChoice;
+      double dChoice;
+      string input;
+      cout << string(60,'_') << endl;
+      cout << "Input pre_process arguments" << endl;
+      // asking for max search depth
+      while(1){
+        cout << "> depth (" << maxDepth << "): ";
+        getline(cin, input);
+        if(input != ""){
+          try{
+            iChoice = stoi(input);
 
-        if (iChoice >= 1 && iChoice <= 10000){
-          maxDepth = iChoice;
+            if (iChoice >= 1 && iChoice <= 10000){
+              maxDepth = iChoice;
+              clearLines(1);
+              cout << "> depth (" << maxDepth << "): ";
+              printInColor("yellow", to_string(maxDepth));
+              break;
+            }else{
+              cout << "Error: depth must be int between 1 and 10000!" << endl;
+              sleep(SLEEP);
+              clearLines(2);
+            }
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
           clearLines(1);
           cout << "> depth (" << maxDepth << "): ";
           printInColor("yellow", to_string(maxDepth));
           break;
-        }else{
-          cout << "Error: depth must be int between 1 and 10000!" << endl;
-          sleep(SLEEP);
-          clearLines(2);
         }
-      }catch(invalid_argument& e){
-        cout << "Error: invalid input!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
       }
-    }else{
-      clearLines(1);
-      cout << "> depth (" << maxDepth << "): ";
-      printInColor("yellow", to_string(maxDepth));
-      break;
-    }
-  }
-  // asking for minimum path weight
-  while(1){
-    cout << "> minimum path weight(" << minEdgeWeight << "): ";
-    getline(cin, input);
-    if(input != ""){
-      try{
-        dChoice = stod(input);
-        if (dChoice >= 0 && dChoice <= 1.0){
-          minEdgeWeight = dChoice;
+      // asking for minimum path weight
+      while(1){
+        cout << "> minimum path weight(" << minEdgeWeight << "): ";
+        getline(cin, input);
+        if(input != ""){
+          try{
+            dChoice = stod(input);
+            if (dChoice >= 0 && dChoice <= 1.0){
+              minEdgeWeight = dChoice;
+              clearLines(1);
+              cout << "> minimum path weight(" << minEdgeWeight << "): ";
+              printInColor("yellow", properStringDouble(minEdgeWeight));
+              break;
+            }else{
+              cout << "Error: minimum path weight must be a probability!" << endl;
+              sleep(SLEEP);
+              clearLines(2);
+            }
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
           clearLines(1);
           cout << "> minimum path weight(" << minEdgeWeight << "): ";
           printInColor("yellow", properStringDouble(minEdgeWeight));
           break;
-        }else{
-          cout << "Error: minimum path weight must be a probability!" << endl;
-          sleep(SLEEP);
-          clearLines(2);
         }
-      }catch(invalid_argument& e){
-        cout << "Error: invalid input!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
       }
-    }else{
-      clearLines(1);
-      cout << "> minimum path weight(" << minEdgeWeight << "): ";
-      printInColor("yellow", properStringDouble(minEdgeWeight));
-      break;
+      sleep(SLEEP);
+      clearLines(4);
     }
+    pre_process();
+    result = continueMenu();
   }
-  sleep(SLEEP);
-  clearLines(4);
+  return result - 1;
 }
 
 
@@ -1018,368 +996,194 @@ void RTIM::testPreProcessScoresMenu(){
 }
 
 
-void RTIM::liveMenu(){
-  int iChoice;
-  double dChoice;
-  string input;
-  cout << string(60,'_') << endl;
-  cout << "Input live arguments: [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
-  // asking for seed size
-  while(1){
-    cout << "> seed size (" << maxSeedSize << "): ";
-    getline(cin, input);
-    if(input != ""){
-      try{
-        iChoice = stoi(input);
-        if(iChoice > graph.nodes){
-          cout << "Error: seed size larger than current graph: " << iChoice << " / " << graph.nodes << endl;
-          sleep(SLEEP + 2);
-          clearLines(2);
-        }else{
-          maxSeedSize = iChoice;
-          clearLines(1);
-          cout << "> seed size (" << maxSeedSize << "): ";
-          printInColor("yellow", to_string(maxSeedSize));
-          break;
-        }
-      }catch(invalid_argument& e){
-        cout << "Error: invalid input!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
-      }
-    }else{
-      if(maxSeedSize > graph.nodes){
-        cout << "Error: seed size larger than current graph: " << maxSeedSize << " / " << graph.nodes << endl;
-        sleep(SLEEP + 2);
-        clearLines(2);
-      }else{
-        clearLines(1);
+int RTIM::liveMenu(){
+  int result = 0;
+  while (result == -1 || result == 0){
+    if(result == 0){ // ask for new arguments
+      int iChoice;
+      double dChoice;
+      string input;
+      cout << string(60,'_') << endl;
+      cout << "Input live arguments: [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
+      // asking for seed size
+      while(1){
         cout << "> seed size (" << maxSeedSize << "): ";
-        printInColor("yellow", to_string(maxSeedSize));
-        break;
+        getline(cin, input);
+        if(input != ""){
+          try{
+            iChoice = stoi(input);
+            if(iChoice > graph.nodes){
+              cout << "Error: seed size larger than current graph: " << iChoice << " / " << graph.nodes << endl;
+              sleep(SLEEP + 2);
+              clearLines(2);
+            }else{
+              maxSeedSize = iChoice;
+              clearLines(1);
+              cout << "> seed size (" << maxSeedSize << "): ";
+              printInColor("yellow", to_string(maxSeedSize));
+              break;
+            }
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
+          if(maxSeedSize > graph.nodes){
+            cout << "Error: seed size larger than current graph: " << maxSeedSize << " / " << graph.nodes << endl;
+            sleep(SLEEP + 2);
+            clearLines(2);
+          }else{
+            clearLines(1);
+            cout << "> seed size (" << maxSeedSize << "): ";
+            printInColor("yellow", to_string(maxSeedSize));
+            break;
+          }
+        }
       }
-    }
-  }
-  // asking for reach
-  while(1){
-    cout << "> reach (" << properStringDouble(reach) << "): ";
-    getline(cin, input);
-    if(input != ""){
-      try{
-        dChoice = stof(input);
-        if (dChoice > 0 && dChoice < 100){
-          reach = dChoice;
+      // asking for reach
+      while(1){
+        cout << "> reach (" << properStringDouble(reach) << "): ";
+        getline(cin, input);
+        if(input != ""){
+          try{
+            dChoice = stof(input);
+            if (dChoice > 0 && dChoice < 100){
+              reach = dChoice;
+              clearLines(1);
+              cout << "> reach (" << properStringDouble(reach) << "): ";
+              printInColor("yellow", properStringDouble(reach));
+              break;
+            }else{
+              cout << "Error: expecting int value between 1 and 100!" << endl;
+              sleep(SLEEP);
+              clearLines(2);
+            }
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
           clearLines(1);
           cout << "> reach (" << properStringDouble(reach) << "): ";
           printInColor("yellow", properStringDouble(reach));
           break;
-        }else{
-          cout << "Error: expecting int value between 1 and 100!" << endl;
-          sleep(SLEEP);
-          clearLines(2);
         }
-      }catch(invalid_argument& e){
-        cout << "Error: invalid input!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
       }
-    }else{
-      clearLines(1);
-      cout << "> reach (" << properStringDouble(reach) << "): ";
-      printInColor("yellow", properStringDouble(reach));
-      break;
-    }
-  }
-  // asking for activation probability
-  while(1){
-    cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
-    getline(cin, input);
-    if(input != ""){
-      dChoice = stod(input);
-      if(dChoice >= 0.0 && dChoice <= 1.0){
-        theta_ap = dChoice;
-        clearLines(1);
+      // asking for activation probability
+      while(1){
         cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
-        printInColor("yellow", properStringDouble(theta_ap));
-        break;
-      }else{
-        cout << "Error: Input must be a probability!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
+        getline(cin, input);
+        if(input != ""){
+          dChoice = stod(input);
+          if(dChoice >= 0.0 && dChoice <= 1.0){
+            theta_ap = dChoice;
+            clearLines(1);
+            cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
+            printInColor("yellow", properStringDouble(theta_ap));
+            break;
+          }else{
+            cout << "Error: Input must be a probability!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
+          clearLines(1);
+          cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
+          printInColor("yellow", properStringDouble(theta_ap));
+          break;
+        }
       }
-    }else{
-      clearLines(1);
-      cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
-      printInColor("yellow", properStringDouble(theta_ap));
-      break;
-    }
-  }
-  // asking for stream model
-  while(1){
-    cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
-    getline(cin, input);
-    if(input != ""){
-      if(input == "uniform_rand_repeat" || input == "uniform_rand_no_repeat" || input == "inNOut_repeat"){
-        streamModel = input;
-        clearLines(1);
+      // asking for stream model
+      while(1){
         cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
-        printInColor("yellow", streamModel);
-        break;
-      }else{
-        cout << "Error: Input must be a valid stream model!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
+        getline(cin, input);
+        if(input != ""){
+          if(input == "uniform_rand_repeat" || input == "uniform_rand_no_repeat" || input == "inNOut_repeat"){
+            streamModel = input;
+            clearLines(1);
+            cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+            printInColor("yellow", streamModel);
+            break;
+          }else{
+            cout << "Error: Input must be a valid stream model!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
+          clearLines(1);
+          cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+          printInColor("yellow", streamModel);
+          break;
+        }
       }
-    }else{
-      clearLines(1);
-      cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
-      printInColor("yellow", streamModel);
-      break;
-    }
-  }
-  // asking for stream version
-  while(1){
-    cout << "> stream version [1, 2, 3] (" << streamVersion << "): ";
-    getline(cin, input);
-    if(input != ""){
-      try{
-        iChoice = stoi(input);
-        if(iChoice == 1 || iChoice == 2 || iChoice == 3){
-          streamVersion = iChoice;
+      // asking for stream version
+      while(1){
+        cout << "> stream version [1, 2, 3] (" << streamVersion << "): ";
+        getline(cin, input);
+        if(input != ""){
+          try{
+            iChoice = stoi(input);
+            if(iChoice == 1 || iChoice == 2 || iChoice == 3){
+              streamVersion = iChoice;
+              clearLines(1);
+              cout << "> stream version [1, 2, 3]: ";
+              printInColor("yellow", to_string(streamVersion));
+              break;
+            }else{
+              cout << "Error: stream version doesn't exist!" << endl;
+              sleep(SLEEP);
+              clearLines(2);
+            }
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
           clearLines(1);
           cout << "> stream version [1, 2, 3]: ";
           printInColor("yellow", to_string(streamVersion));
           break;
-        }else{
-          cout << "Error: stream version doesn't exist!" << endl;
-          sleep(SLEEP);
-          clearLines(2);
         }
-      }catch(invalid_argument& e){
-        cout << "Error: invalid input!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
       }
-    }else{
-      clearLines(1);
-      cout << "> stream version [1, 2, 3]: ";
-      printInColor("yellow", to_string(streamVersion));
-      break;
-    }
-  }
-  // asking for stream size
-  while(1){
-    if(graph.nodes > 1000000 && streamSize == -1){
-      streamSize = 1000000;
-    }
-    cout << "> stream size (" << streamSize << "): ";
-    getline(cin, input);
-    if(input != ""){
-      try{
-        iChoice = stoi(input);
-        streamSize = iChoice;
-        clearLines(1);
+      // asking for stream size
+      while(1){
+        if(streamSize == -1){
+          streamSize = graph.nodes / 10;
+        }
         cout << "> stream size (" << streamSize << "): ";
-        printInColor("yellow", to_string(streamSize));
-        break;
-      }catch(invalid_argument& e){
-        cout << "Error: invalid input!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
+        getline(cin, input);
+        if(input != ""){
+          try{
+            iChoice = stoi(input);
+            streamSize = iChoice;
+            clearLines(1);
+            cout << "> stream size (" << streamSize << "): ";
+            printInColor("yellow", to_string(streamSize));
+            break;
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
+          // streamSize = nodes;
+          clearLines(1);
+          cout << "> stream size (" << streamSize << "): ";
+          printInColor("yellow", to_string(streamSize));
+          break;
+        }
       }
-    }else{
-      // streamSize = nodes;
-      clearLines(1);
-      cout << "> stream size (" << streamSize << "): ";
-      printInColor("yellow", to_string(streamSize));
-      break;
+      sleep(SLEEP+1);
+      clearLines(8);
     }
-  }
-  sleep(SLEEP+1);
-  clearLines(8);
-}
 
-
-// TEST LIVE MENU
-void RTIM::testLiveMenu(){
-  int iChoice;
-  double dChoice;
-  string input;
-  cout << string(60,'_') << endl;
-  cout << "Input live arguments: [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
-  // asking for seed size
-  while(1){
-    cout << "> seed size (" << maxSeedSize << "): ";
-    getline(cin, input);
-    if(input != ""){
-      try{
-        iChoice = stoi(input);
-        if(iChoice > graph.nodes){
-          cout << "Error: seed size larger than current graph: " << iChoice << " / " << graph.nodes << endl;
-          sleep(SLEEP + 2);
-          clearLines(2);
-        }else{
-          maxSeedSize = iChoice;
-          clearLines(1);
-          cout << "> seed size (" << maxSeedSize << "): ";
-          printInColor("yellow", to_string(maxSeedSize));
-          break;
-        }
-      }catch(invalid_argument& e){
-        cout << "Error: invalid input!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
-      }
-    }else{
-      if(maxSeedSize > graph.nodes){
-        cout << "Error: seed size larger than current graph: " << maxSeedSize << " / " << graph.nodes << endl;
-        sleep(SLEEP + 2);
-        clearLines(2);
-      }else{
-        clearLines(1);
-        cout << "> seed size (" << maxSeedSize << "): ";
-        printInColor("yellow", to_string(maxSeedSize));
-        break;
-      }
-    }
+    //live();
+    result = continueMenu();
   }
-  // asking for reach
-  while(1){
-    cout << "> reach (" << properStringDouble(reach) << "): ";
-    getline(cin, input);
-    if(input != ""){
-      try{
-        dChoice = stof(input);
-        if (dChoice > 0 && dChoice < 100){
-          reach = dChoice;
-          clearLines(1);
-          cout << "> reach (" << properStringDouble(reach) << "): ";
-          printInColor("yellow", properStringDouble(reach));
-          break;
-        }else{
-          cout << "Error: expecting int value between 1 and 100!" << endl;
-          sleep(SLEEP);
-          clearLines(2);
-        }
-      }catch(invalid_argument& e){
-        cout << "Error: invalid input!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
-      }
-    }else{
-      clearLines(1);
-      cout << "> reach (" << properStringDouble(reach) << "): ";
-      printInColor("yellow", properStringDouble(reach));
-      break;
-    }
-  }
-  // asking for activation probability
-  while(1){
-    cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
-    getline(cin, input);
-    if(input != ""){
-      dChoice = stod(input);
-      if(dChoice >= 0.0 && dChoice <= 1.0){
-        theta_ap = dChoice;
-        clearLines(1);
-        cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
-        printInColor("yellow", properStringDouble(theta_ap));
-        break;
-      }else{
-        cout << "Error: Input must be a probability!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
-      }
-    }else{
-      clearLines(1);
-      cout << "> activation probability threshold (" << properStringDouble(theta_ap) << "): ";
-      printInColor("yellow", properStringDouble(theta_ap));
-      break;
-    }
-  }
-  // asking for stream model
-  while(1){
-    cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
-    getline(cin, input);
-    if(input != ""){
-      if(input == "uniform_rand_repeat" || input == "uniform_rand_no_repeat" || input == "inNOut_repeat"){
-        streamModel = input;
-        clearLines(1);
-        cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
-        printInColor("yellow", streamModel);
-        break;
-      }else{
-        cout << "Error: Input must be a valid stream model!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
-      }
-    }else{
-      clearLines(1);
-      cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
-      printInColor("yellow", streamModel);
-      break;
-    }
-  }
-  // asking for stream version
-  while(1){
-    cout << "> stream version [1, 2, 3] (" << streamVersion << "): ";
-    getline(cin, input);
-    if(input != ""){
-      try{
-        iChoice = stoi(input);
-        if(iChoice == 1 || iChoice == 2 || iChoice == 3){
-          streamVersion = iChoice;
-          clearLines(1);
-          cout << "> stream version [1, 2, 3]: ";
-          printInColor("yellow", to_string(streamVersion));
-          break;
-        }else{
-          cout << "Error: stream version doesn't exist!" << endl;
-          sleep(SLEEP);
-          clearLines(2);
-        }
-      }catch(invalid_argument& e){
-        cout << "Error: invalid input!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
-      }
-    }else{
-      clearLines(1);
-      cout << "> stream version [1, 2, 3]: ";
-      printInColor("yellow", to_string(streamVersion));
-      break;
-    }
-  }
-  // asking for stream size
-  while(1){
-    if(graph.nodes > 1000000 && streamSize == -1){
-      streamSize = 1000000;
-    }
-    cout << "> stream size (" << streamSize << "): ";
-    getline(cin, input);
-    if(input != ""){
-      try{
-        iChoice = stoi(input);
-        streamSize = iChoice;
-        clearLines(1);
-        cout << "> stream size (" << streamSize << "): ";
-        printInColor("yellow", to_string(streamSize));
-        break;
-      }catch(invalid_argument& e){
-        cout << "Error: invalid input!" << endl;
-        sleep(SLEEP);
-        clearLines(2);
-      }
-    }else{
-      // streamSize = nodes;
-      clearLines(1);
-      cout << "> stream size (" << streamSize << "): ";
-      printInColor("yellow", to_string(streamSize));
-      break;
-    }
-  }
-  sleep(SLEEP+1);
-  clearLines(8);
+  return result - 1;
 }
 
 
@@ -1441,44 +1245,6 @@ int RTIM::continueMenu(){
   cout << "   [1] Repeat previous stage with same arguments (" << stage << ")" << endl;
   cout << "   [2] Repeat previous stage with new arguments (" << stage << ")" << endl;
   cout << "   [3] Change stage" << endl;
-  cout << "   [4] Change dataset" << endl;
-  cout << "   [5] End Program" << endl;
-  while(choice == -1){
-    cout << "> choice: ";
-    string val;
-    getline(cin, val);
-    choice = stoi(val);
-    switch(choice){
-      case 1:
-        break;
-      case 2:
-        break;
-      case 3:
-        break;
-      case 4:
-        break;
-      case 5:
-        clearLines(8);
-        cout << "Programming ending: \"Have a nice day!\"      "<< endl;
-        return -1;
-      default:
-        cout << "Error: choice not recognized!" << endl;
-        choice = -1;
-        clearLines(2);
-    }
-  }
-  clearLines(8);
-  return choice;
-}
-
-
-void RTIM::testContinueMenu(){
-  int choice = -1;
-  cout << string(60, '_') << endl;
-  cout << "Continue: " << endl;
-  cout << "   [1] Repeat previous stage with same arguments (" << stage << ")" << endl;
-  cout << "   [2] Repeat previous stage with new arguments (" << stage << ")" << endl;
-  cout << "   [3] Change stage" << endl;
   cout << "   [4] Change algorithm" << endl;
   cout << "   [5] Change dataset" << endl;
   cout << "   [6] Main Menu" << endl;
@@ -1490,38 +1256,45 @@ void RTIM::testContinueMenu(){
     choice = stoi(val);
     switch(choice){
       case 1:
-        // pre_process()
-        break;
+        // repeat stage with same arguments
+        clearLines(10);
+        return -1;
       case 2:
-        testPreProcessScoresMenu();
-        break;
+        // repeat stage with new arguments
+        clearLines(10);
+        return 0;
       case 3:
-        stagesMenu();
-        break;
+        // choose stage
+        clearLines(10);
+        return 1;
       case 4:
         // change algorithm
-        // return val
-        break;
+        clearLines(10);
+        return 2;
       case 5:
         // change dataset
-        // return val
+        clearLines(10);
+        return 3;
+      case 6:
+        // go to main menu
+        clearLines(10);
+        return 4;
       case 7:
         // exit program
-        // return val
-        clearLines(8);
-        cout << "Programming ending: \"Have a nice day!\"      "<< endl;
-        // return -1;
+        clearLines(10);
+        return 5;
       default:
         cout << "Error: choice not recognized!" << endl;
         choice = -1;
         clearLines(2);
     }
   }
-  clearLines(8);
+  // clearLines(10);
 }
 
 
-void RTIM::run(){
+int RTIM::run(){
+  return stagesMenu();
 //   cout << endl;
 //   printLocalTime("red", "Program", "starting");
 //   int choice = 0;
@@ -1625,109 +1398,6 @@ void RTIM::run(){
 //
 //   printLocalTime("red", "Program", "ending");
 //   cout << endl;
-}
-
-
-void RTIM::runTest(){
-//   cout << endl;
-//   cout << ">>> TEST RUN <<<" << endl;
-//   printLocalTime("red", "Program", "starting");
-//   int choice = 0;
-//   int loadDataset;
-//   int loadScores;
-//   while (choice != -1){
-//     loadScores = 0;
-//     loadDataset = 0;
-//     switch(choice){
-//       case 1:
-//         // repeat previous stage with same arguments
-//         break;
-//       case 2:
-//         // repeat previous stage with new arguments
-//         stageArgumentsMenu();
-//         printStageParams();
-//         break;
-//       case 3:
-//         // change stage
-//         stageMenu();
-//         stageArgumentsMenu();
-//         printStageParams();
-//         break;
-//       case 4:
-//         // change dataset
-//         loadDataset = datasetMenu();
-//         loadScores = 1; // inf. scores need to be imported for new dataset
-//         // args.printDatasetArguments(graph.nodes, graph.edges);
-//         stageMenu();
-//         stageArgumentsMenu();
-//         printStageParams();
-//         break;
-//       default:
-//         // choose dataset
-//         loadDataset = datasetMenu();
-//         loadScores = 1; // inf. scores need to be imported for new dataset
-//         // args.printDatasetArguments(graph.nodes, graph.edges);
-//         stageMenu();
-//         stageArgumentsMenu();
-//         printStageParams();
-//         break;
-//     }
-//     if(stage == "test"){
-//       loadDataset = false; // ?
-//     }
-//     if(loadDataset){
-//       // graph.args = args;
-//       graph.graph.resize(graph.nodes);
-//       graph.loadGraph();
-//       clearLines(3);
-//     }
-//     if (stage == "pre"){
-//       printInColor("magenta", string(60,'-'));
-//       printLocalTime("magenta", "Pre_processing", "starting");
-//       //
-//       cout << "Pre-process is running..." << endl;
-//       //
-//       printLocalTime("magenta", "Pre_processing", "ending");
-//       printInColor("magenta", string(60,'-'));
-//     }else if (stage == "live"){
-//       cout << "Initialize influence scores is running..." << endl;
-//       printInColor("magenta", string(60,'-'));
-//       printLocalTime("magenta", "Live", "starting");
-//       //
-//       cout << "Live is running..." << endl;
-//       //
-//       printLocalTime("magenta", "Live", "ending");
-//       printInColor("magenta", string(60,'-'));
-//     }else if (stage == "compute_seed_score"){
-//       printInColor("magenta", string(60,'-'));
-//       printLocalTime("magenta", "Compute seed score", "starting");
-//       //
-//       cout << "Computing seed score is running..." << endl;
-//       //
-//       printLocalTime("magenta", "Compute seed score", "ending");
-//       printInColor("magenta", string(60,'-'));
-//     }else if (stage == "test"){
-//       printInColor("magenta", string(60,'-'));
-//       printLocalTime("magenta", "Test", "starting");
-//       //
-//       cout << "Test is running..." << endl;
-//       //
-//       printLocalTime("magenta", "Test", "ending");
-//       printInColor("magenta", string(60,'-'));
-//     } else{
-//       cout << "Error! stage not recognized: " << stage << endl;
-//       exit(1);
-//     }
-//     choice = continueMenu();
-//   }
-//
-//   printLocalTime("red", "Program", "ending");
-//   cout << endl;
-}
-
-
-void RTIM::rtimRun(){
-  stagesMenu();
 }
 
 

@@ -60,7 +60,7 @@ public:
   int datasetsMenu();
 
 
-  int algorithmMenu();
+  int algorithmsMenu();
 
 
   int experimentsMenu();

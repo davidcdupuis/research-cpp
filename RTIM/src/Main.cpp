@@ -119,92 +119,100 @@ int Main::experimentsContinueMenu(){
 
 
 int Main::datasetsMenu(){
-  int lines = datasetNames.size() + 2;
-  int choice = -1;
-  string dataset;
-  cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
-  // if(args.dataset != "" && graph.graph.size() != 0){
-  //   cout << "Current imported dataset: " << args.dataset << endl;
-  //   lines++;
-  // }
+  int result = 0;
+  while (result == 0){
+    int lines = datasetNames.size() + 2;
+    int choice = -1;
+    string dataset;
+    cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
+    // if(args.dataset != "" && graph.graph.size() != 0){
+    //   cout << "Current imported dataset: " << args.dataset << endl;
+    //   lines++;
+    // }
 
-  for (int i = 0; i < datasetNames.size(); i++){
-    cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + datasetNames[i];
-    cout << "(";
-    cout << right << setw(14) << cleanLongInt(datasetNodes[i]);
-    cout << ",";
-    cout << right << setw(14) << cleanLongInt(datasetEdges[i]);
-    cout << ")" << endl;
-  }
-  while(1){
-    cout <<  "> choice: ";
-    string val;
-    getline(cin, val);
-    choice = stoi(val);
-    dataset = datasetNames[choice];
-    if(dataset != "test" && dataset != "nethept" && dataset != "dblp" && dataset != "orkut" && dataset != "youtube" && dataset != "twitter" && dataset != "livejournal"){
-      cout << "Dataset not recognized: " << dataset << endl;
-      sleep(SLEEP);
-      clearLines(2);
-    } else if (dataset == dataset){
-      cout << "Dataset has already been imported!" << endl;
-      sleep(SLEEP);
-      // return 0;
-    }else{
-      graph.dataset = dataset;
-      graph.datasetDir = "../../data/" + graph.dataset; //necessary to readAttributes
-      graph.readAttributes();
-      // graph.nodes = args.datasetNodes[choice];
-      // graph.edges = args.datasetEdges[choice];
-      // nodes = graph.nodes;
-      // args.streamSize = nodes / 10;
-      break;
+    for (int i = 0; i < datasetNames.size(); i++){
+      cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + datasetNames[i];
+      cout << "(";
+      cout << right << setw(14) << cleanLongInt(datasetNodes[i]);
+      cout << ",";
+      cout << right << setw(14) << cleanLongInt(datasetEdges[i]);
+      cout << ")" << endl;
     }
+    while(1){
+      cout <<  "> choice: ";
+      string val;
+      getline(cin, val);
+      choice = stoi(val);
+
+      if(datasetNames[choice] != "test" && datasetNames[choice] != "nethept" && datasetNames[choice] != "dblp" && datasetNames[choice] != "orkut" && datasetNames[choice] != "youtube" && datasetNames[choice] != "twitter" && datasetNames[choice] != "livejournal"){
+        cout << "Dataset not recognized: " << datasetNames[choice] << endl;
+        sleep(SLEEP);
+        clearLines(2);
+      } else if (dataset == datasetNames[choice]){
+        cout << "Dataset has already been imported!" << endl;
+        sleep(SLEEP);
+        // return 0;
+      }else{
+        graph.dataset = datasetNames[choice];
+        graph.datasetDir = "../../data/" + graph.dataset; //necessary to readAttributes
+        graph.readAttributes();
+        // graph.nodes = args.datasetNodes[choice];
+        // graph.edges = args.datasetEdges[choice];
+        // nodes = graph.nodes;
+        // args.streamSize = nodes / 10;
+        break;
+      }
+    }
+    clearLines(lines);
+    printDatasetArguments();
+    result = algorithmsMenu();
   }
-  clearLines(lines);
-  printDatasetArguments();
-  algorithmMenu();
-  // return 1;
+  return result - 1;
 }
 
 
-int Main::algorithmMenu(){
-  int choice = -1;
-  cout << string(24,'_') + " Algorithms " + string(24,'_') << endl;
-  cout << "\t[1] RTIM" << endl;
-  cout << "\t[2] IMM" << endl;
-  cout << "\t[3] Compute Score"<< endl;
-  cout << "\t[4] Test" << endl;
-  cout << "\t[5] EXIT" << endl;
-  while (choice == -1){
-    cout <<  "> choice: ";
-    string val;
-    getline(cin, val);
-    choice = stoi(val);
-    switch(choice){
-      case 1:
-        // run rtim
-        // rtim.stageMenu();
-        break;
-      case 2:
-        // run imm
-        // imm.run();
-        break;
-      case 3:
-        // run compute score
-        break;
-      case 4:
-        // run test
-        break;
-      case 5:
-        // exit
-      default:
-        cout << "Error choice not recognized!" << endl;
-        sleep(2);
-        clearLines(2);
-        choice = -1;
+int Main::algorithmsMenu(){
+  int result = 0;
+  while(result == 0){
+    int choice = -1;
+    cout << string(24,'_') + " Algorithms " + string(24,'_') << endl;
+    cout << "\t[1] RTIM" << endl;
+    cout << "\t[2] IMM" << endl;
+    cout << "\t[3] Compute Score"<< endl;
+    cout << "\t[4] Test" << endl;
+    cout << "\t[5] EXIT" << endl;
+    while (choice == -1){
+      cout <<  "> choice: ";
+      string val;
+      getline(cin, val);
+      choice = stoi(val);
+      switch(choice){
+        case 1:
+          // run rtim
+          clearLines(7);
+          result = rtim.run();
+          break;
+        case 2:
+          // run imm
+          // imm.run();
+          break;
+        case 3:
+          // run compute score
+          break;
+        case 4:
+          // run test
+          break;
+        case 5:
+          // exit
+        default:
+          cout << "Error choice not recognized!" << endl;
+          sleep(2);
+          clearLines(2);
+          choice = -1;
+      }
     }
   }
+  return result - 1;
 }
 
 

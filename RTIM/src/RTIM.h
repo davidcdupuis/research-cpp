@@ -259,11 +259,6 @@ public:
     *    RUN
     */
 
-  /**
-    * Menu to get desired stage
-    */
-  void stageMenu();
-
 
   /**
     * Menu to get stage arguments
@@ -274,13 +269,13 @@ public:
   /**
     * Menu to input pre-processing stage arguments
     */
-  void preProcessMenu();
+  int preProcessMenu();
 
 
   /**
     * Menu to input live stage arguments
     */
-  void liveMenu();
+  int liveMenu();
 
 
   /**
@@ -298,11 +293,7 @@ public:
   /**
     * Function to run program
     */
-  void run();
-
-
-  void runTest();
-
+  int run();
 
   int stagesMenu();
 
