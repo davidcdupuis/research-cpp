@@ -921,7 +921,10 @@ int RTIM::preProcessMenu(){
       graph.loadGraph();
       graph.loaded = true;
     }
+    printInColor("magenta", string(60, '-'));
+    printLocalTime("magenta", "Pre_processing", "starting");
     pre_process();
+    printLocalTime("magenta", "Pre_processing", "ending");
     result = continueMenu();
   }
   return result - 1;
@@ -1185,17 +1188,20 @@ int RTIM::liveMenu(){
       clearLines(8);
     }
     printStageParams();
-    // if(loadScores){
-    //   initializeInfluenceScores();
-    //   loadScores = false;
-    // }
     if(!graph.loaded){
       graph.loadGraph();
       graph.loaded = true;
     }
-    initializeInfluenceScores();
+    if(infScores.size() == 0 || infScores.size() != graph.nodes){
+      initializeInfluenceScores();
+    }
+
     // cout << graph.graph.size() << endl;
+    printInColor("magenta", string(60, '-'));
+    printLocalTime("magenta", "Live", "starting");
     live();
+    printLocalTime("magenta", "Live", "ending");
+    printInColor("magenta", string(60, '-'));
     result = continueMenu();
   }
   return result - 1;
