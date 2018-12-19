@@ -46,7 +46,7 @@ RTIM::RTIM(Graph& g):graph(g){
 
 void RTIM::importIMMSeed(){
   immTargeted.resize(graph.nodes, 0);
-  string path = "../../data/" + graph.dataset + "/imm/basic/" + datasets[graph.dataset] + "_k" + to_string(maxSeedSize) + "_e" + "0,1" + "_ss.txt";
+  string path = "../../data/" + graph.dataset + "/imm/basic/" + datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_e" + "0,1" + "_ss.txt";
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << endl;
     exit(1);
@@ -1446,19 +1446,19 @@ string RTIM::generateDataFilePath(string type){
 string RTIM::generateFileName(string type, int param){
   string file_name = "";
   if (type == "save_infScores"){
-    file_name = datasets[graph.dataset] + "_d" + properStringDouble(maxDepth) + "_m" + properStringDouble(minEdgeWeight) + "_infS.txt";
+    file_name = datasets[graph.dataset]["id"] + "_d" + properStringDouble(maxDepth) + "_m" + properStringDouble(minEdgeWeight) + "_infS.txt";
   }else if (type == "get_infScores"){
-    file_name = datasets[graph.dataset] + "_infS.txt";
+    file_name = datasets[graph.dataset]["id"] + "_infS.txt";
   }else if (type == "rtim_seedSet"){
-    file_name = datasets[graph.dataset] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_ss" + to_string(param) + ".txt";
+    file_name = datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_ss" + to_string(param) + ".txt";
   }else if (type == "rtim_progress_seedSet"){
-    file_name = datasets[graph.dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_prg" + to_string(param) + "_ss.txt";
+    file_name = datasets[graph.dataset]["id"] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_prg" + to_string(param) + "_ss.txt";
   }else if (type == "stream"){
-    file_name = datasets[graph.dataset] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_st.txt";
+    file_name = datasets[graph.dataset]["id"] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_st.txt";
   }else if (type == "rtim_progress"){
-    file_name = datasets[graph.dataset] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
+    file_name = datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
   }else if (type == "stream_log"){
-    file_name = datasets[graph.dataset] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.log";
+    file_name = datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.log";
   }
   return file_name;
 }

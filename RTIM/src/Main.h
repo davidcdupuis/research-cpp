@@ -16,7 +16,7 @@
 
 class Main{
 public:
-  // std::map<std::string, std::string> datasets = {
+  std::map<std::string, std::map<std::string, std::string> > datasets;// = {
   //   { "test", "TS" },
   //   { "nethept", "NE" },
   //   { "dblp", "DB" },
@@ -36,10 +36,10 @@ public:
   // };
   std::string algorithm;            // [rtim, imm, compute_score, test]
   int datasetChoice;
-  std::vector<std::string> datasetNames;
-  std::vector<std::string> datasetIds;
-  std::vector<int> datasetNodes;
-  std::vector<int> datasetEdges;
+  // std::vector<std::string> datasetNames;
+  // std::vector<std::string> datasetIds;
+  // std::vector<int> datasetNodes;
+  // std::vector<int> datasetEdges;
 
   Graph graph;
   RTIM rtim;

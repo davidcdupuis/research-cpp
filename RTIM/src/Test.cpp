@@ -14,7 +14,7 @@ public:
 
 class Algorithm{
 public:
-  std::map<std::string, std::map<std::string, std::string>> datasets;
+  std::map<std::string, std::map<std::string, std::string> > datasets;
   Graph& graph;
   Algorithm(Graph& g);
 
@@ -36,8 +36,7 @@ Algorithm::Algorithm(Graph& g):graph(g){
 
 void Algorithm::loadDatasets(){
   string path = "../../data/datasets.txt";
-  string name, id;
-  int nodes, edges;
+  string name, id, nodes, edges;
   ifstream infile(path.c_str());
   while(infile >> name >> id >> nodes >> edges){
     map<string, string> tmpMap;
@@ -50,11 +49,16 @@ void Algorithm::loadDatasets(){
     // datasetNodes.push_back(nodes);
     // datasetEdges.push_back(edges);
   }
-  for(auto it = datasets.cbegin(); it != datasets.cend(); ++it){
-    for(auto it2 = datasets.first.cbegin(); it2 != datasets.first.cend(); ++it2){
-      std::cout << it->first << " => " << it2->first << " => " << it2->second << "\n";
-    }
+  for(auto it = datasets.begin(); it != datasets.end(); ++it){
+    cout << it->first << " : " << endl;
+    cout << "\t - id : " << it->second["id"] << endl;
+    cout << "\t - nodes : " << it->second["nodes"] << endl;
+    cout << "\t - edges : " << it->second["edges"] << endl;
   }
+  // cout << "nethept: " << endl;
+  // cout << " - id: "<< datasets["nethept"]["id"] << endl;
+  // cout << " - nodes: " << datasets["nethept"]["nodes"] << endl;
+  // cout << " - nodes: " << datasets["nethept"]["edges"] << endl;
 }
 
 Main::Main(Graph& g, Algorithm& a):graph(g),algo(a){

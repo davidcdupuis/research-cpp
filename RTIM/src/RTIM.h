@@ -26,15 +26,7 @@
 */
 class RTIM{
 public:
-  std::map<std::string, std::string> datasets = {
-    { "test", "TS" },
-    { "nethept", "NE" },
-    { "dblp", "DB" },
-    { "youtube", "YO" },
-    { "livejournal", "LJ" },
-    { "orkut", "OR" },
-    { "twitter", "TW"}
-  };
+  std::map<std::string, std::map<std::string, std::string> > datasets;
   std::map<std::string, std::string> keyword = {
     { "infScores", "infS"},
     { "seedSet", "ss"},

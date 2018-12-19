@@ -14,15 +14,16 @@ Main::Main():graph(),rtim(graph){
 void Main::loadDatasetsData(){
   // check existence of file
   string path = "../../data/datasets.txt";
-  string name, id;
-  int nodes, edges;
+  string name, id, nodes, edges;
   ifstream infile(path.c_str());
   while(infile >> name >> id >> nodes >> edges){
-    datasetNames.push_back(name);
-    datasetIds.push_back(id);
-    datasetNodes.push_back(nodes);
-    datasetEdges.push_back(edges);
+    map<string, string> tmpMap;
+    tmpMap.insert(pair<string, string>("id", id));
+    tmpMap.insert(pair<string, string>("nodes", nodes));
+    tmpMap.insert(pair<string, string>("edges", edges));
+    datasets.insert(pair<string, map<string, string> >(name, tmpMap));
   }
+  rtim.datasets = datasets;
 }
 
 
@@ -121,7 +122,7 @@ int Main::experimentsContinueMenu(){
 int Main::datasetsMenu(){
   int result = 0;
   while (result == 0){
-    int lines = datasetNames.size() + 2;
+    int lines = datasets.size() + 2;
     int choice = -1;
     string dataset;
     cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
@@ -130,30 +131,38 @@ int Main::datasetsMenu(){
     //   lines++;
     // }
 
-    for (int i = 0; i < datasetNames.size(); i++){
-      cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + datasetNames[i];
+    // for (int i = 0; i < datasetNames.size(); i++){
+    //   cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + datasetNames[i];
+    //   cout << "(";
+    //   cout << right << setw(14) << cleanLongInt(datasetNodes[i]);
+    //   cout << ",";
+    //   cout << right << setw(14) << cleanLongInt(datasetEdges[i]);
+    //   cout << ")" << endl;
+    // }
+    for(auto it = datasets.begin(); it != datasets.end(); ++it){
+      cout << "\t" << left << setw(17) << it->first;
       cout << "(";
-      cout << right << setw(14) << cleanLongInt(datasetNodes[i]);
+      cout << right << setw(14) << cleanLongInt(stoi(it->second["nodes"]));
       cout << ",";
-      cout << right << setw(14) << cleanLongInt(datasetEdges[i]);
+      cout << right << setw(14) << cleanLongInt(stoi(it->second["edges"]));
       cout << ")" << endl;
     }
     while(1){
-      cout <<  "> choice: ";
+      cout <<  "> dataset name: ";
       string val;
       getline(cin, val);
-      choice = stoi(val);
+      // choice = stoi(val);
 
-      if(datasetNames[choice] != "test" && datasetNames[choice] != "nethept" && datasetNames[choice] != "dblp" && datasetNames[choice] != "orkut" && datasetNames[choice] != "youtube" && datasetNames[choice] != "twitter" && datasetNames[choice] != "livejournal"){
-        cout << "Dataset not recognized: " << datasetNames[choice] << endl;
+      if(val != "test" && val != "nethept" && val != "dblp" && val != "orkut" && val != "youtube" && val != "twitter" && val != "livejournal"){
+        cout << "Dataset not recognized: " << val << endl;
         sleep(SLEEP);
         clearLines(2);
-      } else if (dataset == datasetNames[choice]){
+      } else if (dataset == val){
         cout << "Dataset has already been imported!" << endl;
         sleep(SLEEP);
         // return 0;
       }else{
-        graph.dataset = datasetNames[choice];
+        graph.dataset = val;
         graph.datasetDir = "../../data/" + graph.dataset; //necessary to readAttributes
         graph.loaded = false;
         graph.readAttributes();
