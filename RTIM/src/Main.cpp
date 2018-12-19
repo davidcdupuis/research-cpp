@@ -178,9 +178,9 @@ int Main::algorithmsMenu(){
     int choice = -1;
     cout << string(24,'_') + " Algorithms " + string(24,'_') << endl;
     cout << "\t[1] RTIM" << endl;
-    cout << "\t[2] IMM" << endl;
-    cout << "\t[3] Compute Score"<< endl;
-    cout << "\t[4] Test" << endl;
+    cout << "\t[2] IMM (not available)" << endl;
+    cout << "\t[3] Compute Score (not available)"<< endl;
+    cout << "\t[4] Test (not available)" << endl;
     cout << "\t[5] EXIT" << endl;
     while (choice == -1){
       cout <<  "> choice: ";

@@ -1,0 +1,7 @@
+infScores infS
+seedSet ss
+stream st
+uniform_rand_repeat urr
+uniform_rand_no_repeat urnr
+inNOut_repeat inoutr
+progress prg

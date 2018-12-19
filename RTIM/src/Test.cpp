@@ -1,5 +1,8 @@
 #include <string>
 #include <iostream>
+#include <map>
+#include <fstream>
+
 
 using namespace std;
 
@@ -11,8 +14,11 @@ public:
 
 class Algorithm{
 public:
+  std::map<std::string, std::map<std::string, std::string>> datasets;
   Graph& graph;
   Algorithm(Graph& g);
+
+  void loadDatasets();
 };
 
 class Main{
@@ -28,6 +34,29 @@ Algorithm::Algorithm(Graph& g):graph(g){
   // graph = g;
 }
 
+void Algorithm::loadDatasets(){
+  string path = "../../data/datasets.txt";
+  string name, id;
+  int nodes, edges;
+  ifstream infile(path.c_str());
+  while(infile >> name >> id >> nodes >> edges){
+    map<string, string> tmpMap;
+    tmpMap.insert(pair<string, string>("id", id));
+    tmpMap.insert(pair<string, string>("nodes", nodes));
+    tmpMap.insert(pair<string, string>("edges", edges));
+    datasets.insert(pair<string, map<string, string> >(name, tmpMap));
+    // datasetNames.push_back(name);
+    // datasetIds.push_back(id);
+    // datasetNodes.push_back(nodes);
+    // datasetEdges.push_back(edges);
+  }
+  for(auto it = datasets.cbegin(); it != datasets.cend(); ++it){
+    for(auto it2 = datasets.first.cbegin(); it2 != datasets.first.cend(); ++it2){
+      std::cout << it->first << " => " << it2->first << " => " << it2->second << "\n";
+    }
+  }
+}
+
 Main::Main(Graph& g, Algorithm& a):graph(g),algo(a){
   // graph = g;
 }
@@ -36,13 +65,5 @@ int main(){
   Graph graph = Graph();
   graph.dataset = "nethept";
   Algorithm algo = Algorithm(graph);
-  Main main = Main(graph, algo);
-  cout << "graph: " << graph.dataset << endl;
-  cout << "algo: " << algo.graph.dataset << endl;
-  cout << "main: " << main.graph.dataset << endl;
-  cout << "--------------" << endl;
-  main.graph.dataset = "new dataset";
-  cout << "graph: " << graph.dataset << endl;
-  cout << "algo: " << algo.graph.dataset << endl;
-  cout << "main: " << main.graph.dataset << endl;
+  algo.loadDatasets();
 }
