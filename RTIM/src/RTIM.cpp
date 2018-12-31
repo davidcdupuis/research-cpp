@@ -499,49 +499,6 @@ void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, 
   // printInColor("cyan", "Live CSV saved!");
 }
 
-// void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, double& runtime, double& score){
-//   string path = "../../data/" + graph.dataset + "/logs/";
-//   if (!pathExists(path)){
-//     cerr << "Error path doesn't exist: " << path << endl;
-//     exit(1);
-//   }
-//   path += "seed_set_score.log";
-//   printInColor("cyan", "Saving seed score log to: " + path);
-//   ofstream seedScoreLogFile;
-//   seedScoreLogFile.open(path, fstream::app);
-//   seedScoreLogFile << "File name  : " << file << endl;
-//   seedScoreLogFile << "Start date : " << startDate << endl;
-//   seedScoreLogFile << "End date   : " << endDate << endl;
-//   seedScoreLogFile << "Runtime    : " << runtime << endl;
-//   seedScoreLogFile << "Seed size  : " << seedSet.size() << endl;
-//   seedScoreLogFile << "Inf. score : " << score << endl;
-//   seedScoreLogFile << "-----------------------------------------------" << endl;
-//   seedScoreLogFile.close();
-// }
-//
-//
-// void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, double& runtime, double& score){
-//   string path = "../../data/" + graph.dataset + "/logs/";
-//   if (!pathExists(path)){
-//     cerr << "Error path doesn't exist: " << path << endl;
-//     exit(1);
-//   }
-//   path += "seed_set_score.csv";
-//   printInColor("cyan", "Saving seed score csv to: " + path);
-//
-//   // dataset,file_name, startDate, endDate, runtime, seed size, score
-//   ofstream seedScoreCSVFile;
-//   seedScoreCSVFile.open(path, fstream::app);
-//   seedScoreCSVFile << graph.dataset << ",";
-//   seedScoreCSVFile << file << ",";
-//   seedScoreCSVFile << startDate << ",";
-//   seedScoreCSVFile << endDate << ",";
-//   seedScoreCSVFile << runtime << ",";
-//   seedScoreCSVFile << seedSet.size() << ",";
-//   seedScoreCSVFile << score << endl;
-//   seedScoreCSVFile.close();
-// }
-
 void RTIM::initiateProgressLog(){
   string path = generateDataFilePath("rtim_progress");
   if (!pathExists(path)){

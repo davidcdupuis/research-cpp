@@ -102,10 +102,8 @@ public:
   // Save seed set to appropriate file
   void saveSeedSet(bool progress = false, int progPercentage = 0);
 
-
   // Import seed set at file_path starting a ../../data/<dataset>
   void importSeedSet(std::string file_path);
-
 
   // Function to test seed set at path ../../data/<dataset>/
   void seedSetTest(std::string file_path);
@@ -161,7 +159,6 @@ public:
     */
   int print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save);
 
-
   /** Computes the influence score threshold index based on reach
     *
     * @param sorted: array of sorted influence scores
@@ -181,8 +178,7 @@ public:
   // Menu to input live stage arguments
   int liveMenu(std::string prevClass);
 
-  /**
-    * Menu to decide if user would like to continue program or quit
+  /** Menu to decide if user would like to continue program or quit
     * return -1 if quit
     */
   int continueMenu(std::string prevClass);
