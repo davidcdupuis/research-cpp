@@ -67,14 +67,9 @@ public:
 
   RTIM(Graph& g);
 
-  /**
-    *     PRE-PROCESSING
-    *       FUNCTIONS
-    *
-    */
+  // PRE-PROCESSING FUNCTIONS
 
-  /**
-    * Pre-processing stage
+  /** Pre-processing stage
     * Compute influence score of every user in graph
     *
     * @param graph: user influence network to use
@@ -82,79 +77,47 @@ public:
     */
   void pre_process();//const Graph& graph);
 
-  /**
-    *
-    */
+  // void updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth);
+
   void initializeInfluenceScores();
 
-
-  /**
-    * Print influence scores
-    */
+  // Print influence scores
   void printScores();
 
-  /**
-    * Saves influence scores to appropriate file
-    */
+  // Saves influence scores to appropriate file
   void saveScores();
-
 
   void printStageParams();
 
-  /**
-    *        LIVE
-    *      FUNCTIONS
-    *
+  // LIVE FUNCTIONS
+
+  /** Live stage
+    * For stream of user decide to target, if targeted update activation
+    * probability of neighboring nodes
     */
-
-  /**
-   * Live stage
-   * For stream of user decide to target, if targeted update activation
-   * probability of neighboring nodes
-   *
-   * @param graph
-   * @param max_size
-   * @param model
-   * @param version
-   * @param size
-   * @param ap
-   * @param infReach
-   *
-   */
   void live();
-
 
   void importIMMSeed();
 
-
-  /**
-    * Save seed set to appropriate file
-    */
+  // Save seed set to appropriate file
   void saveSeedSet(bool progress = false, int progPercentage = 0);
 
 
-  /**
-    * Import seed set at file_path starting a ../../data/<dataset>
-    */
+  // Import seed set at file_path starting a ../../data/<dataset>
   void importSeedSet(std::string file_path);
 
 
-  /**
-    * Function to test seed set at path ../../data/<dataset>/
-    */
+  // Function to test seed set at path ../../data/<dataset>/
   void seedSetTest(std::string file_path);
 
-  /**
-    * Save live log data to file
+  /** Save live log data to file
     *
     * @param maxTime
     * @param runtime
     */
   void saveLiveLog(double& maxTime, double& runtime, std::string startDatetime, std::string endDatetime);
 
-
-  /**
-    * Save live data to CSV file
+  /** Save live data to CSV file
     *
     * @param graph
     * @param streamTime
@@ -163,21 +126,12 @@ public:
     */
   void saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, double& runtime);
 
-
-  // void saveSeedScoreLog(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
-  //
-  //
-  // void saveSeedScoreCSV(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
-
-  /**
-    * Initiate progress log file with header
+  /** Initiate progress log file with header
     * progress | seen | stream size | seed size
-    *
     */
   void initiateProgressLog();
 
-  /**
-    * Save progress number of targeted seed nodes
+  /** Save progress number of targeted seed nodes
     *
     * @param progress   : % of users seen in stream
     * @param seen       : number of users seen in stream
@@ -185,35 +139,18 @@ public:
     */
   void saveProgress(int user_index, double ap, double score, int seen, double infTheta, int seedSize);
 
-
-  /**
-    * Initiate stream log file with head
+  /** Initiate stream log file with head
     * stream_position | status | user_index | old_ap | ap | score | theta_score | ...
-    *  
     */
   void initiateStreamLog();
 
-
-  /**
-    * Save stream log
-    */
+  // Save stream log
   void saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, std::string rtim_status, int seedSize, int imm_targeted, int inDeg, int outDeg);
 
-  /**
-    * Import influence scores
-    */
+  // Import influence scores
   void importScores();
 
-
-  /**
-    * Save influence scores
-    *
-    * @param fileName
-    */
-  // void saveToCSV(std::string fileName);
-
-  /**
-    * Print progress
+  /** Print progress
     *
     * @param nb_threads
     * @param finishedProcess
@@ -225,92 +162,28 @@ public:
   int print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save);
 
 
-  /**
-    * Computes the influence score threshold index based on reach
+  /** Computes the influence score threshold index based on reach
     *
     * @param sorted: array of sorted influence scores
     */
   void getInfIndex(std::vector<double> & sorted);
 
-  // /**
-  //   * Compute number of outgoing neighbors and save to file
-  //   */
-  // void outgoing();
-  //
-  // /**
-  //   * Merges outgoing file with influence score of defined file
-  //   */
-  // void mergeOutgoingScores();
+  int run(std::string prevClass);
 
+  // Menu to get stage arguments
+  int stagesMenu(std::string prevClass);
 
-  /**
-    * Test time to compute score of a seed set
-    */
-  void seedComputationTest(int seedSize, int depth=10000, double minEdgeWeight=1.0);
-
-  /**
-    *    RTIM
-    *    RUN
-    */
-
-
-  /**
-    * Menu to get stage arguments
-    */
-  void stageArgumentsMenu(std::string prevClass);
-
-
-  /**
-    * Menu to input pre-processing stage arguments
-    */
+  // Menu to input pre-processing stage arguments
   int preProcessMenu(std::string prevClass);
 
-
-  /**
-    * Menu to input live stage arguments
-    */
+  // Menu to input live stage arguments
   int liveMenu(std::string prevClass);
-
-
-  /**
-    * Menu to input compute seed score arguments
-    */
-  void computeSeedScoreMenu();
 
   /**
     * Menu to decide if user would like to continue program or quit
     * return -1 if quit
     */
   int continueMenu(std::string prevClass);
-
-
-  /**
-    * Function to run program
-    */
-  int run(std::string prevClass);
-
-  int stagesMenu(std::string prevClass);
-
-  void testPreProcessScoresMenu();
-
-  void testLiveMenu();
-
-  void testContinueMenu();
-
-  void rtimRun();
-
-  /**
-    *     MAIN
-    *     CLASS
-    */
-  void mainMenu();
-
-
-  // /**
-  //   * Menu to get desired dataset
-  //   * returns 0 if a new dataset needs to be imported else 1
-  //   */
-  // int datasetMenu();
 
   std::string generateDataFilePath(std::string type);
 

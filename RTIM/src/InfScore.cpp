@@ -138,7 +138,7 @@ int InfScore::monteCarloMenu(string prevClass){
       }
     }
     // if necessary import graph
-    // if necessary import seedSet 
+    // if necessary import seedSet
     double score;
     printInColor("magenta", string(60, '-'));
     printLocalTime("magenta", "Computing Monte Carlo score", "starting");
@@ -153,6 +153,56 @@ int InfScore::monteCarloMenu(string prevClass){
     return result - 1;
   }
 }
+
+// void RTIM::computeSeedScoreMenu(){
+//   // seedSet.clear(); //in case it's a re-run
+//   int choice = -1;
+//   string file_path = "../../data/" + graph.dataset + "/";
+//   cout << string(60,'_') << endl;
+//   cout << "Choose a folder: " << endl;
+//   cout << "   [1] rtim/live/" << endl;
+//   cout << "   [2] imm/basic/" << endl;
+//   cout << "   [3] imm/" << endl;
+//   while(choice == -1){
+//     cout <<  "> choice: ";
+//     string val;
+//     getline(cin, val);
+//     choice = stoi(val);
+//     switch(choice){
+//       case 1:
+//         file_path += "rtim/live/";
+//         break;
+//       case 2:
+//         file_path += "imm/basic/";
+//         break;
+//       case 3:
+//         file_path += "imm/";
+//         break;
+//       default:
+//         cout << "Error: choice not recognized!" << endl;
+//         sleep(SLEEP);
+//         clearLines(2);
+//         choice = -1;
+//     }
+//   }
+//   sleep(SLEEP);
+//   clearLines(7);
+//
+//   string input;
+//   cout << "________________________________________" << endl;
+//   cout << "Input seed set file name" << endl;
+//   while (1){
+//     cout << "> seed file ["<< file_path <<"] : ";
+//     getline(cin, input);
+//     break;
+//   }
+//   file_path += input;
+//   seedSetPath = file_path;
+//   importSeedSet(file_path);
+//   sleep(SLEEP);
+//   clearLines(5);
+//   seedFile = input;
+// }
 
 int InfScore::activationProbabilitiesMenu(string prevClass){
   int result = 0;
@@ -357,3 +407,42 @@ void InfScore::saveSeedScoreCSV(string file, string startDate, string endDate, d
   seedScoreCSVFile << score << endl;
   seedScoreCSVFile.close();
 }
+
+// void RTIM::seedComputationTest(int seedSize, int depth, double minEdgeWeight){
+//   // select random nodes from graph to generate seed
+//   cout << "------------------------------------------------------------------------------------------" << endl;
+//   cout << "Starting seed computation test on " << graph.dataset << " > seed size: " << seedSize << " | depth: " << depth << "| minEdgeWeight: " << minEdgeWeight  <<  endl;
+//   if (seedSize > graph.nodes){
+//     cerr << "Error: Seed set size larger than graph size!" << endl;
+//     exit(1);
+//   }
+//   cout << "Sampling " << seedSize << " nodes for seed." << endl;
+//   vector<int> seedSet;
+//   double nodesNeeded = seedSize;
+//   double nodesLeft = graph.nodes;
+//   double selectProb;// = nodesNeeded / nodesLeft;
+//   double r;
+//   int i = 0;
+//   // we select sample with reservoir sampling
+//   while (seedSet.size() != seedSize && i < graph.nodes){
+//     if(graph.graph[i].size() >= 1){ // ignore nodes that have no neighbors
+//       selectProb = nodesNeeded / nodesLeft;
+//       r = rand()/(double)RAND_MAX;
+//       if (r < selectProb){
+//         // cout << i << " - " << r << " <= " << selectProb << " = " << nodesNeeded << " / " << nodesLeft << endl;
+//         seedSet.push_back(i);
+//         nodesNeeded --;
+//       }
+//     }
+//     nodesLeft --;
+//     i ++;
+//   }
+//   // test computation using monte carlo simulations
+//   cout << "Computing seed set score." << endl;
+//   double start = omp_get_wtime();
+//   double score;
+//   score = graph.influenceScoreParallel(seedSet, maxDepth, minEdgeWeight);
+//   double delta = omp_get_wtime() - start;
+//   cout << "Seed set score is: " << score << " / " << graph.nodes << " computed in: " << cleanTime(delta, "s") << endl;
+//   cout << "------------------------------------------------------------------------------------------" << endl;
+// }

@@ -172,7 +172,7 @@ void Graph::influenceScoreValues(std::vector<double>& values, const std::vector<
   #pragma omp parallel shared(depth, seed_set, values)
   #pragma omp for
   for (int i = 0; i < sim; i++){
-    values[i] = influenceSimulation(seed_set, visited, depth);
+    // values[i] = influenceSimulation(seed_set, visited, depth);
   }
 }
 
