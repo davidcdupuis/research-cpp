@@ -44,7 +44,6 @@ void Main::mainMenu(){
         case 1:
           clearLines(4);
           result = experimentsMenu();
-
           break;
         case 2:
           clearLines(4);
@@ -69,6 +68,7 @@ int Main::experimentsMenu(){
   while(result == 0){
     cout << string(24, '_') + " Experiments " + string(23, '_') << endl;
     cout << "Input file path from: ../data/" << endl;
+    // user makes choice
     while (1){
       cout << "> choose file [ experiments.txt ] : ";
       getline(cin, input);
@@ -77,9 +77,11 @@ int Main::experimentsMenu(){
       result = runExperiments("../../data/experiments.txt");
       break;
     }
-    if(result > 0){
-      return result - 1;
-    }
+  }
+  if(result < 0){
+    return result;
+  }else{
+    return result - 1;
   }
 }
 
@@ -89,7 +91,7 @@ int Main::experimentsContinueMenu(){
   cout << string(25, '_') + " Continue " + string(25, '_') << endl;
   cout << "Choose option:" << endl;
   cout << " [1] Experiments Menu" << endl;
-  cout << " [2] Main menu" << endl;
+  cout << " [2] Main Menu" << endl;
   cout << " [3] Exit Program" << endl;
   while (choice == -1){
     cout <<  "> choice: ";
@@ -100,15 +102,13 @@ int Main::experimentsContinueMenu(){
     switch(choice){
       case 1:
         clearLines(6);
-        // experimentsMenu();
         return 0;
       case 2:
         clearLines(6);
-        // mainMenu();
         return 1;
       case 3:
         clearLines(6);
-        return 2;
+        return -1;
       default:
         cout << "Error choice not recognized!" << endl;
         sleep(2);
@@ -177,7 +177,11 @@ int Main::datasetsMenu(){
     printDatasetArguments();
     result = algorithmsMenu();
   }
-  return result - 1;
+  if (result < 0){
+    return result;
+  }else{
+    return result - 1;
+  }
 }
 
 
@@ -190,7 +194,8 @@ int Main::algorithmsMenu(){
     cout << "\t[2] IMM (not available)" << endl;
     cout << "\t[3] Compute Score (not available)"<< endl;
     cout << "\t[4] Test (not available)" << endl;
-    cout << "\t[5] EXIT" << endl;
+    cout << "\t[5] Return to Main Menu" << endl;
+    cout << "\t[6] EXIT" << endl;
     while (choice == -1){
       cout <<  "> choice: ";
       string val;
@@ -199,21 +204,59 @@ int Main::algorithmsMenu(){
       switch(choice){
         case 1:
           // run rtim
-          clearLines(7);
-          result = rtim.run();
+          clearLines(8);
+          result = rtim.run("Main Menu");
+          if (result == -2){
+            result = -1;
+          }else if (result == -1){
+            result = 0;
+          }
           break;
         case 2:
           // run imm
+          // clearLines(8);
           // imm.run();
+          // if (result == -2){
+          //   result = -1;
+          // }else if (result == -1){
+          //   result = 0;
+          // }
+          cout << "Option not available!" << endl;
+          sleep(2);
+          clearLines(2);
+          choice = -1;
           break;
         case 3:
           // run compute score
+          // clearLines(8);
+          // if (result == -2){
+          //   result = -1;
+          // }else if (result == -1){
+          //   result = 0;
+          // }
+          cout << "Option not available!" << endl;
+          sleep(2);
+          clearLines(2);
+          choice = -1;
           break;
         case 4:
           // run test
+          // clearLines(8);
+          cout << "Option not available!" << endl;
+          sleep(2);
+          clearLines(2);
+          choice = -1;
           break;
         case 5:
-          // exit
+          // main menu
+          clearLines(8);
+          result = 2;
+          break;
+        case 6:
+          //exit
+          clearLines(8);
+          result = -1;
+          break;
         default:
           cout << "Error choice not recognized!" << endl;
           sleep(2);
@@ -222,7 +265,11 @@ int Main::algorithmsMenu(){
       }
     }
   }
-  return result - 1;
+  if(result < 0){
+    return result;
+  }else{
+    return result - 1;
+  }
 }
 
 

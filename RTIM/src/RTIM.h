@@ -256,19 +256,19 @@ public:
   /**
     * Menu to get stage arguments
     */
-  void stageArgumentsMenu();
+  void stageArgumentsMenu(std::string prevClass);
 
 
   /**
     * Menu to input pre-processing stage arguments
     */
-  int preProcessMenu();
+  int preProcessMenu(std::string prevClass);
 
 
   /**
     * Menu to input live stage arguments
     */
-  int liveMenu();
+  int liveMenu(std::string prevClass);
 
 
   /**
@@ -280,15 +280,15 @@ public:
     * Menu to decide if user would like to continue program or quit
     * return -1 if quit
     */
-  int continueMenu();
+  int continueMenu(std::string prevClass);
 
 
   /**
     * Function to run program
     */
-  int run();
+  int run(std::string prevClass);
 
-  int stagesMenu();
+  int stagesMenu(std::string prevClass);
 
   void testPreProcessScoresMenu();
 

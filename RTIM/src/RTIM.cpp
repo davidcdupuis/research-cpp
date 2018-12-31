@@ -773,7 +773,7 @@ void RTIM::printStageParams(){
 }
 
 
-int RTIM::stagesMenu(){
+int RTIM::stagesMenu(string prevClass){
   int result = 0;
   while (result == 0){
     int choice = -1;
@@ -783,7 +783,8 @@ int RTIM::stagesMenu(){
     cout << "   [2] Pre-process probabilities" << endl;
     cout << "   [3] Live" << endl;
     cout << "   [4] Test " << endl;
-    cout << "   [5] EXIT PROGRAM " << endl;
+    cout << "   [5] Return to " << prevClass << endl;
+    cout << "   [6] EXIT PROGRAM " << endl;
     while(choice == -1){
       cout <<  "> choice: ";
       string val;
@@ -792,30 +793,34 @@ int RTIM::stagesMenu(){
       switch(choice){
         case 1:
           // pre-process scores menu
-          clearLines(8);
+          clearLines(9);
           stage = "pre-process scores";
-          result = preProcessMenu();
+          result = preProcessMenu(prevClass);
           break;
         case 2:
           // pre-process probabilities menu
-          clearLines(8);
+          clearLines(9);
           stage = "pre-process APs";
           break;
         case 3:
           // live menu
-          clearLines(8);
+          clearLines(9);
           stage = "live";
-          result = liveMenu();
+          result = liveMenu(prevClass);
           break;
         case 4:
           // test menu
-          clearLines(8);
+          clearLines(9);
           // result = testMenu();
           break;
         case 5:
-          // EXIT
-          clearLines(8);
-          return 3;
+          // go to prevClass
+          clearLines(9);
+          return -1;
+        case 6:
+          // EXIT Program
+          clearLines(9);
+          return -2;
         default:
           cout << "Error: choice not recognized!" << endl;
           sleep(SLEEP);
@@ -823,27 +828,31 @@ int RTIM::stagesMenu(){
           choice = -1;
       }
     }
-    //clearLines(8);
+    //clearLines(9);
   }
-  return result - 1;
-}
-
-
-void RTIM::stageArgumentsMenu(){
-  if (stage == "pre"){
-    preProcessMenu();
-  }else if (stage == "live"){
-    liveMenu();
-  }else if (stage == "compute_seed_score"){
-    computeSeedScoreMenu();
-  }else if (stage != "test"){
-    cout << "Error: Stage not recognized!" << endl;
-    exit(1);
+  if (result < 0){
+    return result;
+  }else{
+    return result - 1;
   }
 }
 
 
-int RTIM::preProcessMenu(){
+// void RTIM::stageArgumentsMenu(string prevClass){
+//   if (stage == "pre"){
+//     preProcessMenu(prevClass);
+//   }else if (stage == "live"){
+//     liveMenu(prevClass);
+//   }else if (stage == "compute_seed_score"){
+//     computeSeedScoreMenu();
+//   }else if (stage != "test"){
+//     cout << "Error: Stage not recognized!" << endl;
+//     exit(1);
+//   }
+// }
+
+
+int RTIM::preProcessMenu(string prevClass){
   int result = 0;
   while (result == 0 || result == -1){
     if(result == 0){ // ask for new arguments
@@ -925,9 +934,13 @@ int RTIM::preProcessMenu(){
     printLocalTime("magenta", "Pre_processing", "starting");
     pre_process();
     printLocalTime("magenta", "Pre_processing", "ending");
-    result = continueMenu();
+    result = continueMenu(prevClass);
   }
-  return result - 1;
+  if(result < 0){
+    return result;
+  }else{
+    return result - 1;
+  }
 }
 
 
@@ -1004,7 +1017,7 @@ void RTIM::testPreProcessScoresMenu(){
 }
 
 
-int RTIM::liveMenu(){
+int RTIM::liveMenu(string prevClass){
   int result = 0;
   while (result == -1 || result == 0){
     if(result == 0){ // ask for new arguments
@@ -1202,7 +1215,7 @@ int RTIM::liveMenu(){
     live();
     printLocalTime("magenta", "Live", "ending");
     printInColor("magenta", string(60, '-'));
-    result = continueMenu();
+    result = continueMenu(prevClass);
   }
   return result - 1;
 }
@@ -1259,17 +1272,15 @@ void RTIM::computeSeedScoreMenu(){
 }
 
 
-int RTIM::continueMenu(){
+int RTIM::continueMenu(string prevClass){
   int choice = -1;
   cout << string(60, '_') << endl;
   cout << "Continue: " << endl;
-  cout << "   [1] Repeat previous stage with same arguments (" << stage << ")" << endl;
-  cout << "   [2] Repeat previous stage with new arguments (" << stage << ")" << endl;
-  cout << "   [3] Change stage" << endl;
-  cout << "   [4] Change algorithm" << endl;
-  cout << "   [5] Change dataset" << endl;
-  cout << "   [6] Main Menu" << endl;
-  cout << "   [7] End Program" << endl;
+  // cout << "   [1] Repeat previous stage with same arguments (" << stage << ")" << endl;
+  cout << "   [1] repeat previous stage -" << stage << "-" << endl;
+  cout << "   [2] change stage" << endl;
+  cout << "   [3] return to " << prevClass << endl;
+  cout << "   [4] end Program" << endl;
   while(choice == -1){
     cout << "> choice: ";
     string val;
@@ -1277,33 +1288,21 @@ int RTIM::continueMenu(){
     choice = stoi(val);
     switch(choice){
       case 1:
-        // repeat stage with same arguments
+        // repeat stage with new arguments
         clearLines(10);
         return -1;
       case 2:
-        // repeat stage with new arguments
+        // change stage
         clearLines(10);
         return 0;
       case 3:
-        // choose stage
+        // return to previous menu
         clearLines(10);
         return 1;
       case 4:
-        // change algorithm
-        clearLines(10);
-        return 2;
-      case 5:
-        // change dataset
-        clearLines(10);
-        return 3;
-      case 6:
-        // go to main menu
-        clearLines(10);
-        return 4;
-      case 7:
         // exit program
         clearLines(10);
-        return 5;
+        return 2;
       default:
         cout << "Error: choice not recognized!" << endl;
         choice = -1;
@@ -1314,8 +1313,8 @@ int RTIM::continueMenu(){
 }
 
 
-int RTIM::run(){
-  return stagesMenu();
+int RTIM::run(string prevClass){
+  return stagesMenu(prevClass);
 //   cout << endl;
 //   printLocalTime("red", "Program", "starting");
 //   int choice = 0;
