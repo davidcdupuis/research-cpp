@@ -29,7 +29,6 @@ RTIM::RTIM(Graph& g):graph(g){
   srand(time(NULL));
 }
 
-
 // RTIM::RTIM(Arguments& arguments, bool loadGraph):graph(arguments, loadGraph){
 //   args = arguments;
 //
@@ -42,7 +41,6 @@ RTIM::RTIM(Graph& g):graph(g){
 //   nodes = graph.nodes;
 //   srand(time(NULL));
 // }
-
 
 void RTIM::importIMMSeed(){
   immTargeted.resize(graph.nodes, 0);
@@ -61,7 +59,6 @@ void RTIM::importIMMSeed(){
   // sleep(3);
   // clearLines(2);
 }
-
 
 int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save){
   int j, sum = 0;
@@ -100,10 +97,9 @@ int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time
   return save;
 }
 
-
-void RTIM::pre_process(){
+void RTIM::infScorePreProcess(){
   // for each node in graph compute influence score
-  // cout << "Running pre_process on " << graph.dataset << endl;
+  // cout << "Running infScorePreProcess on " << graph.dataset << endl;
   double score;
   // nodes = graph.graph.size();
 
@@ -173,9 +169,7 @@ void RTIM::pre_process(){
   saveScores();
 };
 
-
 // void updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth);
-
 
 void RTIM::live(){
   graph.importDegrees();
@@ -365,14 +359,12 @@ void RTIM::live(){
   printInColor("magenta", string(60, '-'));
 };
 
-
 void RTIM::initializeInfluenceScores(){
   // ideally we should not repeat this if live is run more than once
   importScores();
   sortedScores = infScores;
   sort(sortedScores.begin(), sortedScores.end());
 }
-
 
 void RTIM::printScores(){
   cout << "Influence Scores: " << infScores.size() << endl;
@@ -390,7 +382,6 @@ void RTIM::printScores(){
     clearLines(21);
   }
 }
-
 
 void RTIM::saveScores(){
   string file = "../../data/" + graph.dataset + "/rtim/pre_process/";
@@ -412,7 +403,6 @@ void RTIM::saveScores(){
   // printInColor("cyan", "Scores saved successfully!");
   //cout << "\033[1;33mScores saved successfully!\033[0m" << endl;
 }
-
 
 void RTIM::saveSeedSet(bool progress, int progPercentage){
   // string file = "../../data/" + graph.dataset + "/rtim/live/";
@@ -442,7 +432,6 @@ void RTIM::saveSeedSet(bool progress, int progPercentage){
   seedSetFile.close();
 }
 
-
 void RTIM::importSeedSet(string file_path){
   int user;
   seedSet.clear();
@@ -458,7 +447,6 @@ void RTIM::importSeedSet(string file_path){
   }
   cout << "Seed set imported correctly!" << endl;
 }
-
 
 void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, string endDatetime){
   // string file = "../../data/" + graph.dataset + "/streams/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + graph.dataset + "_liveLog.txt";
@@ -482,7 +470,6 @@ void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, s
   //cout << "\033[33mLive log saved successfully!\033[0m" << endl;
   // printInColor("cyan", "Live log saved successfully");
 }
-
 
 void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, double& runtime){
   string path = "../../data/" + graph.dataset + "/logs/";
@@ -511,7 +498,6 @@ void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, 
   // cout << "\033[33mLive CSV saved!\033[0m" << endl;
   // printInColor("cyan", "Live CSV saved!");
 }
-
 
 // void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, double& runtime, double& score){
 //   string path = "../../data/" + graph.dataset + "/logs/";
@@ -556,7 +542,6 @@ void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, 
 //   seedScoreCSVFile.close();
 // }
 
-
 void RTIM::initiateProgressLog(){
   string path = generateDataFilePath("rtim_progress");
   if (!pathExists(path)){
@@ -570,7 +555,6 @@ void RTIM::initiateProgressLog(){
   progressFile << "seen,influence_threshold,user_index,ap, infScore, seed_size" << endl;
   progressFile.close();
 }
-
 
 void RTIM::saveProgress(int user_index, double ap, double score, int seen, double infTheta, int seedSize){
   string path = generateDataFilePath("rtim_progress");
@@ -592,7 +576,6 @@ void RTIM::saveProgress(int user_index, double ap, double score, int seen, doubl
   progressFile << endl;
   progressFile.close();
 }
-
 
 void RTIM::initiateStreamLog(){
   string path = generateDataFilePath("stream_log");
@@ -623,7 +606,6 @@ void RTIM::initiateStreamLog(){
   streamLog << left << setw(9 + 1) << "out_degree";
   streamLog << endl;
 }
-
 
 void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, string rtim_status, int seedSize, int imm_targeted, int inDeg, int outDeg){
   string path = generateDataFilePath("stream_log");
@@ -675,7 +657,6 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oS
   streamLog.close();
 }
 
-
 void RTIM::importScores(){
   string path = generateDataFilePath("get_infScores") + generateFileName("get_infScores");
   if (!pathExists(path)){
@@ -698,11 +679,9 @@ void RTIM::importScores(){
   printScores();
 }
 
-
 void RTIM::getInfIndex(vector<double> & sorted){
   infIndex = (int)(sorted.size() - sorted.size() * reach / 100);
 }
-
 
 void RTIM::printStageParams(){
   // stages = pre-process, live, compute_seed_score
@@ -730,7 +709,6 @@ void RTIM::printStageParams(){
   cout << string(60, '-') << endl;
 }
 
-
 int RTIM::stagesMenu(string prevClass){
   int result = 0;
   while (result == 0){
@@ -753,12 +731,13 @@ int RTIM::stagesMenu(string prevClass){
           // pre-process scores menu
           clearLines(9);
           stage = "pre-process scores";
-          result = preProcessMenu(prevClass);
+          result = infScorePreProcessMenu(prevClass);
           break;
         case 2:
           // pre-process probabilities menu
           clearLines(9);
           stage = "pre-process APs";
+          // result = apPreProcessMenu(prevClass);
           break;
         case 3:
           // live menu
@@ -795,8 +774,7 @@ int RTIM::stagesMenu(string prevClass){
   }
 }
 
-
-int RTIM::preProcessMenu(string prevClass){
+int RTIM::infScorePreProcessMenu(string prevClass){
   int result = 0;
   while (result == 0){
     if(result == 0){ // ask for new arguments
@@ -804,7 +782,7 @@ int RTIM::preProcessMenu(string prevClass){
       double dChoice;
       string input;
       cout << string(60,'_') << endl;
-      cout << "Input pre_process arguments" << endl;
+      cout << "Input infScorePreProcess arguments" << endl;
       // asking for max search depth
       while(1){
         cout << "> depth (" << maxDepth << "): ";
@@ -875,9 +853,9 @@ int RTIM::preProcessMenu(string prevClass){
       graph.loaded = true;
     }
     printInColor("magenta", string(60, '-'));
-    printLocalTime("magenta", "Pre_processing", "starting");
-    pre_process();
-    printLocalTime("magenta", "Pre_processing", "ending");
+    printLocalTime("magenta", "infScorePreProcess", "starting");
+    infScorePreProcess();
+    printLocalTime("magenta", "infScorePreProcess", "ending");
     result = continueMenu(prevClass);
   }
   if(result < 0){
@@ -886,7 +864,6 @@ int RTIM::preProcessMenu(string prevClass){
     return result - 1;
   }
 }
-
 
 int RTIM::liveMenu(string prevClass){
   int result = 0;
@@ -1091,7 +1068,6 @@ int RTIM::liveMenu(string prevClass){
   return result - 1;
 }
 
-
 int RTIM::continueMenu(string prevClass){
   int choice = -1;
   cout << string(60, '_') << endl;
@@ -1131,7 +1107,6 @@ int RTIM::continueMenu(string prevClass){
   }
   // clearLines(10);
 }
-
 
 int RTIM::run(string prevClass){
   return stagesMenu(prevClass);
@@ -1209,7 +1184,6 @@ int RTIM::run(string prevClass){
 //   cout << endl;
 }
 
-
 string RTIM::generateDataFilePath(string type){
   string file_path = "../../data/" + graph.dataset + "/";
   if (type == "save_infScores" || type == "get_infScores"){
@@ -1229,7 +1203,6 @@ string RTIM::generateDataFilePath(string type){
   }
   return file_path;
 }
-
 
 string RTIM::generateFileName(string type, int param){
   string file_name = "";

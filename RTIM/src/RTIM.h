@@ -75,7 +75,7 @@ public:
     * @param graph: user influence network to use
     * @param max_depth: maximum depth for inf. score computation
     */
-  void pre_process();//const Graph& graph);
+  void infScorePreProcess();//const Graph& graph);
 
   // void updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth);
 
@@ -173,8 +173,10 @@ public:
   // Menu to get stage arguments
   int stagesMenu(std::string prevClass);
 
-  // Menu to input pre-processing stage arguments
-  int preProcessMenu(std::string prevClass);
+  // Menu to input influence score pre-processing stage arguments
+  int infScorePreProcessMenu(std::string prevClass);
+
+  int apPreProcessMenu(std::string prevClass);
 
   // Menu to input live stage arguments
   int liveMenu(std::string prevClass);
