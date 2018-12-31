@@ -6,6 +6,16 @@
 #include <map>
 #include <utility>
 #include <set>
+#include <iostream>
+#include <fstream>
+#include <queue>
+#include <algorithm>
+#include <stdlib.h>
+#include <time.h>
+#include <string>
+#include <omp.h>
+#include <random>
+#include <unistd.h>
 
 #include "Tools.h"
 
@@ -28,7 +38,7 @@ class Graph
     int edges;                    /**< number of edges*/
     int simulations;              // number of simulations to run for inf score
     double edgeWeight = -1;
-    bool loaded = false; //true if dataset has been loaded 
+    bool loaded = false; //true if dataset has been loaded
     std::vector<int> inDegrees;
     std::vector<int> outDegrees;
     std::vector<std::vector<std::pair<int, double> > > graph;
@@ -68,7 +78,7 @@ class Graph
       *
       * @return double, influence score
     */
-    double influenceScore(const std::vector<int>& seed_set, int depth=10000, double minEdgeWeight=0, int sim=10000) const;
+    // double influenceScore(const std::vector<int>& seed_set, int depth=10000, double minEdgeWeight=0, int sim=10000) const;
 
 
     /**
@@ -80,7 +90,7 @@ class Graph
       *
       * @return double, influence score
     */
-    double influenceScoreParallel(const std::vector<int>& seed_set, int depth=10000, double minEdgeWeight=0, int sim=10000) const;
+    // double influenceScoreParallel(const std::vector<int>& seed_set, int depth=10000, double minEdgeWeight=0, int sim=10000) const;
 
     /**
       * Function to run Monte Carlo simulations and return results
@@ -118,7 +128,7 @@ class Graph
       *
       * @return int: number of activated nodes
     */
-    int influenceSimulation(const std::vector<int>& seed_set, bool *visited, int depth=10000, double minEdgeWeight=0) const;
+    // int influenceSimulation(const std::vector<int>& seed_set, bool *visited, int depth=10000, double minEdgeWeight=0) const;
 
 
     /**

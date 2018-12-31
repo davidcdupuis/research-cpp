@@ -4,7 +4,7 @@ using namespace std;
 
 const int SLEEP = 2;
 
-Main::Main():graph(),rtim(graph){
+Main::Main():graph(),rtim(graph),infScore(graph){
   // should we initialize object arguments here?
   loadDatasetsData();
   srand(time(NULL));
@@ -192,7 +192,7 @@ int Main::algorithmsMenu(){
     cout << string(24,'_') + " Algorithms " + string(24,'_') << endl;
     cout << "\t[1] RTIM" << endl;
     cout << "\t[2] IMM (not available)" << endl;
-    cout << "\t[3] Compute Score (not available)"<< endl;
+    cout << "\t[3] Compute Score"<< endl;
     cout << "\t[4] Test (not available)" << endl;
     cout << "\t[5] Return to Main Menu" << endl;
     cout << "\t[6] EXIT" << endl;
@@ -205,7 +205,7 @@ int Main::algorithmsMenu(){
         case 1:
           // run rtim
           clearLines(8);
-          result = rtim.run("Main Menu");
+          result = rtim.run("Main");
           if (result == -2){
             result = -1;
           }else if (result == -1){
@@ -228,16 +228,17 @@ int Main::algorithmsMenu(){
           break;
         case 3:
           // run compute score
-          // clearLines(8);
-          // if (result == -2){
-          //   result = -1;
-          // }else if (result == -1){
-          //   result = 0;
-          // }
-          cout << "Option not available!" << endl;
-          sleep(2);
-          clearLines(2);
-          choice = -1;
+          clearLines(8);
+          result = infScore.run("Main");
+          if (result == -2){
+            result = -1;
+          }else if (result == -1){
+            result = 0;
+          }
+          // cout << "Option not available!" << endl;
+          // sleep(2);
+          // clearLines(2);
+          // choice = -1;
           break;
         case 4:
           // run test

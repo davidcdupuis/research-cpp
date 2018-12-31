@@ -6,6 +6,7 @@
 
 #include "Graph.h"
 #include "Tools.h"
+#include "InfScore.h"
 
 
 /**
@@ -163,10 +164,10 @@ public:
   void saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, double& runtime);
 
 
-  void saveSeedScoreLog(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
-
-
-  void saveSeedScoreCSV(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
+  // void saveSeedScoreLog(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
+  //
+  //
+  // void saveSeedScoreCSV(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
 
   /**
     * Initiate progress log file with header

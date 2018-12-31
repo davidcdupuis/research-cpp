@@ -315,6 +315,9 @@ void RTIM::live(){
   printInColor("red", "\u03C3(seed) = " + properStringDouble(estScore));
 
   // COMPUTE SEED SET INFLUENCE SCORE WITH MC SIMULATIONS
+  // use InfScore
+  InfScore infScore = InfScore(graph);
+  infScore.seedSet = seedSet;
   printInColor("magenta", string(60, '-'));
   printLocalTime("magenta", "Compute RTIM seed score", "starting");
   string seedFile = generateDataFilePath("rtim_seedSet") + generateFileName("rtim_seedSet", seedSet.size());
@@ -322,16 +325,17 @@ void RTIM::live(){
   string scoreStartDate = getLocalDatetime();
   clock_t scoreStartTime = clock();
   if (graph.dataset == "twitter"){
-    score = graph.influenceScoreParallel(seedSet, 2);
+    infScore.depth = 2;
   }else{
-    score = graph.influenceScoreParallel(seedSet);
+    infScore.depth = 10000;
   }
+  score = infScore.mcInfScoreParallel();
 
   double scoreDuration = (clock() - startTime)/(double)CLOCKS_PER_SEC;
   string scoreEndDate = getLocalDatetime();
   printInColor("red", "RTIM: \u03C3_MC(seed) = " + properStringDouble(score));
-  saveSeedScoreLog(seedFile, scoreStartDate, scoreEndDate, scoreDuration, score);
-  saveSeedScoreCSV(seedFile, scoreStartDate, scoreEndDate, scoreDuration, score);
+  infScore.saveSeedScoreLog(seedFile, scoreStartDate, scoreEndDate, scoreDuration, score);
+  infScore.saveSeedScoreCSV(seedFile, scoreStartDate, scoreEndDate, scoreDuration, score);
   // printLocalTime("magenta", "IMM seed test", "ending");
   printLocalTime("magenta", "Compute RTIM seed score", "ending");
   printInColor("magenta", string(60, '-'));
@@ -343,11 +347,13 @@ void RTIM::live(){
   for(int seed: immSeedSet){
     vecImmSeedSet.push_back(seed);
   }
+  infScore.seedSet = vecImmSeedSet;
   if (graph.dataset == "twitter"){
-    score = graph.influenceScoreParallel(vecImmSeedSet, 2);
+    infScore.depth = 2;
   }else{
-    score = graph.influenceScoreParallel(vecImmSeedSet);
+    infScore.depth = 10000;
   }
+  score = infScore.mcInfScoreParallel();
   printInColor("red", "IMM: \u03C3_MC(seed) = " + properStringDouble(score));
   printLocalTime("magenta", "Compute RTIM seed score", "ending");
   printInColor("magenta", string(60, '-'));
@@ -515,48 +521,48 @@ void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, 
 }
 
 
-void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, double& runtime, double& score){
-  string path = "../../data/" + graph.dataset + "/logs/";
-  if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
-    exit(1);
-  }
-  path += "seed_set_score.log";
-  printInColor("cyan", "Saving seed score log to: " + path);
-  ofstream seedScoreLogFile;
-  seedScoreLogFile.open(path, fstream::app);
-  seedScoreLogFile << "File name  : " << file << endl;
-  seedScoreLogFile << "Start date : " << startDate << endl;
-  seedScoreLogFile << "End date   : " << endDate << endl;
-  seedScoreLogFile << "Runtime    : " << runtime << endl;
-  seedScoreLogFile << "Seed size  : " << seedSet.size() << endl;
-  seedScoreLogFile << "Inf. score : " << score << endl;
-  seedScoreLogFile << "-----------------------------------------------" << endl;
-  seedScoreLogFile.close();
-}
-
-
-void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, double& runtime, double& score){
-  string path = "../../data/" + graph.dataset + "/logs/";
-  if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
-    exit(1);
-  }
-  path += "seed_set_score.csv";
-  printInColor("cyan", "Saving seed score csv to: " + path);
-
-  // dataset,file_name, startDate, endDate, runtime, seed size, score
-  ofstream seedScoreCSVFile;
-  seedScoreCSVFile.open(path, fstream::app);
-  seedScoreCSVFile << graph.dataset << ",";
-  seedScoreCSVFile << file << ",";
-  seedScoreCSVFile << startDate << ",";
-  seedScoreCSVFile << endDate << ",";
-  seedScoreCSVFile << runtime << ",";
-  seedScoreCSVFile << seedSet.size() << ",";
-  seedScoreCSVFile << score << endl;
-  seedScoreCSVFile.close();
-}
+// void RTIM::saveSeedScoreLog(string file, string startDate, string endDate, double& runtime, double& score){
+//   string path = "../../data/" + graph.dataset + "/logs/";
+//   if (!pathExists(path)){
+//     cerr << "Error path doesn't exist: " << path << endl;
+//     exit(1);
+//   }
+//   path += "seed_set_score.log";
+//   printInColor("cyan", "Saving seed score log to: " + path);
+//   ofstream seedScoreLogFile;
+//   seedScoreLogFile.open(path, fstream::app);
+//   seedScoreLogFile << "File name  : " << file << endl;
+//   seedScoreLogFile << "Start date : " << startDate << endl;
+//   seedScoreLogFile << "End date   : " << endDate << endl;
+//   seedScoreLogFile << "Runtime    : " << runtime << endl;
+//   seedScoreLogFile << "Seed size  : " << seedSet.size() << endl;
+//   seedScoreLogFile << "Inf. score : " << score << endl;
+//   seedScoreLogFile << "-----------------------------------------------" << endl;
+//   seedScoreLogFile.close();
+// }
+//
+//
+// void RTIM::saveSeedScoreCSV(string file, string startDate, string endDate, double& runtime, double& score){
+//   string path = "../../data/" + graph.dataset + "/logs/";
+//   if (!pathExists(path)){
+//     cerr << "Error path doesn't exist: " << path << endl;
+//     exit(1);
+//   }
+//   path += "seed_set_score.csv";
+//   printInColor("cyan", "Saving seed score csv to: " + path);
+//
+//   // dataset,file_name, startDate, endDate, runtime, seed size, score
+//   ofstream seedScoreCSVFile;
+//   seedScoreCSVFile.open(path, fstream::app);
+//   seedScoreCSVFile << graph.dataset << ",";
+//   seedScoreCSVFile << file << ",";
+//   seedScoreCSVFile << startDate << ",";
+//   seedScoreCSVFile << endDate << ",";
+//   seedScoreCSVFile << runtime << ",";
+//   seedScoreCSVFile << seedSet.size() << ",";
+//   seedScoreCSVFile << score << endl;
+//   seedScoreCSVFile.close();
+// }
 
 
 void RTIM::initiateProgressLog(){
@@ -838,23 +844,9 @@ int RTIM::stagesMenu(string prevClass){
 }
 
 
-// void RTIM::stageArgumentsMenu(string prevClass){
-//   if (stage == "pre"){
-//     preProcessMenu(prevClass);
-//   }else if (stage == "live"){
-//     liveMenu(prevClass);
-//   }else if (stage == "compute_seed_score"){
-//     computeSeedScoreMenu();
-//   }else if (stage != "test"){
-//     cout << "Error: Stage not recognized!" << endl;
-//     exit(1);
-//   }
-// }
-
-
 int RTIM::preProcessMenu(string prevClass){
   int result = 0;
-  while (result == 0 || result == -1){
+  while (result == 0){
     if(result == 0){ // ask for new arguments
       int iChoice;
       double dChoice;
@@ -1019,7 +1011,7 @@ void RTIM::testPreProcessScoresMenu(){
 
 int RTIM::liveMenu(string prevClass){
   int result = 0;
-  while (result == -1 || result == 0){
+  while (result == 0){
     if(result == 0){ // ask for new arguments
       int iChoice;
       double dChoice;
@@ -1277,10 +1269,10 @@ int RTIM::continueMenu(string prevClass){
   cout << string(60, '_') << endl;
   cout << "Continue: " << endl;
   // cout << "   [1] Repeat previous stage with same arguments (" << stage << ")" << endl;
-  cout << "   [1] repeat previous stage -" << stage << "-" << endl;
-  cout << "   [2] change stage" << endl;
-  cout << "   [3] return to " << prevClass << endl;
-  cout << "   [4] end Program" << endl;
+  cout << "   [1] Repeat previous stage -" << stage << "-" << endl;
+  cout << "   [2] Change stage" << endl;
+  cout << "   [3] Return to " << prevClass << endl;
+  cout << "   [4] End Program" << endl;
   while(choice == -1){
     cout << "> choice: ";
     string val;
@@ -1289,20 +1281,20 @@ int RTIM::continueMenu(string prevClass){
     switch(choice){
       case 1:
         // repeat stage with new arguments
-        clearLines(10);
-        return -1;
+        clearLines(7);
+        return 0;
       case 2:
         // change stage
-        clearLines(10);
-        return 0;
+        clearLines(7);
+        return 1;
       case 3:
         // return to previous menu
-        clearLines(10);
-        return 1;
+        clearLines(7);
+        return -1;
       case 4:
         // exit program
-        clearLines(10);
-        return 2;
+        clearLines(7);
+        return -2;
       default:
         cout << "Error: choice not recognized!" << endl;
         choice = -1;

@@ -11,7 +11,7 @@
 #include "RTIM.h"
 #include "Tools.h"
 #include "Graph.h"
-// #include "InfScore.h"
+#include "InfScore.h"
 
 #include <string>
 
@@ -45,6 +45,7 @@ public:
   Graph graph;
   RTIM rtim;
   //IMM imm;
+  InfScore infScore;
 
   Main();
 

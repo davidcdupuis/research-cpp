@@ -5,14 +5,17 @@ EXEC= main rtim
 
 all: $(EXEC)
 
-rtim: Graph.o RTIM.o Tools.o
-	$(CXX) -fopenmp -o rtim Graph.o RTIM.o Tools.o
+rtim: Graph.o RTIM.o Tools.o InfScore.o
+	$(CXX) -fopenmp -o rtim Graph.o RTIM.o Tools.o InfScore.o
 
-main: Graph.o RTIM_WMAIN.o Tools.o Main.o
-	$(CXX) -fopenmp -o main Graph.o RTIM_WMAIN.o Tools.o Main.o
+main: Graph.o RTIM_WMAIN.o Tools.o Main.o InfScore.o
+	$(CXX) -fopenmp -o main Graph.o RTIM_WMAIN.o Tools.o Main.o InfScore.o
 
 RTIM_WMAIN.o: RTIM.cpp RTIM.h # Graph.cpp Graph.h RTIM.h Tools.cpp Tools.h
 	$(CXX) -DMAIN -fopenmp -c RTIM.cpp -o RTIM_WMAIN.o
+
+InfScore.o: InfScore.cpp InfScore.h
+	$(CXX) -fopenmp -c InfScore.cpp
 
 RTIM.o: RTIM.cpp RTIM.h # Graph.cpp Graph.h RTIM.h Tools.cpp Tools.h
 	$(CXX) -fopenmp -c RTIM.cpp -o RTIM.o
@@ -27,7 +30,7 @@ Main.o: Main.cpp Main.h # Tools.cpp Tools.h Graph.cpp Graph.h RTIM.cpp RTIM.h
 	$(CXX) -fopenmp -c Main.cpp
 
 clean:
-	rm -rf *.os
+	rm -rf *.o
 
 mrproper: clean
 	rm -rf $(EXEC)

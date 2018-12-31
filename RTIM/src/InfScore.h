@@ -3,25 +3,44 @@
 
 #include <iostream>
 #include <string>
+#include <unistd.h>
+
+#include "Graph.h"
+#include "Tools.h"
 
 class InfScore{
 public:
-  int simulations;
+  int simulations = 10000;
+  int depth = 10000;
+  int minEdgeWeight = 0;
+  std::vector<int> seedSet;
   Graph& graph;
 
   InfScore(Graph& g);
 
-  int run();
+  void importSeedSet(std::string filePath);
 
-  int menu();
+  int run(std::string prevClass);
 
-  int monteCarloMenu();
+  int main(std::string prevClass);
 
-  int activationProbabilitiesMenu();
+  int monteCarloMenu(std::string prevClass);
+
+  int activationProbabilitiesMenu(std::string prevClass);
+
+  int continueMenu(std::string prevClass, std::string prevStage);
 
   double mcInfScore();
 
+  double mcInfScoreParallel();
+
+  int infSimulation(bool *visited);
+
   double apInfScore();
+
+  void saveSeedScoreLog(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
+
+  void saveSeedScoreCSV(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
 };
 
 #endif
