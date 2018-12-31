@@ -2,14 +2,11 @@
 
 using namespace std;
 
-
 Graph::Graph(){}
-
 
 void Graph::addEdge(int a, int b, double w){
   graph[a].push_back(make_pair(b, w));
 }
-
 
 void Graph::readAttributes(){
   string folder = datasetDir + "/attributes.txt";
@@ -32,7 +29,6 @@ void Graph::readAttributes(){
   }
   infile.close();
 }
-
 
 void Graph::loadGraph(){
   graph.resize(nodes);
@@ -95,7 +91,6 @@ void Graph::loadGraph(){
   sleep(3);
 }
 
-
 void Graph::importDegrees(){
   string path = "../../data/" + dataset + "/" + dataset + "_degrees.txt";
   int user, inDeg, outDeg;
@@ -116,6 +111,16 @@ void Graph::importDegrees(){
   printInColor("cyan", "Import degrees successful");
 }
 
+void Graph::print(){
+  cout << dataset << " graph:" << endl;
+  for(int i = 0; i < nodes; i++){
+    for (int j = 0; j < graph[i].size(); j++){
+      cout << "(" << i << ")" << "-[" << graph[i][j].second << "]->"<< "(" << graph[i][j].first << ")" << endl;
+    }
+  }
+}
+
+// REMAINING FUNCTIONS NEED TO BE REMOVED!!
 
 // double Graph::influenceScore(const vector<int>& seed_set, int depth, double minEdgeWeight, int sim) const{
 //   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
@@ -163,7 +168,7 @@ void Graph::importDegrees(){
 //   return score;
 // }
 
-
+// if necessary pass to InfScore
 void Graph::influenceScoreValues(std::vector<double>& values, const std::vector<int>& seed_set, int depth, int sim) const{
   values.resize(sim, 0);
   bool visitedOriginal[nodes] = {};
@@ -176,7 +181,7 @@ void Graph::influenceScoreValues(std::vector<double>& values, const std::vector<
   }
 }
 
-
+// if necessary pass to InfScore
 double Graph::influenceScorePath(int node, int max_depth, string type, double edge_weight, double min_weight) const{
   // if type == 'shortest' use shortest paths, if 'all' use all paths, else return error
   double score = 1;
@@ -203,7 +208,7 @@ double Graph::influenceScorePath(int node, int max_depth, string type, double ed
   return score;
 }
 
-
+// if necessary pass to InfScore
 double Graph::influenceScoreNeighbors(int node) const{
   double score = 1;
   int lim = graph[node].size();
@@ -212,7 +217,6 @@ double Graph::influenceScoreNeighbors(int node) const{
   }
   return score;
 }
-
 
 // int Graph::influenceSimulation(const vector<int>& seed_set, bool *visited, int depth, double minEdgeWeight) const{
 //   // cout << "depth: " << depth << endl;
@@ -266,7 +270,7 @@ double Graph::influenceScoreNeighbors(int node) const{
 //   return activated;
 // }
 
-
+// if necessary pass to InfScore
 void Graph::shortestPathsWeights(map<int, double> & distances, int node, double min_weight, int max_depth, double curr_dist) const{
   if (max_depth == 0) {
     return;
@@ -291,7 +295,7 @@ void Graph::shortestPathsWeights(map<int, double> & distances, int node, double 
   }
 }
 
-
+// if necessary pass to InfScore
 void Graph::shortestPathsWeightsB(double* distances, int node, int max_depth, double curr_dist) const{
   if (max_depth == 0) {
     return;
@@ -305,7 +309,7 @@ void Graph::shortestPathsWeightsB(double* distances, int node, int max_depth, do
   }
 }
 
-
+// if necessary pass to InfScore
 double Graph::influenceLocalScore(int origine, vector<double>& scores, int node, vector<double>& activationProbs, int maxDepth) const{
   for(pair<int, double> neighbor: graph[node]){
     int newDepth;
@@ -317,7 +321,7 @@ double Graph::influenceLocalScore(int origine, vector<double>& scores, int node,
   }
 }
 
-
+// if necessary pass to RTIM
 void Graph::updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth) const{
   path.insert(src);
   double new_path_weight;
@@ -333,14 +337,14 @@ void Graph::updateNeighborsAP(int src, vector<double>& activationProbs, set<int>
   path.erase(src);
 }
 
-
+// if necessary pass to RTIM
 void Graph::updateNeighborsAPShort(int src, vector<double>& activationProbs) const{
   for(pair<int, double> neighbor: graph[src]){
     activationProbs[neighbor.first] = 1 - (1 - activationProbs[neighbor.first])*(1 - neighbor.second);
   }
 }
 
-
+// if necessary pass to RTIM
 void Graph::updateNeighborsAPDepth(int src, vector<double>& activationProbs, int maxDepth) const{
   // cout << "(" << src << ", d=" << 1 - maxDepth << ")";
   for(pair<int, double> neighbor: graph[src]){
@@ -355,7 +359,7 @@ void Graph::updateNeighborsAPDepth(int src, vector<double>& activationProbs, int
   }
 }
 
-
+// if necessary pass to RTIM
 void Graph::updateInfluenceScore(double &infScore,int src, vector<double>& activationProbs, vector<double>& tmpAPs, int depth) const{
   int activated = 0;
   tmpAPs[src] = 1;
@@ -393,14 +397,4 @@ void Graph::updateInfluenceScore(double &infScore,int src, vector<double>& activ
   }
 
 
-}
-
-
-void Graph::print(){
-  cout << dataset << " graph:" << endl;
-  for(int i = 0; i < nodes; i++){
-    for (int j = 0; j < graph[i].size(); j++){
-      cout << "(" << i << ")" << "-[" << graph[i][j].second << "]->"<< "(" << graph[i][j].first << ")" << endl;
-    }
-  }
 }
