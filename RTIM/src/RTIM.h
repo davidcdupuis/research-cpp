@@ -186,5 +186,23 @@ public:
   std::string generateDataFilePath(std::string type);
 
   std::string generateFileName(std::string type, int param = 0);
+
+  // // Update activation probabilities of neighboring nodes
+  // void updateNeighborsAP(int src, std::vector<double>& activationProbs, std::set<int> path, double path_weight=1, int depth=2) const;
+  //
+  // /**
+  //   * Update activation probabilies of neighboring nodes at depth 1
+  //   *
+  //   * @param src:
+  //   * @param activationProbs:
+  //   */
+  // void updateNeighborsAPShort(int src, std::vector<double>& activationProbs) const;
+  //
+  // /** Depth first recursive function to update neighbor's AP
+  //   * We don't visit a neighbors who's AP = 1
+  //   */
+  // void updateNeighborsAPDepth(int src, std::vector<double>& activationProbs, int maxDepth = 100) const;
+  //
+  // void updateInfluenceScore(double &infScore, int src, std::vector<double>& activationProbs, std::vector<double>& tmpAPs, int depth=2) const;
 };
 #endif

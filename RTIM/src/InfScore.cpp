@@ -446,3 +446,98 @@ void InfScore::saveSeedScoreCSV(string file, string startDate, string endDate, d
 //   cout << "Seed set score is: " << score << " / " << graph.nodes << " computed in: " << cleanTime(delta, "s") << endl;
 //   cout << "------------------------------------------------------------------------------------------" << endl;
 // }
+
+// void Graph::influenceScoreValues(std::vector<double>& values, const std::vector<int>& seed_set, int depth, int sim) const{
+//   values.resize(sim, 0);
+//   bool visitedOriginal[nodes] = {};
+//   bool visited[nodes];
+//   memcpy(visited, visitedOriginal, nodes);
+//   #pragma omp parallel shared(depth, seed_set, values)
+//   #pragma omp for
+//   for (int i = 0; i < sim; i++){
+//     // values[i] = influenceSimulation(seed_set, visited, depth);
+//   }
+// }
+//
+// double Graph::influenceScorePath(int node, int max_depth, string type, double edge_weight, double min_weight) const{
+//   // if type == 'shortest' use shortest paths, if 'all' use all paths, else return error
+//   double score = 1;
+//   if (type == "shortest"){
+//     // use function of shortest paths of length at most max_depth
+//     // if node doesn't have neighbor return 1
+//     if(graph[node].size() == 0){
+//       score = 1;
+//     }else{
+//       map< int, double > minDistances;
+//       shortestPathsWeights(minDistances, node, min_weight, max_depth, 1);
+//       map< int, double >::iterator it = minDistances.begin();
+//       while(it != minDistances.end()){
+//         score += minDistances[it->first];
+//         it++;
+//       }
+//     }
+//   }else if (type == "all"){
+//     score = 1;
+//   }else{
+//     cerr << "Error path type: " << type << " does not exist!" << endl;
+//     exit(1);
+//   }
+//   return score;
+// }
+//
+// double Graph::influenceScoreNeighbors(int node) const{
+//   double score = 1;
+//   int lim = graph[node].size();
+//   for(int i=0; i < lim; i++){
+//     score += graph[node][i].second;
+//   }
+//   return score;
+// }
+//
+// void Graph::shortestPathsWeights(map<int, double> & distances, int node, double min_weight, int max_depth, double curr_dist) const{
+//   if (max_depth == 0) {
+//     return;
+//   }
+//
+//   // iterate through neighbors of current node
+//   for(pair<int, double> neighbor: graph[node]){
+//     double new_dist;
+//     // use the following condition to explore graph using set edge weights
+//     new_dist = curr_dist * neighbor.second;
+//
+//     // if path weight is less than minimum, we ignore it
+//     if (new_dist >= min_weight){
+//       // check if new_path distance is greater than older one.
+//       if(distances.find(neighbor.first) == distances.end()){
+//         // if node not recorded in distances, initialize distance at 0
+//         distances[neighbor.first] = 0;
+//       }
+//       distances[neighbor.first] = max(distances[neighbor.first], new_dist);
+//       shortestPathsWeights(distances, neighbor.first, min_weight, max_depth - 1, new_dist);
+//     }
+//   }
+// }
+//
+// void Graph::shortestPathsWeightsB(double* distances, int node, int max_depth, double curr_dist) const{
+//   if (max_depth == 0) {
+//     return;
+//   }
+//
+//   for(pair<int, double> neighbor: graph[node]){
+//     double new_dist = curr_dist * neighbor.second;
+//     // check if new_path distance is greater than older one.
+//     distances[neighbor.first] = max(distances[neighbor.first], new_dist);
+//     shortestPathsWeightsB(distances, neighbor.first, max_depth - 1, new_dist);
+//   }
+// }
+//
+// double Graph::influenceLocalScore(int origine, vector<double>& scores, int node, vector<double>& activationProbs, int maxDepth) const{
+//   for(pair<int, double> neighbor: graph[node]){
+//     int newDepth;
+//     scores[origine] = scores[origine] - activationProbs[neighbor.first];
+//     if (maxDepth > 0){
+//       newDepth = maxDepth - 1;
+//       influenceLocalScore(origine, scores, neighbor.first, activationProbs, newDepth);
+//     }
+//   }
+// }
