@@ -1179,80 +1179,73 @@ string RTIM::generateFileName(string type, int param){
   return file_name;
 }
 
-// void Graph::updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth) const{
-//   path.insert(src);
-//   double new_path_weight;
-//   for(pair<int, double> neighbor: graph[src]){
-//     if(path.find(neighbor.first) == path.end()){
-//       new_path_weight = path_weight * neighbor.second;
-//       activationProbs[neighbor.first] = 1 - (1 - activationProbs[neighbor.first])*(1 - new_path_weight);
-//       if (depth > 1){
-//         updateNeighborsAP(neighbor.first, activationProbs, path, new_path_weight, depth - 1);
-//       }
-//     }
-//   }
-//   path.erase(src);
-// }
-//
-// void Graph::updateNeighborsAPShort(int src, vector<double>& activationProbs) const{
-//   for(pair<int, double> neighbor: graph[src]){
-//     activationProbs[neighbor.first] = 1 - (1 - activationProbs[neighbor.first])*(1 - neighbor.second);
-//   }
-// }
-//
-// void Graph::updateNeighborsAPDepth(int src, vector<double>& activationProbs, int maxDepth) const{
-//   // cout << "(" << src << ", d=" << 1 - maxDepth << ")";
-//   for(pair<int, double> neighbor: graph[src]){
-//     int newDepth;
-//     if (activationProbs[neighbor.first] < 1){
-//       activationProbs[neighbor.first] = 1 - (1 - activationProbs[neighbor.first])*(1 - neighbor.second * activationProbs[src]);
-//       if (maxDepth > 0){
-//         newDepth = maxDepth - 1;
-//         updateNeighborsAPDepth(neighbor.first, activationProbs, newDepth);
-//       }
-//     }
-//   }
-// }
+void RTIM::updateNeighborsAP(int src, set<int> path, double path_weight, int depth){
+  path.insert(src);
+  double new_path_weight;
+  for(pair<int, double> neighbor: graph.graph[src]){
+    if(path.find(neighbor.first) == path.end()){
+      new_path_weight = path_weight * neighbor.second;
+      activationProbabilities[neighbor.first] = 1 - (1 - activationProbabilities[neighbor.first])*(1 - new_path_weight);
+      if (depth > 1){
+        updateNeighborsAP(neighbor.first, path, new_path_weight, depth - 1);
+      }
+    }
+  }
+  path.erase(src);
+}
 
-// void Graph::updateInfluenceScore(double &infScore,int src, vector<double>& activationProbs, vector<double>& tmpAPs, int depth) const{
-//   int activated = 0;
-//   tmpAPs[src] = 1;
-//   queue< pair<int, int> > queue;
-//   // queue.push(src);
-//   double sum = 0;
-//   // first check all neighbors of src
-//   for(pair<int, double> neighbor: graph[src]){
-//     if(activationProbs[neighbor.first] == 1){ //neighbor is activated
-//       activated += 1;
-//       sum += neighbor.second;
-//     }
-//     tmpAPs[neighbor.first] = 1 - (1 - tmpAPs[neighbor.first])*(1 - neighbor.second*tmpAPs[src]);
-//     sum += tmpAPs[neighbor.first];
-//     queue.push(make_pair(neighbor.first, 1));
-//   }
-//   if( activated == graph[src].size()){ // if all neighbors are activated score = 1
-//     infScore = 1;
-//     return;
-//   }
-//   if (depth > 1){
-//     while(!queue.empty()){
-//       pair<int, int> curr = queue.front();
-//       queue.pop();
-//       for(pair<int, double> neighbor: graph[curr.first]){
-//         tmpAPs[neighbor.first] = 1 - (1 - tmpAPs[neighbor.first])*(1 - neighbor.second*tmpAPs[curr.first]);
-//         sum += tmpAPs[neighbor.first];
-//         if(curr.second + 1 <= depth){
-//           queue.push(make_pair(neighbor.first, curr.second + 1));
-//         }
-//       }
-//     }
-//     infScore -= sum;
-//     return;
-//   }
-//
-//
-// }
+void RTIM::updateNeighborsAPDepth(int src, int maxDepth){
+  // cout << "(" << src << ", d=" << 1 - maxDepth << ")";
+  for(pair<int, double> neighbor: graph.graph[src]){
+    int newDepth;
+    if (activationProbabilities[neighbor.first] < 1){
+      activationProbabilities[neighbor.first] = 1 - (1 - activationProbabilities[neighbor.first])*(1 - neighbor.second * activationProbabilities[src]);
+      if (maxDepth > 0){
+        newDepth = maxDepth - 1;
+        updateNeighborsAPDepth(neighbor.first, newDepth);
+      }
+    }
+  }
+}
 
+void RTIM::updateInfluenceScore(double &infScore,int src, vector<double>& tmpAPs, int depth){
+  int activated = 0;
+  tmpAPs[src] = 1;
+  queue< pair<int, int> > queue;
+  // queue.push(src);
+  double sum = 0;
+  // first check all neighbors of src
+  for(pair<int, double> neighbor: graph.graph[src]){
+    if(activationProbabilities[neighbor.first] == 1){ //neighbor is activated
+      activated += 1;
+      sum += neighbor.second;
+    }
+    tmpAPs[neighbor.first] = 1 - (1 - tmpAPs[neighbor.first])*(1 - neighbor.second*tmpAPs[src]);
+    sum += tmpAPs[neighbor.first];
+    queue.push(make_pair(neighbor.first, 1));
+  }
+  if( activated == graph.graph[src].size()){ // if all neighbors are activated score = 1
+    infScore = 1;
+    return;
+  }
+  if (depth > 1){
+    while(!queue.empty()){
+      pair<int, int> curr = queue.front();
+      queue.pop();
+      for(pair<int, double> neighbor: graph.graph[curr.first]){
+        tmpAPs[neighbor.first] = 1 - (1 - tmpAPs[neighbor.first])*(1 - neighbor.second*tmpAPs[curr.first]);
+        sum += tmpAPs[neighbor.first];
+        if(curr.second + 1 <= depth){
+          queue.push(make_pair(neighbor.first, curr.second + 1));
+        }
+      }
+    }
+    infScore -= sum;
+    return;
+  }
+
+
+}
 
 #ifndef MAIN
 int main(int argn, char **argv)
