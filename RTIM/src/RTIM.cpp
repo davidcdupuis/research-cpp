@@ -172,22 +172,26 @@ void RTIM::infScorePreProcess(){
 // void updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth);
 
 void RTIM::live(){
+  seedSet.clear(); // in case live was already run with different arguments
   graph.importDegrees();
-  importIMMSeed();
+  if (graph.dataset != "test"){
+    importIMMSeed();
+  }
+
+  // duplicate influence scores so we can modify them during the live process
   vector<double> tmpInfScores;
   for(double score: infScores){
     tmpInfScores.push_back(score);
   }
-  clock_t startLive = clock();
-  string startDatetime = getLocalDatetime();
-  // nodes = graph.graph.size();
-  // cout << "-------------------------------" << endl;
-  // cout << "Running live on " << graph.dataset << endl;
-  seedSet.clear(); // in case live was already run with different params
+
   initiateProgressLog();
   initiateStreamLog();
   activationProbabilities.clear();
   activationProbabilities.resize(graph.nodes, 0);
+
+  // start live timer
+  clock_t startLive = clock();
+  string startDatetime = getLocalDatetime();
 
   // printScores();
   getInfIndex(sortedScores);
@@ -223,24 +227,38 @@ void RTIM::live(){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
     }
     if (activationProbabilities[user] < theta_ap){ // CHECK ACTIVATION PROBABILITY
+      
       // ADD FUNCTION TO PROPERLY UPDATE INFLUENCE SCORE, RECORD TIME
+      // ---------------------update influence score --------------------------
       // check neighbors
       double tot = 0;
+      double old_score = tmpInfScores[user];
       start = clock();
+      // check all first neighbors first
       for(pair<int, double> neighbor: graph.graph[user]){
-        // if(activationProbabilities[neighbor.first] == 1){
-        //   tot ++;
-        // }
-        tot += activationProbabilities[neighbor.first];
+        if(activationProbabilities[neighbor.first] == 1){
+          tot ++;
+        }
+        // tot += activationProbabilities[neighbor.first];
+      }
+      if (tot == graph.graph[user].size()){
+        // all neighbors are activate, user influence score = 1
+        tmpInfScores[user] = 1;
+        old_score = tmp
+      }else{
+        // this is not the case, we need to check at depth 2.
+      }
+      // we need to update the inf. threshold if the new score is below it
+      // this allows the top % to be the same
+      if (old_score > sortedScores[infIndex] && tmpInfScores[user] < sortedScores[infIndex]){
+        infIndex --;
       }
       inf_duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-      double old_score = tmpInfScores[user];
+
       if (tot == graph.graph[user].size()){
-        // cout << "All neighbors are activated: " << user << " > ap= " << activationProbabilities[user] << "| old_score= " << old_score << endl;
-        tmpInfScores[user] = 1;
-        if (old_score > sortedScores[infIndex] && tmpInfScores[user] < sortedScores[infIndex]){
-          infIndex --;
-        }
+        // // all neighbors are activate, user influence score = 1
+        // // cout << "All neighbors are activated: " << user << " > ap= " << activationProbabilities[user] << "| old_score= " << old_score << endl;
+        // tmpInfScores[user] = 1;
       }else if (tot > 0){
         tmpInfScores[user] = tmpInfScores[user] - tot;
         // cout << "New score for : " << user << " > old_score = " << old_score << " > new_score = " << tmpInfScores[user] << endl;
@@ -248,7 +266,9 @@ void RTIM::live(){
           infIndex --;
         }
       }
+      // --------------------------------------------------------------
 
+      // START MAKING TARGETIGN DECISIONS
       if(tmpInfScores[user] >= sortedScores[infIndex]){ // CHECK INFLUENCE SCORE
         seedSet.push_back(user); // add user to seed set
         saveProgress(user,activationProbabilities[user], tmpInfScores[user], sum, sortedScores[infIndex], seedSet.size());
