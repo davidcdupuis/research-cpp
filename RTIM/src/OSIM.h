@@ -29,22 +29,24 @@ public:
    * It does this by removing nodes in priority with few outgoing edges, i.e.
    * that don't influence lots of other nodes
    */
-  void reduceGraph(int size);
+  void reduceGraph(int top);
 
   /* Finds the optimal size given a graph
    * Graph can be full size or a reduction
    */
   void findOptimalSize();
 
-  /* function to find the best seed set for the given graph considering the
-   * optimal seed set size
-   * It does this by:
-   * 1. First picking uniformily at random a user, simulating spread, and
-   *    repeating until all users in the graph have been activated. It repeats
-   *    this steps as many times as possible creating sample seed sets.
-   * 2. Then it ... ?
-   */
-  void seedSet();
+  /** run the same algoritm as for optimal size
+    * save seed sets and randomly pick one with the same optimal size (how many?)
+    * test influence score
+    */
+  void findRandomSeedSet();
+
+  /** run the same algorithm as for optimal size
+    * save seed sets, for all sets with optimal size compute the influence score
+    * choose best
+    */
+  void findBestSeedSet();
 }
 
 #endif
