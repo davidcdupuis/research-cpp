@@ -1,19 +1,3 @@
-#include <vector>
-#include <cstdio>
-#include <ctime>
-#include <time.h>
-#include <omp.h>
-#include <string>
-#include <algorithm>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <iostream>
-#include <fstream>
-#include <iomanip>
-#include <ctime>
-#include <sstream>
-#include <stdexcept>
-
 #include "RTIM.h"
 
 /**
@@ -169,6 +153,64 @@ void RTIM::infScorePreProcess(){
   saveScores();
 };
 
+void RTIM::actProbPreProcess(){
+  preActProbs.resize(graph.nodes, 0);
+  graph.importDegrees();
+  // for each node in the graph, compute it's activation probability
+  // with the "WC" model we only need to use the in degree
+  for(int i = 0; i < graph.nodes; i++){
+    if(graph.inDegrees[i] > 1){
+      preActProbs[i] = 1.0 - pow(1.0 / graph.inDegrees[i], graph.inDegrees[i]);
+    }else if (graph.inDegrees[i] == 1){
+      preActProbs[i] = 1;
+    }else{
+      preActProbs[i] = 0;
+    }
+
+  }
+  // save results to file
+  cout << "Activation Probabilities calculated!" << endl;
+  saveActProbs();
+}
+
+void RTIM::saveActProbs(){
+  string file = "../../data/" + graph.dataset + "/rtim/pre_process/";
+  if (!pathExists(file)){
+    cerr << "Error path doesn't exist: " << file << endl;
+    exit(1);
+  }
+  file += datasets[graph.dataset]["id"] + "_aps.txt";
+  printInColor("cyan", "Saving activation probabilities to " + file);
+
+  ofstream actProbsFile;
+  actProbsFile.open(file);
+  for (int i = 0; i < preActProbs.size() ; i++){
+     actProbsFile << i << " " << preActProbs[i] << endl;
+  }
+  actProbsFile.close();
+}
+
+void RTIM::importActProbs(){
+  string file = "../../data/" + graph.dataset + "/rtim/pre_process/";
+  file += datasets[graph.dataset]["id"] + "_aps.txt";
+  if (!pathExists(file)){
+    cerr << "Error path doesn't exist: " << file << endl;
+    exit(1);
+  }
+  // cout << "Importing influence scores from: " << folder << endl;
+  printInColor("cyan", "Importing activation probabilities from: " + file);
+  preActProbs.resize(graph.nodes, 0);
+  int user;
+  double ap;
+
+  ifstream infile(file.c_str());
+  while(infile >> user >> ap){
+    preActProbs[user] = ap;
+  }
+  // cout << "Import successful" << endl;
+  printInColor("cyan", "Import successful");
+}
+
 // void updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth);
 
 void RTIM::liveExploration(int& sum, int currUser, double currPathWeight, bool activated, int depth){
@@ -192,6 +234,9 @@ void RTIM::live(){
   graph.importDegrees();
   if (graph.dataset != "test"){
     importIMMSeed();
+  }
+  if (preActProbs.size() == 0){
+    importActProbs();
   }
 
   // duplicate influence scores so we can modify them during the live process
@@ -426,7 +471,7 @@ void RTIM::saveScores(){
   }
   file += generateFileName("save_infScores");
   //string txt = "Saving inlfuence score to " + file;
-  printInColor("cyan", "Saving inlfuence score to " + file);
+  printInColor("cyan", "Saving inlfuence scores to " + file);
   //cout << "\033[33mSaving influence scores to: " << file << "\033[0m" << endl;
   // save scores
   ofstream infScoresFile;
@@ -585,6 +630,7 @@ void RTIM::initiateStreamLog(){
   streamLog << "------------------------------------------------------------" << endl;
   streamLog << left << setw(8 + 1) << "position";
   streamLog << left << setw(8 + 1) << "user_id";
+  streamLog << left << setw(10 + 1) << "preAp";
   streamLog << left << setw(10 + 1) << "ap";
   streamLog << left << setw(10 + 1) << "ap_time(s)";
   streamLog << left << setw(10 + 1) << "inf_old";
@@ -611,6 +657,7 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oS
   streamLog << setprecision(5);
   streamLog << left << setw(8 + 1) << pos;
   streamLog << left << setw(8 + 1) << user;
+  streamLog << left << setw(10 + 1) << preActProbs[user];
   streamLog << left << setw(10 + 1) << ap;
   if (ap_time == -1){
     streamLog << left << setw(10 + 1) << "-";
@@ -729,7 +776,7 @@ int RTIM::stagesMenu(string prevClass){
           // pre-process probabilities menu
           clearLines(9);
           stage = "pre-process APs";
-          // result = apPreProcessMenu(prevClass);
+          result = apPreProcessMenu(prevClass);
           break;
         case 3:
           // live menu
@@ -855,6 +902,20 @@ int RTIM::infScorePreProcessMenu(string prevClass){
   }else{
     return result - 1;
   }
+}
+
+int RTIM::apPreProcessMenu(string prevClass){
+  if(!graph.loaded){
+    cout << "loading graph" << endl;
+    graph.loadGraph();
+    graph.loaded = true;
+  }
+  printInColor("magenta", string(60, '-'));
+  printLocalTime("magenta", "Pre-process Activation Probabilities", "starting");
+  actProbPreProcess();
+  printLocalTime("magenta", "Pre-process Activation Probabilities", "ending");
+  printInColor("magenta", string(60, '-'));
+  return 0;
 }
 
 int RTIM::liveMenu(string prevClass){

@@ -3,6 +3,20 @@
 
 #include <string>
 #include <vector>
+#include <math.h>
+#include <cstdio>
+#include <ctime>
+#include <time.h>
+#include <omp.h>
+#include <algorithm>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <ctime>
+#include <sstream>
+#include <stdexcept>
 
 #include "Graph.h"
 #include "Tools.h"
@@ -63,6 +77,7 @@ public:
   std::set<int> immSeedSet;
   std::string seedFile = "";
   std::vector<double> activationProbabilities; /**< array of activation probabilities*/
+  std::vector<double> preActProbs; // preProcessed activation probabilities
   Graph& graph;
 
   RTIM(Graph& g);
@@ -75,7 +90,13 @@ public:
     * @param graph: user influence network to use
     * @param max_depth: maximum depth for inf. score computation
     */
-  void infScorePreProcess();//const Graph& graph);
+  void infScorePreProcess();
+
+  void actProbPreProcess();
+
+  void saveActProbs();
+
+  void importActProbs();
 
   // void updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth);
 
