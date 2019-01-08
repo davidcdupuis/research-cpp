@@ -91,6 +91,8 @@ public:
 
   // LIVE FUNCTIONS
 
+  void liveExploration(int& sum, int currUser, double currPathWeight, bool activated, int depth=2);
+
   /** Live stage
     * For stream of user decide to target, if targeted update activation
     * probability of neighboring nodes

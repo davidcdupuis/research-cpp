@@ -99,3 +99,9 @@ nethept,inNOut_repeat,1,1522,1,0.8,2,200,49,5.5e-05,0.053299
 nethept,inNOut_repeat,1,1522,1,0.8,2,200,49,2.1e-05,0.038149
 nethept,inNOut_repeat,1,1522,1,0.8,2,200,49,3.9e-05,0.033942
 nethept,inNOut_repeat,1,1522,1,0.8,2,200,49,2.8e-05,0.033859
+nethept,inNOut_repeat,1,1522,1,0.8,2,200,101,3e-06,0.184782
+nethept,inNOut_repeat,1,1522,1,0.8,2,200,101,1e-06,0.144027
+nethept,inNOut_repeat,1,1522,1,0.8,2,200,101,3e-06,0.124977
+nethept,inNOut_repeat,1,1522,1,0.8,2,200,101,1e-06,0.09933
+nethept,inNOut_repeat,1,1522,1,0.8,2,200,101,1e-06,0.075142
+nethept,inNOut_repeat,1,1522,2,0.8,2,200,180,2e-06,0.078057

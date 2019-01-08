@@ -171,6 +171,22 @@ void RTIM::infScorePreProcess(){
 
 // void updateNeighborsAP(int src, vector<double>& activationProbs, set<int> path, double path_weight, int depth);
 
+void RTIM::liveExploration(int& sum, int currUser, double currPathWeight, bool activated, int depth){
+  // cout << sum << " | " << currUser << " | " << currPathWeight << " | " << activated << " | " << depth << " | " << theta_ap << endl;
+  if(activationProbabilities[currUser] >= theta_ap){
+    activated = 1;
+    sum += currPathWeight;
+  }
+  // check all neighbors
+  for(pair<int, double> neighbor: graph.graph[currUser]){
+    if(depth - 1 >= 0){
+      int newD = depth - 1;
+      double newPathWeight = currPathWeight * neighbor.second;
+      liveExploration(sum, neighbor.first, newPathWeight, activated, newD);
+    }
+  }
+}
+
 void RTIM::live(){
   seedSet.clear(); // in case live was already run with different arguments
   graph.importDegrees();
@@ -227,7 +243,7 @@ void RTIM::live(){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
     }
     if (activationProbabilities[user] < theta_ap){ // CHECK ACTIVATION PROBABILITY
-      
+
       // ADD FUNCTION TO PROPERLY UPDATE INFLUENCE SCORE, RECORD TIME
       // ---------------------update influence score --------------------------
       // check neighbors
@@ -239,14 +255,26 @@ void RTIM::live(){
         if(activationProbabilities[neighbor.first] == 1){
           tot ++;
         }
-        // tot += activationProbabilities[neighbor.first];
       }
       if (tot == graph.graph[user].size()){
-        // all neighbors are activate, user influence score = 1
+        // all neighbors are activated, user influence score = 1
         tmpInfScores[user] = 1;
-        old_score = tmp
+        // old_score = tmpInfScores[user];
       }else{
         // this is not the case, we need to check at depth 2.
+        /* We recursively traverse all neighbors to a depth of 2
+         We pass in parameter the weight of the path and a bool value indicating
+         if a node on the path has been activated.
+         We compute the path weight, if the current or neighbor is activated we
+         change the bool value to 1 (true) and we add the path weight to a total
+         value which will be removed from the nodes influence score
+        */
+        int sum = 0;
+        liveExploration(sum, user, 1, 0, 2);
+        tmpInfScores[user] = tmpInfScores[user] - sum;
+      }
+      if(old_score != tmpInfScores[user]){
+        cout << "User: " << user << " | oScore: " << old_score << " | nScore: " << tmpInfScores[user] << endl;
       }
       // we need to update the inf. threshold if the new score is below it
       // this allows the top % to be the same
@@ -254,21 +282,9 @@ void RTIM::live(){
         infIndex --;
       }
       inf_duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-
-      if (tot == graph.graph[user].size()){
-        // // all neighbors are activate, user influence score = 1
-        // // cout << "All neighbors are activated: " << user << " > ap= " << activationProbabilities[user] << "| old_score= " << old_score << endl;
-        // tmpInfScores[user] = 1;
-      }else if (tot > 0){
-        tmpInfScores[user] = tmpInfScores[user] - tot;
-        // cout << "New score for : " << user << " > old_score = " << old_score << " > new_score = " << tmpInfScores[user] << endl;
-        if (old_score > sortedScores[infIndex] && tmpInfScores[user] < sortedScores[infIndex]){
-          infIndex --;
-        }
-      }
       // --------------------------------------------------------------
 
-      // START MAKING TARGETIGN DECISIONS
+      // START MAKING TARGETING DECISIONS
       if(tmpInfScores[user] >= sortedScores[infIndex]){ // CHECK INFLUENCE SCORE
         seedSet.push_back(user); // add user to seed set
         saveProgress(user,activationProbabilities[user], tmpInfScores[user], sum, sortedScores[infIndex], seedSet.size());
@@ -379,6 +395,7 @@ void RTIM::live(){
 
 void RTIM::initializeInfluenceScores(){
   // ideally we should not repeat this if live is run more than once
+  cout << "Initializing influence scores" << endl;
   importScores();
   sortedScores = infScores;
   sort(sortedScores.begin(), sortedScores.end());
