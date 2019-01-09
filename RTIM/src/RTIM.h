@@ -136,7 +136,7 @@ public:
     * @param maxTime
     * @param runtime
     */
-  void saveLiveLog(double& maxTime, double& runtime, std::string startDatetime, std::string endDatetime);
+  void saveLiveLog(double& maxTime, double& runtime, std::string startDatetime, std::string endDatetime, double rtimScore, double immScore);
 
   /** Save live data to CSV file
     *

@@ -383,8 +383,6 @@ void RTIM::live(){
 
   string endDatetime = getLocalDatetime();
   double liveDuration = (clock() - startLive)/(double)CLOCKS_PER_SEC;
-  saveLiveLog(max_time, liveDuration, startDatetime, endDatetime);
-  saveLiveCSV(graph, streamDuration, max_time, liveDuration);
 
   // COMPUTE SEED SET INFLUENCE SCORE ESTIMATION BY SUMMING ACTIVATION PROBS
   double estScore = 0;
@@ -400,7 +398,8 @@ void RTIM::live(){
   printInColor("magenta", string(60, '-'));
   printLocalTime("magenta", "Compute RTIM seed score", "starting");
   string seedFile = generateDataFilePath("rtim_seedSet") + generateFileName("rtim_seedSet", seedSet.size());
-  double score;
+  double rtimScore;
+  double immScore;
   string scoreStartDate = getLocalDatetime();
   clock_t scoreStartTime = clock();
   if (graph.dataset == "twitter"){
@@ -408,20 +407,20 @@ void RTIM::live(){
   }else{
     infScore.depth = 10000;
   }
-  score = infScore.mcInfScoreParallel();
+  rtimScore = infScore.mcInfScoreParallel();
 
   double scoreDuration = (clock() - startTime)/(double)CLOCKS_PER_SEC;
   string scoreEndDate = getLocalDatetime();
-  printInColor("red", "RTIM: \u03C3_MC(seed) = " + properStringDouble(score));
-  infScore.saveSeedScoreLog(seedFile, scoreStartDate, scoreEndDate, scoreDuration, score);
-  infScore.saveSeedScoreCSV(seedFile, scoreStartDate, scoreEndDate, scoreDuration, score);
+  printInColor("red", "RTIM: \u03C3_MC(seed) = " + properStringDouble(rtimScore));
+  infScore.saveSeedScoreLog(seedFile, scoreStartDate, scoreEndDate, scoreDuration, rtimScore);
+  infScore.saveSeedScoreCSV(seedFile, scoreStartDate, scoreEndDate, scoreDuration, rtimScore);
   // printLocalTime("magenta", "IMM seed test", "ending");
   printLocalTime("magenta", "Compute RTIM seed score", "ending");
   printInColor("magenta", string(60, '-'));
 
   printInColor("red", "IMM seed set size: " + to_string(immSeedSet.size()));
   printInColor("magenta", string(60, '-'));
-  printLocalTime("magenta", "Compute RTIM seed score", "starting");
+  printLocalTime("magenta", "Compute IMM seed score", "starting");
   vector<int> vecImmSeedSet;
   for(int seed: immSeedSet){
     vecImmSeedSet.push_back(seed);
@@ -432,10 +431,12 @@ void RTIM::live(){
   }else{
     infScore.depth = 10000;
   }
-  score = infScore.mcInfScoreParallel();
-  printInColor("red", "IMM: \u03C3_MC(seed) = " + properStringDouble(score));
-  printLocalTime("magenta", "Compute RTIM seed score", "ending");
+  immScore = infScore.mcInfScoreParallel();
+  printInColor("red", "IMM: \u03C3_MC(seed) = " + properStringDouble(immScore));
+  printLocalTime("magenta", "Compute IMM seed score", "ending");
   printInColor("magenta", string(60, '-'));
+  saveLiveLog(max_time, liveDuration, startDatetime, endDatetime, rtimScore, immScore);
+  saveLiveCSV(graph, streamDuration, max_time, liveDuration);
 };
 
 void RTIM::initializeInfluenceScores(){
@@ -528,7 +529,7 @@ void RTIM::importSeedSet(string file_path){
   cout << "Seed set imported correctly!" << endl;
 }
 
-void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, string endDatetime){
+void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, string endDatetime, double rtimScore, double immScore){
   // string file = "../../data/" + graph.dataset + "/streams/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + graph.dataset + "_liveLog.txt";
   string path = "../../data/" + graph.dataset + "/logs/";
   if (!pathExists(path)){
@@ -545,6 +546,8 @@ void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, s
   liveLogFile << "End date        : " << endDatetime << endl;
   liveLogFile << "Duration        : " << cleanTime(runtime, "s") << endl;
   liveLogFile << "Max update time : " << cleanTime(maxTime, "s") << endl;
+  liveLogFile << "RTIM \u03C3_MC  : " << rtimScore << endl;
+  liveLogFile << "IMM  \u03C3_MC  : " << immScore << endl;
   liveLogFile << "----------------------------------------------------" << endl;
   liveLogFile.close();
   //cout << "\033[33mLive log saved successfully!\033[0m" << endl;
