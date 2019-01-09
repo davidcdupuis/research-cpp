@@ -700,3 +700,35 @@ End date        : Wed Nov 28 15:33:55 2018
 Duration        : 1.643314 seconds
 Max update time : 0.027627 seconds
 ----------------------------------------------------
+File name       : YO_k1000_r0,01_ap0,8_inoutr_v1_s113489_ss1183.txt
+Start date      : Wed Jan  9 13:57:10 2019
+End date        : Wed Jan  9 14:09:01 2019
+Duration        : 11.760191 minutes
+Max update time : 0.000002 seconds
+RTIM σ_MC  : 382536
+IMM  σ_MC  : 386947
+----------------------------------------------------
+File name       : YO_k1000_r0,01_ap0,8_inoutr_v1_s113489_ss1183.txt
+Start date      : Wed Jan  9 14:30:04 2019
+End date        : Wed Jan  9 14:30:06 2019
+Duration        : 1.870269 seconds
+Max update time : 0.000016 seconds
+RTIM σ_MC  : 382549
+IMM  σ_MC  : 386968
+----------------------------------------------------
+File name       : YO_k1000_r0,01_ap0,8_inoutr_v1_s113489_ss1183.txt
+Start date      : Wed Jan  9 14:36:14 2019
+End date        : Wed Jan  9 14:36:16 2019
+Duration        : 1.677185 seconds
+Max update time : 0.000001 seconds
+RTIM σ_MC  : 382551
+IMM  σ_MC  : 386956
+----------------------------------------------------
+File name       : YO_k1000_r0,01_ap0,8_inoutr_v1_s113489_ss1183.txt
+Start date      : Wed Jan  9 15:01:35 2019
+End date        : Wed Jan  9 15:01:37 2019
+Duration        : 1.682113 seconds
+Max update time : 0.000001 seconds
+RTIM σ_MC  : 382535
+IMM  σ_MC  : 386975
+----------------------------------------------------

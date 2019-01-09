@@ -572,3 +572,31 @@ Runtime    : 862.41
 Seed size  : 987
 Inf. score : 369643
 -----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/YO_k1000_r0,01_ap0,8_inoutr_v1_s113489_ss1183.txt
+Start date : Wed Jan  9 14:09:01 2019
+End date   : Wed Jan  9 14:09:19 2019
+Runtime    : 13.6373
+Seed size  : 1183
+Inf. score : 382536
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/YO_k1000_r0,01_ap0,8_inoutr_v1_s113489_ss1183.txt
+Start date : Wed Jan  9 14:30:06 2019
+End date   : Wed Jan  9 14:30:23 2019
+Runtime    : -699.032
+Seed size  : 1183
+Inf. score : 382549
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/YO_k1000_r0,01_ap0,8_inoutr_v1_s113489_ss1183.txt
+Start date : Wed Jan  9 14:36:16 2019
+End date   : Wed Jan  9 14:36:33 2019
+Runtime    : -696.935
+Seed size  : 1183
+Inf. score : 382551
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/YO_k1000_r0,01_ap0,8_inoutr_v1_s113489_ss1183.txt
+Start date : Wed Jan  9 15:01:37 2019
+End date   : Wed Jan  9 15:01:54 2019
+Runtime    : -702.781
+Seed size  : 1183
+Inf. score : 382535
+-----------------------------------------------

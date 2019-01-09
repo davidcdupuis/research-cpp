@@ -304,23 +304,17 @@ void RTIM::live(){
       if (tot == graph.graph[user].size()){
         // all neighbors are activated, user influence score = 1
         tmpInfScores[user] = 1;
+	//cout << "User: " << user << " has all activated neighbors" << endl;
         // old_score = tmpInfScores[user];
-      }else{
+      }/*else{
         // this is not the case, we need to check at depth 2.
-        /* We recursively traverse all neighbors to a depth of 2
-         We pass in parameter the weight of the path and a bool value indicating
-         if a node on the path has been activated.
-         We compute the path weight, if the current or neighbor is activated we
-         change the bool value to 1 (true) and we add the path weight to a total
-         value which will be removed from the nodes influence score
-        */
         int sum = 0;
         liveExploration(sum, user, 1, 0, 2);
         tmpInfScores[user] = tmpInfScores[user] - sum;
-      }
-      if(old_score != tmpInfScores[user]){
-        cout << "User: " << user << " | oScore: " << old_score << " | nScore: " << tmpInfScores[user] << endl;
-      }
+      }*/
+      //if(old_score != tmpInfScores[user]){
+      //  cout << "User: " << user << " | oScore: " << old_score << " | nScore: " << tmpInfScores[user] << endl;
+      //}
       // we need to update the inf. threshold if the new score is below it
       // this allows the top % to be the same
       if (old_score > sortedScores[infIndex] && tmpInfScores[user] < sortedScores[infIndex]){

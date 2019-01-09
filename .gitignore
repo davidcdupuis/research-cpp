@@ -29,6 +29,7 @@ data/dblp/dblp_degrees.txt
 
 RTIM/src/*.o
 RTIM/src/rtim
+RTIM/src/main
 
 IMM/*.o
 IMM/imm_continuous

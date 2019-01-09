@@ -8,10 +8,10 @@ import numpy as np
 import tools
 
 def saveInDegrees(dataset, nodes, inDeg, outDeg):
-    file_path = "../data/{0}/{1}_infDegrees.inf".format(dataset, settings.datasets[dataset])
+    file_path = "../data/{0}/{1}_degrees.txt".format(dataset, settings.datasets[dataset])
     with open(file_path, 'w') as f:
-        writer = csv.writer(f)
-        writer.writerow(['user', 'infOutDegree', 'infInDegree'])
+        writer = csv.writer(f, delimiter=' ')
+        writer.writerow(['user', 'in', 'out'])
         for i in range(0, nodes):
             writer.writerow([i, outDeg[i], inDeg[i]])
     print("Saved influence degrees to: {}".format(file_path))
