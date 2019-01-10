@@ -30,7 +30,7 @@ void RTIM::importIMMSeed(){
   immTargeted.resize(graph.nodes, 0);
   string path = "../../data/" + graph.dataset + "/imm/basic/" + datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_e" + "0,1" + "_ss.txt";
   if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   cout << "Importing IMM Seed Set from " + path << endl;
@@ -176,7 +176,7 @@ void RTIM::actProbPreProcess(){
 void RTIM::saveActProbs(){
   string file = "../../data/" + graph.dataset + "/rtim/pre_process/";
   if (!pathExists(file)){
-    cerr << "Error path doesn't exist: " << file << endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   file += datasets[graph.dataset]["id"] + "_aps.txt";
@@ -194,7 +194,7 @@ void RTIM::importActProbs(){
   string file = "../../data/" + graph.dataset + "/rtim/pre_process/";
   file += datasets[graph.dataset]["id"] + "_aps.txt";
   if (!pathExists(file)){
-    cerr << "Error path doesn't exist: " << file << endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   // cout << "Importing influence scores from: " << folder << endl;
@@ -263,7 +263,7 @@ void RTIM::live(){
   int user;
   // cout << "Reading availability stream: " << folder << endl;
   if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   printInColor("cyan", "Reading stream from : " + path);
@@ -461,7 +461,7 @@ void RTIM::printScores(){
 void RTIM::saveScores(){
   string file = "../../data/" + graph.dataset + "/rtim/pre_process/";
   if (!pathExists(file)){
-    cerr << "Error path doesn't exist: " << file << endl;
+    cerr << "Error path doesn't exist: " << file << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   file += generateFileName("save_infScores");
@@ -485,7 +485,7 @@ void RTIM::saveSeedSet(bool progress, int progPercentage){
   if(progress){
     file = generateDataFilePath("rtim_progress_seedSet");
     if (!pathExists(file)){
-      cerr << "Error path doesn't exist: " << file << endl;
+      cerr << "Error path doesn't exist: " << file << " in " << __FILE__ << " at line " << __LINE__ << endl;
       exit(1);
     }
     file += generateFileName("rtim_progress_seedSet", progPercentage);
@@ -493,7 +493,7 @@ void RTIM::saveSeedSet(bool progress, int progPercentage){
   }else{
     file = generateDataFilePath("rtim_seedSet");
     if (!pathExists(file)){
-      cerr << "Error path doesn't exist: " << file << endl;
+      cerr << "Error path doesn't exist: " << file << " in " << __FILE__ << " at line " << __LINE__ << endl;
       exit(1);
     }
     file += generateFileName("rtim_seedSet", seedSet.size());
@@ -513,7 +513,7 @@ void RTIM::importSeedSet(string file_path){
   // string file = "../../data/" + graph.dataset + "/" + file_path;
   cout << "Importing from: " << file_path << endl;
   if (!pathExists(file_path)){
-    cerr << "Error path doesn't exist: " << file_path << endl;
+    cerr << "Error path doesn't exist: " << file_path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   ifstream infile(file_path.c_str());
@@ -527,7 +527,7 @@ void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, s
   // string file = "../../data/" + graph.dataset + "/streams/" + streamModel + "/" + streamModel + "_m" + to_string(streamVersion) + "/" + graph.dataset + "_liveLog.txt";
   string path = "../../data/" + graph.dataset + "/logs/";
   if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   path += "rtim_live.log";
@@ -551,7 +551,7 @@ void RTIM::saveLiveLog(double& maxTime, double& runtime, string startDatetime, s
 void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, double& runtime){
   string path = "../../data/" + graph.dataset + "/logs/";
   if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   path += "rtim_live.csv";
@@ -579,7 +579,7 @@ void RTIM::saveLiveCSV(const Graph& graph, double& streamTime, double& maxTime, 
 void RTIM::initiateProgressLog(){
   string path = generateDataFilePath("rtim_progress");
   if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   path += generateFileName("rtim_progress");
@@ -593,7 +593,7 @@ void RTIM::initiateProgressLog(){
 void RTIM::saveProgress(int user_index, double ap, double score, int seen, double infTheta, int seedSize){
   string path = generateDataFilePath("rtim_progress");
   if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   path += generateFileName("rtim_progress");

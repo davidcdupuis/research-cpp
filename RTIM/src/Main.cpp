@@ -288,7 +288,7 @@ int Main::runExperiments(string path){
 
 void Main::readExperiments(string path){
   if (!pathExists(path)){
-    cerr << "Error in readExperiments, path doesn't exist: " << path << endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   cout << "reading experiments" << endl;
@@ -418,7 +418,7 @@ void Main::getArguments(string line){
     // define stage to run
     if (words[i] == string("-stage")){
       if ((words[i + 1] != string("pre")) && (words[i + 1] != string("live")) && (words[i + 1] != string("newStream")) && (words[i + 1] != string("special"))){
-        cerr << "Error: stage not recognized [ " << words[i + 1] << " ]"<< endl;
+        cerr << "Error: stage not recognized [ " << words[i + 1] << " ] in " << __FILE__ << " at line " << __LINE__ << endl;
         exit(1);
       }else{
         rtim.stage = words[i + 1];
@@ -430,7 +430,7 @@ void Main::getArguments(string line){
       // verify if dataset among list of available datasets in directory
       graph.dataset = words[i + 1];
       if(graph.dataset != "test" && graph.dataset != "nethept" && graph.dataset != "dblp" && graph.dataset != "orkut" && graph.dataset != "youtube" && graph.dataset != "twitter" && graph.dataset != "livejournal"){
-        cerr << "Dataset not recognized: " << graph.dataset << endl;
+        cerr << "Dataset not recognized: " << graph.dataset << " in " << __FILE__ << " at line " << __LINE__ << endl;
         exit(1);
       }
     }
@@ -439,7 +439,7 @@ void Main::getArguments(string line){
     if (words[i] == string("-model")){
       graph.infModel = words[i + 1];
       if (graph.infModel != "wc" && graph.infModel != "ic"){
-        cerr << "Model not recognized: " << graph.infModel << endl;
+        cerr << "Model not recognized: " << graph.infModel << " in " << __FILE__ << " at line " << __LINE__ << endl;
         exit(1);
       }
     }

@@ -24,7 +24,7 @@ void Graph::readAttributes(){
       //cout << "Number of edges: " << edges << endl;
       continue;
     }
-    cerr << "Error: bad attributes!" << endl;
+    cerr << "Error: bad attributes in " << __FILE__ << " at line: " << __LINE__ << endl;
     exit(1);
   }
   infile.close();

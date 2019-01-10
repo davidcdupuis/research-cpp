@@ -14,7 +14,7 @@ void InfScore::importSeedSet(string filePath){
   // string file = "../../data/" + graph.dataset + "/" + file_path;
   cout << "Importing from: " << filePath << endl;
   if (!pathExists(filePath)){
-    cerr << "Error path doesn't exist: " << filePath << endl;
+    cerr << "Error path doesn't exist: " << filePath << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   ifstream infile(filePath.c_str());
@@ -437,7 +437,7 @@ void InfScore::pathExploration(bool *seedNodes, vector<double> &tmpAPs, int curr
 void InfScore::saveSeedScoreLog(string file, string startDate, string endDate, double& runtime, double& score){
   string path = "../../data/" + graph.dataset + "/logs/";
   if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   path += "seed_set_score.log";
@@ -457,7 +457,7 @@ void InfScore::saveSeedScoreLog(string file, string startDate, string endDate, d
 void InfScore::saveSeedScoreCSV(string file, string startDate, string endDate, double& runtime, double& score){
   string path = "../../data/" + graph.dataset + "/logs/";
   if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   path += "seed_set_score.csv";
