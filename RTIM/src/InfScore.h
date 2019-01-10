@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
+#include <iomanip>
 
 #include "Graph.h"
 #include "Tools.h"
@@ -36,7 +37,11 @@ public:
 
   int infSimulation(bool *visited);
 
-  double apInfScore();
+  double firstNeighborsScore();
+
+  double apInfScore(int depth = 2);
+
+  void pathExploration(bool *seedNodes, std::vector<double> &tmpAPs, int currUser, int depth, double pathWeight);
 
   void saveSeedScoreLog(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
 
@@ -99,6 +104,11 @@ public:
   // Function to update the local influence based on activated neighbors
   double influenceLocalScore(int origine, std::vector<double>& scores, int node, std::vector<double>& activationProbs, int maxDepth = 100) const;
 
+  void infScoreTest();
+
+  void initializeAlgoLog();
+
+  void recordAlgoLog(std::string dataset, int size, int version, std::string algo, double score, double runtime);
 };
 
 #endif

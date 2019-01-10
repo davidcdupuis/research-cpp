@@ -24,7 +24,6 @@ void printInColor(string color, string txt){
   cout << "\033[1;" + colorVal + "m" + txt + "\033[0m" << endl;
 }
 
-
 string toColor(string color, string txt){
   string colorVal;
   if(color == "red"){
@@ -46,7 +45,6 @@ string toColor(string color, string txt){
   }
   return "\033[1;" + colorVal + "m" + txt + "\033[0m";
 }
-
 
 string cleanTime(double t, string type){
   if (type == "ms"){
@@ -83,7 +81,6 @@ string cleanTime(double t, string type){
   }
 }
 
-
 void clearLines(int l){
   cout << "\r                                                                                                                                           ";
   for(int i=0; i < l; i++){
@@ -91,7 +88,6 @@ void clearLines(int l){
   }
   cout << "\r";
 }
-
 
 void printLocalTime(string color, string name, string status){
   time_t tt;
@@ -105,7 +101,6 @@ void printLocalTime(string color, string name, string status){
   printInColor(color, txt);
 }
 
-
 string getLocalDatetime(){
   time_t tt;
   struct tm * ti;
@@ -115,7 +110,6 @@ string getLocalDatetime(){
   dateTime[strlen(dateTime) - 1] = 0;
   return dateTime;
 }
-
 
 string printSeed(vector<int> seed){
   string s = "[";
@@ -129,7 +123,6 @@ string printSeed(vector<int> seed){
   s += "]";
   return s;
 }
-
 
 string properStringDouble(double value){
   string original = to_string(value);
@@ -157,7 +150,6 @@ string properStringDouble(double value){
   return result;
 }
 
-
 string cleanLongInt(int value){
   string result = to_string(value);
   string reverse = "";
@@ -176,7 +168,6 @@ string cleanLongInt(int value){
   }
   return result;
 }
-
 
 void listFolderFiles(string folder){
   DIR *dir;
@@ -198,4 +189,24 @@ void listFolderFiles(string folder){
 bool pathExists(const std::string& filename){
   ifstream infile(filename.c_str());
   return (bool)infile;
+}
+
+vector<int> randomSeedGenerator(int N, int k){
+  random_device rd;
+  mt19937 gen(rd());
+  unordered_set<int> elems = setGenerator(N, k, gen);
+  vector<int> result(elems.begin(), elems.end());
+  std::shuffle(result.begin(), result.end(), gen);
+  return result;
+}
+
+unordered_set<int> setGenerator(int N, int k, std::mt19937& gen){
+  uniform_int_distribution<> dis(1, N);
+  unordered_set<int> elems;
+
+  while (elems.size() < k) {
+    elems.insert(dis(gen));
+  }
+
+  return elems;
 }

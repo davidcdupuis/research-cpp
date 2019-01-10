@@ -8,7 +8,7 @@ import numpy as np
 import tools
 
 def saveInDegrees(dataset, nodes, inDeg, outDeg):
-    file_path = "../data/{0}/{1}_degrees.txt".format(dataset, settings.datasets[dataset])
+    file_path = "../data/{0}/{0}_degrees.txt".format(dataset)#settings.datasets[dataset]
     with open(file_path, 'w') as f:
         writer = csv.writer(f, delimiter=' ')
         writer.writerow(['user', 'in', 'out'])

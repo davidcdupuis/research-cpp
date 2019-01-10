@@ -21,6 +21,7 @@
 #include <map>
 #include <deque>
 #include <dirent.h>
+#include <unordered_set>
 
 /**
   * Set of practical helper functions for other classes
@@ -68,5 +69,9 @@
 
   // function to check existence of folder
   bool pathExists(const std::string& filename);
+
+  std::vector<int> randomSeedGenerator(int N, int k);
+
+  std::unordered_set<int> setGenerator(int N, int k, std::mt19937& gen);
 
 #endif

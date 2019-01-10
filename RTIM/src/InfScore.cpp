@@ -37,8 +37,9 @@ int InfScore::main(string prevClass){
     cout << "Compute Influence Scores:" << endl;
     cout << "\t[1] with Monte Carlo" << endl;
     cout << "\t[2] with activation probabilities" << endl;
-    cout << "\t[3] Return to " << prevClass << endl;
-    cout << "\t[4] Exit Program" << endl;
+    cout << "\t[3] run test" << endl;
+    cout << "\t[4] Return to " << prevClass << endl;
+    cout << "\t[5] Exit Program" << endl;
     while(choice == -1){
       string val;
       cout << "> choice : ";
@@ -47,15 +48,24 @@ int InfScore::main(string prevClass){
       switch(choice){
         case 1:
           clearLines(7);
+          result = 0;
           break;
         case 2:
           clearLines(7);
+          result = 0;
           break;
         case 3:
           clearLines(7);
+          infScoreTest();
+          result = 0;
           break;
         case 4:
           clearLines(7);
+          return -1;
+          break;
+        case 5:
+          clearLines(7);
+          return -2;
           break;
         default:
           cout << "Error: choice not recognized!" << endl;
@@ -64,7 +74,6 @@ int InfScore::main(string prevClass){
           choice = -1;
       }
     }
-
     break;
   }
   return result;
@@ -270,6 +279,8 @@ int InfScore::continueMenu(string prevClass, string prevStage){
   }
 }
 
+// Monte Carlo
+
 double InfScore::mcInfScore(){
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   int sum = 0;
@@ -368,7 +379,59 @@ int InfScore::infSimulation(bool *visited){
   return activated;
 }
 
-double InfScore::apInfScore(){
+// ACTIVATION PROBABILITIES
+
+double InfScore::firstNeighborsScore(){
+  // identify seed nodes in bool array
+  double score = 0;
+  bool seedNodes[graph.nodes] = {};
+  for(int seed: seedSet){
+    seedNodes[seed] = 1;
+    score ++;
+  }
+  for(int seed: seedSet){
+    for(pair<int, double> neighbor: graph.graph[seed]){
+      if (seedNodes[neighbor.first] != 1){
+        score += neighbor.second;
+      }
+    }
+  }
+
+  return score;
+}
+
+double InfScore::apInfScore(int depth){
+  vector<double> tmpAPs;
+  // identify seed nodes in bool array
+  bool seedNodes[graph.nodes] = {};
+  for(int seed: seedSet){
+    seedNodes[seed] = 1;
+  }
+
+  // compute activation probability of every user of every node of seed set
+  // up to a depth of 2
+  for(int seed: seedSet){
+    pathExploration(seedNodes, tmpAPs, seed, depth, 1);
+  }
+
+  // sum all activation probabilities to return the score
+  double score = 0;
+  for(double ap: tmpAPs){
+    score += ap;
+  }
+  return score;
+}
+
+void InfScore::pathExploration(bool *seedNodes, vector<double> &tmpAPs, int currUser, int depth, double pathWeight){
+  // add each new path in list
+  tmpAPs.push_back(pathWeight);
+  for(pair<int, double> neighbor: graph.graph[currUser]){
+    if(depth - 1 >= 0 && seedNodes[neighbor.first] != 1){
+      int newD = depth - 1;
+      double newPathWeight = pathWeight * neighbor.second;
+      pathExploration(seedNodes, tmpAPs, neighbor.first, newD, newPathWeight);
+    }
+  }
 }
 
 void InfScore::saveSeedScoreLog(string file, string startDate, string endDate, double& runtime, double& score){
@@ -507,3 +570,96 @@ void InfScore::saveSeedScoreCSV(string file, string startDate, string endDate, d
 //     }
 //   }
 // }
+
+void InfScore::infScoreTest(){
+  vector<string> datasets = {"nethept"};//, "youtube", "twitter"};
+  graph.dataset = datasets[0];
+  initializeAlgoLog();
+  double score;
+  double runtime;
+  for(string dataset: datasets){
+    // import dataset
+    graph.dataset = dataset;
+    graph.readAttributes();
+    graph.loadGraph();
+    vector<int> sizes = {50, 200, 500};//, 1000, 3000, 5000, 10000};
+    for(int size: sizes){
+      for(int i = 1; i < 11; i++){
+        // generate random seet set
+        seedSet = randomSeedGenerator(graph.nodes, 10);
+        cout << left << setw(9) << dataset;
+        cout << left << setw(5) << size;
+        cout << left << setw(3) << i ;
+        cout << endl;
+        // run APD1
+        clock_t start;
+        score = firstNeighborsScore();
+        runtime = (clock() - start)/(double)CLOCKS_PER_SEC;
+        recordAlgoLog(graph.dataset, size, i, "APD1", score, runtime);
+
+        // run APD2
+        start = clock();
+        score = apInfScore();
+        runtime = (clock() - start)/(double)CLOCKS_PER_SEC;
+        recordAlgoLog(graph.dataset, size, i, "APD2", score, runtime);
+
+        // run MCD2
+        depth = 2;
+        start = clock();
+        score = mcInfScoreParallel();
+        runtime = (clock() - start)/(double)CLOCKS_PER_SEC;
+        recordAlgoLog(graph.dataset, size, i, "MCD2", score, runtime);
+
+        // run MCD3
+        depth = 3;
+        start = clock();
+        score = mcInfScoreParallel();
+        runtime = (clock() - start)/(double)CLOCKS_PER_SEC;
+        recordAlgoLog(graph.dataset, size, i, "MCD3", score, runtime);
+
+        // run MC
+        depth = 10000;
+        start = clock();
+        score = mcInfScoreParallel();
+        runtime = (clock() - start)/(double)CLOCKS_PER_SEC;
+        recordAlgoLog(graph.dataset, size, i, "MC", score, runtime);
+      }
+    }
+  }
+}
+
+void InfScore::initializeAlgoLog(){
+  string path = "../../data/" + graph.dataset + "/infscore/";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  path += "perfomance_log.txt";
+  printInColor("cyan", "New infscore log      : " + path);
+  ofstream infScoreLog;
+  infScoreLog.open(path);
+  infScoreLog << left << setw(8) << "Dataset";
+  infScoreLog << left << setw(11) << "seedSetSize";
+  infScoreLog << left << setw(15) << "seedSetVersion";
+  infScoreLog << left << setw(10) << "algorithm";
+  infScoreLog << left << setw(9) << "score";
+  infScoreLog << left << setw(12) << "time (s)";
+  infScoreLog << endl;
+}
+
+void InfScore::recordAlgoLog(std::string dataset, int size, int version, std::string algo, double score, double runtime){
+  string path = "../../data/" + graph.dataset + "/infscore/perfomance_log.txt";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  ofstream infScoreLog;
+  infScoreLog.open(path, fstream::app);
+  infScoreLog << left << setw(8) << dataset;
+  infScoreLog << left << setw(11) << size;
+  infScoreLog << left << setw(15) << version;
+  infScoreLog << left << setw(10) << algo;
+  infScoreLog << left << setw(9) << score;
+  infScoreLog << left << setw(12) << runtime;
+  infScoreLog << endl;
+}

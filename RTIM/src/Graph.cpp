@@ -9,7 +9,7 @@ void Graph::addEdge(int a, int b, double w){
 }
 
 void Graph::readAttributes(){
-  string folder = datasetDir + "/attributes.txt";
+  string folder = "../../data/" + dataset + "/attributes.txt";
   ifstream infile(folder.c_str());
   //cout << "Loading attributes from: " << folder << endl;
   string s;
@@ -33,7 +33,7 @@ void Graph::readAttributes(){
 void Graph::loadGraph(){
   graph.resize(nodes);
   clock_t start = clock();
-  string graph_file = datasetDir + "/" + dataset + "_wc.inf";
+  string graph_file = "../../data/" + dataset + "/" + dataset + "_wc.inf";
   cout << "Loading graph from: " << graph_file << endl;
   FILE *fin = fopen(graph_file.c_str(), "r");
   if (!(fin != 0)){
@@ -86,7 +86,7 @@ void Graph::loadGraph(){
   }
   cout << endl;
   double duration = (clock() - start)/(double)CLOCKS_PER_SEC;
-  cout << "Graph import done in: " << cleanTime(duration, "ms") << endl;
+  cout << "Graph import done in: " << cleanTime(duration, "s") << endl;
   fclose(fin);
   sleep(3);
 }

@@ -163,7 +163,7 @@ int Main::datasetsMenu(){
         // return 0;
       }else{
         graph.dataset = val;
-        graph.datasetDir = "../../data/" + graph.dataset; //necessary to readAttributes
+        // graph.datasetDir = "../../data/" + graph.dataset; //necessary to readAttributes
         graph.loaded = false;
         graph.readAttributes();
         // graph.nodes = args.datasetNodes[choice];
