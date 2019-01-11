@@ -176,7 +176,7 @@ void RTIM::actProbPreProcess(){
 void RTIM::saveActProbs(){
   string file = "../../data/" + graph.dataset + "/rtim/pre_process/";
   if (!pathExists(file)){
-    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    cerr << "Error path doesn't exist: " << file << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   file += datasets[graph.dataset]["id"] + "_aps.txt";
@@ -194,7 +194,7 @@ void RTIM::importActProbs(){
   string file = "../../data/" + graph.dataset + "/rtim/pre_process/";
   file += datasets[graph.dataset]["id"] + "_aps.txt";
   if (!pathExists(file)){
-    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    cerr << "Error path doesn't exist: " << file << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
   // cout << "Importing influence scores from: " << folder << endl;

@@ -574,12 +574,12 @@ void InfScore::saveSeedScoreCSV(string file, string startDate, string endDate, d
 void InfScore::infScoreTest(){
   vector<string> datasets = {"nethept","youtube","twitter"};
   graph.dataset = datasets[0];
-  initializeAlgoLog();
   double score;
   double runtime;
   for(string dataset: datasets){
     // import dataset
     graph.dataset = dataset;
+    initializeAlgoLog();
     graph.readAttributes();
     graph.loadGraph();
     vector<int> sizes = {50, 200, 500, 1000, 3000, 5000, 10000};
@@ -588,7 +588,7 @@ void InfScore::infScoreTest(){
         // generate random seet set
         seedSet = randomSeedGenerator(graph.nodes, 10);
         cout << left << setw(9) << dataset;
-        cout << left << setw(5) << size;
+        cout << left << setw(7) << size;
         cout << left << setw(3) << i ;
         cout << endl;
         // run APD1
