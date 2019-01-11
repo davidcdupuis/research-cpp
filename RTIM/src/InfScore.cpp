@@ -572,7 +572,7 @@ void InfScore::saveSeedScoreCSV(string file, string startDate, string endDate, d
 // }
 
 void InfScore::infScoreTest(){
-  vector<string> datasets = {"nethept","youtube","twitter"};
+  vector<string> datasets = {"twitter"};
   graph.dataset = datasets[0];
   double score;
   double runtime;
