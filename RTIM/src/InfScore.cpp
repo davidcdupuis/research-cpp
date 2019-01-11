@@ -572,9 +572,9 @@ void InfScore::saveSeedScoreCSV(string file, string startDate, string endDate, d
 // }
 
 void InfScore::infScoreTest(){
-  vector<string> datasets = {"twitter"};
+  vector<string> datasets = {"nethept","youtube"};
   graph.dataset = datasets[0];
-  double score;
+  double a1Score, a2Score, a3Score, a4Score, a5Score;
   double runtime;
   for(string dataset: datasets){
     // import dataset
@@ -586,43 +586,56 @@ void InfScore::infScoreTest(){
     for(int size: sizes){
       for(int i = 1; i < 11; i++){
         // generate random seet set
-        seedSet = randomSeedGenerator(graph.nodes, 10);
-        cout << left << setw(9) << dataset;
-        cout << left << setw(7) << size;
-        cout << left << setw(3) << i ;
-        cout << endl;
+        seedSet = randomSeedGenerator(graph.nodes, size);
+
         // run APD1
-        clock_t start;
-        score = firstNeighborsScore();
-        runtime = (clock() - start)/(double)CLOCKS_PER_SEC;
-        recordAlgoLog(graph.dataset, size, i, "APD1", score, runtime);
+        clock_t start= clock();
+        a1Score = firstNeighborsScore();
+        runtime = (double)(clock() - start)/CLOCKS_PER_SEC;
+        recordAlgoLog(graph.dataset, size, i, "APD1", a1Score, runtime);
 
         // run APD2
         start = clock();
-        score = apInfScore();
-        runtime = (clock() - start)/(double)CLOCKS_PER_SEC;
-        recordAlgoLog(graph.dataset, size, i, "APD2", score, runtime);
+        a2Score = apInfScore();
+        runtime = (double)(clock() - start)/CLOCKS_PER_SEC;
+        recordAlgoLog(graph.dataset, size, i, "APD2", a2Score, runtime);
 
         // run MCD2
         depth = 2;
         start = clock();
-        score = mcInfScoreParallel();
-        runtime = (clock() - start)/(double)CLOCKS_PER_SEC;
-        recordAlgoLog(graph.dataset, size, i, "MCD2", score, runtime);
+        a3Score = mcInfScoreParallel();
+        runtime = (double)(clock() - start)/CLOCKS_PER_SEC;
+        recordAlgoLog(graph.dataset, size, i, "MCD2", a3Score, runtime);
 
         // run MCD3
         depth = 3;
         start = clock();
-        score = mcInfScoreParallel();
-        runtime = (clock() - start)/(double)CLOCKS_PER_SEC;
-        recordAlgoLog(graph.dataset, size, i, "MCD3", score, runtime);
+        a4Score = mcInfScoreParallel();
+        runtime = (double)(clock() - start)/CLOCKS_PER_SEC;
+        recordAlgoLog(graph.dataset, size, i, "MCD3", a4Score, runtime);
 
         // run MC
         depth = 10000;
         start = clock();
-        score = mcInfScoreParallel();
-        runtime = (clock() - start)/(double)CLOCKS_PER_SEC;
-        recordAlgoLog(graph.dataset, size, i, "MC", score, runtime);
+        a5Score = mcInfScoreParallel();
+        runtime = (double)(clock() - start)/CLOCKS_PER_SEC;
+        recordAlgoLog(graph.dataset, size, i, "MC", a5Score, runtime);
+
+        cout << left << setw(9) << dataset;
+        cout << left << setw(7) << seedSet.size();
+        cout << left << setw(3) << i << " : ";
+        cout << left << setw(5) << "APD1";
+        cout << left << setw(11) << a1Score;
+        cout << left << setw(7) << "| APD2";
+        cout << left << setw(11) << a2Score;
+        cout << left << setw(7) << "| MCD2";
+        cout << left << setw(11) << a3Score;
+        cout << left << setw(7) << "| MCD3";
+        cout << left << setw(11) << a4Score;
+        cout << left << setw(7) << "| MC";
+        cout << left << setw(11) << a5Score;
+        cout << endl;
+
       }
     }
   }
@@ -639,7 +652,7 @@ void InfScore::initializeAlgoLog(){
   ofstream infScoreLog;
   infScoreLog.open(path);
   infScoreLog << left << setw(8) << "Dataset";
-  infScoreLog << left << setw(11) << "seedSetSize";
+  infScoreLog << left << setw(12) << "seedSetSize";
   infScoreLog << left << setw(15) << "seedSetVersion";
   infScoreLog << left << setw(10) << "algorithm";
   infScoreLog << left << setw(9) << "score";
@@ -656,7 +669,7 @@ void InfScore::recordAlgoLog(std::string dataset, int size, int version, std::st
   ofstream infScoreLog;
   infScoreLog.open(path, fstream::app);
   infScoreLog << left << setw(8) << dataset;
-  infScoreLog << left << setw(11) << size;
+  infScoreLog << left << setw(12) << size;
   infScoreLog << left << setw(15) << version;
   infScoreLog << left << setw(10) << algo;
   infScoreLog << left << setw(9) << score;
