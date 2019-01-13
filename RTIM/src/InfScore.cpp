@@ -572,7 +572,7 @@ void InfScore::saveSeedScoreCSV(string file, string startDate, string endDate, d
 // }
 
 void InfScore::infScoreTest(){
-  vector<string> datasets = {"nethept","youtube"};
+  vector<string> datasets = {"twitter"};
   graph.dataset = datasets[0];
   double a1Score, a2Score, a3Score, a4Score, a5Score;
   double runtime;
@@ -615,12 +615,13 @@ void InfScore::infScoreTest(){
         recordAlgoLog(graph.dataset, size, i, "MCD3", a4Score, runtime);
 
         // run MC
+	
         depth = 10000;
         start = clock();
         a5Score = mcInfScoreParallel();
         runtime = (double)(clock() - start)/CLOCKS_PER_SEC;
         recordAlgoLog(graph.dataset, size, i, "MC", a5Score, runtime);
-
+	
         cout << left << setw(9) << dataset;
         cout << left << setw(7) << seedSet.size();
         cout << left << setw(3) << i << " : ";
