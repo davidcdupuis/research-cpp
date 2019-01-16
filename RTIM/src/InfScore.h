@@ -48,15 +48,10 @@ public:
   void saveSeedScoreCSV(std::string file, std::string startDate, std::string endDate, double& runtime, double& score);
 
   /** Function to run Monte Carlo simulations and return results
-    *
     * @param values
-    * @param seed_set
-    * @param depth
-    * @param sim
-    *
-    * @ return int []
+    * @return int []
     */
-  void influenceScoreValues(std::vector<double>& values, const std::vector<int>& seed_set, int depth=10000, int sim=10000) const;
+  void mcInfScoreParallelValues(std::vector<double>& values);
 
   /** Constant function to compute influence score of a given node
     *
@@ -109,6 +104,12 @@ public:
   void initializeAlgoLog();
 
   void recordAlgoLog(std::string dataset, int size, int version, std::string algo, double score, double runtime);
+
+  void convergenceTest();
+
+  void initializeConvergenceLog(std::string dataset, int seedSize);
+
+  void recordConvergenceLog(std::string dataset, int seedSize, int version, int sim, double score);
 };
 
 #endif

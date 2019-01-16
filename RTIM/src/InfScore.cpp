@@ -37,9 +37,10 @@ int InfScore::main(string prevClass){
     cout << "Compute Influence Scores:" << endl;
     cout << "\t[1] with Monte Carlo" << endl;
     cout << "\t[2] with activation probabilities" << endl;
-    cout << "\t[3] run test" << endl;
-    cout << "\t[4] Return to " << prevClass << endl;
-    cout << "\t[5] Exit Program" << endl;
+    cout << "\t[3] run infscore test" << endl;
+    cout << "\t[4] run convergence test" << endl;
+    cout << "\t[5] Return to " << prevClass << endl;
+    cout << "\t[6] Exit Program" << endl;
     while(choice == -1){
       string val;
       cout << "> choice : ";
@@ -61,9 +62,14 @@ int InfScore::main(string prevClass){
           break;
         case 4:
           clearLines(7);
-          return -1;
+          convergenceTest();
+          result = 0;
           break;
         case 5:
+          clearLines(7);
+          return -1;
+          break;
+        case 6:
           clearLines(7);
           return -2;
           break;
@@ -476,18 +482,20 @@ void InfScore::saveSeedScoreCSV(string file, string startDate, string endDate, d
   seedScoreCSVFile.close();
 }
 
-// void Graph::influenceScoreValues(std::vector<double>& values, const std::vector<int>& seed_set, int depth, int sim) const{
-//   values.resize(sim, 0);
-//   bool visitedOriginal[nodes] = {};
-//   bool visited[nodes];
-//   memcpy(visited, visitedOriginal, nodes);
-//   #pragma omp parallel shared(depth, seed_set, values)
-//   #pragma omp for
-//   for (int i = 0; i < sim; i++){
-//     // values[i] = influenceSimulation(seed_set, visited, depth);
-//   }
-// }
-//
+void InfScore::mcInfScoreParallelValues(std::vector<double>& values){
+  values.resize(simulations, 0);
+  bool visitedOriginal[graph.nodes] = {};
+  #pragma omp parallel shared(values)
+  {
+    bool visited[graph.nodes];
+    #pragma omp for
+    for (int i = 0; i < simulations; i++){
+      memcpy(visited, visitedOriginal, graph.nodes);
+      values[i] = infSimulation(visited);
+    }
+  }
+}
+
 // double Graph::influenceScorePath(int node, int max_depth, string type, double edge_weight, double min_weight) const{
 //   // if type == 'shortest' use shortest paths, if 'all' use all paths, else return error
 //   double score = 1;
@@ -585,9 +593,6 @@ void InfScore::infScoreTest(){
     vector<int> sizes = {3000, 5000, 10000};
     for(int size: sizes){
       for(int i = 1; i < 11; i++){
-	if(size ==  3000 && i < 9){
-	    break;
-	}
         // generate random seet set
         seedSet = randomSeedGenerator(graph.nodes, size);
 
@@ -618,13 +623,13 @@ void InfScore::infScoreTest(){
         recordAlgoLog(graph.dataset, size, i, "MCD3", a4Score, runtime);
 
         // run MC
-	
+
         depth = 10000;
         start = clock();
         a5Score = mcInfScoreParallel();
         runtime = (double)(clock() - start)/CLOCKS_PER_SEC;
         recordAlgoLog(graph.dataset, size, i, "MC", a5Score, runtime);
-	
+
         cout << left << setw(9) << dataset;
         cout << left << setw(7) << seedSet.size();
         cout << left << setw(3) << i << " : ";
@@ -679,4 +684,61 @@ void InfScore::recordAlgoLog(std::string dataset, int size, int version, std::st
   infScoreLog << left << setw(9) << score;
   infScoreLog << left << setw(12) << runtime;
   infScoreLog << endl;
+}
+
+void InfScore::convergenceTest(){
+  // run
+  vector<string> datasets = {"youtube"};
+  for(string dataset: datasets){
+    // import dataset
+    graph.dataset = dataset;
+    graph.readAttributes();
+    graph.loadGraph();
+    vector<int> sizes = {50, 200, 500, 1000, 3000, 5000, 10000};
+    for(int size: sizes){
+      initializeConvergenceLog(graph.dataset, size);
+      // initialize csv file
+      for(int v = 1; v < 4; v++){ // go to 4
+        seedSet = randomSeedGenerator(graph.nodes, size);
+        vector<double> values;
+        // run Monte Carlo with 50,000 sims and record values
+        mcInfScoreParallelValues(values);
+        // traverse all values, compute estimated score
+        unsigned long long sum = 0;
+        double sims = 0;
+        double avg = 0;
+        for(int i=0; i < values.size(); i++){
+          sims++;
+          sum += values[i];
+          avg = sum / sims;
+          recordConvergenceLog(graph.dataset, size, v, sims, avg);
+        }
+      }
+    }
+  }
+}
+
+void InfScore::initializeConvergenceLog(string dataset, int seedSize){
+  string path = "../../data/" + dataset + "/infscore/convergence/";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  path += dataset + "_s" + to_string(seedSize) + "_convergence.csv";
+  printInColor("cyan", "New convergence log : " + path);
+  ofstream infScoreLog;
+  infScoreLog.open(path);
+  infScoreLog << "version,simulations,score" << endl;
+}
+
+void InfScore::recordConvergenceLog(string dataset, int seedSize, int version, int sim, double score){
+  string path = "../../data/" + dataset + "/infscore/convergence/";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  path += dataset + "_s" + to_string(seedSize) + "_convergence.csv";
+  ofstream infScoreLog;
+  infScoreLog.open(path, fstream::app);
+  infScoreLog << version << "," << sim << "," << score << endl;
 }
