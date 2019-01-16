@@ -579,12 +579,15 @@ void InfScore::infScoreTest(){
   for(string dataset: datasets){
     // import dataset
     graph.dataset = dataset;
-    initializeAlgoLog();
+    //initializeAlgoLog();
     graph.readAttributes();
     graph.loadGraph();
-    vector<int> sizes = {50, 200, 500, 1000, 3000, 5000, 10000};
+    vector<int> sizes = {3000, 5000, 10000};
     for(int size: sizes){
       for(int i = 1; i < 11; i++){
+	if(size ==  3000 && i < 9){
+	    break;
+	}
         // generate random seet set
         seedSet = randomSeedGenerator(graph.nodes, size);
 
