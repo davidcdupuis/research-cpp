@@ -688,7 +688,7 @@ void InfScore::recordAlgoLog(std::string dataset, int size, int version, std::st
 
 void InfScore::convergenceTest(){
   // run
-  vector<string> datasets = {"youtube"};
+  vector<string> datasets = {"twitter"};
   for(string dataset: datasets){
     // import dataset
     graph.dataset = dataset;
