@@ -8,8 +8,8 @@ all: $(EXEC)
 rtim: Graph.o RTIM.o Tools.o InfScore.o
 	$(CXX) -fopenmp -o rtim Graph.o RTIM.o Tools.o InfScore.o
 
-main: Graph.o RTIM_WMAIN.o Tools.o Main.o InfScore.o
-	$(CXX) -fopenmp -o main Graph.o RTIM_WMAIN.o Tools.o Main.o InfScore.o
+main: Graph.o RTIM_WMAIN.o Tools.o Main.o InfScore.o OSIM.o
+	$(CXX) -fopenmp -o main Graph.o RTIM_WMAIN.o Tools.o Main.o InfScore.o OSIM.o
 
 RTIM_WMAIN.o: RTIM.cpp RTIM.h # Graph.cpp Graph.h RTIM.h Tools.cpp Tools.h
 	$(CXX) -DMAIN -fopenmp -c RTIM.cpp -o RTIM_WMAIN.o
@@ -19,6 +19,9 @@ InfScore.o: InfScore.cpp InfScore.h
 
 RTIM.o: RTIM.cpp RTIM.h # Graph.cpp Graph.h RTIM.h Tools.cpp Tools.h
 	$(CXX) -fopenmp -c RTIM.cpp -o RTIM.o
+
+OSIM.o: OSIM.cpp OSIM.h
+	$(CXX) -fopenmp -c OSIM.cpp -o OSIM.o
 
 Graph.o: Graph.cpp Graph.h # Tools.cpp Tools.h
 	$(CXX) -fopenmp -c Graph.cpp

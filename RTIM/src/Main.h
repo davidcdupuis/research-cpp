@@ -12,6 +12,7 @@
 #include "Tools.h"
 #include "Graph.h"
 #include "InfScore.h"
+#include "OSIM.h"
 
 #include <string>
 
@@ -44,6 +45,7 @@ public:
 
   Graph graph;
   RTIM rtim;
+  OSIM osim;
   //IMM imm;
   InfScore infScore;
 

@@ -21,7 +21,7 @@
  */
 class OSIM{
 public:
-  int optimalSize;
+  double optimalSize;
   std::vector<std::vector<std::pair<int, double> > > osimGraph; //necessary
   Graph& graph;
 
@@ -33,7 +33,9 @@ public:
    */
   void reduceGraph(int top);
 
-  int selectRandomUser(set<int>& s);
+  int selectRandomUser(std::set<int>& s);
+
+  void extractNonActivated(bool *activated, std::set<int>& nonActivated);
 
   /* Finds the optimal size given a graph
    * Graph can be full size or a reduction
@@ -56,15 +58,17 @@ public:
   // uses frequency of nodes in seed sets to build best seed set
   void findFrequencySeedSet();
 
+  int influenceSimulation(int user, bool* activated);
+
   int run(std::string prevClass);
 
   int functionsMenu(std::string prevClass);
 
-  int OSIM::optSizeMenu(std::string prevClass);
+  int optSizeMenu(std::string prevClass);
 
-  int OSIM::seedSizeMenu(std::string prevClass);
+  int seedSizeMenu(std::string prevClass);
 
   int continueMenu(std::string prevClass);
-}
+};
 
 #endif

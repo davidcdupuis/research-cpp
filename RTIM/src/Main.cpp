@@ -4,7 +4,7 @@ using namespace std;
 
 const int SLEEP = 2;
 
-Main::Main():graph(),rtim(graph),infScore(graph){
+Main::Main():graph(),rtim(graph), osim(graph), infScore(graph){
   // should we initialize object arguments here?
   loadDatasetsData();
   srand(time(NULL));
@@ -193,9 +193,10 @@ int Main::algorithmsMenu(){
     cout << "\t[1] RTIM" << endl;
     cout << "\t[2] IMM (not available)" << endl;
     cout << "\t[3] Compute Score"<< endl;
-    cout << "\t[4] Test (not available)" << endl;
-    cout << "\t[5] Return to Main Menu" << endl;
-    cout << "\t[6] EXIT" << endl;
+    cout << "\t[4] OSIM" << endl;
+    cout << "\t[5] Test (not available)" << endl;
+    cout << "\t[6] Return to Main Menu" << endl;
+    cout << "\t[7] EXIT" << endl;
     while (choice == -1){
       cout <<  "> choice: ";
       string val;
@@ -228,7 +229,7 @@ int Main::algorithmsMenu(){
           break;
         case 3:
           // run compute score
-          clearLines(8);
+          clearLines(9);
           result = infScore.run("Main");
           if (result == -2){
             result = -1;
@@ -241,6 +242,15 @@ int Main::algorithmsMenu(){
           // choice = -1;
           break;
         case 4:
+          clearLines(9);
+          result = osim.run("Main");
+          if (result == -2){
+            result = -1;
+          }else if (result == -1){
+            result = 0;
+          }
+          break;
+        case 5:
           // run test
           // clearLines(8);
           cout << "Option not available!" << endl;
@@ -248,14 +258,14 @@ int Main::algorithmsMenu(){
           clearLines(2);
           choice = -1;
           break;
-        case 5:
+        case 6:
           // main menu
-          clearLines(8);
+          clearLines(9);
           result = 2;
           break;
-        case 6:
+        case 7:
           //exit
-          clearLines(8);
+          clearLines(9);
           result = -1;
           break;
         default:
