@@ -43,7 +43,7 @@ void OSIM::findOptimalSize(int sim){
   int values[sim] = {};
 
   // this for loop should be parallelized, to run multiple simulations at once
-  #pragma omp shared(values)
+  #pragma omp parallel shared(values)
   #pragma omp for
   for(int i=0; i < sim; i++){
 
@@ -68,7 +68,7 @@ void OSIM::findOptimalSize(int sim){
     if(i > 1){
       clearLines(1);
     }
-    cout << "Simulation " << i << " done!" << endl;
+    // cout << "Simulation " << i << " done!" << endl;
     values[i] = selectedUsers.size();
     // once over record size of selectedUsers in array of values
   }
@@ -89,7 +89,7 @@ void OSIM::findBestSeedSet(int sim){
   printLocalTime("magenta", "Finding best seed set", "starting");
   int values[sim] = {};
   set<vector<int> > setSeedSets;
-  #pragma omp shared(values)
+  #pragma omp parallel shared(values)
   #pragma omp for
   for(int i=0; i < sim; i++){
 
@@ -114,7 +114,7 @@ void OSIM::findBestSeedSet(int sim){
     if(i > 0){
       clearLines(1);
     }
-    cout << "Simulation " << i << " done!" << endl;
+    // cout << "Simulation " << i << " done!" << endl;
     values[i] = selectedUsers.size();
     setSeedSets.insert(selectedUsers);
     // once over record size of selectedUsers in array of values
@@ -153,7 +153,7 @@ void OSIM::findFrequencySeedSet(int sim){
   printLocalTime("magenta", "Finding best frequency seed set", "starting");
   int values[sim] = {};
   set<set<int> > setSeedSets;
-  // #pragma omp shared(values)
+  // #pragma omp parallel shared(values)
   {
     // #pragma omp for
     for(int i=0; i < sim; i++){
@@ -315,7 +315,7 @@ int OSIM::functionsMenu(string prevClass){
             graph.loadGraph();
             graph.loaded = true;
           }
-          findOptimalSize(100);
+          findOptimalSize(10000);
           result = 0;
           break;
         case 2:
