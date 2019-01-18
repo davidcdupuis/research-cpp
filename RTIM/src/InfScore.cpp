@@ -580,7 +580,7 @@ void InfScore::mcInfScoreParallelValues(std::vector<double>& values){
 // }
 
 void InfScore::infScoreTest(){
-  vector<string> datasets = {"twitter"};
+  vector<string> datasets = {"test"};
   graph.dataset = datasets[0];
   double a1Score, a2Score, a3Score, a4Score, a5Score;
   double runtime;
@@ -590,9 +590,9 @@ void InfScore::infScoreTest(){
     //initializeAlgoLog();
     graph.readAttributes();
     graph.loadGraph();
-    vector<int> sizes = {3000, 5000, 10000};
+    vector<int> sizes = {50};//{3000, 5000, 10000};
     for(int size: sizes){
-      for(int i = 1; i < 11; i++){
+      for(int i = 1; i < 4; i++){
         // generate random seet set
         seedSet = randomSeedGenerator(graph.nodes, size);
 

@@ -43,6 +43,8 @@ void OSIM::findOptimalSize(int sim){
   int values[sim] = {};
 
   // this for loop should be parallelized, to run multiple simulations at once
+  #pragma omp shared(values)
+  #pragma omp for
   for(int i=0; i < sim; i++){
 
     // these are all private variables in a parallel setting
@@ -83,12 +85,153 @@ void OSIM::findRandomSeedSet(){
   //
 }
 
-void OSIM::findBestSeedSet(){
-  //
+void OSIM::findBestSeedSet(int sim){
+  printLocalTime("magenta", "Finding best seed set", "starting");
+  int values[sim] = {};
+  set<vector<int> > setSeedSets;
+  #pragma omp shared(values)
+  #pragma omp for
+  for(int i=0; i < sim; i++){
+
+    // these are all private variables in a parallel setting
+    int totActivated = 0;
+    bool activated[graph.nodes] = {};
+    set<int> nonActivated; //initialize with all nodes
+    vector<int> selectedUsers;
+    int randUser;
+
+    while(totActivated < graph.nodes - 1){
+      extractNonActivated(activated, nonActivated);
+      randUser = selectRandomUser(nonActivated);
+      selectedUsers.push_back(randUser);
+      // simulate influence propagation from randUser
+      // cout << "selected user: " << randUser << endl;
+      totActivated += influenceSimulation(randUser, activated);
+      // print selected users
+      // make them activated
+      // repeat
+    }
+    if(i > 0){
+      clearLines(1);
+    }
+    cout << "Simulation " << i << " done!" << endl;
+    values[i] = selectedUsers.size();
+    setSeedSets.insert(selectedUsers);
+    // once over record size of selectedUsers in array of values
+  }
+  double sum = 0;
+  for(int value: values){
+    sum += value;
+  }
+  optimalSize = sum/sim;
+  cout << "Optimal size found is: " << optimalSize << endl;
+
+  // 1. compute inf. score of all sets
+  // vector<int> seedSet;
+  printLocalTime("magenta", "Computing influence scores", "starting");
+  double bestScore;
+  InfScore infscore = InfScore(graph);
+  for(vector<int> set: setSeedSets){
+    infscore.seedSet = set;
+    double score = infscore.mcInfScoreParallel();
+    if(score > bestScore){
+      bestScore = score;
+      seedSet = set;
+    }
+  }
+  printLocalTime("magenta", "Computing influence scores", "ending");
+
+  // 2. save best seed set
+  cout << "Best seed set size: " << seedSet.size() << endl;
+  cout << "Score of best seed set is: " << bestScore << endl;
+  saveSeedSet("bestSeedSet");
+  printLocalTime("magenta", "Finding best seed set", "ending");
 }
 
-void OSIM::findFrequencySeedSet(){
-  //
+void OSIM::findFrequencySeedSet(int sim){
+  /*
+  printLocalTime("magenta", "Finding best frequency seed set", "starting");
+  int values[sim] = {};
+  set<set<int> > setSeedSets;
+  // #pragma omp shared(values)
+  {
+    // #pragma omp for
+    for(int i=0; i < sim; i++){
+
+      // these are all private variables in a parallel setting
+      int totActivated = 0;
+      bool activated[graph.nodes] = {};
+      set<int> nonActivated; //initialize with all nodes
+      set<int> selectedUsers;
+      int randUser;
+
+      while(totActivated < graph.nodes - 1){
+        extractNonActivated(activated, nonActivated);
+        randUser = selectRandomUser(nonActivated);
+        selectedUsers.insert(randUser);
+        // simulate influence propagation from randUser
+        // cout << "selected user: " << randUser << endl;
+        totActivated += influenceSimulation(randUser, activated);
+        // print selected users
+        // make them activated
+        // repeat
+      }
+      if(i > 1){
+        clearLines(1);
+      }
+      cout << "Simulation " << i << " done!" << endl;
+      values[i] = selectedUsers.size();
+      setSeedSets.insert(selectedUsers);
+      // once over record size of selectedUsers in array of values
+    }
+  }
+  double sum = 0;
+  for(int value: values){
+    sum += value;
+  }
+  optimalSize = sum/sim;
+  cout << "Optimal size found is: " << optimalSize << endl;
+
+  // once we have computed the optimal size we can extract the best seed set
+  while(setSeedSets.size() > 1){
+    // 1. compute frequency of nodes
+    int frequency[graph.nodes] = {};
+    for(vector<int> set: setSeedSets){
+      for(int val: set){
+        frequency[val] ++;
+      }
+    }
+
+    // 2. select best and add to seed set
+    int best;
+    int bestVal = -1;
+    for(int i=1; i < graph.nodes; i++){
+      if(frequency[i] > bestVal){
+        best = i;
+        bestVal = frequency[i];
+      }
+    }
+    seedSet.insert(best);
+
+    // 3. Keep sets in which that node belongs
+    for(vector<int> set: setSeedSets){
+      // if current best is not in set
+      if(!set.find(best)){
+        setSeedSets.erase(set);
+      }
+      // remove from setSeedSets
+    }
+  }
+  cout << "Best frequency seed set size: " << seedSet.size() << endl;
+  saveSeedSet("bestFrequencySeedSet");
+  printLocalTime("magenta", "Finding best frequency seed set", "ending");
+
+  // 5. Compute inf. score of seed set
+  // InfScore infscore;
+  // infscore.seedSet = seedSet;
+  // double score = infscore.mcInfScoreParallel();
+  // cout << "Best seed set score is: " << score << endl;
+  */
 }
 
 int OSIM::influenceSimulation(int user, bool* activated){
@@ -125,6 +268,21 @@ int OSIM::influenceSimulation(int user, bool* activated){
   return totActivated;
 }
 
+void OSIM::saveSeedSet(string type){
+  string file = "../../data/" + graph.dataset + "/osim/";
+  if (!pathExists(file)){
+    cerr << "Error path doesn't exist: " << file << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  file += graph.dataset + "_" + type + ".txt";
+  ofstream seedSetFile;
+  seedSetFile.open(file);
+  for (int i = 0; i < seedSet.size() ; i++){
+     seedSetFile << seedSet[i] << endl;
+  }
+  seedSetFile.close();
+}
+
 int OSIM::run(string prevClass){
   return functionsMenu(prevClass);
 }
@@ -139,8 +297,8 @@ int OSIM::functionsMenu(string prevClass){
     cout << "Choose a function" << endl;
     cout << "\t[1] Find optimal size of seed set" << endl;
     cout << "\t[2] Select random seed set of opt. size (not implemented)" << endl;
-    cout << "\t[3] Find best score seed set of opt. size (not implemented)" << endl;
-    cout << "\t[4] Generate seed set of opt. size with most freq. users (not implemented)" << endl;
+    cout << "\t[3] Find best of all seed set" << endl;
+    cout << "\t[4] Find best seed set with user frequency" << endl;
     cout << "\t[5] Return to " << prevClass << endl;
     cout << "\t[6] EXIT PROGRAM" << endl;
     while(choice == -1){
@@ -151,7 +309,7 @@ int OSIM::functionsMenu(string prevClass){
       switch(choice){
         case 1:
           // find optimal size of seed set
-          clearLines(6);
+          clearLines(9);
           // find optimal seed size
           if(!graph.loaded){
             graph.loadGraph();
@@ -162,15 +320,25 @@ int OSIM::functionsMenu(string prevClass){
           break;
         case 2:
           // select random seed set of opt. size
-          clearLines(6);
+          clearLines(9);
           break;
         case 3:
-          // find best score seed set of opt. size
-          clearLines(6);
+          // find best of all seed sets
+          clearLines(9);
+          if(!graph.loaded){
+            graph.loadGraph();
+            graph.loaded = true;
+          }
+          findBestSeedSet(10000);
           break;
         case 4:
-          // test menu
           clearLines(9);
+          if(!graph.loaded){
+            graph.loadGraph();
+            graph.loaded = true;
+          }
+          findFrequencySeedSet(10);
+          result = 0;
           break;
         case 5:
           // go to prevClass

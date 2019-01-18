@@ -7,6 +7,7 @@ const int SLEEP = 2;
 Main::Main():graph(),rtim(graph), osim(graph), infScore(graph){
   // should we initialize object arguments here?
   loadDatasetsData();
+  // cout << "Osim graph: " << osim.graph.loaded << endl;
   srand(time(NULL));
 }
 

@@ -6,9 +6,11 @@
 #include <unistd.h>
 #include <set>
 #include <algorithm>
+#include <omp.h>
 
 #include "Graph.h"
 #include "Tools.h"
+#include "InfScore.h"
 
 /* Optimal Size Influence Maximization (OSIM)
  * An IM algorithm which can do three things:
@@ -23,6 +25,7 @@ class OSIM{
 public:
   double optimalSize;
   std::vector<std::vector<std::pair<int, double> > > osimGraph; //necessary
+  std::vector<int> seedSet;
   Graph& graph;
 
   OSIM(Graph& g);
@@ -50,15 +53,16 @@ public:
   void findRandomSeedSet();
 
   /** run the same algorithm as for optimal size
-    * save seed sets, for all sets with optimal size compute the influence score
-    * choose best
+    * test inf score of all sets select best
     */
-  void findBestSeedSet();
+  void findBestSeedSet(int sim);
 
   // uses frequency of nodes in seed sets to build best seed set
-  void findFrequencySeedSet();
+  void findFrequencySeedSet(int sim);
 
   int influenceSimulation(int user, bool* activated);
+
+  void saveSeedSet(std::string type);
 
   int run(std::string prevClass);
 

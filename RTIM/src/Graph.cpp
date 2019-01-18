@@ -2,7 +2,10 @@
 
 using namespace std;
 
-Graph::Graph(){}
+Graph::Graph(){
+  // cout << "Graph created!" << endl;
+  // cout << "loaded: " << loaded << endl;
+}
 
 void Graph::addEdge(int a, int b, double w){
   graph[a].push_back(make_pair(b, w));
@@ -34,6 +37,10 @@ void Graph::loadGraph(){
   graph.resize(nodes);
   clock_t start = clock();
   string graph_file = "../../data/" + dataset + "/" + dataset + "_wc.inf";
+  if (!pathExists(graph_file)){
+    cerr << "Error path doesn't exist: " << graph_file << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
   cout << "Loading graph from: " << graph_file << endl;
   FILE *fin = fopen(graph_file.c_str(), "r");
   if (!(fin != 0)){
@@ -84,7 +91,6 @@ void Graph::loadGraph(){
     cout.flush();
     */
   }
-  cout << endl;
   double duration = (clock() - start)/(double)CLOCKS_PER_SEC;
   cout << "Graph import done in: " << cleanTime(duration, "s") << endl;
   fclose(fin);
