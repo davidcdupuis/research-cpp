@@ -65,9 +65,9 @@ void OSIM::findOptimalSize(int sim){
       // make them activated
       // repeat
     }
-    if(i > 1){
-      clearLines(1);
-    }
+    //if(i > 1){
+    //  clearLines(1);
+    //}
     // cout << "Simulation " << i << " done!" << endl;
     values[i] = selectedUsers.size();
     // once over record size of selectedUsers in array of values
@@ -111,9 +111,9 @@ void OSIM::findBestSeedSet(int sim){
       // make them activated
       // repeat
     }
-    if(i > 0){
-      clearLines(1);
-    }
+    //if(i > 0){
+    //  clearLines(1);
+    //}
     // cout << "Simulation " << i << " done!" << endl;
     values[i] = selectedUsers.size();
     setSeedSets.insert(selectedUsers);
