@@ -51,39 +51,25 @@ public:
 
   Main();
 
-
   void loadDatasetsData();
-
 
   void run();
 
-
   void mainMenu();
-
 
   int datasetsMenu();
 
-
   int algorithmsMenu();
-
 
   int experimentsMenu();
 
-
   void readExperiments(std::string path);
-
 
   int runExperiments(std::string path);
 
-
   int experimentsContinueMenu();
 
-
-  void printDatasetArguments();
-
-
   void getArguments(int argn, char **argv);
-
 
   void getArguments(std::string line);
 };

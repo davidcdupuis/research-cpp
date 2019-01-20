@@ -32,11 +32,11 @@ class Graph
 {
 public:
   std::string dataset;          // name of dataset
-  std::string datasetDir;       /**< directory of dataset */
+  std::string datasetFile;       /**< directory of dataset */
   std::string infModel = "IC";         // influence model
   int nodes;                    /**< number of nodes */
   int edges;                    /**< number of edges*/
-  int simulations;              // number of simulations to run for inf score
+  // int simulations;              // number of simulations to run for inf score
   double edgeWeight = -1;
   bool loaded = false; //true if dataset has been loaded
   std::vector<int> inDegrees;
@@ -61,6 +61,9 @@ public:
 
   // Function to import node degree info
   void importDegrees();
+
+  // Function to print object arguments
+  void printArguments();
 
   // Function to print graph
   void print();

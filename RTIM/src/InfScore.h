@@ -27,6 +27,8 @@ public:
 
   int monteCarloMenu(std::string prevClass);
 
+  int computeSeedScoreMenu();
+
   int activationProbabilitiesMenu(std::string prevClass);
 
   int continueMenu(std::string prevClass, std::string prevStage);

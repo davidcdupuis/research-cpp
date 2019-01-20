@@ -2,6 +2,8 @@
 
 using namespace std;
 
+const int SLEEP = 2;
+
 Graph::Graph(){
   // cout << "Graph created!" << endl;
   // cout << "loaded: " << loaded << endl;
@@ -94,7 +96,8 @@ void Graph::loadGraph(){
   double duration = (clock() - start)/(double)CLOCKS_PER_SEC;
   cout << "Graph import done in: " << cleanTime(duration, "s") << endl;
   fclose(fin);
-  sleep(3);
+  sleep(SLEEP);
+  clearLines(2);
 }
 
 void Graph::importDegrees(){
@@ -115,6 +118,22 @@ void Graph::importDegrees(){
     outDegrees[user] = outDeg;
   }
   printInColor("cyan", "Import degrees successful");
+}
+
+void Graph::printArguments(){
+  cout << string(26, '-') << toColor("red", " Graph ") << string(25, '-') << endl;
+  cout << "- file         : " << toColor("yellow", datasetFile) << endl;
+  cout << "- name         : " << toColor("yellow", dataset);
+  cout << " [ v = " << toColor("yellow", to_string(nodes)) << " | ";
+  cout << "e = " << toColor("yellow", to_string(edges))  << "]" << endl;
+  cout << "- model        : " << toColor("yellow", infModel) << endl;
+  if(edgeWeight == -1){
+    cout << "- edge weights : " << toColor("yellow", "weighted cascade") << endl;
+  }else{
+    cout << "- edge weights : " << toColor("yellow", properStringDouble(edgeWeight)) << endl;
+  }
+  cout << "- loaded       : " << toColor("yellow", ((loaded) ? ("true") : ("false"))) << endl;
+  cout << string(60, '-') << endl;
 }
 
 void Graph::print(){

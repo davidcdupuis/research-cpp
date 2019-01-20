@@ -747,6 +747,7 @@ void RTIM::printStageParams(){
 
 int RTIM::stagesMenu(string prevClass){
   int result = 0;
+  const int LINES = 9;
   while (result == 0){
     int choice = -1;
     cout << string(26,'_') + " Stages " + string(26,'_') << endl;
@@ -765,34 +766,34 @@ int RTIM::stagesMenu(string prevClass){
       switch(choice){
         case 1:
           // pre-process scores menu
-          clearLines(9);
+          clearLines(LINES);
           stage = "pre-process scores";
           result = infScorePreProcessMenu(prevClass);
           break;
         case 2:
           // pre-process probabilities menu
-          clearLines(9);
+          clearLines(LINES);
           stage = "pre-process APs";
           result = apPreProcessMenu(prevClass);
           break;
         case 3:
           // live menu
-          clearLines(9);
+          clearLines(LINES);
           stage = "live";
           result = liveMenu(prevClass);
           break;
         case 4:
           // test menu
-          clearLines(9);
+          clearLines(LINES);
           // result = testMenu();
           break;
         case 5:
           // go to prevClass
-          clearLines(9);
+          clearLines(LINES);
           return -1;
         case 6:
           // EXIT Program
-          clearLines(9);
+          clearLines(LINES);
           return -2;
         default:
           cout << "Error: choice not recognized!" << endl;

@@ -11,7 +11,6 @@ Main::Main():graph(),rtim(graph), osim(graph), infScore(graph){
   srand(time(NULL));
 }
 
-
 void Main::loadDatasetsData(){
   // check existence of file
   string path = "../../data/datasets.txt";
@@ -26,7 +25,6 @@ void Main::loadDatasetsData(){
   }
   rtim.datasets = datasets;
 }
-
 
 void Main::mainMenu(){
   int result = 0;
@@ -62,7 +60,6 @@ void Main::mainMenu(){
   clearLines(4);
 }
 
-
 int Main::experimentsMenu(){
   string input;
   int result = 0;
@@ -85,7 +82,6 @@ int Main::experimentsMenu(){
     return result - 1;
   }
 }
-
 
 int Main::experimentsContinueMenu(){
   int choice = -1;
@@ -118,7 +114,6 @@ int Main::experimentsContinueMenu(){
     }
   }
 }
-
 
 int Main::datasetsMenu(){
   int result = 0;
@@ -164,7 +159,7 @@ int Main::datasetsMenu(){
         // return 0;
       }else{
         graph.dataset = val;
-        // graph.datasetDir = "../../data/" + graph.dataset; //necessary to readAttributes
+        graph.datasetFile = "../../data/" + graph.dataset + "_wc.inf";; //necessary to readAttributes
         graph.loaded = false;
         graph.readAttributes();
         // graph.nodes = args.datasetNodes[choice];
@@ -175,7 +170,14 @@ int Main::datasetsMenu(){
       }
     }
     clearLines(lines);
-    printDatasetArguments();
+    // if not very large load dataset immediately
+    if(graph.dataset != "twitter"){
+      if(!graph.loaded){
+        graph.loadGraph();
+        graph.loaded = true;
+      }
+    }
+    graph.printArguments();
     result = algorithmsMenu();
   }
   if (result < 0){
@@ -185,9 +187,9 @@ int Main::datasetsMenu(){
   }
 }
 
-
 int Main::algorithmsMenu(){
   int result = 0;
+  const int LINES = 9;
   while(result == 0){
     int choice = -1;
     cout << string(24,'_') + " Algorithms " + string(24,'_') << endl;
@@ -206,7 +208,7 @@ int Main::algorithmsMenu(){
       switch(choice){
         case 1:
           // run rtim
-          clearLines(8);
+          clearLines(LINES);
           result = rtim.run("Main");
           if (result == -2){
             result = -1;
@@ -230,7 +232,7 @@ int Main::algorithmsMenu(){
           break;
         case 3:
           // run compute score
-          clearLines(9);
+          clearLines(LINES);
           result = infScore.run("Main");
           if (result == -2){
             result = -1;
@@ -243,7 +245,7 @@ int Main::algorithmsMenu(){
           // choice = -1;
           break;
         case 4:
-          clearLines(9);
+          clearLines(LINES);
           result = osim.run("Main");
           if (result == -2){
             result = -1;
@@ -261,13 +263,13 @@ int Main::algorithmsMenu(){
           break;
         case 6:
           // main menu
-          clearLines(9);
+          clearLines(LINES);
           result = 2;
           break;
         case 7:
           //exit
-          clearLines(9);
-          result = -1;
+          clearLines(LINES);
+          result = -2;
           break;
         default:
           cout << "Error choice not recognized!" << endl;
@@ -284,7 +286,6 @@ int Main::algorithmsMenu(){
   }
 }
 
-
 int Main::runExperiments(string path){
   printInColor("magenta", string(60,'-'));
   printLocalTime("magenta", "Experiments", "starting");
@@ -295,7 +296,6 @@ int Main::runExperiments(string path){
   printInColor("magenta", string(60,'-'));
   return experimentsContinueMenu();
 }
-
 
 void Main::readExperiments(string path){
   if (!pathExists(path)){
@@ -308,32 +308,16 @@ void Main::readExperiments(string path){
   for(string line; getline(infile, line);){
     if (line[0] != '#'){
       getArguments(line);
-      printDatasetArguments();
+      graph.printArguments();
     }
   }
 }
-
 
 void Main::run(){
   cout << endl;
   printLocalTime("red", "Program", "starting");
   mainMenu();
   printLocalTime("red", "Program", "ending");
-}
-
-
-void Main::printDatasetArguments(){
-  cout << string(26, '-') << toColor("red", " Dataset ") << string(25, '-') << endl;
-  cout << "- name         : " << toColor("yellow", graph.dataset);
-  cout << " [ v = " << toColor("yellow", to_string(graph.nodes)) << " | ";
-  cout << "e = " << toColor("yellow", to_string(graph.edges))  << "]" << endl;
-  cout << "- model        : " << toColor("yellow", graph.infModel) << endl;
-  if(graph.edgeWeight == -1){
-    cout << "- edge weights : " << toColor("yellow", "weighted cascade") << endl;
-  }else{
-    cout << "- edge weights : " << toColor("yellow", properStringDouble(graph.edgeWeight)) << endl;
-  }
-  cout << string(60, '-') << endl;
 }
 
 
@@ -417,7 +401,6 @@ void Main::getArguments(int argn, char **argv){
 //   }
 }
 
-
 void Main::getArguments(string line){
   istringstream iss(line);
   vector<string> words{istream_iterator<string>{iss}, istream_iterator<string>{}};
@@ -499,7 +482,6 @@ void Main::getArguments(string line){
     }
   }
 }
-
 
 int main(int argn, char **argv){
   Main main = Main();

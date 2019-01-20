@@ -22,6 +22,8 @@ void InfScore::importSeedSet(string filePath){
     seedSet.push_back(user);
   }
   cout << "Seed set imported correctly!" << endl;
+  sleep(SLEEP);
+  clearLines(2);
 }
 
 int InfScore::run(string prevClass){
@@ -30,11 +32,12 @@ int InfScore::run(string prevClass){
 
 int InfScore::main(string prevClass){
   int result = 0;
+  const int LINES = 9;
   while (result == 0){
     int choice = -1;
     string input;
     cout << string(60,'_') << endl;
-    cout << "Compute Influence Scores:" << endl;
+    cout << "Compute Influence Score:" << endl;
     cout << "\t[1] with Monte Carlo" << endl;
     cout << "\t[2] with activation probabilities" << endl;
     cout << "\t[3] run infscore test" << endl;
@@ -48,29 +51,29 @@ int InfScore::main(string prevClass){
       choice = stoi(val);
       switch(choice){
         case 1:
-          clearLines(7);
-          result = 0;
+          clearLines(LINES);
+          result = computeSeedScoreMenu();
           break;
         case 2:
-          clearLines(7);
+          clearLines(LINES);
           result = 0;
           break;
         case 3:
-          clearLines(7);
+          clearLines(LINES);
           infScoreTest();
           result = 0;
           break;
         case 4:
-          clearLines(7);
+          clearLines(LINES);
           convergenceTest();
           result = 0;
           break;
         case 5:
-          clearLines(7);
+          clearLines(LINES);
           return -1;
           break;
         case 6:
-          clearLines(7);
+          clearLines(LINES);
           return -2;
           break;
         default:
@@ -174,55 +177,58 @@ int InfScore::monteCarloMenu(string prevClass){
   }
 }
 
-// void RTIM::computeSeedScoreMenu(){
-//   // seedSet.clear(); //in case it's a re-run
-//   int choice = -1;
-//   string file_path = "../../data/" + graph.dataset + "/";
-//   cout << string(60,'_') << endl;
-//   cout << "Choose a folder: " << endl;
-//   cout << "   [1] rtim/live/" << endl;
-//   cout << "   [2] imm/basic/" << endl;
-//   cout << "   [3] imm/" << endl;
-//   while(choice == -1){
-//     cout <<  "> choice: ";
-//     string val;
-//     getline(cin, val);
-//     choice = stoi(val);
-//     switch(choice){
-//       case 1:
-//         file_path += "rtim/live/";
-//         break;
-//       case 2:
-//         file_path += "imm/basic/";
-//         break;
-//       case 3:
-//         file_path += "imm/";
-//         break;
-//       default:
-//         cout << "Error: choice not recognized!" << endl;
-//         sleep(SLEEP);
-//         clearLines(2);
-//         choice = -1;
-//     }
-//   }
-//   sleep(SLEEP);
-//   clearLines(7);
-//
-//   string input;
-//   cout << "________________________________________" << endl;
-//   cout << "Input seed set file name" << endl;
-//   while (1){
-//     cout << "> seed file ["<< file_path <<"] : ";
-//     getline(cin, input);
-//     break;
-//   }
-//   file_path += input;
-//   seedSetPath = file_path;
-//   importSeedSet(file_path);
-//   sleep(SLEEP);
-//   clearLines(5);
-//   seedFile = input;
-// }
+int InfScore::computeSeedScoreMenu(){
+  // seedSet.clear(); //in case it's a re-run
+  int choice = -1;
+  string file_path = "../../data/" + graph.dataset + "/";
+  cout << string(60,'_') << endl;
+  cout << "Choose a folder: " << endl;
+  cout << "   [1] rtim/live/" << endl;
+  cout << "   [2] imm/basic/" << endl;
+  cout << "   [3] imm/" << endl;
+  while(choice == -1){
+    cout <<  "> choice: ";
+    string val;
+    getline(cin, val);
+    choice = stoi(val);
+    switch(choice){
+      case 1:
+        file_path += "rtim/live/";
+        break;
+      case 2:
+        file_path += "imm/basic/";
+        break;
+      case 3:
+        file_path += "imm/";
+        break;
+      default:
+        cout << "Error: choice not recognized!" << endl;
+        sleep(SLEEP);
+        clearLines(2);
+        choice = -1;
+    }
+  }
+  // sleep(SLEEP);
+  clearLines(6);
+
+  string input;
+  cout << "________________________________________" << endl;
+  cout << "Input seed set file name" << endl;
+  while (1){
+    cout << "> seed file ["<< file_path <<"] : ";
+    getline(cin, input);
+    break;
+  }
+  file_path += input;
+  importSeedSet(file_path);
+  clearLines(3);
+  // run monte carlo simulations
+  printLocalTime("magenta","Computing seed score","starting");
+  double score = mcInfScoreParallel();
+  cout << "Influence score of " << input << " is " << toColor("yellow", to_string(score)) << endl;
+  printLocalTime("magenta","Computing seed score","ending");
+  return 0;
+}
 
 int InfScore::activationProbabilitiesMenu(string prevClass){
   int result = 0;

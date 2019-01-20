@@ -264,3 +264,24 @@ Duration   : 1.19128
 SeedSize   : 800
 Est. score : 5175.24
 -----------------------------------------------------
+File name  : NE_k1000_e0,05_ss.txt
+Start date : Sat Jan 19 19:38:11 2019
+End date   : Sat Jan 19 19:38:23 2019
+Duration   : 11.54
+SeedSize   : 1000
+Est. score : 5830.23
+-----------------------------------------------------
+File name  : NE_k1000_e0,05_ss.txt
+Start date : Sat Jan 19 19:43:20 2019
+End date   : Sat Jan 19 19:43:32 2019
+Duration   : 12.0087
+SeedSize   : 1000
+Est. score : 5830.23
+-----------------------------------------------------
+File name  : NE_k4714_e0,05_ss.txt
+Start date : Sat Jan 19 19:45:38 2019
+End date   : Sat Jan 19 19:46:09 2019
+Duration   : 31.1396
+SeedSize   : 4714
+Est. score : 12435.7
+-----------------------------------------------------
