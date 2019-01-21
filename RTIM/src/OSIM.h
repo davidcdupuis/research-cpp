@@ -64,6 +64,9 @@ public:
 
   void saveSeedSet(std::string type);
 
+  // Run 10,000 simulations, record values, save csv with progressive size
+  void testConvergence();
+
   int run(std::string prevClass);
 
   int functionsMenu(std::string prevClass);

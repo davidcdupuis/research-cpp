@@ -13,7 +13,6 @@ void OSIM::reduceGraph(int top){
   // re-generate graph without those nodes
 }
 
-
 int OSIM::selectRandomUser(set<int>& s){
   double r = rand() % s.size();
   set<int>::const_iterator it(s.begin());
@@ -281,6 +280,10 @@ void OSIM::saveSeedSet(string type){
      seedSetFile << seedSet[i] << endl;
   }
   seedSetFile.close();
+}
+
+void OSIM::testConvergence(){
+  
 }
 
 int OSIM::run(string prevClass){

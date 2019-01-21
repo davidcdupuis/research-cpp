@@ -320,7 +320,6 @@ void Main::run(){
   printLocalTime("red", "Program", "ending");
 }
 
-
 void Main::getArguments(int argn, char **argv){
 //   for (int i = 0; i < argn; i++)
 //   {
