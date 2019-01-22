@@ -35,11 +35,8 @@ def printArgs():
 
 def extractSeedSet(args):
     seedSet = tools.importSeedSet(args, "rtim")
-    path = "../data/{}/rtim/live/{}/".format(args.dataset, settings.keywords[args.model])
-    if (args.model == "inNOut_repeat"):
-        path += "{}_k{}_r{}_ap{}_{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.k, tools.properDoubleFormat(args.reach), tools.properDoubleFormat(args.activationProb), settings.keywords[args.model], args.streamSize, args.k)
-    else:
-        path += "{}_k{}_r{}_ap{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.k, tools.properDoubleFormat(args.reach), tools.properDoubleFormat(args.activationProb), settings.keywords[args.model], args.version, args.streamSize, args.k)
+    path = "../data/{}/rtim/live/{}/v{}/".format(args.dataset, settings.keywords[args.model],args.version)
+    path += "{}_k{}_r{}_ap{}_{}_v{}_s{}_ss{}.txt".format(settings.datasets[args.dataset], args.k, tools.properDoubleFormat(args.reach), tools.properDoubleFormat(args.activationProb), settings.keywords[args.model], args.version, args.streamSize, args.k)
     with open(path, 'w', newline='') as f:
         writer = csv.writer(f)
         for i in range(args.k):

@@ -452,7 +452,7 @@ void InfScore::saveSeedScoreLog(string file, string startDate, string endDate, d
     cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
-  path += "seed_set_score.log";
+  path += "infscore.log";
   printInColor("cyan", "Saving seed score log to: " + path);
   ofstream seedScoreLogFile;
   seedScoreLogFile.open(path, fstream::app);
@@ -472,7 +472,7 @@ void InfScore::saveSeedScoreCSV(string file, string startDate, string endDate, d
     cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
   }
-  path += "seed_set_score.csv";
+  path += "infscore.csv";
   printInColor("cyan", "Saving seed score csv to: " + path);
 
   // dataset,file_name, startDate, endDate, runtime, seed size, score

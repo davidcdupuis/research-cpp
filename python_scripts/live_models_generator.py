@@ -29,7 +29,7 @@ def rand_repeat(dataset, nodes, size, num=1):
     '''
     # initialize array of size 'nodes'
     for i in range(1, num + 1):
-        file_name = '../data/{0}/streams/uniform_rand_repeat/v{1}/{2}_urr_v{1}_s{3}_st.txt'.format(dataset, i, settings.datasets[dataset] ,size)
+        file_name = '../data/{0}/streams/urr/v{1}/{2}_urr_v{1}_s{3}_st.txt'.format(dataset, i, settings.datasets[dataset] ,size)
         stream = [random.choice(range(nodes)) for _ in range(size)]
         with open(file_name, 'w', newline='') as f:
             writer = csv.writer(f)
@@ -102,7 +102,7 @@ def save_degrees():
 
 
 def inNOut_repeat(dataset, nodes, streamSize, distribution, version):
-    file_name = '../data/{0}/streams/inNOut_repeat/v{3}/{1}_inoutr_v{3}_s{2}_st.txt'.format(dataset, settings.datasets[dataset], streamSize, version)
+    file_name = '../data/{0}/streams/inoutr/v{3}/{1}_inoutr_v{3}_s{2}_st.txt'.format(dataset, settings.datasets[dataset], streamSize, version)
     choices = numpy.random.choice(numpy.arange(nodes,), streamSize, p=distribution)
     with open(file_name, 'w') as f:
         writer = csv.writer(f)

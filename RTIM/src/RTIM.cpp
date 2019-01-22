@@ -230,6 +230,9 @@ void RTIM::liveExploration(int& sum, int currUser, double currPathWeight, bool a
 }
 
 void RTIM::live(){
+  InfScore infScore = InfScore(graph);
+  double rtimScore;
+  double immScore;
   seedSet.clear(); // in case live was already run with different arguments
   graph.importDegrees();
   if (graph.dataset != "test"){
@@ -283,6 +286,12 @@ void RTIM::live(){
 
     if (immTargeted[user] == 1){
       immSeedSet.insert(user);
+      // COMPUTE INFLUENCE SCORE OF IMM SEED SET IF SIZE % 100 = 0
+      if(immSeedSet.size()%100 == 0){
+        infScore.seedSet = immSeedSet;
+        immScore = infScore.mcInfScoreParallel();
+        // save imm score in progress
+      }
     }
     if (graph.dataset == "test"){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
@@ -326,6 +335,12 @@ void RTIM::live(){
       // START MAKING TARGETING DECISIONS
       if(tmpInfScores[user] >= sortedScores[infIndex]){ // CHECK INFLUENCE SCORE
         seedSet.push_back(user); // add user to seed set
+        // COMPUTE INFLUENCE SCORE OF SEED SET
+        if(seedSet.size() % 100 == 0){
+          infScore.seedSet = seedSet;
+          rtimScore = infScore.mcInfScoreParallel();
+          // record rtim progress score
+        }
         saveProgress(user,activationProbabilities[user], tmpInfScores[user], sum, sortedScores[infIndex], seedSet.size());
         double tmpAP = activationProbabilities[user];
         activationProbabilities[user] = 1.0;
@@ -387,13 +402,10 @@ void RTIM::live(){
 
   // COMPUTE SEED SET INFLUENCE SCORE WITH MC SIMULATIONS
   // use InfScore
-  InfScore infScore = InfScore(graph);
   infScore.seedSet = seedSet;
   printInColor("magenta", string(60, '-'));
   printLocalTime("magenta", "Compute RTIM seed score", "starting");
   string seedFile = generateDataFilePath("rtim_seedSet") + generateFileName("rtim_seedSet", seedSet.size());
-  double rtimScore;
-  double immScore;
   string scoreStartDate = getLocalDatetime();
   clock_t scoreStartTime = clock();
   if (graph.dataset == "twitter"){
@@ -586,7 +598,7 @@ void RTIM::initiateProgressLog(){
   printInColor("cyan", "New progress log    : " + path);
   ofstream progressFile;
   progressFile.open(path);
-  progressFile << "seen,influence_threshold,user_index,ap, infScore, seed_size" << endl;
+  progressFile << "seen,influence_threshold,user_index,ap, infScore, seed_size, rtimScore, immScore" << endl; //
   progressFile.close();
 }
 
@@ -606,7 +618,9 @@ void RTIM::saveProgress(int user_index, double ap, double score, int seen, doubl
   progressFile << user_index << ",";
   progressFile << ap << ",";
   progressFile << score << ",";
-  progressFile << seedSize;
+  progressFile << seedSize; // << ",";
+  // progressFile << rtimScore << ",";
+  // progressFile << immScore;
   progressFile << endl;
   progressFile.close();
 }
@@ -1242,7 +1256,7 @@ string RTIM::generateDataFilePath(string type){
   }else if (type == "rtim_seedSet"){
     file_path += "rtim/live/" + keyword[streamModel] + "/";
   }else if (type == "rtim_progress_seedSet"){
-    file_path += "rtim/live/" + keyword[streamModel] + "/";
+    file_path += "rtim/live/" + keyword[streamModel] + "/" + to_string(streamVersion) + "/progress/";
   }else if (type == "stream"){
     file_path += "streams/" + streamModel + "/v" + to_string(streamVersion) + "/";
   }else if (type == "rtim_progress"){
