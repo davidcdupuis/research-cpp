@@ -359,7 +359,12 @@ void RTIM::live(){
       // we need to update the inf. threshold if the new score is below it
       // this allows the top % to be the same
       if (old_score > sortedScores[infIndex] && tmpInfScores[user] < sortedScores[infIndex]){
-        infIndex --;
+        if(infIndex > 0){
+          infIndex --;
+        }
+      }
+      if(infIndex < 0){
+        cout << "Influence index: " << infIndex << endl;
       }
       inf_duration = (clock() - start)/(double)CLOCKS_PER_SEC;
       // --------------------------------------------------------------
@@ -385,7 +390,9 @@ void RTIM::live(){
         }
         // RECORD TARGETED USER
         saveStreamLog(sum, user, tmpAP, duration, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "targeted", seedSet.size(), rtimScore ,immTargeted[user], immSeedSet.size(), immScore, graph.inDegrees[user], graph.outDegrees[user]);
-        infIndex --;
+        if (infIndex > 0){
+          infIndex --;
+        }
         if (graph.dataset == "test" || maxSeedSize < 20){
           cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
         }
@@ -1340,7 +1347,7 @@ string RTIM::generateFileName(string type, int param){
   }else if (type == "rtim_progress"){
     file_name = datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
   }else if (type == "imm_progress"){
-    file_name = datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_e0,1" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
+    file_name = datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_e0,1_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
   }else if (type == "stream_log"){
     file_name = datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.log";
   }

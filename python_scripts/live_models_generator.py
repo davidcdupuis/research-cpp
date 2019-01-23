@@ -62,7 +62,7 @@ def getDistribution(dataset, nodes):
 
             outDegrees[left] += 1
             inDegrees[right] += 1
-            print("({0}, out: {1}) | ({2}, in: {3})".format(left, outDegrees[left], right, inDegrees[right]))
+            # print("({0}, out: {1}) | ({2}, in: {3})".format(left, outDegrees[left], right, inDegrees[right]))
     # print("in    : {}".format(inDegrees))
     # print("out   : {}".format(outDegrees))
     # for i in range(nodes):
@@ -151,6 +151,6 @@ if __name__ == "__main__":
         # print(choices)
         distribution = getDistribution(args.dataset, nodes)
         #print(distribution)
-        # inNOut_repeat(args.dataset, nodes, args.stream, distribution, args.version)
+        inNOut_repeat(args.dataset, nodes, args.stream, distribution, args.version)
     elif args.model == "degrees":
         save_degrees()

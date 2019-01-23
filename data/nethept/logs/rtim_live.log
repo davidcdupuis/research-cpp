@@ -70,3 +70,195 @@ Max update time : 0.000008 seconds
 RTIM σ_MC  : 4116.67
 IMM  σ_MC  : 2259.22
 ----------------------------------------------------
+File name       : NE_k1000_r60_ap0,8_inoutr_v1_s7600_ss1000.txt
+Start date      : Wed Jan 23 12:01:56 2019
+End date        : Wed Jan 23 12:02:26 2019
+Duration        : 1.461143 minutes
+Max update time : 0.000004 seconds
+RTIM σ_MC  : 4101.3
+IMM  σ_MC  : 4517.14
+----------------------------------------------------
+File name       : NE_k2000_r60_ap0,8_inoutr_v1_s7600_ss2000.txt
+Start date      : Wed Jan 23 14:07:17 2019
+End date        : Wed Jan 23 14:08:54 2019
+Duration        : 4.582743 minutes
+Max update time : 0.000050 seconds
+RTIM σ_MC  : 6311.57
+IMM  σ_MC  : 5489.64
+----------------------------------------------------
+File name       : NE_k3000_r60_ap0,8_inoutr_v1_s7600_ss3000.txt
+Start date      : Wed Jan 23 14:18:54 2019
+End date        : Wed Jan 23 14:22:06 2019
+Duration        : 8.660003 minutes
+Max update time : 0.000006 seconds
+RTIM σ_MC  : 7936.38
+IMM  σ_MC  : 5965.2
+----------------------------------------------------
+File name       : NE_k4000_r60_ap0,8_inoutr_v1_s7600_ss4000.txt
+Start date      : Wed Jan 23 15:03:05 2019
+End date        : Wed Jan 23 15:09:00 2019
+Duration        : 17.932872 minutes
+Max update time : 0.000029 seconds
+RTIM σ_MC  : 9217.11
+IMM  σ_MC  : 9438.95
+----------------------------------------------------
+File name       : NE_k5000_r60_ap0,8_inoutr_v1_s7600_ss4139.txt
+Start date      : Wed Jan 23 15:09:42 2019
+End date        : Wed Jan 23 15:19:03 2019
+Duration        : 25.818446 minutes
+Max update time : 0.000076 seconds
+RTIM σ_MC  : 9382.23
+IMM  σ_MC  : 12464.1
+----------------------------------------------------
+File name       : NE_k4000_r60_ap0,8_inoutr_v1_s7600_ss4000.txt
+Start date      : Wed Jan 23 15:25:08 2019
+End date        : Wed Jan 23 15:30:03 2019
+Duration        : 14.524387 minutes
+Max update time : 0.000024 seconds
+RTIM σ_MC  : 9217.66
+IMM  σ_MC  : 6849.34
+----------------------------------------------------
+File name       : NE_k5000_r60_ap0,8_inoutr_v1_s7600_ss4139.txt
+Start date      : Wed Jan 23 15:32:13 2019
+End date        : Wed Jan 23 15:38:54 2019
+Duration        : 17.546287 minutes
+Max update time : 0.000014 seconds
+RTIM σ_MC  : 9383.98
+IMM  σ_MC  : 7489.4
+----------------------------------------------------
+File name       : NE_k5000_r70_ap0,8_inoutr_v1_s7600_ss4439.txt
+Start date      : Wed Jan 23 15:42:57 2019
+End date        : Wed Jan 23 15:49:31 2019
+Duration        : 18.529342 minutes
+Max update time : 0.000032 seconds
+RTIM σ_MC  : 9555.18
+IMM  σ_MC  : 7487.33
+----------------------------------------------------
+File name       : NE_k5000_r80_ap0,8_inoutr_v1_s7600_ss4065.txt
+Start date      : Wed Jan 23 15:56:21 2019
+End date        : Wed Jan 23 16:01:35 2019
+Duration        : 15.902913 minutes
+Max update time : 0.000072 seconds
+RTIM σ_MC  : 9193.43
+IMM  σ_MC  : 7490.1
+----------------------------------------------------
+File name       : NE_k5000_r75_ap0,8_inoutr_v1_s7600_ss4216.txt
+Start date      : Wed Jan 23 16:14:20 2019
+End date        : Wed Jan 23 16:14:20 2019
+Duration        : 0.198987 seconds
+Max update time : 0.000004 seconds
+RTIM σ_MC  : 9330.74
+IMM  σ_MC  : 7488.88
+----------------------------------------------------
+File name       : NE_k5000_r80_ap0,8_inoutr_v1_s7600_ss4055.txt
+Start date      : Wed Jan 23 17:18:24 2019
+End date        : Wed Jan 23 17:18:24 2019
+Duration        : 0.201832 seconds
+Max update time : 0.000003 seconds
+RTIM σ_MC  : 9178.16
+IMM  σ_MC  : 7489.35
+----------------------------------------------------
+File name       : NE_k5000_r80_ap0,8_inoutr_v1_s7600_ss4055.txt
+Start date      : Wed Jan 23 17:24:12 2019
+End date        : Wed Jan 23 17:24:13 2019
+Duration        : 0.214541 seconds
+Max update time : 0.000003 seconds
+RTIM σ_MC  : 9177.01
+IMM  σ_MC  : 7488.72
+----------------------------------------------------
+File name       : NE_k5000_r80_ap0,8_inoutr_v1_s7600_ss4055.txt
+Start date      : Wed Jan 23 17:39:27 2019
+End date        : Wed Jan 23 17:39:27 2019
+Duration        : 0.259910 seconds
+Max update time : 0.000004 seconds
+RTIM σ_MC  : 9179.57
+IMM  σ_MC  : 7487.94
+----------------------------------------------------
+File name       : NE_k5000_r80_ap0,8_inoutr_v1_s7600_ss4631.txt
+Start date      : Wed Jan 23 17:48:40 2019
+End date        : Wed Jan 23 17:48:40 2019
+Duration        : 0.213730 seconds
+Max update time : 0.000003 seconds
+RTIM σ_MC  : 9644.26
+IMM  σ_MC  : 7489.08
+----------------------------------------------------
+File name       : NE_k5000_r85_ap0,8_inoutr_v1_s7600_ss4669.txt
+Start date      : Wed Jan 23 17:49:36 2019
+End date        : Wed Jan 23 17:49:36 2019
+Duration        : 0.183193 seconds
+Max update time : 0.000011 seconds
+RTIM σ_MC  : 9658.66
+IMM  σ_MC  : 11323
+----------------------------------------------------
+File name       : NE_k5000_r90_ap0,8_inoutr_v1_s7600_ss4695.txt
+Start date      : Wed Jan 23 17:50:18 2019
+End date        : Wed Jan 23 17:50:18 2019
+Duration        : 0.175070 seconds
+Max update time : 0.000003 seconds
+RTIM σ_MC  : 9666.41
+IMM  σ_MC  : 14325.4
+----------------------------------------------------
+File name       : NE_k5000_r99_ap0,8_inoutr_v1_s7600_ss4715.txt
+Start date      : Wed Jan 23 17:51:03 2019
+End date        : Wed Jan 23 17:51:03 2019
+Duration        : 0.174431 seconds
+Max update time : 0.000011 seconds
+RTIM σ_MC  : 9668.62
+IMM  σ_MC  : 16975.8
+----------------------------------------------------
+File name       : NE_k5000_r99_ap0,8_inoutr_v1_s7600_ss4715.txt
+Start date      : Wed Jan 23 17:55:18 2019
+End date        : Wed Jan 23 18:02:03 2019
+Duration        : 20.414121 minutes
+Max update time : 0.000036 seconds
+RTIM σ_MC  : 9670.39
+IMM  σ_MC  : 7489.26
+----------------------------------------------------
+File name       : NE_k1000_r60_ap0,8_inoutr_v1_s7600_ss1000.txt
+Start date      : Wed Jan 23 18:09:53 2019
+End date        : Wed Jan 23 18:10:26 2019
+Duration        : 1.611567 minutes
+Max update time : 0.000011 seconds
+RTIM σ_MC  : 4100.11
+IMM  σ_MC  : 4517.52
+----------------------------------------------------
+File name       : NE_k1000_r60_ap0,8_inoutr_v2_s7600_ss1000.txt
+Start date      : Wed Jan 23 18:15:39 2019
+End date        : Wed Jan 23 18:16:13 2019
+Duration        : 1.598710 minutes
+Max update time : 0.000010 seconds
+RTIM σ_MC  : 4091.81
+IMM  σ_MC  : 4397.65
+----------------------------------------------------
+File name       : NE_k2000_r60_ap0,8_inoutr_v2_s7600_ss2000.txt
+Start date      : Wed Jan 23 18:22:18 2019
+End date        : Wed Jan 23 18:23:59 2019
+Duration        : 4.715183 minutes
+Max update time : 0.000046 seconds
+RTIM σ_MC  : 6324.12
+IMM  σ_MC  : 5335.3
+----------------------------------------------------
+File name       : NE_k3000_r60_ap0,8_inoutr_v2_s7600_ss3000.txt
+Start date      : Wed Jan 23 18:25:47 2019
+End date        : Wed Jan 23 18:28:56 2019
+Duration        : 9.289537 minutes
+Max update time : 0.001243 seconds
+RTIM σ_MC  : 7876.84
+IMM  σ_MC  : 5874.52
+----------------------------------------------------
+File name       : NE_k4000_r60_ap0,8_inoutr_v2_s7600_ss4000.txt
+Start date      : Wed Jan 23 18:30:14 2019
+End date        : Wed Jan 23 18:35:37 2019
+Duration        : 15.847592 minutes
+Max update time : 0.000018 seconds
+RTIM σ_MC  : 9192.22
+IMM  σ_MC  : 6755.87
+----------------------------------------------------
+File name       : NE_k5000_r99_ap0,8_inoutr_v2_s7600_ss4713.txt
+Start date      : Wed Jan 23 18:36:37 2019
+End date        : Wed Jan 23 18:44:00 2019
+Duration        : 21.631067 minutes
+Max update time : 0.004456 seconds
+RTIM σ_MC  : 9600.21
+IMM  σ_MC  : 7382.87
+----------------------------------------------------
