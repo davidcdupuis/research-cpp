@@ -74,7 +74,7 @@ public:
 
   std::vector<int> seedSet;          /**< users to target */
   std::vector<int> immTargeted;
-  std::set<int> immSeedSet;
+  std::vector<int> immSeedSet;
   std::string seedFile = "";
   std::vector<double> activationProbabilities; /**< array of activation probabilities*/
   std::vector<double> preActProbs; // preProcessed activation probabilities
@@ -122,6 +122,10 @@ public:
 
   void importIMMSeed();
 
+  void initiateIMMProgressLog();
+
+  void saveIMMProgress(int seen, int seedSize, double seedScore);
+
   // Save seed set to appropriate file
   void saveSeedSet(bool progress = false, int progPercentage = 0);
 
@@ -158,7 +162,7 @@ public:
     * @param seen       : number of users seen in stream
     * @param seedSize   : current size of seed set
     */
-  void saveProgress(int user_index, double ap, double score, int seen, double infTheta, int seedSize);
+  void saveProgress(int seen, int seedSize, double seedScore);
 
   /** Initiate stream log file with head
     * stream_position | status | user_index | old_ap | ap | score | theta_score | ...
@@ -166,7 +170,7 @@ public:
   void initiateStreamLog();
 
   // Save stream log
-  void saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, std::string rtim_status, int seedSize, int imm_targeted, int inDeg, int outDeg);
+  void saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, std::string rtim_status, int rtimSize, double rtimScore, int imm_targeted, int immSize, double immScore, int inDeg, int outDeg);
 
   // Import influence scores
   void importScores();

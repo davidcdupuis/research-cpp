@@ -44,6 +44,37 @@ void RTIM::importIMMSeed(){
   // clearLines(2);
 }
 
+void RTIM::initiateIMMProgressLog(){
+  string path = generateDataFilePath("imm_progress");
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  path += generateFileName("imm_progress");
+  printInColor("cyan", "New progress log    : " + path);
+  ofstream progressFile;
+  progressFile.open(path);
+  progressFile << "seen, seed_size, seed_score" << endl; //
+  progressFile.close();
+}
+
+void RTIM::saveIMMProgress(int seen, int seedSize, double seedScore){
+  string path = generateDataFilePath("imm_progress");
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  path += generateFileName("imm_progress");
+  // printInColor("cyan","Saving progress: " + to_string(progress));
+  ofstream progressFile;
+  progressFile.open(path, fstream::app);
+  /* progress | nodes seen | seed size */
+  progressFile << seen << ", ";
+  progressFile << seedSize << ", ";
+  progressFile << seedScore << endl;
+  progressFile.close();
+}
+
 int RTIM::print_progress(int nb_threads, int finishedProcess, int numNodes, time_t startTime, int* nb_nodes, int save){
   int j, sum = 0;
   for (j = 0; j < nb_threads; j++){
@@ -248,6 +279,7 @@ void RTIM::live(){
     tmpInfScores.push_back(score);
   }
 
+  initiateIMMProgressLog();
   initiateProgressLog();
   initiateStreamLog();
   activationProbabilities.clear();
@@ -285,18 +317,18 @@ void RTIM::live(){
     sum ++;
 
     if (immTargeted[user] == 1){
-      immSeedSet.insert(user);
+      immSeedSet.push_back(user);
       // COMPUTE INFLUENCE SCORE OF IMM SEED SET IF SIZE % 100 = 0
       if(immSeedSet.size()%100 == 0){
         infScore.seedSet = immSeedSet;
         immScore = infScore.mcInfScoreParallel();
-        // save imm score in progress
+        saveIMMProgress(sum, immSeedSet.size(), immScore);
       }
     }
     if (graph.dataset == "test"){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
     }
-    if (activationProbabilities[user] < theta_ap){ // CHECK ACTIVATION PROBABILITY
+    if (activationProbabilities[user] < theta_ap && seedSet.size() < maxSeedSize){ // CHECK ACTIVATION PROBABILITY
 
       // ADD FUNCTION TO PROPERLY UPDATE INFLUENCE SCORE, RECORD TIME
       // ---------------------update influence score --------------------------
@@ -313,7 +345,7 @@ void RTIM::live(){
       if (tot == graph.graph[user].size()){
         // all neighbors are activated, user influence score = 1
         tmpInfScores[user] = 1;
-	//cout << "User: " << user << " has all activated neighbors" << endl;
+	      //cout << "User: " << user << " has all activated neighbors" << endl;
         // old_score = tmpInfScores[user];
       }/*else{
         // this is not the case, we need to check at depth 2.
@@ -339,9 +371,8 @@ void RTIM::live(){
         if(seedSet.size() % 100 == 0){
           infScore.seedSet = seedSet;
           rtimScore = infScore.mcInfScoreParallel();
-          // record rtim progress score
+          saveProgress(sum, seedSet.size(), rtimScore);
         }
-        saveProgress(user,activationProbabilities[user], tmpInfScores[user], sum, sortedScores[infIndex], seedSet.size());
         double tmpAP = activationProbabilities[user];
         activationProbabilities[user] = 1.0;
 
@@ -353,7 +384,7 @@ void RTIM::live(){
           max_time = duration;
         }
         // RECORD TARGETED USER
-        saveStreamLog(sum, user, tmpAP, duration, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "targeted", seedSet.size(), immTargeted[user], graph.inDegrees[user], graph.outDegrees[user]);
+        saveStreamLog(sum, user, tmpAP, duration, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "targeted", seedSet.size(), rtimScore ,immTargeted[user], immSeedSet.size(), immScore, graph.inDegrees[user], graph.outDegrees[user]);
         infIndex --;
         if (graph.dataset == "test" || maxSeedSize < 20){
           cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;
@@ -366,18 +397,22 @@ void RTIM::live(){
       }else{
         //cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
         // RECORD USER IGNORED BECAUSE SCORE TOO LOW
-        saveStreamLog(sum, user, activationProbabilities[user], -1, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "ig. (sig. too low)", -1, immTargeted[user], graph.inDegrees[user], graph.outDegrees[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "ig. (sig. too low)", -1, -1 ,immTargeted[user], immSeedSet.size(), immScore, graph.inDegrees[user], graph.outDegrees[user]);
       }
       if (seedSet.size() >= maxSeedSize && immSeedSet.size() >= maxSeedSize){
         break;
       }
     }else{
-      if (activationProbabilities[user] == 1){
-        // RECORD USER IGNORED BECAUSE ALREADY TARGETED
-        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (targeted)", -1, immTargeted[user], graph.inDegrees[user], graph.outDegrees[user]);
+      if(seedSet.size() >= maxSeedSize){
+        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "seed size reached", -1, -1 ,immTargeted[user], immSeedSet.size(), immScore, graph.inDegrees[user], graph.outDegrees[user]);
       }else{
-        // RECORD USER IGNORED BECAUSE AP TOO HIGH
-        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (ap too high)", -1, immTargeted[user], graph.inDegrees[user], graph.outDegrees[user]);
+        if (activationProbabilities[user] == 1){
+          // RECORD USER IGNORED BECAUSE ALREADY TARGETED
+          saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (targeted)", -1, -1 ,immTargeted[user], immSeedSet.size(), immScore, graph.inDegrees[user], graph.outDegrees[user]);
+        }else{
+          // RECORD USER IGNORED BECAUSE AP TOO HIGH
+          saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (ap too high)", -1, -1 ,immTargeted[user], immSeedSet.size(), immScore, graph.inDegrees[user], graph.outDegrees[user]);
+        }
       }
     }
     if (immTargeted[user] == 1){
@@ -401,7 +436,6 @@ void RTIM::live(){
   printInColor("red", "\u03C3(seed) = " + properStringDouble(estScore));
 
   // COMPUTE SEED SET INFLUENCE SCORE WITH MC SIMULATIONS
-  // use InfScore
   infScore.seedSet = seedSet;
   printInColor("magenta", string(60, '-'));
   printLocalTime("magenta", "Compute RTIM seed score", "starting");
@@ -427,11 +461,11 @@ void RTIM::live(){
   printInColor("red", "IMM seed set size: " + to_string(immSeedSet.size()));
   printInColor("magenta", string(60, '-'));
   printLocalTime("magenta", "Compute IMM seed score", "starting");
-  vector<int> vecImmSeedSet;
-  for(int seed: immSeedSet){
-    vecImmSeedSet.push_back(seed);
-  }
-  infScore.seedSet = vecImmSeedSet;
+  // vector<int> vecImmSeedSet;
+  // for(int seed: immSeedSet){
+  //   vecImmSeedSet.push_back(seed);
+  // }
+  infScore.seedSet = immSeedSet;
   if (graph.dataset == "twitter"){
     infScore.depth = 2;
   }else{
@@ -443,6 +477,8 @@ void RTIM::live(){
   printInColor("magenta", string(60, '-'));
   saveLiveLog(max_time, liveDuration, startDatetime, endDatetime, rtimScore, immScore);
   saveLiveCSV(graph, streamDuration, max_time, liveDuration);
+  saveProgress(sum, seedSet.size(), rtimScore);
+  saveIMMProgress(sum, immSeedSet.size(), immScore);
 };
 
 void RTIM::initializeInfluenceScores(){
@@ -598,11 +634,11 @@ void RTIM::initiateProgressLog(){
   printInColor("cyan", "New progress log    : " + path);
   ofstream progressFile;
   progressFile.open(path);
-  progressFile << "seen,influence_threshold,user_index,ap, infScore, seed_size, rtimScore, immScore" << endl; //
+  progressFile << "seen, seed_size, seed_score" << endl; //
   progressFile.close();
 }
 
-void RTIM::saveProgress(int user_index, double ap, double score, int seen, double infTheta, int seedSize){
+void RTIM::saveProgress(int seen, int seedSize, double seedScore){
   string path = generateDataFilePath("rtim_progress");
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
@@ -613,22 +649,16 @@ void RTIM::saveProgress(int user_index, double ap, double score, int seen, doubl
   ofstream progressFile;
   progressFile.open(path, fstream::app);
   /* progress | nodes seen | seed size */
-  progressFile << seen << ",";
-  progressFile << infTheta << ",";
-  progressFile << user_index << ",";
-  progressFile << ap << ",";
-  progressFile << score << ",";
-  progressFile << seedSize; // << ",";
-  // progressFile << rtimScore << ",";
-  // progressFile << immScore;
-  progressFile << endl;
+  progressFile << seen << ", ";
+  progressFile << seedSize << ", ";
+  progressFile << seedScore << endl;
   progressFile.close();
 }
 
 void RTIM::initiateStreamLog(){
   string path = generateDataFilePath("stream_log");
   if (!pathExists(path)){
-    cerr << "Error path doesn't exist: " << path << " at line 611"<< endl;
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__<< endl;
     exit(1);
   }
   path += generateFileName("stream_log");
@@ -649,14 +679,17 @@ void RTIM::initiateStreamLog(){
   streamLog << left << setw(11 + 1) << "inf_time(s)";
   streamLog << left << setw(8 + 1) << "theta_I";
   streamLog << left << setw(18 + 1) << "rtim_status";
-  streamLog << left << setw(9 + 1) << "seed_size";
+  streamLog << left << setw(10 + 1) << "rtim_size";
+  streamLog << left << setw(10 + 1) << "rtim_score";
   streamLog << left << setw(14 + 1) << "imm_status";
+  streamLog << left << setw(9 + 1) << "imm_size";
+  streamLog << left << setw(10 + 1) << "imm_score";
   streamLog << left << setw(9 + 1) << "in_degree";
   streamLog << left << setw(9 + 1) << "out_degree";
   streamLog << endl;
 }
 
-void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, string rtim_status, int seedSize, int imm_targeted, int inDeg, int outDeg){
+void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, string rtim_status, int rtimSize, double rtimScore, int imm_targeted, int immSize, double immScore, int inDeg, int outDeg){
   string path = generateDataFilePath("stream_log");
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << " at line 642 " << endl;
@@ -670,6 +703,7 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oS
   streamLog << left << setw(8 + 1) << user;
   streamLog << left << setw(10 + 1) << preActProbs[user];
   streamLog << left << setw(10 + 1) << ap;
+  // ACTIVATION PROBABILITY TIME
   if (ap_time == -1){
     streamLog << left << setw(10 + 1) << "-";
   }else{
@@ -681,25 +715,45 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oS
   }else{
     streamLog << left << setw(10 + 1) << nScore;
   }
+  // INFLUENCE TIME
   if (inf_time == -1){
     streamLog << left << setw(11 + 1) << "-";
   }else{
     streamLog << left << setw(11 + 1) << inf_time;
   }
-
   streamLog << left << setw(8 + 1) << theta_I;
   streamLog << left << setw(18 + 1) << rtim_status;
-  if ( seedSize == -1){
-    streamLog << left << setw(9 + 1) << "-";
+  // RTIM SIZE
+  if (rtimSize == -1){
+    streamLog << left << setw(10 + 1) << "-";
   }else{
-    streamLog << left << setw(9 + 1) << seedSize;
+    streamLog << left << setw(10 + 1) << rtimSize;
   }
+  // RTIM SCORE
+  if (rtimScore == -1 || rtimSize % 100 != 0){
+    streamLog << left << setw(10 + 1) << "-";
+  }else{
+    streamLog << left << setw(10 + 1) << rtimScore;
+  }
+  // IMM TARGETED
   if (imm_targeted == 1){
     streamLog << left << setw(14 + 1) << "targeted";
   }else if(imm_targeted == 2){
     streamLog << left << setw(14 + 1) << "ig. (targeted)";
   }else{
     streamLog << left << setw(14 + 1) << "-";
+  }
+  // IMM SIZE
+  if (immSize == -1 || imm_targeted != 1){
+    streamLog << left << setw(9 + 1) << "-";
+  }else{
+    streamLog << left << setw(9 + 1) << immSize;
+  }
+  // IMM SCORE
+  if (immScore == -1 || immScore == 0 || immSize % 100 != 0 || imm_targeted != 1){
+    streamLog << left << setw(9 + 1) << "-";
+  }else{
+    streamLog << left << setw(9 + 1) << immScore;
   }
   streamLog << left << setw(9 + 1) << inDeg;
   streamLog << left << setw(9 + 1) << outDeg;
@@ -1254,15 +1308,17 @@ string RTIM::generateDataFilePath(string type){
   if (type == "save_infScores" || type == "get_infScores"){
     file_path += "rtim/pre_process/";
   }else if (type == "rtim_seedSet"){
-    file_path += "rtim/live/" + keyword[streamModel] + "/";
+    file_path += "rtim/live/" + keyword[streamModel] + "/v" + to_string(streamVersion) + "/";
   }else if (type == "rtim_progress_seedSet"){
     file_path += "rtim/live/" + keyword[streamModel] + "/" + to_string(streamVersion) + "/progress/";
   }else if (type == "stream"){
-    file_path += "streams/" + streamModel + "/v" + to_string(streamVersion) + "/";
+    file_path += "streams/" + keyword[streamModel] + "/v" + to_string(streamVersion) + "/";
   }else if (type == "rtim_progress"){
-    file_path += "rtim/live/progress/" + keyword[streamModel] + "/";
+    file_path += "rtim/live/" + keyword[streamModel] + "/v" + to_string(streamVersion) + "/progress/";
+  }else if (type == "imm_progress"){
+    file_path += "imm/live/" + keyword[streamModel] + "/v" + to_string(streamVersion) + "/progress/";
   }else if (type == "stream_log"){
-    file_path += "streams/" + streamModel + "/v" + to_string(streamVersion) + "/log/";
+    file_path += "streams/" + keyword[streamModel] + "/v" + to_string(streamVersion) + "/log/";
   }else{
     cout << "Type not recognized!" << endl;
   }
@@ -1283,6 +1339,8 @@ string RTIM::generateFileName(string type, int param){
     file_name = datasets[graph.dataset]["id"] + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_st.txt";
   }else if (type == "rtim_progress"){
     file_name = datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
+  }else if (type == "imm_progress"){
+    file_name = datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_e0,1" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.csv";
   }else if (type == "stream_log"){
     file_name = datasets[graph.dataset]["id"] + "_k" + to_string(maxSeedSize) + "_r" + properStringDouble(reach) + "_ap" + properStringDouble(theta_ap) + "_" + keyword[streamModel] + "_v" + to_string(streamVersion) + "_s" + to_string(streamSize) + "_prg.log";
   }

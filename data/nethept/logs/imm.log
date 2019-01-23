@@ -19,3 +19,73 @@ Duration   : 31.1396
 SeedSize   : 4714
 Est. score : 12435.7
 -----------------------------------------------------
+File name  : NE_k1000_e0,1_ss.txt
+Start date : Tue Jan 22 14:35:22 2019
+End date   : Tue Jan 22 14:35:25 2019
+Duration   : 2.66628
+SeedSize   : 1000
+Est. score : 5852.57
+-----------------------------------------------------
+File name  : NE_k2000_e0,1_ss.txt
+Start date : Tue Jan 22 14:35:26 2019
+End date   : Tue Jan 22 14:35:28 2019
+Duration   : 2.55529
+SeedSize   : 2000
+Est. score : 8417.92
+-----------------------------------------------------
+File name  : NE_k3000_e0,1_ss.txt
+Start date : Tue Jan 22 14:35:29 2019
+End date   : Tue Jan 22 14:35:33 2019
+Duration   : 3.47116
+SeedSize   : 3000
+Est. score : 10420.2
+-----------------------------------------------------
+File name  : NE_k4000_e0,1_ss.txt
+Start date : Tue Jan 22 14:35:34 2019
+End date   : Tue Jan 22 14:35:39 2019
+Duration   : 5.08832
+SeedSize   : 4000
+Est. score : 11835
+-----------------------------------------------------
+File name  : NE_k5000_e0,1_ss.txt
+Start date : Tue Jan 22 14:35:42 2019
+End date   : Tue Jan 22 14:35:49 2019
+Duration   : 7.46005
+SeedSize   : 5000
+Est. score : 12680.1
+-----------------------------------------------------
+File name  : NE_k6000_e0,1_ss.txt
+Start date : Tue Jan 22 14:35:53 2019
+End date   : Tue Jan 22 14:36:00 2019
+Duration   : 7.92763
+SeedSize   : 6000
+Est. score : 13270.3
+-----------------------------------------------------
+File name  : NE_k7000_e0,1_ss.txt
+Start date : Tue Jan 22 14:36:04 2019
+End date   : Tue Jan 22 14:36:13 2019
+Duration   : 8.88203
+SeedSize   : 7000
+Est. score : 13751.2
+-----------------------------------------------------
+File name  : NE_k8000_e0,1_ss.txt
+Start date : Tue Jan 22 14:36:16 2019
+End date   : Tue Jan 22 14:36:26 2019
+Duration   : 9.00961
+SeedSize   : 8000
+Est. score : 14159.1
+-----------------------------------------------------
+File name  : NE_k9000_e0,1_ss.txt
+Start date : Tue Jan 22 14:36:30 2019
+End date   : Tue Jan 22 14:36:40 2019
+Duration   : 10.4833
+SeedSize   : 9000
+Est. score : 14482.6
+-----------------------------------------------------
+File name  : NE_k10000_e0,1_ss.txt
+Start date : Tue Jan 22 14:36:45 2019
+End date   : Tue Jan 22 14:36:55 2019
+Duration   : 10.3083
+SeedSize   : 10000
+Est. score : 14760.1
+-----------------------------------------------------
