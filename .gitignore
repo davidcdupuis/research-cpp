@@ -2,30 +2,40 @@ boost_1_66_0/
 
 # Youtube
 data/youtube/streams/*.txt
+data/youtube/streams/inoutr/*.txt
+data/youtube/streams/urr/*.txt
 data/youtube/streams/log
 data/youtube/rtim/pre_process/
 data/youtube/youtube_degrees.txt
 
 # LiveJournal
 data/livejournal/streams/*.txt
+data/livejournal/streams/inoutr/*.txt
+data/livejournal/streams/urr/*.txt
 data/livejournal/streams/log
 data/livejournal/rtim/pre_process/
 data/livejournal/livejournal_degrees.txt
 
 # Twitter
 data/twitter/streams/*.txt
+data/twitter/streams/inoutr/*.txt
+data/twitter/streams/urr/*.txt
 data/twitter/streams/log
 data/twitter/rtim/pre_process/
 data/twitter/twitter_degrees.txt
 
 # Orkut
 data/orkut/streams/*.txt
+data/orkut/streams/inoutr/*.txt
+data/orkut/streams/urr/*.txt
 data/orkut/streams/log
 data/orkut/rtim/pre_process
 data/orkut/orkut_degrees.txt
 
 # DBLP
 data/dblp/streams/*.txt
+data/dblp/streams/inoutr/*.txt
+data/dblp/streams/urr/*.txt
 data/dblp/streams/log
 data/orkut/rtim/pre_process
 data/dblp/dblp_degrees.txt
