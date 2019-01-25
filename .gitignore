@@ -19,7 +19,9 @@ data/livejournal/livejournal_degrees.txt
 # Twitter
 data/twitter/streams/*.txt
 data/twitter/streams/inoutr/*.txt
-data/twitter/streams/urr/*.txt
+data/twitter/streams/urr/v1/*.txt
+data/twitter/streams/urr/v2/*.txt
+data/twitter/streams/urr/v3/*.txt
 data/twitter/streams/log
 data/twitter/rtim/pre_process/
 data/twitter/twitter_degrees.txt
