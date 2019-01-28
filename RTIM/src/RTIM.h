@@ -122,6 +122,8 @@ public:
 
   void importIMMSeed();
 
+  void runIMMLive();
+
   void initiateIMMProgressLog();
 
   void saveIMMProgress(int seen, int seedSize, double seedScore);
@@ -204,6 +206,8 @@ public:
 
   // Menu to input live stage arguments
   int liveMenu(std::string prevClass);
+
+  int liveIMMMenu(std::string prevClass);
 
   /** Menu to decide if user would like to continue program or quit
     * return -1 if quit

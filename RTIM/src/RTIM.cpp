@@ -44,6 +44,46 @@ void RTIM::importIMMSeed(){
   // clearLines(2);
 }
 
+void RTIM::runIMMLive(){
+  InfScore infScore = InfScore(graph);
+  double immScore;
+  if (graph.dataset != "test"){
+    importIMMSeed();
+  }
+  initiateIMMProgressLog();
+
+  string path = generateDataFilePath("stream") + generateFileName("stream");
+  int user;
+  // cout << "Reading availability stream: " << folder << endl;
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  printInColor("cyan", "Reading stream from : " + path);
+  ifstream infile(path.c_str());
+  int sum = 0;
+  while (infile >> user){
+    if (immTargeted[user] == 1){
+      immSeedSet.push_back(user);
+      // COMPUTE INFLUENCE SCORE OF IMM SEED SET IF SIZE % 100 = 0
+      if(immSeedSet.size()%100 == 0){
+        infScore.seedSet = immSeedSet;
+        immScore = infScore.mcInfScoreParallel();
+        saveIMMProgress(sum, immSeedSet.size(), immScore);
+      }
+    }
+
+    if (immTargeted[user] == 1){
+      immTargeted[user] = 2;
+    }
+
+  }
+
+  infScore.seedSet = immSeedSet;
+  immScore = infScore.mcInfScoreParallel();
+  saveIMMProgress(sum, immSeedSet.size(), immScore);
+}
+
 void RTIM::initiateIMMProgressLog(){
   string path = generateDataFilePath("imm_progress");
   if (!pathExists(path)){
@@ -263,7 +303,7 @@ void RTIM::liveExploration(int& sum, int currUser, double currPathWeight, bool a
 void RTIM::live(){
   InfScore infScore = InfScore(graph);
   double rtimScore;
-  double immScore;
+  double immScore= -1;
   seedSet.clear(); // in case live was already run with different arguments
   graph.importDegrees();
   if (graph.dataset != "test"){
@@ -279,7 +319,6 @@ void RTIM::live(){
     tmpInfScores.push_back(score);
   }
 
-  initiateIMMProgressLog();
   initiateProgressLog();
   initiateStreamLog();
   activationProbabilities.clear();
@@ -318,12 +357,6 @@ void RTIM::live(){
 
     if (immTargeted[user] == 1){
       immSeedSet.push_back(user);
-      // COMPUTE INFLUENCE SCORE OF IMM SEED SET IF SIZE % 100 = 0
-      if(immSeedSet.size()%100 == 0){
-        infScore.seedSet = immSeedSet;
-        immScore = infScore.mcInfScoreParallel();
-        saveIMMProgress(sum, immSeedSet.size(), immScore);
-      }
     }
     if (graph.dataset == "test"){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
@@ -822,17 +855,18 @@ void RTIM::printStageParams(){
 
 int RTIM::stagesMenu(string prevClass){
   int result = 0;
-  const int LINES = 9;
+  const int LINES = 10;
   while (result == 0){
     int choice = -1;
     cout << string(26,'_') + " Stages " + string(26,'_') << endl;
     cout << "Choose a stage: " << endl;
-    cout << "   [1] Pre-process scores"<< endl;
-    cout << "   [2] Pre-process probabilities" << endl;
-    cout << "   [3] Live" << endl;
-    cout << "   [4] Test " << endl;
-    cout << "   [5] Return to " << prevClass << endl;
-    cout << "   [6] EXIT PROGRAM " << endl;
+    cout << "\t[1] Pre-process scores"<< endl;
+    cout << "\t[2] Pre-process probabilities" << endl;
+    cout << "\t[3] Live" << endl;
+    cout << "\t[4] IMM Live" << endl;
+    cout << "\t[5] Test " << endl;
+    cout << "\t[6] Return to " << prevClass << endl;
+    cout << "\t[7] EXIT PROGRAM " << endl;
     while(choice == -1){
       cout <<  "> choice: ";
       string val;
@@ -858,15 +892,19 @@ int RTIM::stagesMenu(string prevClass){
           result = liveMenu(prevClass);
           break;
         case 4:
+          clearLines(LINES);
+          result = liveIMMMenu(prevClass);
+          break;
+        case 5:
           // test menu
           clearLines(LINES);
           // result = testMenu();
           break;
-        case 5:
+        case 6:
           // go to prevClass
           clearLines(LINES);
           return -1;
-        case 6:
+        case 7:
           // EXIT Program
           clearLines(LINES);
           return -2;
@@ -1188,6 +1226,150 @@ int RTIM::liveMenu(string prevClass){
     printLocalTime("magenta", "Live", "starting");
     live();
     printLocalTime("magenta", "Live", "ending");
+    printInColor("magenta", string(60, '-'));
+    result = continueMenu(prevClass);
+  }
+  return result - 1;
+}
+
+int RTIM::liveIMMMenu(string prevClass){
+  int result = 0;
+  while (result == 0){
+    if(result == 0){ // ask for new arguments
+      int iChoice;
+      double dChoice;
+      string input;
+      cout << string(60,'_') << endl;
+      cout << "Input live arguments: [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
+      // asking for seed size
+      while(1){
+        cout << "> seed size (" << maxSeedSize << "): ";
+        getline(cin, input);
+        if(input != ""){
+          try{
+            iChoice = stoi(input);
+            if(iChoice > graph.nodes){
+              cout << "Error: seed size larger than current graph: " << iChoice << " / " << graph.nodes << endl;
+              sleep(SLEEP + 2);
+              clearLines(2);
+            }else{
+              maxSeedSize = iChoice;
+              clearLines(1);
+              cout << "> seed size (" << maxSeedSize << "): ";
+              printInColor("yellow", to_string(maxSeedSize));
+              break;
+            }
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
+          if(maxSeedSize > graph.nodes){
+            cout << "Error: seed size larger than current graph: " << maxSeedSize << " / " << graph.nodes << endl;
+            sleep(SLEEP + 2);
+            clearLines(2);
+          }else{
+            clearLines(1);
+            cout << "> seed size (" << maxSeedSize << "): ";
+            printInColor("yellow", to_string(maxSeedSize));
+            break;
+          }
+        }
+      }
+      // asking for stream model
+      while(1){
+        cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+        getline(cin, input);
+        if(input != ""){
+          if(input == "uniform_rand_repeat" || input == "uniform_rand_no_repeat" || input == "inNOut_repeat"){
+            streamModel = input;
+            clearLines(1);
+            cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+            printInColor("yellow", streamModel);
+            break;
+          }else{
+            cout << "Error: Input must be a valid stream model!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
+          clearLines(1);
+          cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+          printInColor("yellow", streamModel);
+          break;
+        }
+      }
+      // asking for stream version
+      while(1){
+        cout << "> stream version [1, 2, 3] (" << streamVersion << "): ";
+        getline(cin, input);
+        if(input != ""){
+          try{
+            iChoice = stoi(input);
+            if(iChoice == 1 || iChoice == 2 || iChoice == 3){
+              streamVersion = iChoice;
+              clearLines(1);
+              cout << "> stream version [1, 2, 3]: ";
+              printInColor("yellow", to_string(streamVersion));
+              break;
+            }else{
+              cout << "Error: stream version doesn't exist!" << endl;
+              sleep(SLEEP);
+              clearLines(2);
+            }
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
+          clearLines(1);
+          cout << "> stream version [1, 2, 3]: ";
+          printInColor("yellow", to_string(streamVersion));
+          break;
+        }
+      }
+      // asking for stream size
+      while(1){
+        if(streamSize == -1){
+          streamSize = graph.nodes / 10;
+        }
+        cout << "> stream size (" << streamSize << "): ";
+        getline(cin, input);
+        if(input != ""){
+          try{
+            iChoice = stoi(input);
+            streamSize = iChoice;
+            clearLines(1);
+            cout << "> stream size (" << streamSize << "): ";
+            printInColor("yellow", to_string(streamSize));
+            break;
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
+          // streamSize = nodes;
+          clearLines(1);
+          cout << "> stream size (" << streamSize << "): ";
+          printInColor("yellow", to_string(streamSize));
+          break;
+        }
+      }
+      sleep(SLEEP+1);
+      clearLines(6);
+    }
+    printStageParams();
+    if(!graph.loaded){
+      graph.loadGraph();
+      graph.loaded = true;
+    }
+    printInColor("magenta", string(60, '-'));
+    printLocalTime("magenta", "IMM Live", "starting");
+    runIMMLive();
+    printLocalTime("magenta", "IMM Live", "ending");
     printInColor("magenta", string(60, '-'));
     result = continueMenu(prevClass);
   }
