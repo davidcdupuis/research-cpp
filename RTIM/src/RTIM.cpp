@@ -63,6 +63,7 @@ void RTIM::runIMMLive(){
   ifstream infile(path.c_str());
   int sum = 0;
   while (infile >> user){
+    sum ++;
     if (immTargeted[user] == 1){
       immSeedSet.push_back(user);
       // COMPUTE INFLUENCE SCORE OF IMM SEED SET IF SIZE % 100 = 0
