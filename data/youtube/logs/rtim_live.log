@@ -836,3 +836,27 @@ Max update time : 0.099829 seconds
 RTIM σ_MC  : 542683
 IMM  σ_MC  : 551889
 ----------------------------------------------------
+File name       : YO_k10000_r0,5_ap0,8_urr_v1_s113489_ss591.txt
+Start date      : Wed Jan 30 14:55:02 2019
+End date        : Wed Jan 30 14:55:23 2019
+Duration        : 16.454125 minutes
+Max update time : 0.000008 seconds
+RTIM σ_MC  : 105703
+IMM  σ_MC  : 112626
+----------------------------------------------------
+File name       : YO_k10000_r2_ap0,8_urr_v1_s113489_ss2247.txt
+Start date      : Wed Jan 30 14:57:17 2019
+End date        : Wed Jan 30 14:59:23 2019
+Duration        : 1.744458 hours
+Max update time : 0.000008 seconds
+RTIM σ_MC  : 144108
+IMM  σ_MC  : 112432
+----------------------------------------------------
+File name       : YO_k10000_r5_ap0,8_urr_v1_s113489_ss5576.txt
+Start date      : Wed Jan 30 15:00:34 2019
+End date        : Wed Jan 30 15:07:02 2019
+Duration        : 5.408121 hours
+Max update time : 0.003225 seconds
+RTIM σ_MC  : 175502
+IMM  σ_MC  : 112592
+----------------------------------------------------

@@ -691,3 +691,24 @@ Runtime    : 97520.1
 Seed size  : 9486
 Inf. score : 542683
 -----------------------------------------------
+File name  : ../../data/youtube/rtim/live/urr/v1/YO_k10000_r0,5_ap0,8_urr_v1_s113489_ss591.txt
+Start date : Wed Jan 30 14:55:23 2019
+End date   : Wed Jan 30 14:55:29 2019
+Runtime    : -223.137
+Seed size  : 591
+Inf. score : 105703
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/urr/v1/YO_k10000_r2_ap0,8_urr_v1_s113489_ss2247.txt
+Start date : Wed Jan 30 14:59:23 2019
+End date   : Wed Jan 30 14:59:33 2019
+Runtime    : 5219.68
+Seed size  : 2247
+Inf. score : 144108
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/urr/v1/YO_k10000_r5_ap0,8_urr_v1_s113489_ss5576.txt
+Start date : Wed Jan 30 15:07:02 2019
+End date   : Wed Jan 30 15:07:14 2019
+Runtime    : 18525.1
+Seed size  : 5576
+Inf. score : 175502
+-----------------------------------------------
