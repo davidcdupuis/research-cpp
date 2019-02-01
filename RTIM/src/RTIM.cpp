@@ -417,7 +417,7 @@ void RTIM::live(){
 
         // measure update time
         start = clock();
-        // updateNeighborsAPDepth(user, activationProbabilities, 1);
+        updateNeighborsAPDepth(user, activationProbabilities, 2);
         duration = (clock() - start)/(double)CLOCKS_PER_SEC;
         if (duration > max_time){
           max_time = duration;
