@@ -407,17 +407,17 @@ void RTIM::live(){
       if(tmpInfScores[user] >= sortedScores[infIndex]){ // CHECK INFLUENCE SCORE
         seedSet.push_back(user); // add user to seed set
         // COMPUTE INFLUENCE SCORE OF SEED SET
-        if(seedSet.size() % 100 == 0){
+        /*if(seedSet.size() % 100 == 0){
           infScore.seedSet = seedSet;
           rtimScore = infScore.mcInfScoreParallel();
           saveProgress(sum, seedSet.size(), rtimScore);
-        }
+        }*/
         double tmpAP = activationProbabilities[user];
         activationProbabilities[user] = 1.0;
 
         // measure update time
         start = clock();
-        updateNeighborsAPDepth(user, activationProbabilities, 2);
+        updateNeighborsAPDepth(user, 1);
         duration = (clock() - start)/(double)CLOCKS_PER_SEC;
         if (duration > max_time){
           max_time = duration;

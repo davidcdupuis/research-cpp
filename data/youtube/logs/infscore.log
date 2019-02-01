@@ -726,3 +726,87 @@ Runtime    : 359966
 Seed size  : 30000
 Inf. score : 628443
 -----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k3000_r0,5_ap0,8_inoutr_v1_s113489_ss137.txt
+Start date : Fri Feb  1 15:14:38 2019
+End date   : Fri Feb  1 15:14:39 2019
+Runtime    : -1364.29
+Seed size  : 137
+Inf. score : 53956.6
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k3000_r0,5_ap0,8_inoutr_v1_s113489_ss1578.txt
+Start date : Fri Feb  1 16:32:03 2019
+End date   : Fri Feb  1 16:32:21 2019
+Runtime    : 9999.53
+Seed size  : 1578
+Inf. score : 363873
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k3000_r1,5_ap0,8_inoutr_v1_s113489_ss2916.txt
+Start date : Fri Feb  1 16:37:24 2019
+End date   : Fri Feb  1 16:37:43 2019
+Runtime    : -603.064
+Seed size  : 2916
+Inf. score : 387058
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k3000_r10_ap0,8_inoutr_v1_s113489_ss3000.txt
+Start date : Fri Feb  1 16:40:20 2019
+End date   : Fri Feb  1 16:40:35 2019
+Runtime    : -729.376
+Seed size  : 3000
+Inf. score : 329082
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k3000_r1,5_ap0,5_inoutr_v1_s113489_ss2063.txt
+Start date : Fri Feb  1 16:44:15 2019
+End date   : Fri Feb  1 16:44:32 2019
+Runtime    : -710.551
+Seed size  : 2063
+Inf. score : 331859
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k3000_r2_ap0,5_inoutr_v1_s113489_ss2451.txt
+Start date : Fri Feb  1 16:47:04 2019
+End date   : Fri Feb  1 16:47:20 2019
+Runtime    : -705.036
+Seed size  : 2451
+Inf. score : 337363
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k3000_r3_ap0,5_inoutr_v1_s113489_ss3000.txt
+Start date : Fri Feb  1 16:48:19 2019
+End date   : Fri Feb  1 16:48:36 2019
+Runtime    : -690.626
+Seed size  : 3000
+Inf. score : 342578
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k3000_r3_ap0,6_inoutr_v1_s113489_ss3000.txt
+Start date : Fri Feb  1 16:49:34 2019
+End date   : Fri Feb  1 16:49:51 2019
+Runtime    : -706.095
+Seed size  : 3000
+Inf. score : 353085
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k3000_r3_ap0,7_inoutr_v1_s113489_ss3000.txt
+Start date : Fri Feb  1 16:50:49 2019
+End date   : Fri Feb  1 16:51:06 2019
+Runtime    : -662.799
+Seed size  : 3000
+Inf. score : 358998
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k3000_r5_ap0,5_inoutr_v1_s113489_ss3000.txt
+Start date : Fri Feb  1 16:52:07 2019
+End date   : Fri Feb  1 16:52:24 2019
+Runtime    : 1162.71
+Seed size  : 3000
+Inf. score : 326008
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k10000_r10_ap0,6_inoutr_v1_s113489_ss7880.txt
+Start date : Fri Feb  1 16:56:22 2019
+End date   : Fri Feb  1 16:56:42 2019
+Runtime    : -585.712
+Seed size  : 7880
+Inf. score : 388346
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k10000_r15_ap0,7_inoutr_v1_s113489_ss10000.txt
+Start date : Fri Feb  1 16:58:27 2019
+End date   : Fri Feb  1 16:58:47 2019
+Runtime    : -569.608
+Seed size  : 10000
+Inf. score : 406276
+-----------------------------------------------
