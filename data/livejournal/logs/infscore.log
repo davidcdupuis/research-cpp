@@ -89,3 +89,17 @@ Runtime    : 2348.38
 Seed size  : 300
 Inf. score : 208399
 -----------------------------------------------
+File name  : ../../data/livejournal/rtim/live/inoutr/v1/LJ_k10000_r1_ap0,8_inoutr_v1_s399796_ss10000.txt
+Start date : Thu Jan 31 14:50:11 2019
+End date   : Thu Jan 31 14:52:24 2019
+Runtime    : 5688
+Seed size  : 10000
+Inf. score : 602922
+-----------------------------------------------
+File name  : ../../data/livejournal/rtim/live/inoutr/v1/LJ_k20000_r1_ap0,8_inoutr_v1_s399796_ss20000.txt
+Start date : Thu Jan 31 15:46:31 2019
+End date   : Thu Jan 31 15:49:28 2019
+Runtime    : 8105.74
+Seed size  : 20000
+Inf. score : 809612
+-----------------------------------------------

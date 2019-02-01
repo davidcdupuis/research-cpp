@@ -124,3 +124,19 @@ End date        : Mon Nov 19 18:43:57 2018
 Duration        : 0.114281 seconds
 Max update time : 0.000279 seconds
 ----------------------------------------------------
+File name       : LJ_k10000_r1_ap0,8_inoutr_v1_s399796_ss10000.txt
+Start date      : Thu Jan 31 14:50:06 2019
+End date        : Thu Jan 31 14:50:11 2019
+Duration        : 5.014981 seconds
+Max update time : 0.000001 seconds
+RTIM σ_MC  : 602922
+IMM  σ_MC  : 669897
+----------------------------------------------------
+File name       : LJ_k20000_r1_ap0,8_inoutr_v1_s399796_ss20000.txt
+Start date      : Thu Jan 31 15:46:26 2019
+End date        : Thu Jan 31 15:46:31 2019
+Duration        : 5.079420 seconds
+Max update time : 0.000012 seconds
+RTIM σ_MC  : 809612
+IMM  σ_MC  : 789690
+----------------------------------------------------

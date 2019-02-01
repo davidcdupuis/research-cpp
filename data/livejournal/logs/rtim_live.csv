@@ -20,3 +20,5 @@ livejournal,inNOut_repeat,1,399796,0.0025,0.8,2,800,526,0.000241,0.127449
 livejournal,inNOut_repeat,1,399796,0.001,0.8,2,800,278,0.000267,0.121273
 livejournal,inNOut_repeat,1,399796,0.0005,0.8,2,800,172,0.000285,0.118054
 livejournal,inNOut_repeat,1,399796,0.00025,0.8,2,800,111,0.000279,0.114281
+livejournal,inNOut_repeat,1,399796,1,0.8,2,10000,10000,1e-06,5.01498
+livejournal,inNOut_repeat,1,399796,1,0.8,2,20000,20000,1.2e-05,5.07942

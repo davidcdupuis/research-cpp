@@ -82,3 +82,80 @@ Duration   : 144.36
 SeedSize   : 300
 Est. score : 216510
 -----------------------------------------------------
+File name  : LJ_k1000_e0,1_ss.txt
+Start date : Thu Jan 31 11:19:18 2019
+End date   : Thu Jan 31 11:23:25 2019
+Duration   : 246.997
+SeedSize   : 1000
+Est. score : 346951
+-----------------------------------------------------
+File name  : LJ_k2000_e0,1_ss.txt
+Start date : Thu Jan 31 11:23:26 2019
+End date   : Thu Jan 31 11:27:27 2019
+Duration   : 240.782
+SeedSize   : 2000
+Est. score : 443260
+-----------------------------------------------------
+File name  : LJ_k3000_e0,1_ss.txt
+Start date : Thu Jan 31 11:27:32 2019
+End date   : Thu Jan 31 11:30:09 2019
+Duration   : 156.485
+SeedSize   : 3000
+Est. score : 507631
+-----------------------------------------------------
+File name  : LJ_k4000_e0,1_ss.txt
+Start date : Thu Jan 31 11:30:15 2019
+End date   : Thu Jan 31 11:34:14 2019
+Duration   : 238.744
+SeedSize   : 4000
+Est. score : 557834
+-----------------------------------------------------
+File name  : LJ_k5000_e0,1_ss.txt
+Start date : Thu Jan 31 11:34:24 2019
+End date   : Thu Jan 31 11:39:07 2019
+Duration   : 282.994
+SeedSize   : 5000
+Est. score : 599707
+-----------------------------------------------------
+File name  : LJ_k6000_e0,1_ss.txt
+Start date : Thu Jan 31 11:39:20 2019
+End date   : Thu Jan 31 11:44:47 2019
+Duration   : 326.825
+SeedSize   : 6000
+Est. score : 635998
+-----------------------------------------------------
+File name  : LJ_k7000_e0,1_ss.txt
+Start date : Thu Jan 31 11:45:04 2019
+End date   : Thu Jan 31 11:51:16 2019
+Duration   : 372.202
+SeedSize   : 7000
+Est. score : 668347
+-----------------------------------------------------
+File name  : LJ_k8000_e0,1_ss.txt
+Start date : Thu Jan 31 11:51:36 2019
+End date   : Thu Jan 31 11:58:33 2019
+Duration   : 417.572
+SeedSize   : 8000
+Est. score : 697692
+-----------------------------------------------------
+File name  : LJ_k9000_e0,1_ss.txt
+Start date : Thu Jan 31 11:58:57 2019
+End date   : Thu Jan 31 12:06:42 2019
+Duration   : 465.197
+SeedSize   : 9000
+Est. score : 724677
+-----------------------------------------------------
+File name  : LJ_k10000_e0,1_ss.txt
+Start date : Thu Jan 31 12:07:08 2019
+End date   : Thu Jan 31 12:15:53 2019
+Duration   : 525.075
+SeedSize   : 10000
+Est. score : 749669
+-----------------------------------------------------
+File name  : LJ_k20000_e0,1_ss.txt
+Start date : Thu Jan 31 14:59:42 2019
+End date   : Thu Jan 31 15:36:38 2019
+Duration   : 2216.33
+SeedSize   : 20000
+Est. score : 938382
+-----------------------------------------------------

@@ -712,3 +712,17 @@ Runtime    : 18525.1
 Seed size  : 5576
 Inf. score : 175502
 -----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k30000_r5_ap0,8_inoutr_v1_s113489_ss30000.txt
+Start date : Thu Jan 31 16:10:36 2019
+End date   : Thu Jan 31 16:11:01 2019
+Runtime    : -187.714
+Seed size  : 30000
+Inf. score : 628456
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k30000_r5_ap0,8_inoutr_v1_s113489_ss30000.txt
+Start date : Thu Jan 31 19:05:30 2019
+End date   : Thu Jan 31 19:06:00 2019
+Runtime    : 359966
+Seed size  : 30000
+Inf. score : 628443
+-----------------------------------------------

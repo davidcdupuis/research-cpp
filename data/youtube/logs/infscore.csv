@@ -100,3 +100,5 @@ youtube,../../data/youtube/rtim/live/inoutr/v1/YO_k10000_r0,4_ap0,8_inoutr_v1_s1
 youtube,../../data/youtube/rtim/live/urr/v1/YO_k10000_r0,5_ap0,8_urr_v1_s113489_ss591.txt,Wed Jan 30 14:55:23 2019,Wed Jan 30 14:55:29 2019,-223.137,591,105703
 youtube,../../data/youtube/rtim/live/urr/v1/YO_k10000_r2_ap0,8_urr_v1_s113489_ss2247.txt,Wed Jan 30 14:59:23 2019,Wed Jan 30 14:59:33 2019,5219.68,2247,144108
 youtube,../../data/youtube/rtim/live/urr/v1/YO_k10000_r5_ap0,8_urr_v1_s113489_ss5576.txt,Wed Jan 30 15:07:02 2019,Wed Jan 30 15:07:14 2019,18525.1,5576,175502
+youtube,../../data/youtube/rtim/live/inoutr/v1/YO_k30000_r5_ap0,8_inoutr_v1_s113489_ss30000.txt,Thu Jan 31 16:10:36 2019,Thu Jan 31 16:11:01 2019,-187.714,30000,628456
+youtube,../../data/youtube/rtim/live/inoutr/v1/YO_k30000_r5_ap0,8_inoutr_v1_s113489_ss30000.txt,Thu Jan 31 19:05:30 2019,Thu Jan 31 19:06:00 2019,359966,30000,628443

@@ -860,3 +860,19 @@ Max update time : 0.003225 seconds
 RTIM σ_MC  : 175502
 IMM  σ_MC  : 112592
 ----------------------------------------------------
+File name       : YO_k30000_r5_ap0,8_inoutr_v1_s113489_ss30000.txt
+Start date      : Thu Jan 31 16:10:35 2019
+End date        : Thu Jan 31 16:10:36 2019
+Duration        : 1.511240 seconds
+Max update time : 0.000002 seconds
+RTIM σ_MC  : 628456
+IMM  σ_MC  : 598797
+----------------------------------------------------
+File name       : YO_k30000_r5_ap0,8_inoutr_v1_s113489_ss30000.txt
+Start date      : Thu Jan 31 17:00:56 2019
+End date        : Thu Jan 31 19:05:30 2019
+Duration        : 4.167206 days
+Max update time : 0.173818 seconds
+RTIM σ_MC  : 628443
+IMM  σ_MC  : 598781
+----------------------------------------------------
