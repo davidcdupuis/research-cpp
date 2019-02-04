@@ -304,10 +304,10 @@ void RTIM::liveExploration(int& sum, int currUser, double currPathWeight, bool a
 void RTIM::live(){
   InfScore infScore = InfScore(graph);
   double rtimScore;
-  double immScore= -1;
+  double immScore = -1;
   seedSet.clear(); // in case live was already run with different arguments
   graph.importDegrees();
-  if (graph.dataset != "test"){
+  if (graph.dataset != "test" && useIMM){
     importIMMSeed();
   }
   if (preActProbs.size() == 0){
@@ -356,8 +356,10 @@ void RTIM::live(){
   while (infile >> user){
     sum ++;
 
-    if (immTargeted[user] == 1){
-      immSeedSet.push_back(user);
+    if(useIMM){
+      if (immTargeted[user] == 1){
+        immSeedSet.push_back(user);
+      }
     }
     if (graph.dataset == "test"){
       cout << "User: " << user << " is online: old_ap = " << activationProbabilities[user] << ", score = " << tmpInfScores[user] << endl;
@@ -417,13 +419,15 @@ void RTIM::live(){
 
         // measure update time
         start = clock();
-        updateNeighborsAPDepth(user, 1);
+        cout << sum << " - targeted: " << user << endl;
+        updateNeighborsAPDepth(user, 2);
+        cout << endl;
         duration = (clock() - start)/(double)CLOCKS_PER_SEC;
         if (duration > max_time){
           max_time = duration;
         }
         // RECORD TARGETED USER
-        saveStreamLog(sum, user, tmpAP, duration, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "targeted", seedSet.size(), rtimScore ,immTargeted[user], immSeedSet.size(), immScore, graph.inDegrees[user], graph.outDegrees[user]);
+        saveStreamLog(sum, user, tmpAP, duration, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "targeted", seedSet.size(), rtimScore, immScore, graph.inDegrees[user], graph.outDegrees[user]);
         if (infIndex > 0){
           infIndex --;
         }
@@ -438,26 +442,34 @@ void RTIM::live(){
       }else{
         //cout <<   "User not targeted : " << user << ": pos = " << sum << ", old_ap = " << activationProbabilities[user] << ", score = " << infScores[user] << endl;
         // RECORD USER IGNORED BECAUSE SCORE TOO LOW
-        saveStreamLog(sum, user, activationProbabilities[user], -1, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "ig. (sig. too low)", -1, -1 ,immTargeted[user], immSeedSet.size(), immScore, graph.inDegrees[user], graph.outDegrees[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "ig. (sig. too low)", -1, -1, immScore, graph.inDegrees[user], graph.outDegrees[user]);
       }
-      if (seedSet.size() >= maxSeedSize && immSeedSet.size() >= maxSeedSize){
-        break;
+      if (seedSet.size() >= maxSeedSize){
+        if(useIMM){
+          if(immSeedSet.size() >= maxSeedSize){
+            break;
+          }
+        }else{
+          break;
+        }
       }
     }else{
       if(seedSet.size() >= maxSeedSize){
-        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "seed size reached", -1, -1 ,immTargeted[user], immSeedSet.size(), immScore, graph.inDegrees[user], graph.outDegrees[user]);
+        saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "seed size reached", -1, -1, immScore, graph.inDegrees[user], graph.outDegrees[user]);
       }else{
         if (activationProbabilities[user] == 1){
           // RECORD USER IGNORED BECAUSE ALREADY TARGETED
-          saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (targeted)", -1, -1 ,immTargeted[user], immSeedSet.size(), immScore, graph.inDegrees[user], graph.outDegrees[user]);
+          saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (targeted)", -1, -1, immScore, graph.inDegrees[user], graph.outDegrees[user]);
         }else{
           // RECORD USER IGNORED BECAUSE AP TOO HIGH
-          saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (ap too high)", -1, -1 ,immTargeted[user], immSeedSet.size(), immScore, graph.inDegrees[user], graph.outDegrees[user]);
+          saveStreamLog(sum, user, activationProbabilities[user], -1, tmpInfScores[user], -1, -1, sortedScores[infIndex], "ig. (ap too high)", -1, -1, immScore, graph.inDegrees[user], graph.outDegrees[user]);
         }
       }
     }
-    if (immTargeted[user] == 1){
-      immTargeted[user] = 2;
+    if(useIMM){
+      if (immTargeted[user] == 1){
+        immTargeted[user] = 2;
+      }
     }
   }
   cout << endl;
@@ -499,27 +511,28 @@ void RTIM::live(){
   printLocalTime("magenta", "Compute RTIM seed score", "ending");
   printInColor("magenta", string(60, '-'));
 
-  printInColor("red", "IMM seed set size: " + to_string(immSeedSet.size()));
-  printInColor("magenta", string(60, '-'));
-  printLocalTime("magenta", "Compute IMM seed score", "starting");
-  // vector<int> vecImmSeedSet;
-  // for(int seed: immSeedSet){
-  //   vecImmSeedSet.push_back(seed);
-  // }
-  infScore.seedSet = immSeedSet;
-  if (graph.dataset == "twitter"){
-    infScore.depth = 2;
-  }else{
-    infScore.depth = 10000;
+  if(useIMM){
+    printInColor("red", "IMM seed set size: " + to_string(immSeedSet.size()));
+    printInColor("magenta", string(60, '-'));
+    printLocalTime("magenta", "Compute IMM seed score", "starting");
+    infScore.seedSet = immSeedSet;
+    if (graph.dataset == "twitter"){
+      infScore.depth = 2;
+    }else{
+      infScore.depth = 10000;
+    }
+    immScore = infScore.mcInfScoreParallel();
+    printInColor("red", "IMM: \u03C3_MC(seed) = " + properStringDouble(immScore));
+    printLocalTime("magenta", "Compute IMM seed score", "ending");
+    printInColor("magenta", string(60, '-'));
+
+    saveIMMProgress(sum, immSeedSet.size(), immScore);
   }
-  immScore = infScore.mcInfScoreParallel();
-  printInColor("red", "IMM: \u03C3_MC(seed) = " + properStringDouble(immScore));
-  printLocalTime("magenta", "Compute IMM seed score", "ending");
-  printInColor("magenta", string(60, '-'));
+
   saveLiveLog(max_time, liveDuration, startDatetime, endDatetime, rtimScore, immScore);
   saveLiveCSV(graph, streamDuration, max_time, liveDuration);
   saveProgress(sum, seedSet.size(), rtimScore);
-  saveIMMProgress(sum, immSeedSet.size(), immScore);
+
 };
 
 void RTIM::initializeInfluenceScores(){
@@ -730,7 +743,7 @@ void RTIM::initiateStreamLog(){
   streamLog << endl;
 }
 
-void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, string rtim_status, int rtimSize, double rtimScore, int imm_targeted, int immSize, double immScore, int inDeg, int outDeg){
+void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, string rtim_status, int rtimSize, double rtimScore, double immScore, int inDeg, int outDeg){
   string path = generateDataFilePath("stream_log");
   if (!pathExists(path)){
     cerr << "Error path doesn't exist: " << path << " at line 642 " << endl;
@@ -777,6 +790,10 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oS
     streamLog << left << setw(10 + 1) << rtimScore;
   }
   // IMM TARGETED
+  int imm_targeted = 0;
+  if(useIMM){
+    imm_targeted = immTargeted[user];
+  }
   if (imm_targeted == 1){
     streamLog << left << setw(14 + 1) << "targeted";
   }else if(imm_targeted == 2){
@@ -785,6 +802,10 @@ void RTIM::saveStreamLog(int pos, int user, double ap, double ap_time, double oS
     streamLog << left << setw(14 + 1) << "-";
   }
   // IMM SIZE
+  int immSize = 0;
+  if(useIMM){
+    immSize = immSeedSet.size();
+  }
   if (immSize == -1 || imm_targeted != 1){
     streamLog << left << setw(9 + 1) << "-";
   }else{
@@ -1210,6 +1231,34 @@ int RTIM::liveMenu(string prevClass){
           break;
         }
       }
+      // does user want to compare RTIM with IMM?
+      while(1){
+        cout << "> use IMM (" << (useIMM ? "true" : "false") << "): ";
+        getline(cin, input);
+        if(input != ""){
+          try{
+            if(input == "true"){
+              useIMM = true;
+            }else{
+              useIMM = false;
+            }
+            clearLines(1);
+            cout << "> use IMM (" << (useIMM ? "true" : "false")  << "): ";
+            printInColor("yellow", (useIMM ? "true" : "false"));
+            break;
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
+          // streamSize = nodes;
+          clearLines(1);
+          cout << "> use IMM (" << (useIMM ? "true" : "false")  << "): ";
+          printInColor("yellow", (useIMM ? "true" : "false"));
+          break;
+        }
+      }
       sleep(SLEEP+1);
       clearLines(8);
     }
@@ -1553,14 +1602,14 @@ void RTIM::updateNeighborsAP(int src, set<int> path, double path_weight, int dep
 }
 
 void RTIM::updateNeighborsAPDepth(int src, int maxDepth){
-  // cout << "(" << src << ", d=" << 1 - maxDepth << ")";
   for(pair<int, double> neighbor: graph.graph[src]){
-    int newDepth;
     if (activationProbabilities[neighbor.first] < 1){
       activationProbabilities[neighbor.first] = 1 - (1 - activationProbabilities[neighbor.first])*(1 - neighbor.second * activationProbabilities[src]);
-      if (maxDepth > 0){
-        newDepth = maxDepth - 1;
-        updateNeighborsAPDepth(neighbor.first, newDepth);
+      if(neighbor.first == 6011){
+        cout << "(" << src << " | AP[" << neighbor.first << "]= " << activationProbabilities[neighbor.first] << "), ";
+      }
+      if (maxDepth > 1){
+        updateNeighborsAPDepth(neighbor.first, --maxDepth);
       }
     }
   }

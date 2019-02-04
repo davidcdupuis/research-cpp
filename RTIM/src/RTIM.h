@@ -52,6 +52,7 @@ public:
     { "progress", "prg"},
   };
   bool loadScores = true; // if false don't load scores
+  bool useIMM = false;
   // int nodes;                         /**< number of nodes in graph */
   // int simulations;                   /**< # simulations for inf score */
   int infIndex;                      /**< index of influence score threshold */
@@ -172,7 +173,7 @@ public:
   void initiateStreamLog();
 
   // Save stream log
-  void saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, std::string rtim_status, int rtimSize, double rtimScore, int imm_targeted, int immSize, double immScore, int inDeg, int outDeg);
+  void saveStreamLog(int pos, int user, double ap, double ap_time, double oScore, double nScore, double inf_time, double theta_I, std::string rtim_status, int rtimSize, double rtimScore, double immScore, int inDeg, int outDeg);
 
   // Import influence scores
   void importScores();

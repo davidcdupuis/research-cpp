@@ -32,3 +32,8 @@ nethept,../../data/nethept/rtim/live/inoutr/v2/NE_k2000_r60_ap0,8_inoutr_v2_s760
 nethept,../../data/nethept/rtim/live/inoutr/v2/NE_k3000_r60_ap0,8_inoutr_v2_s7600_ss3000.txt,Wed Jan 23 18:28:56 2019,Wed Jan 23 18:29:05 2019,-964.333,3000,7876.84
 nethept,../../data/nethept/rtim/live/inoutr/v2/NE_k4000_r60_ap0,8_inoutr_v2_s7600_ss4000.txt,Wed Jan 23 18:35:37 2019,Wed Jan 23 18:35:48 2019,-562.384,4000,9192.22
 nethept,../../data/nethept/rtim/live/inoutr/v2/NE_k5000_r99_ap0,8_inoutr_v2_s7600_ss4713.txt,Wed Jan 23 18:44:00 2019,Wed Jan 23 18:44:14 2019,-210.638,4713,9600.21
+nethept,../../data/nethept/rtim/live/inoutr/v1/NE_k1000_r60_ap0,8_inoutr_v1_s1522_ss976.txt,Mon Feb  4 14:00:43 2019,Mon Feb  4 14:00:48 2019,-1538.81,976,4087.81
+nethept,../../data/nethept/rtim/live/inoutr/v1/NE_k1000_r60_ap0,8_inoutr_v1_s1522_ss570.txt,Mon Feb  4 14:30:12 2019,Mon Feb  4 14:30:14 2019,-1543.23,570,2531.31
+nethept,../../data/nethept/rtim/live/inoutr/v1/NE_k70_r60_ap0,8_inoutr_v1_s1522_ss70.txt,Mon Feb  4 15:11:27 2019,Mon Feb  4 15:11:27 2019,-1548.2,70,504.205
+nethept,../../data/nethept/rtim/live/inoutr/v1/NE_k70_r60_ap0,8_inoutr_v1_s1522_ss70.txt,Mon Feb  4 15:23:46 2019,Mon Feb  4 15:23:46 2019,-1548.21,70,504.865
+nethept,../../data/nethept/rtim/live/inoutr/v1/NE_k70_r60_ap0,8_inoutr_v1_s1522_ss70.txt,Mon Feb  4 15:37:22 2019,Mon Feb  4 15:37:23 2019,-1548.22,70,507.764

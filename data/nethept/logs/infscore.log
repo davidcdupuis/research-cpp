@@ -229,3 +229,38 @@ Runtime    : -210.638
 Seed size  : 4713
 Inf. score : 9600.21
 -----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/v1/NE_k1000_r60_ap0,8_inoutr_v1_s1522_ss976.txt
+Start date : Mon Feb  4 14:00:43 2019
+End date   : Mon Feb  4 14:00:48 2019
+Runtime    : -1538.81
+Seed size  : 976
+Inf. score : 4087.81
+-----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/v1/NE_k1000_r60_ap0,8_inoutr_v1_s1522_ss570.txt
+Start date : Mon Feb  4 14:30:12 2019
+End date   : Mon Feb  4 14:30:14 2019
+Runtime    : -1543.23
+Seed size  : 570
+Inf. score : 2531.31
+-----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/v1/NE_k70_r60_ap0,8_inoutr_v1_s1522_ss70.txt
+Start date : Mon Feb  4 15:11:27 2019
+End date   : Mon Feb  4 15:11:27 2019
+Runtime    : -1548.2
+Seed size  : 70
+Inf. score : 504.205
+-----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/v1/NE_k70_r60_ap0,8_inoutr_v1_s1522_ss70.txt
+Start date : Mon Feb  4 15:23:46 2019
+End date   : Mon Feb  4 15:23:46 2019
+Runtime    : -1548.21
+Seed size  : 70
+Inf. score : 504.865
+-----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/v1/NE_k70_r60_ap0,8_inoutr_v1_s1522_ss70.txt
+Start date : Mon Feb  4 15:37:22 2019
+End date   : Mon Feb  4 15:37:23 2019
+Runtime    : -1548.22
+Seed size  : 70
+Inf. score : 507.764
+-----------------------------------------------
