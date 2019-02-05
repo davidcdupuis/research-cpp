@@ -308,6 +308,7 @@ void RTIM::live(){
   seedSet.clear(); // in case live was already run with different arguments
   graph.importDegrees();
   if (graph.dataset != "test" && useIMM){
+    immSeedSet.clear();
     importIMMSeed();
   }
   if (preActProbs.size() == 0){
@@ -419,9 +420,9 @@ void RTIM::live(){
 
         // measure update time
         start = clock();
-        cout << sum << " - targeted: " << user << endl;
+        //cout << sum << " - targeted: " << user << endl;
         updateNeighborsAPDepth(user, 2);
-        cout << endl;
+        //cout << endl;
         duration = (clock() - start)/(double)CLOCKS_PER_SEC;
         if (duration > max_time){
           max_time = duration;
@@ -1605,9 +1606,6 @@ void RTIM::updateNeighborsAPDepth(int src, int maxDepth){
   for(pair<int, double> neighbor: graph.graph[src]){
     if (activationProbabilities[neighbor.first] < 1){
       activationProbabilities[neighbor.first] = 1 - (1 - activationProbabilities[neighbor.first])*(1 - neighbor.second * activationProbabilities[src]);
-      if(neighbor.first == 6011){
-        cout << "(" << src << " | AP[" << neighbor.first << "]= " << activationProbabilities[neighbor.first] << "), ";
-      }
       if (maxDepth > 1){
         updateNeighborsAPDepth(neighbor.first, --maxDepth);
       }
