@@ -303,8 +303,25 @@ void RTIM::liveExploration(int& sum, int currUser, double currPathWeight, bool a
 
 void RTIM::live(){
   InfScore infScore = InfScore(graph);
+
+  // initialize all live variables
   double rtimScore;
   double immScore = -1;
+  double max_time = 0;
+  double duration;
+  double inf_duration;
+  int sum = 0;
+  int progressLines = 0;
+  int previousProgress = -1;
+  bool newProgress = true;
+
+  if(immProgress){
+    progressLines++;
+  }
+  if(rtimProgress){
+    progressLines++;
+  }
+
   seedSet.clear(); // in case live was already run with different arguments
   graph.importDegrees();
   if (graph.dataset != "test" && useIMM){
@@ -321,7 +338,12 @@ void RTIM::live(){
     tmpInfScores.push_back(score);
   }
 
-  initiateProgressLog();
+  if(rtimProgress){
+    initiateProgressLog();
+  }
+  if(immProgress){
+    initiateIMMProgressLog();
+  }
   initiateStreamLog();
   activationProbabilities.clear();
   activationProbabilities.resize(graph.nodes, 0);
@@ -344,22 +366,24 @@ void RTIM::live(){
   }
   printInColor("cyan", "Reading stream from : " + path);
   ifstream infile(path.c_str());
-  double max_time = 0;
+
   clock_t start;
   clock_t startStream = clock();
   time_t startTime;
   time ( &startTime );
-  double duration;
-  double inf_duration;
-  int sum = 0;
-  int previousProgress = -1;
-  bool newProgress = true;
   while (infile >> user){
     sum ++;
 
     if(useIMM){
       if (immTargeted[user] == 1){
         immSeedSet.push_back(user);
+        if(immSeedSet.size()%100 == 0 && immProgress){
+          infScore.seedSet = immSeedSet;
+          immScore = infScore.mcInfScoreParallel();
+          saveIMMProgress(sum, immSeedSet.size(), immScore);
+          clearLines(progressLines);
+          cout << "IMM seed size = " << immSeedSet.size() << " | score = " << immScore << endl;
+        }
       }
     }
     if (graph.dataset == "test"){
@@ -367,9 +391,7 @@ void RTIM::live(){
     }
     if (activationProbabilities[user] < theta_ap && seedSet.size() < maxSeedSize){ // CHECK ACTIVATION PROBABILITY
 
-      // ADD FUNCTION TO PROPERLY UPDATE INFLUENCE SCORE, RECORD TIME
       // ---------------------update influence score --------------------------
-      // check neighbors
       double tot = 0;
       double old_score = tmpInfScores[user];
       start = clock();
@@ -384,15 +406,7 @@ void RTIM::live(){
         tmpInfScores[user] = 1;
 	      //cout << "User: " << user << " has all activated neighbors" << endl;
         // old_score = tmpInfScores[user];
-      }/*else{
-        // this is not the case, we need to check at depth 2.
-        int sum = 0;
-        liveExploration(sum, user, 1, 0, 2);
-        tmpInfScores[user] = tmpInfScores[user] - sum;
-      }*/
-      //if(old_score != tmpInfScores[user]){
-      //  cout << "User: " << user << " | oScore: " << old_score << " | nScore: " << tmpInfScores[user] << endl;
-      //}
+      }
       // we need to update the inf. threshold if the new score is below it
       // this allows the top % to be the same
       if (old_score > sortedScores[infIndex] && tmpInfScores[user] < sortedScores[infIndex]){
@@ -410,10 +424,14 @@ void RTIM::live(){
       if(tmpInfScores[user] >= sortedScores[infIndex]){ // CHECK INFLUENCE SCORE
         seedSet.push_back(user); // add user to seed set
         // COMPUTE INFLUENCE SCORE OF SEED SET
-        if(seedSet.size() % 100 == 0){
+        if(seedSet.size() % 100 == 0 && rtimProgress){
           infScore.seedSet = seedSet;
           rtimScore = infScore.mcInfScoreParallel();
           saveProgress(sum, seedSet.size(), rtimScore);
+          if(!immProgress){
+            clearLines(progressLines);
+          }
+          cout << "RTIM seed size = " << seedSet.size() << " | score = " << rtimScore << endl;
         }
         double tmpAP = activationProbabilities[user];
         activationProbabilities[user] = 1.0;
@@ -1257,6 +1275,62 @@ int RTIM::liveMenu(string prevClass){
           clearLines(1);
           cout << "> use IMM (" << (useIMM ? "true" : "false")  << "): ";
           printInColor("yellow", (useIMM ? "true" : "false"));
+          break;
+        }
+      }
+      // does user want to record RTIM progress
+      while(1){
+        cout << "> record RTIM progress (" << (rtimProgress ? "true" : "false") << "): ";
+        getline(cin, input);
+        if(input != ""){
+          try{
+            if(input == "true"){
+              rtimProgress = true;
+            }else{
+              rtimProgress = false;
+            }
+            clearLines(1);
+            cout << "> use IMM (" << (rtimProgress ? "true" : "false")  << "): ";
+            printInColor("yellow", (rtimProgress ? "true" : "false"));
+            break;
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
+          // streamSize = nodes;
+          clearLines(1);
+          cout << "> use IMM (" << (rtimProgress ? "true" : "false")  << "): ";
+          printInColor("yellow", (rtimProgress ? "true" : "false"));
+          break;
+        }
+      }
+      // does user want to record IMM progress
+      while(1){
+        cout << "> record IMM progress (" << (immProgress ? "true" : "false") << "): ";
+        getline(cin, input);
+        if(input != ""){
+          try{
+            if(input == "true"){
+              immProgress = true;
+            }else{
+              immProgress = false;
+            }
+            clearLines(1);
+            cout << "> use IMM (" << (immProgress ? "true" : "false")  << "): ";
+            printInColor("yellow", (immProgress ? "true" : "false"));
+            break;
+          }catch(invalid_argument& e){
+            cout << "Error: invalid input!" << endl;
+            sleep(SLEEP);
+            clearLines(2);
+          }
+        }else{
+          // streamSize = nodes;
+          clearLines(1);
+          cout << "> use IMM (" << (immProgress ? "true" : "false")  << "): ";
+          printInColor("yellow", (immProgress ? "true" : "false"));
           break;
         }
       }

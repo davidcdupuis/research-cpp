@@ -53,6 +53,8 @@ public:
   };
   bool loadScores = true; // if false don't load scores
   bool useIMM = false;
+  bool immProgress = false;
+  bool rtimProgress = true;
   // int nodes;                         /**< number of nodes in graph */
   // int simulations;                   /**< # simulations for inf score */
   int infIndex;                      /**< index of influence score threshold */
