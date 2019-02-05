@@ -1052,3 +1052,19 @@ Max update time : 0.000244 seconds
 RTIM σ_MC  : 556916
 IMM  σ_MC  : -1
 ----------------------------------------------------
+File name       : YO_k10000_r0,9_ap0,3_inoutr_v1_s113489_ss9539.txt
+Start date      : Tue Feb  5 11:05:45 2019
+End date        : Tue Feb  5 11:05:47 2019
+Duration        : 1.771716 seconds
+Max update time : 0.000260 seconds
+RTIM σ_MC  : 555060
+IMM  σ_MC  : 551894
+----------------------------------------------------
+File name       : YO_k10000_r0,9_ap0,3_inoutr_v1_s113489_ss9539.txt
+Start date      : Tue Feb  5 11:11:54 2019
+End date        : Tue Feb  5 11:46:29 2019
+Duration        : 1.162109 days
+Max update time : 0.151064 seconds
+RTIM σ_MC  : 555047
+IMM  σ_MC  : 551891
+----------------------------------------------------
