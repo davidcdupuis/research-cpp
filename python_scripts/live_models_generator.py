@@ -10,6 +10,7 @@ import csv
 import settings
 import numpy
 import tools
+import math
 
 models = ['rand_repeat', 'rand_no_repeat', 'random_long']
 
@@ -111,6 +112,16 @@ def inNOut_repeat(dataset, nodes, streamSize, distribution, version):
     print("> Saved inNOut_repeat to {}".format(file_name))
 
 
+def logInNOut_repeat(dataset, nodes, streamSize, distribution, version):
+    file_name = '../data/{0}/streams/loginoutr/v{3}/{1}_loginoutr_v{3}_s{2}_st.txt'.format(dataset, settings.datasets[dataset], streamSize, version)
+    choices = numpy.random.choice(numpy.arange(nodes,), streamSize, p=distribution)
+    with open(file_name, 'w') as f:
+        writer = csv.writer(f)
+        for choice in choices:
+            writer.writerow([choice])
+    print("> Saved logInNOut_repeat to {}".format(file_name))
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Live Models generator")
     parser.add_argument('-m', '--model', default="uniform_rand_repeat",
@@ -152,5 +163,12 @@ if __name__ == "__main__":
         distribution = getDistribution(args.dataset, nodes)
         #print(distribution)
         inNOut_repeat(args.dataset, nodes, args.stream, distribution, args.version)
+    elif args.model == "log":
+        if (args.stream == -1):
+            args.stream = int(nodes / 10)
+        distribution = getDistribution(args.dataset, nodes)
+        #distribution = numpy.log(distribution);
+        print(distribution)
+        # logInNOut_repeat(args.dataset, nodes, args.stream, distribution, args.version)
     elif args.model == "degrees":
         save_degrees()
