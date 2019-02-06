@@ -1068,3 +1068,91 @@ Max update time : 0.151064 seconds
 RTIM σ_MC  : 555047
 IMM  σ_MC  : 551891
 ----------------------------------------------------
+File name       : YO_k20000_r2_ap0,3_inoutr_v1_s113489_ss13026.txt
+Start date      : Wed Feb  6 18:56:17 2019
+End date        : Wed Feb  6 18:56:18 2019
+Duration        : 1.484501 seconds
+Max update time : 0.000146 seconds
+RTIM σ_MC  : 578891
+IMM  σ_MC  : 582583
+----------------------------------------------------
+File name       : YO_k20000_r3_ap0,3_inoutr_v1_s113489_ss15053.txt
+Start date      : Wed Feb  6 18:58:19 2019
+End date        : Wed Feb  6 18:58:21 2019
+Duration        : 1.672534 seconds
+Max update time : 0.000235 seconds
+RTIM σ_MC  : 589294
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : YO_k20000_r4_ap0,3_inoutr_v1_s113489_ss16788.txt
+Start date      : Wed Feb  6 18:59:55 2019
+End date        : Wed Feb  6 18:59:57 2019
+Duration        : 1.681097 seconds
+Max update time : 0.000199 seconds
+RTIM σ_MC  : 597008
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : YO_k20000_r6_ap0,3_inoutr_v1_s113489_ss19391.txt
+Start date      : Wed Feb  6 19:02:14 2019
+End date        : Wed Feb  6 19:02:16 2019
+Duration        : 1.653242 seconds
+Max update time : 0.000349 seconds
+RTIM σ_MC  : 606783
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : YO_k20000_r6,5_ap0,3_inoutr_v1_s113489_ss19996.txt
+Start date      : Wed Feb  6 19:04:50 2019
+End date        : Wed Feb  6 19:04:52 2019
+Duration        : 1.793788 seconds
+Max update time : 0.000384 seconds
+RTIM σ_MC  : 608847
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : YO_k20000_r7_ap0,3_inoutr_v1_s113489_ss20000.txt
+Start date      : Wed Feb  6 19:05:56 2019
+End date        : Wed Feb  6 19:05:57 2019
+Duration        : 1.617031 seconds
+Max update time : 0.000377 seconds
+RTIM σ_MC  : 606412
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : YO_k20000_r7_ap0,4_inoutr_v1_s113489_ss20000.txt
+Start date      : Wed Feb  6 19:06:55 2019
+End date        : Wed Feb  6 19:06:56 2019
+Duration        : 1.265432 seconds
+Max update time : 0.000288 seconds
+RTIM σ_MC  : 591175
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : YO_k20000_r5_ap0,4_inoutr_v1_s113489_ss20000.txt
+Start date      : Wed Feb  6 19:08:06 2019
+End date        : Wed Feb  6 19:08:07 2019
+Duration        : 1.490679 seconds
+Max update time : 0.000273 seconds
+RTIM σ_MC  : 601664
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : YO_k20000_r4_ap0,4_inoutr_v1_s113489_ss20000.txt
+Start date      : Wed Feb  6 19:09:01 2019
+End date        : Wed Feb  6 19:09:03 2019
+Duration        : 1.797688 seconds
+Max update time : 0.000272 seconds
+RTIM σ_MC  : 607525
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : YO_k20000_r3_ap0,4_inoutr_v1_s113489_ss18357.txt
+Start date      : Wed Feb  6 19:13:00 2019
+End date        : Wed Feb  6 19:13:02 2019
+Duration        : 1.744148 seconds
+Max update time : 0.000253 seconds
+RTIM σ_MC  : 602898
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : YO_k20000_r3,7_ap0,4_inoutr_v1_s113489_ss19902.txt
+Start date      : Wed Feb  6 19:13:50 2019
+End date        : Wed Feb  6 19:13:52 2019
+Duration        : 1.736811 seconds
+Max update time : 0.000234 seconds
+RTIM σ_MC  : 608908
+IMM  σ_MC  : -1
+----------------------------------------------------
