@@ -49,7 +49,7 @@ def rand_no_repeat(dataset, nodes, size, num=1):
         print("> Saved rand_no_repeat data to {}".format(file_name))
 
 
-def getDistribution(dataset, nodes):
+def getDistribution(dataset, nodes, logDist=False):
     inDegrees = numpy.zeros((nodes,), dtype=int)
     outDegrees = numpy.zeros((nodes,), dtype=int)
 
@@ -68,13 +68,17 @@ def getDistribution(dataset, nodes):
     # print("out   : {}".format(outDegrees))
     # for i in range(nodes):
     #     print(inDegrees[i], outDegrees[i])
-    sumDegrees = inDegrees + outDegrees
-    # print("sum   : {}".format(sumDegrees))
-    total = numpy.sum(sumDegrees)
-    # print("total = {}".format(total))
-    distribution = 1.0 * sumDegrees / total
-    # print("distib: {}".format(distribution))
-
+    if(logDist):
+        sumDegrees = numpy.log(inDegrees + outDegrees)
+        total = numpy.sum(sumDegrees)
+        distribution = 1.0 * sumDegrees / total
+    else:
+        sumDegrees = inDegrees + outDegrees
+        # print("sum   : {}".format(sumDegrees))
+        total = numpy.sum(sumDegrees)
+        # print("total = {}".format(total))
+        distribution = 1.0 * sumDegrees / total
+        # print("distib: {}".format(distribution))
     return distribution
 
 
@@ -166,9 +170,10 @@ if __name__ == "__main__":
     elif args.model == "log":
         if (args.stream == -1):
             args.stream = int(nodes / 10)
-        distribution = getDistribution(args.dataset, nodes)
+        distribution = getDistribution(args.dataset, nodes, True)
         #distribution = numpy.log(distribution);
-        print(distribution)
-        # logInNOut_repeat(args.dataset, nodes, args.stream, distribution, args.version)
+        # print(distribution)
+        # print(numpy.sum(distribution))
+        logInNOut_repeat(args.dataset, nodes, args.stream, distribution, args.version)
     elif args.model == "degrees":
         save_degrees()
