@@ -311,16 +311,10 @@ void RTIM::live(){
   double duration;
   double inf_duration;
   int sum = 0;
-  int progressLines = 0;
+  bool rtimProgressLine = false;
+  bool immProgressLine = false;
   int previousProgress = -1;
   bool newProgress = true;
-
-  if(immProgress){
-    progressLines++;
-  }
-  if(rtimProgress){
-    progressLines++;
-  }
 
   seedSet.clear(); // in case live was already run with different arguments
   graph.importDegrees();
@@ -381,9 +375,13 @@ void RTIM::live(){
           infScore.seedSet = immSeedSet;
           immScore = infScore.mcInfScoreParallel();
           saveIMMProgress(sum, immSeedSet.size(), immScore);
-          clearLines(progressLines);
-          cout << "IMM seed size = " << immSeedSet.size() << " | score = " << immScore << endl;
-        }
+	  if(rtimProgressLine){
+	    clearLines(1);
+	    rtimProgressLine = false;
+	  }
+          cout << "RTIM (size = " << seedSet.size() << ",score = " << rtimScore << ")| " << "IMM (size = " << immSeedSet.size() << ",score = " << immScore << ")" << endl;
+          immProgressLine = true;
+	}
       }
     }
     if (graph.dataset == "test"){
@@ -428,10 +426,12 @@ void RTIM::live(){
           infScore.seedSet = seedSet;
           rtimScore = infScore.mcInfScoreParallel();
           saveProgress(sum, seedSet.size(), rtimScore);
-          if(!immProgress){
-            clearLines(progressLines);
-          }
-          cout << "RTIM seed size = " << seedSet.size() << " | score = " << rtimScore << endl;
+          if(immProgressLine){
+            clearLines(1);
+	    immProgressLine = false;
+	  }
+          cout << "RTIM (size = " << seedSet.size() << ",score = " << rtimScore << ")| " << "IMM (size = " << immSeedSet.size() << ",score = " << immScore << ")" << endl;
+	  rtimProgressLine = true;
         }
         double tmpAP = activationProbabilities[user];
         activationProbabilities[user] = 1.0;
@@ -1290,7 +1290,7 @@ int RTIM::liveMenu(string prevClass){
               rtimProgress = false;
             }
             clearLines(1);
-            cout << "> use IMM (" << (rtimProgress ? "true" : "false")  << "): ";
+            cout << "> record RTIM progress (" << (rtimProgress ? "true" : "false")  << "): ";
             printInColor("yellow", (rtimProgress ? "true" : "false"));
             break;
           }catch(invalid_argument& e){
@@ -1301,7 +1301,7 @@ int RTIM::liveMenu(string prevClass){
         }else{
           // streamSize = nodes;
           clearLines(1);
-          cout << "> use IMM (" << (rtimProgress ? "true" : "false")  << "): ";
+          cout << "> record RTIM progress (" << (rtimProgress ? "true" : "false")  << "): ";
           printInColor("yellow", (rtimProgress ? "true" : "false"));
           break;
         }
@@ -1318,7 +1318,7 @@ int RTIM::liveMenu(string prevClass){
               immProgress = false;
             }
             clearLines(1);
-            cout << "> use IMM (" << (immProgress ? "true" : "false")  << "): ";
+            cout << "> record IMM progress (" << (immProgress ? "true" : "false")  << "): ";
             printInColor("yellow", (immProgress ? "true" : "false"));
             break;
           }catch(invalid_argument& e){
@@ -1329,7 +1329,7 @@ int RTIM::liveMenu(string prevClass){
         }else{
           // streamSize = nodes;
           clearLines(1);
-          cout << "> use IMM (" << (immProgress ? "true" : "false")  << "): ";
+          cout << "> record IMM progress (" << (immProgress ? "true" : "false")  << "): ";
           printInColor("yellow", (immProgress ? "true" : "false"));
           break;
         }
