@@ -47,9 +47,14 @@ public:
     { "seedSet", "ss"},
     { "stream", "st"},
     { "uniform_rand_repeat", "urr"},
+    { "urr","urr"},
     { "uniform_rand_no_repeat", "urnr"},
+    { "urnr","urnr"},
     { "inNOut_repeat", "inoutr"},
+    { "inoutr", "inoutr"},
     { "progress", "prg"},
+    { "logioutr", "logintour"},
+    { "log", "loginoutr"}
   };
   bool loadScores = true; // if false don't load scores
   bool useIMM = false;
@@ -68,7 +73,7 @@ public:
   double theta_ap = 0.8;              /**< activation probability threshold [0, 1] */
 
   std::string seedSetPath;
-  std::string streamModel = "inNOut_repeat"; /**< name of availability model */
+  std::string streamModel = "inoutr"; /**< name of availability model */
   std::string stage;                  /**< pre|live|evaluate */
 
   std::vector<double> infScores;     /**< array of influence scores */

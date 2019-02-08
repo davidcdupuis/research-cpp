@@ -264,3 +264,17 @@ Runtime    : -1548.22
 Seed size  : 70
 Inf. score : 507.764
 -----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/v1/NE_k200_r1_ap0,3_inoutr_v1_s1522_ss101.txt
+Start date : Fri Feb  8 10:47:55 2019
+End date   : Fri Feb  8 10:47:55 2019
+Runtime    : -1547.27
+Seed size  : 101
+Inf. score : 1343.58
+-----------------------------------------------
+File name  : ../../data/nethept/rtim/live/loginoutr/v1/NE_k200_r1_ap0,3_loginoutr_v1_s1522_ss41.txt
+Start date : Fri Feb  8 10:48:51 2019
+End date   : Fri Feb  8 10:48:51 2019
+Runtime    : -1546.19
+Seed size  : 41
+Inf. score : 664.941
+-----------------------------------------------

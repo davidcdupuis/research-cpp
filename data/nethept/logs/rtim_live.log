@@ -302,3 +302,19 @@ Max update time : 0.000014 seconds
 RTIM σ_MC  : 507.764
 IMM  σ_MC  : -1
 ----------------------------------------------------
+File name       : NE_k200_r1_ap0,3_inoutr_v1_s1522_ss101.txt
+Start date      : Fri Feb  8 10:47:55 2019
+End date        : Fri Feb  8 10:47:55 2019
+Duration        : 0.035643 seconds
+Max update time : 0.000005 seconds
+RTIM σ_MC  : 1343.58
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : NE_k200_r1_ap0,3_loginoutr_v1_s1522_ss41.txt
+Start date      : Fri Feb  8 10:48:51 2019
+End date        : Fri Feb  8 10:48:51 2019
+Duration        : 0.038803 seconds
+Max update time : 0.000003 seconds
+RTIM σ_MC  : 664.941
+IMM  σ_MC  : -1
+----------------------------------------------------

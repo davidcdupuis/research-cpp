@@ -1171,13 +1171,13 @@ int RTIM::liveMenu(string prevClass){
       }
       // asking for stream model
       while(1){
-        cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+        cout << "> stream model [urr, urnr, inoutr, log](" << streamModel << "): ";
         getline(cin, input);
         if(input != ""){
-          if(input == "uniform_rand_repeat" || input == "uniform_rand_no_repeat" || input == "inNOut_repeat"){
+          if(input == "urr" || input == "urnr" || input == "inoutr" || input == "log" || input == "loginoutr"){
             streamModel = input;
             clearLines(1);
-            cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+            cout << "> stream model [urr, urnr, inoutr, log](" << streamModel << "): ";
             printInColor("yellow", streamModel);
             break;
           }else{
@@ -1187,7 +1187,7 @@ int RTIM::liveMenu(string prevClass){
           }
         }else{
           clearLines(1);
-          cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+          cout << "> stream model [urr, urnr, inoutr, log](" << streamModel << "): ";
           printInColor("yellow", streamModel);
           break;
         }
@@ -1404,7 +1404,7 @@ int RTIM::liveIMMMenu(string prevClass){
       }
       // asking for stream model
       while(1){
-        cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat](" << streamModel << "): ";
+        cout << "> stream model [uniform_rand_repeat, uniform_rand_no_repeat, inNOut_repeat, log](" << streamModel << "): ";
         getline(cin, input);
         if(input != ""){
           if(input == "uniform_rand_repeat" || input == "uniform_rand_no_repeat" || input == "inNOut_repeat"){
