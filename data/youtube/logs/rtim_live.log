@@ -1308,3 +1308,43 @@ Max update time : 0.179061 seconds
 RTIM σ_MC  : 358585
 IMM  σ_MC  : 314088
 ----------------------------------------------------
+File name       : YO_k10000_r10_ap0,3_inoutr_v1_s113489_ss10000.txt
+Start date      : Mon Feb 11 15:14:23 2019
+End date        : Mon Feb 11 15:14:24 2019
+Duration        : 1.334672 seconds
+Max update time : 0.000149 seconds
+RTIM σ_MC  : 491752
+IMM  σ_MC  : 551886
+----------------------------------------------------
+File name       : YO_k10000_r1_ap0,5_inoutr_v1_s113489_ss10000.txt
+Start date      : Mon Feb 11 15:17:45 2019
+End date        : Mon Feb 11 15:17:46 2019
+Duration        : 1.667476 seconds
+Max update time : 0.000238 seconds
+RTIM σ_MC  : 539325
+IMM  σ_MC  : 551880
+----------------------------------------------------
+File name       : YO_k10000_r1_ap0,5_urr_v1_s113489_ss1140.txt
+Start date      : Mon Feb 11 15:19:08 2019
+End date        : Mon Feb 11 15:19:10 2019
+Duration        : 1.811810 seconds
+Max update time : 0.000126 seconds
+RTIM σ_MC  : 123707
+IMM  σ_MC  : 112596
+----------------------------------------------------
+File name       : YO_k10000_r3_ap0,5_urr_v1_s113489_ss3364.txt
+Start date      : Mon Feb 11 15:20:02 2019
+End date        : Mon Feb 11 15:20:04 2019
+Duration        : 1.860729 seconds
+Max update time : 0.000125 seconds
+RTIM σ_MC  : 157357
+IMM  σ_MC  : 112614
+----------------------------------------------------
+File name       : YO_k10000_r10_ap0,5_loginoutr_v1_s113489_ss10000.txt
+Start date      : Mon Feb 11 15:38:04 2019
+End date        : Mon Feb 11 15:38:06 2019
+Duration        : 1.656129 seconds
+Max update time : 0.000200 seconds
+RTIM σ_MC  : 249525
+IMM  σ_MC  : 332492
+----------------------------------------------------
