@@ -409,7 +409,7 @@ void RTIM::live(){
       // this allows the top % to be the same
       if (old_score > sortedScores[infIndex] && tmpInfScores[user] < sortedScores[infIndex]){
         if(infIndex > 0){
-          infIndex --;
+          //infIndex --;
         }
       }
       if(infIndex < 0){
@@ -448,7 +448,7 @@ void RTIM::live(){
         // RECORD TARGETED USER
         saveStreamLog(sum, user, tmpAP, duration, old_score, tmpInfScores[user], inf_duration, sortedScores[infIndex], "targeted", seedSet.size(), rtimScore, immScore, graph.inDegrees[user], graph.outDegrees[user]);
         if (infIndex > 0){
-          infIndex --;
+          //infIndex --;
         }
         if (graph.dataset == "test" || maxSeedSize < 20){
           cout << "Targeted user: " << user << ": old_ap = " << tmpAP << ", score = " << infScores[user] << endl;

@@ -8,6 +8,7 @@ data/youtube/streams/urr/*.txt
 data/youtube/streams/log
 data/youtube/rtim/pre_process/
 data/youtube/youtube_degrees.txt
+data/youtube/backup/*
 
 # LiveJournal
 data/livejournal/streams/*.txt
