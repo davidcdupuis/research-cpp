@@ -285,3 +285,38 @@ Runtime    : -1543.42
 Seed size  : 193
 Inf. score : 1941.87
 -----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/v1/NE_k1000_r1_ap0,3_inoutr_v1_s1522_ss80.txt
+Start date : Tue Feb 12 09:45:54 2019
+End date   : Tue Feb 12 09:45:55 2019
+Runtime    : -1547.96
+Seed size  : 80
+Inf. score : 1175.87
+-----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/v1/NE_k1000_r1_ap0,3_inoutr_v1_s1522_ss80.txt
+Start date : Tue Feb 12 09:54:18 2019
+End date   : Tue Feb 12 09:54:18 2019
+Runtime    : -1537.15
+Seed size  : 80
+Inf. score : 1177.39
+-----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/v1/NE_k1000_r1_ap0,5_inoutr_v1_s1522_ss80.txt
+Start date : Tue Feb 12 10:11:07 2019
+End date   : Tue Feb 12 10:11:07 2019
+Runtime    : -1542.98
+Seed size  : 80
+Inf. score : 1175.36
+-----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/v1/NE_k1000_r10_ap0,5_inoutr_v1_s1522_ss413.txt
+Start date : Tue Feb 12 10:16:01 2019
+End date   : Tue Feb 12 10:16:02 2019
+Runtime    : -1525.24
+Seed size  : 413
+Inf. score : 2799.51
+-----------------------------------------------
+File name  : ../../data/nethept/rtim/live/inoutr/v1/NE_k1000_r10_ap0,5_inoutr_v1_s1522_ss413.txt
+Start date : Tue Feb 12 10:21:07 2019
+End date   : Tue Feb 12 10:21:09 2019
+Runtime    : -1525.19
+Seed size  : 413
+Inf. score : 2801.81
+-----------------------------------------------

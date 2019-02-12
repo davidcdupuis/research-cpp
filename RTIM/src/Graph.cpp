@@ -107,7 +107,8 @@ void Graph::importDegrees(){
   //   cerr < "Error in importDegrees, path doesn't exist: " << path << endl;
   //   exit(1);
   // }
-  printInColor("cyan", "Importing degrees from: " + path);
+  // printInColor("cyan", "User degrees : " + dataset + "_degrees.txt");
+  cout << "User degrees : " << toColor("cyan", dataset + "_degrees.txt") << endl;
   inDegrees.resize(nodes, 0);
   outDegrees.resize(nodes, 0);
   ifstream infile(path.c_str());
@@ -117,7 +118,7 @@ void Graph::importDegrees(){
     inDegrees[user] = inDeg;
     outDegrees[user] = outDeg;
   }
-  printInColor("cyan", "Import degrees successful");
+  // printInColor("cyan", "Import degrees successful");
 }
 
 void Graph::printArguments(){

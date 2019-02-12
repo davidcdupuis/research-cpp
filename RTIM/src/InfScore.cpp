@@ -453,7 +453,7 @@ void InfScore::saveSeedScoreLog(string file, string startDate, string endDate, d
     exit(1);
   }
   path += "infscore.log";
-  printInColor("cyan", "Saving seed score log to: " + path);
+  // printInColor("cyan", "Saving seed score log to: " + path);
   ofstream seedScoreLogFile;
   seedScoreLogFile.open(path, fstream::app);
   seedScoreLogFile << "File name  : " << file << endl;
@@ -473,7 +473,7 @@ void InfScore::saveSeedScoreCSV(string file, string startDate, string endDate, d
     exit(1);
   }
   path += "infscore.csv";
-  printInColor("cyan", "Saving seed score csv to: " + path);
+  // printInColor("cyan", "Saving seed score csv to: " + path);
 
   // dataset,file_name, startDate, endDate, runtime, seed size, score
   ofstream seedScoreCSVFile;
