@@ -149,17 +149,23 @@ if __name__ == "__main__":
 
     if args.model == "uniform_rand_repeat":
         if (args.stream == -1):
-            args.stream = nodes
+            args.stream = int(nodes/10)
+        elif (args.stream == 20):
+            args.stream = int(nodes*2/10)
         print("Stream size: {}".format(args.stream))
         rand_repeat(args.dataset, nodes, args.stream, args.number)
     elif args.model == "uniform_rand_no_repeat":
         if (args.stream == -1):
-            args.stream = nodes
+            args.stream = int(nodes / 10)
+        elif (args.stream == 20):
+            args.stream = int(nodes*2 / 10)
         print("Stream size: {}".format(args.stream))
         rand_no_repeat(args.dataset, nodes, args.stream, args.number)
     elif args.model == "inNOut_repeat":
         if (args.stream == -1):
             args.stream = int(nodes / 10)
+        elif (args.stream == 20):
+            args.stream = int(nodes*2 / 10)
         # print("Stream size: {}".format(args.stream))
         # print(numpy.arange(1,5))
         # choices = numpy.random.choice(numpy.arange(1,5), 10, p=[0.2,0.3,0.3,0.2])
@@ -170,6 +176,8 @@ if __name__ == "__main__":
     elif args.model == "log":
         if (args.stream == -1):
             args.stream = int(nodes / 10)
+        elif (args.stream == 20):
+            args.stream = int(nodes*2 / 10)
         distribution = getDistribution(args.dataset, nodes, True)
         #distribution = numpy.log(distribution);
         # print(distribution)

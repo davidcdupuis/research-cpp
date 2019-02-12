@@ -1174,3 +1174,122 @@ Runtime    : 2037.45
 Seed size  : 9678
 Inf. score : 380529
 -----------------------------------------------
+File name  : ../../data/youtube/rtim/live/urr/v1/YO_k10000_r10_ap0,5_urr_v1_s113489_ss10000.txt
+Start date : Mon Feb 11 22:46:39 2019
+End date   : Mon Feb 11 22:46:51 2019
+Runtime    : -898.077
+Seed size  : 10000
+Inf. score : 195596
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/urr/v1/YO_k10000_r5_ap0,5_urr_v1_s113489_ss5309.txt
+Start date : Mon Feb 11 22:56:33 2019
+End date   : Mon Feb 11 22:56:45 2019
+Runtime    : 12.4522
+Seed size  : 5309
+Inf. score : 173356
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/loginoutr/v1/YO_k10000_r10_ap0,5_loginoutr_v1_s113489_ss10000.txt
+Start date : Mon Feb 11 23:01:49 2019
+End date   : Mon Feb 11 23:02:05 2019
+Runtime    : 827.581
+Seed size  : 10000
+Inf. score : 253343
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/loginoutr/v1/YO_k10000_r3_ap0,5_loginoutr_v1_s113489_ss9678.txt
+Start date : Mon Feb 11 23:03:03 2019
+End date   : Mon Feb 11 23:03:25 2019
+Runtime    : 2769.2
+Seed size  : 9678
+Inf. score : 380603
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/urr/v1/YO_k10000_r3_ap0,5_urr_v1_s113489_ss3212.txt
+Start date : Mon Feb 11 23:03:55 2019
+End date   : Mon Feb 11 23:04:05 2019
+Runtime    : 3285.87
+Seed size  : 3212
+Inf. score : 155842
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k10000_r3_ap0,5_inoutr_v1_s113489_ss10000.txt
+Start date : Mon Feb 11 23:06:37 2019
+End date   : Mon Feb 11 23:07:02 2019
+Runtime    : 4482.7
+Seed size  : 10000
+Inf. score : 516890
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/urr/v1/YO_k10000_r3_ap0,5_urr_v1_s226978_ss6124.txt
+Start date : Mon Feb 11 23:32:26 2019
+End date   : Mon Feb 11 23:32:42 2019
+Runtime    : 6480.55
+Seed size  : 6124
+Inf. score : 248215
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k10000_r3_ap0,5_inoutr_v1_s226978_ss10000.txt
+Start date : Mon Feb 11 23:34:22 2019
+End date   : Mon Feb 11 23:34:47 2019
+Runtime    : 8249.91
+Seed size  : 10000
+Inf. score : 514649
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/loginoutr/v1/YO_k10000_r3_ap0,5_loginoutr_v1_s226978_ss10000.txt
+Start date : Mon Feb 11 23:35:49 2019
+End date   : Mon Feb 11 23:36:12 2019
+Runtime    : 10571.2
+Seed size  : 10000
+Inf. score : 383768
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/loginoutr/v1/YO_k10000_r5_ap0,5_loginoutr_v1_s226978_ss10000.txt
+Start date : Mon Feb 11 23:37:40 2019
+End date   : Mon Feb 11 23:38:00 2019
+Runtime    : 12598.9
+Seed size  : 10000
+Inf. score : 323922
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/loginoutr/v1/YO_k10000_r1_ap0,5_loginoutr_v1_s226978_ss6218.txt
+Start date : Mon Feb 11 23:38:45 2019
+End date   : Mon Feb 11 23:39:08 2019
+Runtime    : 13679
+Seed size  : 6218
+Inf. score : 429577
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/loginoutr/v1/YO_k10000_r2_ap0,5_loginoutr_v1_s226978_ss10000.txt
+Start date : Mon Feb 11 23:39:35 2019
+End date   : Mon Feb 11 23:39:59 2019
+Runtime    : 14793.1
+Seed size  : 10000
+Inf. score : 437541
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/urr/v1/YO_k10000_r2_ap0,5_urr_v1_s226978_ss4117.txt
+Start date : Mon Feb 11 23:40:48 2019
+End date   : Mon Feb 11 23:41:03 2019
+Runtime    : 15545.1
+Seed size  : 4117
+Inf. score : 229837
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k10000_r2_ap0,5_inoutr_v1_s226978_ss10000.txt
+Start date : Mon Feb 11 23:41:53 2019
+End date   : Mon Feb 11 23:42:19 2019
+Runtime    : 16775.6
+Seed size  : 10000
+Inf. score : 529095
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/urr/v1/YO_k10000_r2_ap0,5_urr_v1_s113489_ss2137.txt
+Start date : Mon Feb 11 23:43:12 2019
+End date   : Mon Feb 11 23:43:22 2019
+Runtime    : 17249.4
+Seed size  : 2137
+Inf. score : 142732
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/inoutr/v1/YO_k10000_r2_ap0,5_inoutr_v1_s113489_ss10000.txt
+Start date : Mon Feb 11 23:44:10 2019
+End date   : Mon Feb 11 23:44:36 2019
+Runtime    : 18472.2
+Seed size  : 10000
+Inf. score : 530157
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/loginoutr/v1/YO_k10000_r2_ap0,5_loginoutr_v1_s113489_ss6863.txt
+Start date : Mon Feb 11 23:45:05 2019
+End date   : Mon Feb 11 23:45:26 2019
+Runtime    : 19489.7
+Seed size  : 6863
+Inf. score : 362511
+-----------------------------------------------
