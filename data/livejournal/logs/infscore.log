@@ -103,3 +103,66 @@ Runtime    : 8105.74
 Seed size  : 20000
 Inf. score : 809612
 -----------------------------------------------
+File name  : ../../data/livejournal/rtim/live/urr/v1/LJ_k10000_r2_ap0,5_urr_v1_s399796_ss7533.txt
+Start date : Tue Feb 12 11:05:39 2019
+End date   : Tue Feb 12 11:07:05 2019
+Runtime    : 3174.74
+Seed size  : 7533
+Inf. score : 416515
+-----------------------------------------------
+File name  : ../../data/livejournal/rtim/live/inoutr/v1/LJ_k10000_r2_ap0,5_inoutr_v1_s399796_ss10000.txt
+Start date : Tue Feb 12 11:08:51 2019
+End date   : Tue Feb 12 11:11:03 2019
+Runtime    : 11562
+Seed size  : 10000
+Inf. score : 563571
+-----------------------------------------------
+File name  : ../../data/livejournal/rtim/live/loginoutr/v1/LJ_k10000_r2_ap0,5_loginoutr_v1_s399796_ss10000.txt
+Start date : Tue Feb 12 11:14:48 2019
+End date   : Tue Feb 12 11:16:42 2019
+Runtime    : 24640.3
+Seed size  : 10000
+Inf. score : 503447
+-----------------------------------------------
+File name  : ../../data/livejournal/rtim/live/urr/v1/LJ_k10000_r1_ap0,5_urr_v1_s399796_ss3789.txt
+Start date : Tue Feb 12 11:19:03 2019
+End date   : Tue Feb 12 11:20:14 2019
+Runtime    : 31706.6
+Seed size  : 3789
+Inf. score : 315145
+-----------------------------------------------
+File name  : ../../data/livejournal/rtim/live/inoutr/v1/LJ_k10000_r1_ap0,5_inoutr_v1_s399796_ss10000.txt
+Start date : Tue Feb 12 11:21:30 2019
+End date   : Tue Feb 12 11:23:56 2019
+Runtime    : 38825.2
+Seed size  : 10000
+Inf. score : 612329
+-----------------------------------------------
+File name  : ../../data/livejournal/rtim/live/loginoutr/v1/LJ_k10000_r1_ap0,5_loginoutr_v1_s399796_ss8442.txt
+Start date : Tue Feb 12 11:24:32 2019
+End date   : Tue Feb 12 11:26:31 2019
+Runtime    : 44701.6
+Seed size  : 8442
+Inf. score : 520384
+-----------------------------------------------
+File name  : ../../data/livejournal/rtim/live/urr/v1/LJ_k10000_r0,5_ap0,5_urr_v1_s399796_ss1973.txt
+Start date : Tue Feb 12 11:29:26 2019
+End date   : Tue Feb 12 11:30:21 2019
+Runtime    : 47411.1
+Seed size  : 1973
+Inf. score : 239859
+-----------------------------------------------
+File name  : ../../data/livejournal/rtim/live/inoutr/v1/LJ_k10000_r0,5_ap0,5_inoutr_v1_s399796_ss10000.txt
+Start date : Tue Feb 12 11:35:17 2019
+End date   : Tue Feb 12 11:37:50 2019
+Runtime    : 55102
+Seed size  : 10000
+Inf. score : 657676
+-----------------------------------------------
+File name  : ../../data/livejournal/rtim/live/loginoutr/v1/LJ_k10000_r0,5_ap0,5_loginoutr_v1_s399796_ss4448.txt
+Start date : Tue Feb 12 11:41:02 2019
+End date   : Tue Feb 12 11:42:37 2019
+Runtime    : 59795.5
+Seed size  : 4448
+Inf. score : 413238
+-----------------------------------------------
