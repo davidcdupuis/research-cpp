@@ -22,3 +22,7 @@ livejournal,../../data/livejournal/rtim/live/loginoutr/v1/LJ_k10000_r1_ap0,5_log
 livejournal,../../data/livejournal/rtim/live/urr/v1/LJ_k10000_r0,5_ap0,5_urr_v1_s399796_ss1973.txt,Tue Feb 12 11:29:26 2019,Tue Feb 12 11:30:21 2019,47411.1,1973,239859
 livejournal,../../data/livejournal/rtim/live/inoutr/v1/LJ_k10000_r0,5_ap0,5_inoutr_v1_s399796_ss10000.txt,Tue Feb 12 11:35:17 2019,Tue Feb 12 11:37:50 2019,55102,10000,657676
 livejournal,../../data/livejournal/rtim/live/loginoutr/v1/LJ_k10000_r0,5_ap0,5_loginoutr_v1_s399796_ss4448.txt,Tue Feb 12 11:41:02 2019,Tue Feb 12 11:42:37 2019,59795.5,4448,413238
+livejournal,../../data/livejournal/rtim/live/urr/v1/LJ_k10000_r1_ap0,5_urr_v1_s399796_ss3789.txt,Tue Feb 12 22:46:49 2019,Tue Feb 12 22:48:00 2019,90664.7,3789,315198
+livejournal,../../data/livejournal/rtim/live/loginoutr/v1/LJ_k10000_r1_ap0,5_loginoutr_v1_s399796_ss8442.txt,Wed Feb 13 00:52:59 2019,Wed Feb 13 00:54:59 2019,369569,8442,520360
+livejournal,../../data/livejournal/rtim/live/urr/v1/LJ_k10000_r2_ap0,5_urr_v1_s399796_ss7533.txt,Wed Feb 13 11:15:53 2019,Wed Feb 13 11:17:27 2019,592400,7533,416619
+livejournal,../../data/livejournal/rtim/live/loginoutr/v1/LJ_k10000_r2_ap0,5_loginoutr_v1_s399796_ss10000.txt,Wed Feb 13 13:57:05 2019,Wed Feb 13 13:59:02 2019,954103,10000,503548

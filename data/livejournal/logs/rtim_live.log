@@ -212,3 +212,35 @@ Max update time : 0.000174 seconds
 RTIM σ_MC  : 413238
 IMM  σ_MC  : -1
 ----------------------------------------------------
+File name       : LJ_k10000_r1_ap0,5_urr_v1_s399796_ss3789.txt
+Start date      : Tue Feb 12 22:17:01 2019
+End date        : Tue Feb 12 22:46:49 2019
+Duration        : 1.025794 days
+Max update time : 0.164511 seconds
+RTIM σ_MC  : 315198
+IMM  σ_MC  : 171600
+----------------------------------------------------
+File name       : LJ_k10000_r1_ap0,5_loginoutr_v1_s399796_ss8442.txt
+Start date      : Tue Feb 12 22:50:40 2019
+End date        : Wed Feb 13 00:52:59 2019
+Duration        : 4.225737 days
+Max update time : 0.171329 seconds
+RTIM σ_MC  : 520360
+IMM  σ_MC  : 325307
+----------------------------------------------------
+File name       : LJ_k10000_r2_ap0,5_urr_v1_s399796_ss7533.txt
+Start date      : Wed Feb 13 10:03:59 2019
+End date        : Wed Feb 13 11:15:53 2019
+Duration        : 2.482792 days
+Max update time : 0.011888 seconds
+RTIM σ_MC  : 416619
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : LJ_k10000_r2_ap0,5_loginoutr_v1_s399796_ss10000.txt
+Start date      : Wed Feb 13 11:57:58 2019
+End date        : Wed Feb 13 13:57:05 2019
+Duration        : 4.119803 days
+Max update time : 0.169281 seconds
+RTIM σ_MC  : 503548
+IMM  σ_MC  : -1
+----------------------------------------------------
