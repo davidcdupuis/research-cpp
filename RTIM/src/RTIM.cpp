@@ -529,10 +529,10 @@ void RTIM::live(){
   string scoreStartDate = getLocalDatetime();
   clock_t scoreStartTime = clock();
   rtimScore = infScore.mcInfScoreParallel();
-  double scoreDuration = (clock() - startTime)/(double)CLOCKS_PER_SEC;
+  double scoreDuration = (clock() - scoreStartTime)/(double)CLOCKS_PER_SEC;
   string scoreEndDate = getLocalDatetime();
   clearLines(2);
-  printInColor("white", "RTIM: |S| = " + to_string(seedSet.size()) + " ; \u03C3_MC(seed) = " + properStringDouble(rtimScore) + " ; duration: " + cleanTime(scoreDuration, "s"));
+  printInColor("white", "RTIM: |S| = " + to_string(seedSet.size()) + " ; \u03C3_MC(seed) = " + properStringDouble(rtimScore) + " ; duration: " + cleanTime(scoreDuration, "ms"));
 
   infScore.saveSeedScoreLog(seedFile, scoreStartDate, scoreEndDate, scoreDuration, rtimScore);
   infScore.saveSeedScoreCSV(seedFile, scoreStartDate, scoreEndDate, scoreDuration, rtimScore);
