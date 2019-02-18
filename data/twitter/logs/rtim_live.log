@@ -274,3 +274,43 @@ End date        : Sat Nov 24 14:59:43 2018
 Duration        : 9.216274 seconds
 Max update time : 0.048418 seconds
 ----------------------------------------------------
+File name       : TW_k10000_r1_ap0,5_urr_v1_s4165223_ss10000.txt
+Start date      : Fri Feb 15 19:59:10 2019
+End date        : Fri Feb 15 20:00:01 2019
+Duration        : 49.719723 seconds
+Max update time : 0.029872 seconds
+RTIM σ_MC  : 4.39057e+06
+IMM  σ_MC  : 5.94939e+06
+----------------------------------------------------
+File name       : TW_k10000_r1_ap0,5_urr_v1_s4165223_ss10000.txt
+Start date      : Sat Feb 16 09:22:02 2019
+End date        : Sat Feb 16 09:22:56 2019
+Duration        : 51.700602 seconds
+Max update time : 0.029044 seconds
+RTIM σ_MC  : 4.37723e+06
+IMM  σ_MC  : 5.93936e+06
+----------------------------------------------------
+File name       : TW_k10000_r0,5_ap0,5_urr_v1_s4165223_ss10000.txt
+Start date      : Sat Feb 16 18:10:35 2019
+End date        : Sat Feb 16 18:11:10 2019
+Duration        : 34.827984 seconds
+Max update time : 0.031116 seconds
+RTIM σ_MC  : 5.96888e+06
+IMM  σ_MC  : -1
+----------------------------------------------------
+File name       : TW_k10000_r0,25_ap0,5_urr_v1_s4165223_ss9864.txt
+Start date      : Sun Feb 17 01:56:41 2019
+End date        : Sun Feb 17 10:24:59 2019
+Duration        : 17.227444 days
+Max update time : 0.221408 seconds
+RTIM σ_MC  : 7.62354e+06
+IMM  σ_MC  : 5.94822e+06
+----------------------------------------------------
+File name       : TW_k10000_r0,25_ap0,5_loginoutr_v1_s4165223_ss10000.txt
+Start date      : Sun Feb 17 15:23:51 2019
+End date        : Sun Feb 17 15:24:53 2019
+Duration        : 1.031850 minutes
+Max update time : 0.046214 seconds
+RTIM σ_MC  : 9.30057e+06
+IMM  σ_MC  : 1.20174e+07
+----------------------------------------------------

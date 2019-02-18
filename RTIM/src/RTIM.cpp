@@ -375,7 +375,7 @@ void RTIM::live(){
     if(useIMM){
       if (immTargeted[user] == 1){
         immSeedSet.push_back(user);
-        if(immSeedSet.size()%100 == 0 && immProgress){
+        if(immSeedSet.size()%1000 == 0 && immProgress){
           currIMMSize = immSeedSet.size();
           infScore.seedSet = immSeedSet;
           immScore = infScore.mcInfScoreParallel();
@@ -432,7 +432,7 @@ void RTIM::live(){
         seedSet.push_back(user);
 
         // COMPUTE INFLUENCE SCORE OF SEED SET
-        if(seedSet.size() % 100 == 0 && rtimProgress){
+        if(seedSet.size() % 1000 == 0 && rtimProgress){
           currRTIMSize = seedSet.size();
           infScore.seedSet = seedSet;
           rtimScore = infScore.mcInfScoreParallel();
@@ -532,7 +532,7 @@ void RTIM::live(){
   double scoreDuration = (clock() - scoreStartTime)/(double)CLOCKS_PER_SEC;
   string scoreEndDate = getLocalDatetime();
   clearLines(2);
-  printInColor("white", "RTIM: |S| = " + to_string(seedSet.size()) + " ; \u03C3_MC(seed) = " + properStringDouble(rtimScore) + " ; duration: " + cleanTime(scoreDuration, "ms"));
+  printInColor("white", "RTIM: |S| = " + to_string(seedSet.size()) + " ; \u03C3_MC(seed) = " + properStringDouble(rtimScore) + " ; duration: " + cleanTime(scoreDuration, "s"));
 
   infScore.saveSeedScoreLog(seedFile, scoreStartDate, scoreEndDate, scoreDuration, rtimScore);
   infScore.saveSeedScoreCSV(seedFile, scoreStartDate, scoreEndDate, scoreDuration, rtimScore);
