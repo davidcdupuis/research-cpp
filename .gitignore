@@ -21,7 +21,8 @@ data/livejournal/rtim/pre_process/
 data/livejournal/livejournal_degrees.txt
 
 # Twitter
-data/twitter/streams/*log
+data/twitter/streams/*.log
+data/twitter/streams/log
 data/twitter/streams/*.txt
 data/twitter/streams/**/*.txt
 data/twitter/streams/inoutr/*.txt
