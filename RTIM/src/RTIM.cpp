@@ -315,6 +315,12 @@ void RTIM::live(){
   int previousProgress = -1;
   bool newProgress = true;
 
+  if(graph.dataset == "twitter"){
+    infscore.simulations = 4000;
+  }else{
+    infscore.simulations = 10000;
+  }
+
   seedSet.clear(); // in case live was already run with different arguments
   graph.importDegrees();
   if (graph.dataset != "test" && useIMM){
@@ -527,9 +533,9 @@ void RTIM::live(){
   printLocalTime("magenta", "Compute RTIM seed score", "starting");
   string seedFile = generateDataFilePath("rtim_seedSet") + generateFileName("rtim_seedSet", seedSet.size());
   string scoreStartDate = getLocalDatetime();
-  clock_t scoreStartTime = clock();
+  time_t scoreStartTime;
   rtimScore = infScore.mcInfScoreParallel();
-  double scoreDuration = (clock() - scoreStartTime)/(double)CLOCKS_PER_SEC;
+  double scoreDuration = omp_get_wtime() - scoreStartTime;
   string scoreEndDate = getLocalDatetime();
   clearLines(2);
   printInColor("white", "RTIM: |S| = " + to_string(seedSet.size()) + " ; \u03C3_MC(seed) = " + properStringDouble(rtimScore) + " ; duration: " + cleanTime(scoreDuration, "s"));
