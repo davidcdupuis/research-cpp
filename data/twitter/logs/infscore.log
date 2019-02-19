@@ -68,3 +68,38 @@ Runtime    : 295176
 Seed size  : 10000
 Inf. score : 9.30057e+06
 -----------------------------------------------
+File name  : ../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,25_ap0,5_loginoutr_v1_s4165223_ss10000.txt
+Start date : Mon Feb 18 15:55:54 2019
+End date   : Mon Feb 18 16:35:20 2019
+Runtime    : 2.62658e+07
+Seed size  : 10000
+Inf. score : 9.30818e+06
+-----------------------------------------------
+File name  : ../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,1_ap0,5_loginoutr_v1_s4165223_ss10000.txt
+Start date : Mon Feb 18 18:09:19 2019
+End date   : Mon Feb 18 19:03:10 2019
+Runtime    : 2.62747e+07
+Seed size  : 10000
+Inf. score : 1.25624e+07
+-----------------------------------------------
+File name  : ../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,05_ap0,5_loginoutr_v1_s4165223_ss5385.txt
+Start date : Mon Feb 18 22:45:48 2019
+End date   : Mon Feb 18 23:36:12 2019
+Runtime    : 2.62911e+07
+Seed size  : 5385
+Inf. score : 1.25057e+07
+-----------------------------------------------
+File name  : ../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,1_ap0,5_loginoutr_v1_s4165223_ss10000.txt
+Start date : Tue Feb 19 08:29:51 2019
+End date   : Tue Feb 19 09:23:09 2019
+Runtime    : 2.63263e+07
+Seed size  : 10000
+Inf. score : 1.25732e+07
+-----------------------------------------------
+File name  : ../../data/twitter/rtim/live/urr/v1/TW_k10000_r0,1_ap0,5_urr_v1_s4165223_ss4025.txt
+Start date : Tue Feb 19 12:51:52 2019
+End date   : Tue Feb 19 13:20:54 2019
+Runtime    : 2.63406e+07
+Seed size  : 4025
+Inf. score : 7.04301e+06
+-----------------------------------------------

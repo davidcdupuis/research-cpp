@@ -8,3 +8,8 @@ twitter,../../data/twitter/rtim/live/urr/v1/TW_k10000_r1_ap0,5_urr_v1_s4165223_s
 twitter,../../data/twitter/rtim/live/urr/v1/TW_k10000_r0,5_ap0,5_urr_v1_s4165223_ss10000.txt,Sat Feb 16 18:11:10 2019,Sat Feb 16 19:18:05 2019,196114,10000,5.96888e+06
 twitter,../../data/twitter/rtim/live/urr/v1/TW_k10000_r0,25_ap0,5_urr_v1_s4165223_ss9864.txt,Sun Feb 17 10:24:59 2019,Sun Feb 17 11:48:09 2019,243826,9864,7.62354e+06
 twitter,../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,25_ap0,5_loginoutr_v1_s4165223_ss10000.txt,Sun Feb 17 15:24:53 2019,Sun Feb 17 17:05:02 2019,295176,10000,9.30057e+06
+twitter,../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,25_ap0,5_loginoutr_v1_s4165223_ss10000.txt,Mon Feb 18 15:55:54 2019,Mon Feb 18 16:35:20 2019,2.62658e+07,10000,9.30818e+06
+twitter,../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,1_ap0,5_loginoutr_v1_s4165223_ss10000.txt,Mon Feb 18 18:09:19 2019,Mon Feb 18 19:03:10 2019,2.62747e+07,10000,1.25624e+07
+twitter,../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,05_ap0,5_loginoutr_v1_s4165223_ss5385.txt,Mon Feb 18 22:45:48 2019,Mon Feb 18 23:36:12 2019,2.62911e+07,5385,1.25057e+07
+twitter,../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,1_ap0,5_loginoutr_v1_s4165223_ss10000.txt,Tue Feb 19 08:29:51 2019,Tue Feb 19 09:23:09 2019,2.63263e+07,10000,1.25732e+07
+twitter,../../data/twitter/rtim/live/urr/v1/TW_k10000_r0,1_ap0,5_urr_v1_s4165223_ss4025.txt,Tue Feb 19 12:51:52 2019,Tue Feb 19 13:20:54 2019,2.63406e+07,4025,7.04301e+06

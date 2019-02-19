@@ -316,9 +316,9 @@ void RTIM::live(){
   bool newProgress = true;
 
   if(graph.dataset == "twitter"){
-    infscore.simulations = 4000;
+    infScore.simulations = 4000;
   }else{
-    infscore.simulations = 10000;
+    infScore.simulations = 10000;
   }
 
   seedSet.clear(); // in case live was already run with different arguments
@@ -537,8 +537,10 @@ void RTIM::live(){
   rtimScore = infScore.mcInfScoreParallel();
   double scoreDuration = omp_get_wtime() - scoreStartTime;
   string scoreEndDate = getLocalDatetime();
-  clearLines(2);
-  printInColor("white", "RTIM: |S| = " + to_string(seedSet.size()) + " ; \u03C3_MC(seed) = " + properStringDouble(rtimScore) + " ; duration: " + cleanTime(scoreDuration, "s"));
+  //clearLines(2);
+  printInColor("white", "RTIM: |S| = " + to_string(seedSet.size()) + " ; \u03C3_MC(seed) = " + properStringDouble(rtimScore) + " ; duration: " + cleanTime(scoreDuration, "ms"));
+  printInColor("magenta", string(60, '-'));
+  printLocalTime("magenta", "Compute RTIM seed score", "ending");
 
   infScore.saveSeedScoreLog(seedFile, scoreStartDate, scoreEndDate, scoreDuration, rtimScore);
   infScore.saveSeedScoreCSV(seedFile, scoreStartDate, scoreEndDate, scoreDuration, rtimScore);
@@ -552,7 +554,8 @@ void RTIM::live(){
     immScore = infScore.mcInfScoreParallel();
     clearLines(2);
     printInColor("white", "IMM : |S| = " + to_string(immSeedSet.size()) + " ; \u03C3_MC(seed) = " + properStringDouble(immScore));
-
+    printInColor("magenta", string(60, '-'));
+    printLocalTime("magenta", "Compute IMM seed score", "ending");
     saveIMMProgress(sum, immSeedSet.size(), immScore);
   }
   //---------------------------------------------------------------------------
