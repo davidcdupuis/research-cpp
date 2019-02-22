@@ -354,3 +354,19 @@ Max update time : 0.035789 seconds
 RTIM σ_MC  : 7.04301e+06
 IMM  σ_MC  : 5.93886e+06
 ----------------------------------------------------
+File name       : TW_k10000_r0,1_ap0,5_urr_v1_s4165223_ss4025.txt
+Start date      : Thu Feb 21 14:02:45 2019
+End date        : Thu Feb 21 16:37:48 2019
+Duration        : 5.188493 days
+Max update time : 0.041439 seconds
+RTIM σ_MC  : 7.03014e+06
+IMM  σ_MC  : 5.93774e+06
+----------------------------------------------------
+File name       : TW_k10000_r0,1_ap0,5_loginoutr_v1_s4165223_ss10000.txt
+Start date      : Thu Feb 21 18:07:13 2019
+End date        : Thu Feb 21 21:04:10 2019
+Duration        : 5.983859 days
+Max update time : 0.043575 seconds
+RTIM σ_MC  : 1.25575e+07
+IMM  σ_MC  : 1.20176e+07
+----------------------------------------------------

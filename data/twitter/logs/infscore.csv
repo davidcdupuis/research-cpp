@@ -13,3 +13,5 @@ twitter,../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,1_ap0,5_loginoutr
 twitter,../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,05_ap0,5_loginoutr_v1_s4165223_ss5385.txt,Mon Feb 18 22:45:48 2019,Mon Feb 18 23:36:12 2019,2.62911e+07,5385,1.25057e+07
 twitter,../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,1_ap0,5_loginoutr_v1_s4165223_ss10000.txt,Tue Feb 19 08:29:51 2019,Tue Feb 19 09:23:09 2019,2.63263e+07,10000,1.25732e+07
 twitter,../../data/twitter/rtim/live/urr/v1/TW_k10000_r0,1_ap0,5_urr_v1_s4165223_ss4025.txt,Tue Feb 19 12:51:52 2019,Tue Feb 19 13:20:54 2019,2.63406e+07,4025,7.04301e+06
+twitter,../../data/twitter/rtim/live/urr/v1/TW_k10000_r0,1_ap0,5_urr_v1_s4165223_ss4025.txt,Thu Feb 21 16:37:48 2019,Thu Feb 21 17:07:13 2019,2.65269e+07,4025,7.03014e+06
+twitter,../../data/twitter/rtim/live/loginoutr/v1/TW_k10000_r0,1_ap0,5_loginoutr_v1_s4165223_ss10000.txt,Thu Feb 21 21:04:10 2019,Thu Feb 21 21:56:46 2019,2.65443e+07,10000,1.25575e+07
