@@ -117,3 +117,17 @@ Runtime    : 2.65443e+07
 Seed size  : 10000
 Inf. score : 1.25575e+07
 -----------------------------------------------
+File name  : ../../data/twitter/rtim/live/urr/v2/TW_k10000_r0,1_ap0,5_urr_v2_s4165223_ss3990.txt
+Start date : Fri Feb 22 19:37:57 2019
+End date   : Fri Feb 22 20:08:23 2019
+Runtime    : 2.66242e+07
+Seed size  : 3990
+Inf. score : 7.25464e+06
+-----------------------------------------------
+File name  : ../../data/twitter/rtim/live/loginoutr/v2/TW_k10000_r0,1_ap0,5_loginoutr_v2_s4165223_ss10000.txt
+Start date : Mon Feb 25 19:24:37 2019
+End date   : Mon Feb 25 20:18:34 2019
+Runtime    : 2.6884e+07
+Seed size  : 10000
+Inf. score : 1.28669e+07
+-----------------------------------------------
