@@ -381,7 +381,7 @@ void RTIM::live(){
     if(useIMM){
       if (immTargeted[user] == 1){
         immSeedSet.push_back(user);
-        if(((immSeedSet.size()%100 == 0 && streamModel == "urr") || (immSeedSet.size()%500 == 0 && streamModel == "log"))  && immProgress){
+        if(((immSeedSet.size()%100 == 0 && streamModel == "urr") || (immSeedSet.size()%100 == 0 && streamModel == "log"))  && immProgress){
           currIMMSize = immSeedSet.size();
           infScore.seedSet = immSeedSet;
           immScore = infScore.mcInfScoreParallel();
@@ -438,7 +438,7 @@ void RTIM::live(){
         seedSet.push_back(user);
 
         // COMPUTE INFLUENCE SCORE OF SEED SET
-        if(seedSet.size() % 1000 == 0 && rtimProgress){
+        if(seedSet.size() % 100 == 0 && rtimProgress){
           currRTIMSize = seedSet.size();
           infScore.seedSet = seedSet;
           rtimScore = infScore.mcInfScoreParallel();
