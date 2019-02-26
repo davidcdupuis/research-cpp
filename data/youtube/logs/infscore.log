@@ -1349,3 +1349,17 @@ Runtime    : 1117.22
 Seed size  : 10000
 Inf. score : 437603
 -----------------------------------------------
+File name  : ../../data/youtube/rtim/live/urr/v2/YO_k10000_r2_ap0,5_urr_v2_s113489_ss2193.txt
+Start date : Tue Feb 26 11:10:24 2019
+End date   : Tue Feb 26 11:10:34 2019
+Runtime    : 2.69375e+07
+Seed size  : 2193
+Inf. score : 142361
+-----------------------------------------------
+File name  : ../../data/youtube/rtim/live/loginoutr/v2/YO_k10000_r2_ap0,5_loginoutr_v2_s113489_ss6786.txt
+Start date : Tue Feb 26 11:19:45 2019
+End date   : Tue Feb 26 11:20:06 2019
+Runtime    : 2.69381e+07
+Seed size  : 6786
+Inf. score : 346754
+-----------------------------------------------
