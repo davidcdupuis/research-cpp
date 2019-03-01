@@ -4,6 +4,7 @@ import csv
 import settings
 import numpy as np
 import tools
+import operator
 
 
 if __name__ == "__main__":
@@ -14,19 +15,42 @@ if __name__ == "__main__":
     versions = ["1","2"]
     models = ["urr","loginoutr"]
 
-    V = tools.numberNodes(args)
+    #V = tools.numberNodes(args)
+    for model in models:
+        for version in versions:
+            users = []
+            path = "../data/{0}/{1}_stream_{2}_v{3}_info.csv".format(args.dataset, settings.datasets[args.dataset],model,version)
+            with open(path,'r') as f:
+                f.readline()
+                reader = csv.reader(f, delimiter=',')
+                for row in reader:
+                    users.append((row[0],float(row[1])))
+                    #print("{}, {}".format(row[0],float(row[1])))
+            users.sort(key=operator.itemgetter(1),reverse=True)
+
+            path = "../data/{0}/{1}_stream_{2}_v{3}_scores.csv".format(args.dataset, settings.datasets[args.dataset],model,version)
+            with open(path, 'w') as f:
+                writer = csv.writer(f)
+                writer.writerow(["user_id","user_score"])
+                for user in users:
+                    writer.writerow([user[0],user[1]])
+            # sort by descending scores
+            # save to file : YO_stream_urr_v1_scores.csv
+            print(path)
+            print("---------------")
+    '''
     size = V * 10 / 100
     # size = 20
     users = {}
     for x in xrange(V):
         users[x] = {"score":0,"freq":0}
-     
+
     path = "../data/{0}/rtim/pre_process/{1}_infS.txt".format(args.dataset, settings.datasets[args.dataset])
     with open(path, 'r') as f:
         for line in f:
             user_vals = line.rstrip("\n").split(" ")
             users[int(user_vals[0])]["score"] = float(user_vals[1])
-    
+
     for version in versions:
         for model in models:
             for x in xrange(V):
@@ -59,3 +83,4 @@ if __name__ == "__main__":
                         writer.writerow([i, users[i]["score"],users[i]["freq"]])
             #user_id user_score user_frequency
             print(path)
+    '''
