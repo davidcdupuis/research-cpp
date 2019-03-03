@@ -1,0 +1,5 @@
+nethept
+Nodes: 15229 | Edges: 62752
+Degree Mean: 8.24111891785
+Degree Variance: 103.518458949
+Degree Standard Deviation: 10.1744021421
