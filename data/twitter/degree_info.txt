@@ -1,0 +1,5 @@
+twitter
+Nodes: 41652230 | Edges: 1468365181
+Degree Mean: 70.5059575922
+Degree Variance: 6426184.47812
+Degree Standard Deviation: 2534.99200751

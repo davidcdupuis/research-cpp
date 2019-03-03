@@ -1,0 +1,5 @@
+youtube
+Nodes: 1134890 | Edges: 5975247
+Degree Mean: 10.5300901409
+Degree Variance: 10304.0123315
+Degree Standard Deviation: 101.508681065

@@ -1,0 +1,5 @@
+livejournal
+Nodes: 3997962 | Edges: 69362377
+Degree Mean: 34.698867573
+Degree Variance: 7381.26144717
+Degree Standard Deviation: 85.914268007
