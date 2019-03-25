@@ -76,6 +76,8 @@ public:
   int seedSizeMenu(std::string prevClass);
 
   int continueMenu(std::string prevClass);
+
+  int importSubGraphMenu(std::string prevClass);
 };
 
 #endif

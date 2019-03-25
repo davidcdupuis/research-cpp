@@ -158,7 +158,7 @@ int InfScore::monteCarloMenu(string prevClass){
     // ask for seed set file
     // if necessary import graph
     if(!graph.loaded){
-      graph.loadGraph();
+      graph.loadGraph("");
       graph.loaded = true;
     }
     // import seed set
@@ -595,7 +595,7 @@ void InfScore::infScoreTest(){
     graph.dataset = dataset;
     //initializeAlgoLog();
     graph.readAttributes();
-    graph.loadGraph();
+    graph.loadGraph("");
     vector<int> sizes = {50};//{3000, 5000, 10000};
     for(int size: sizes){
       for(int i = 1; i < 4; i++){
@@ -699,7 +699,7 @@ void InfScore::convergenceTest(){
     // import dataset
     graph.dataset = dataset;
     graph.readAttributes();
-    graph.loadGraph();
+    graph.loadGraph("");
     vector<int> sizes = {50, 200, 500, 1000, 3000, 5000, 10000};
     for(int size: sizes){
       initializeConvergenceLog(graph.dataset, size);

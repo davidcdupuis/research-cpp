@@ -1061,7 +1061,7 @@ int RTIM::infScorePreProcessMenu(string prevClass){
     }
     printStageParams();
     if(!graph.loaded){
-      graph.loadGraph();
+      graph.loadGraph("");
       graph.loaded = true;
     }
     printInColor("magenta", string(60, '-'));
@@ -1080,7 +1080,7 @@ int RTIM::infScorePreProcessMenu(string prevClass){
 int RTIM::apPreProcessMenu(string prevClass){
   if(!graph.loaded){
     cout << "loading graph" << endl;
-    graph.loadGraph();
+    graph.loadGraph("");
     graph.loaded = true;
   }
   printInColor("magenta", string(60, '-'));
@@ -1360,7 +1360,7 @@ int RTIM::liveMenu(string prevClass){
     }
     printStageParams();
     if(!graph.loaded){
-      graph.loadGraph();
+      graph.loadGraph("");
       graph.loaded = true;
     }
     if(infScores.size() == 0 || infScores.size() != graph.nodes){
@@ -1503,7 +1503,7 @@ int RTIM::liveIMMMenu(string prevClass){
     }
     printStageParams();
     if(!graph.loaded){
-      graph.loadGraph();
+      graph.loadGraph("");
       graph.loaded = true;
     }
     printInColor("magenta", string(60, '-'));
@@ -1599,7 +1599,7 @@ int RTIM::run(string prevClass){
 //     if(loadDataset){
 //       // graph.args = args;
 //       graph.graph.resize(graph.nodes);
-//       graph.loadGraph();
+//       graph.loadGraph("");
 //       clearLines(3);
 //     }
 //     if (stage == "pre"){

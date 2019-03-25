@@ -54,10 +54,10 @@ public:
   void addEdge(int a, int b, double w);
 
   // Function to read attributes.txt
-  void readAttributes();
+  void readAttributes(std::string folder="");
 
   // Function to import graph from file
-  void loadGraph();
+  void loadGraph(std::string graph_file="");
 
   // Function to import node degree info
   void importDegrees();
