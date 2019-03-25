@@ -283,7 +283,7 @@ void OSIM::saveSeedSet(string type){
 }
 
 void OSIM::testConvergence(){
-  
+
 }
 
 int OSIM::run(string prevClass){
@@ -302,8 +302,9 @@ int OSIM::functionsMenu(string prevClass){
     cout << "\t[2] Select random seed set of opt. size (not implemented)" << endl;
     cout << "\t[3] Find best of all seed set" << endl;
     cout << "\t[4] Find best seed set with user frequency" << endl;
-    cout << "\t[5] Return to " << prevClass << endl;
-    cout << "\t[6] EXIT PROGRAM" << endl;
+    cout << "\t[5] Import sub-graph" << endl;
+    cout << "\t[6] Return to " << prevClass << endl;
+    cout << "\t[7] EXIT PROGRAM" << endl;
     while(choice == -1){
       cout <<  "> choice: ";
       string val;
@@ -344,10 +345,14 @@ int OSIM::functionsMenu(string prevClass){
           result = 0;
           break;
         case 5:
+          clearLines(9);
+          result = importSubGraphMenu(prevClass);
+          break;
+        case 6:
           // go to prevClass
           clearLines(9);
           return -1;
-        case 6:
+        case 7:
           // EXIT Program
           clearLines(9);
           return -2;
@@ -358,6 +363,11 @@ int OSIM::functionsMenu(string prevClass){
           choice = -1;
       }
     }
+  }
+  if (result < 0){
+    return result;
+  }else{
+    return result - 1;
   }
 }
 
@@ -371,4 +381,60 @@ int OSIM::seedSizeMenu(string prevClass){
 
 int OSIM::continueMenu(string prevClass){
   // ask if what to do next
+}
+
+int OSIM::importSubGraphMenu(string prevClass){
+  int result = 0;
+  while (result == 0){
+    int choice = -1;
+    cout << string(26,'_') + " Optimal Size Influence Maximization " + string(26,'_') << endl;
+    // cout << " Optimal Size Influence Maximization" << endl;
+    cout << "Choose a subgraph of dataset " << graph.dataset << endl;
+    cout << "\t[1] 25%" << endl;
+    cout << "\t[2] 50%" << endl;
+    cout << "\t[3] 75%" << endl;
+    cout << "\t[4] Return to " << prevClass << endl;
+    cout << "\t[5] EXIT PROGRAM" << endl;
+    while(choice == -1){
+      cout <<  "> choice: ";
+      string val;
+      getline(cin, val);
+      choice = stoi(val);
+      switch(choice){
+        case 1:
+          // import 25%
+          clearLines(9);
+          graph.datasetFile = "../../data/" + graph.dataset + "/osim";
+          graph.readAttributes();//graph.datasetFile + "/attributes_25.txt"
+          graph.printArguments();
+          graph.loadGraph(graph.datasetFile + "/" + graph.dataset + "_wc_25.inf");
+          return 0;
+        case 2:
+          // import 50%
+          clearLines(9);
+          return 0;
+        case 3:
+          // import 75%
+          clearLines(9);
+          if(!graph.loaded){
+            graph.loadGraph();
+            graph.loaded = true;
+          }
+          return 0;
+        case 4:
+          // go to prevClass
+          clearLines(9);
+          return -1;
+        case 5:
+          // EXIT Program
+          clearLines(9);
+          return -2;
+        default:
+          cout << "Error: choice not recognized!" << endl;
+          sleep(SLEEP);
+          clearLines(2);
+          choice = -1;
+      }
+    }
+  }
 }

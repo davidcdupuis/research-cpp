@@ -173,7 +173,7 @@ int Main::datasetsMenu(){
     // if not very large load dataset immediately
     if(graph.dataset != "twitter"){
       if(!graph.loaded){
-        graph.loadGraph();
+        graph.loadGraph("");
         graph.loaded = true;
       }
     }

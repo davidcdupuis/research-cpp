@@ -13,20 +13,23 @@ void Graph::addEdge(int a, int b, double w){
   graph[a].push_back(make_pair(b, w));
 }
 
-void Graph::readAttributes(){
-  string folder = "../../data/" + dataset + "/attributes.txt";
+void Graph::readAttributes(string folder){
+  if (folder == ""){
+    folder = "../../data/" + dataset + "/attributes.txt";
+  }
+  // cout << "Attributes file: " << folder << endl;
   ifstream infile(folder.c_str());
   //cout << "Loading attributes from: " << folder << endl;
   string s;
   while(infile >> s){
     if(s.substr(0, 2)=="n="){
       nodes = atoi(s.substr(2).c_str());
-      //cout << "Number of nodes: " << nodes << endl;
+      // cout << "Number of nodes: " << nodes << endl;
       continue;
     }
     if (s.substr(0, 2) == "m="){
       edges = atoi(s.substr(2).c_str());
-      //cout << "Number of edges: " << edges << endl;
+      // cout << "Number of edges: " << edges << endl;
       continue;
     }
     cerr << "Error: bad attributes in " << __FILE__ << " at line: " << __LINE__ << endl;
@@ -35,10 +38,13 @@ void Graph::readAttributes(){
   infile.close();
 }
 
-void Graph::loadGraph(){
+void Graph::loadGraph(string graph_file){
   graph.resize(nodes);
   clock_t start = clock();
-  string graph_file = "../../data/" + dataset + "/" + dataset + "_wc.inf";
+  if (graph_file == ""){
+    graph_file = "../../data/" + dataset + "/" + dataset + "_wc.inf";
+  }
+  // cout << "Graph file: " << graph_file << endl;
   if (!pathExists(graph_file)){
     cerr << "Error path doesn't exist: " << graph_file << " in " << __FILE__ << " at line " << __LINE__ << endl;
     exit(1);
