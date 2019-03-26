@@ -73,9 +73,21 @@ void OSIM::findOptimalSize(int sim){
   }
   // compute average of values
   double sum = 0;
+
+  string path = "../../data/" + graph.dataset + "/osim/convergence/";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  path += graph.dataset + "_s" + to_string(subgraphSize) + "_sim" + to_string(simulations) + ".txt";
+  ofstream simSizesFile;
+  simSizesFile.open(path, fstream::app);
+
   for(int value: values){
     sum += value;
+    simSizesFile << value << endl;
   }
+  simSizesFile.close();
   optimalSize = sum/sim;
   cout << "Optimal size found is: " << optimalSize << endl;
 }
@@ -319,7 +331,8 @@ int OSIM::functionsMenu(string prevClass){
             graph.loadGraph();
             graph.loaded = true;
           }
-          findOptimalSize(10000);
+          findOptimalSize(simulations);
+          saveResults();
           result = 0;
           break;
         case 2:
@@ -404,7 +417,10 @@ int OSIM::importSubGraphMenu(string prevClass){
         case 1:
           // import 25%
           clearLines(9);
+          isSubgraph = true;
+          subgraphSize = 25;
           graph.datasetFile = "../../data/" + graph.dataset + "/osim";
+          readSubGraphAttr(graph.datasetFile + "/attributes_25.txt");
           graph.readAttributes();//graph.datasetFile + "/attributes_25.txt"
           graph.printArguments();
           graph.loadGraph(graph.datasetFile + "/" + graph.dataset + "_wc_25.inf");
@@ -412,14 +428,24 @@ int OSIM::importSubGraphMenu(string prevClass){
         case 2:
           // import 50%
           clearLines(9);
+          isSubgraph = true;
+          subgraphSize = 50;
+          graph.datasetFile = "../../data/" + graph.dataset + "/osim";
+          readSubGraphAttr(graph.datasetFile + "/attributes_50.txt");
+          graph.readAttributes();//graph.datasetFile + "/attributes_50.txt"
+          graph.printArguments();
+          graph.loadGraph(graph.datasetFile + "/" + graph.dataset + "_wc_50.inf");
           return 0;
         case 3:
           // import 75%
           clearLines(9);
-          if(!graph.loaded){
-            graph.loadGraph();
-            graph.loaded = true;
-          }
+          isSubgraph = true;
+          subgraphSize = 75;
+          graph.datasetFile = "../../data/" + graph.dataset + "/osim";
+          readSubGraphAttr(graph.datasetFile + "/attributes_75.txt");
+          graph.readAttributes();//graph.datasetFile + "/attributes_75.txt"
+          graph.printArguments();
+          graph.loadGraph(graph.datasetFile + "/" + graph.dataset + "_wc_75.inf");
           return 0;
         case 4:
           // go to prevClass
@@ -437,4 +463,51 @@ int OSIM::importSubGraphMenu(string prevClass){
       }
     }
   }
+}
+
+void OSIM::readSubGraphAttr(string folder){
+  // cout << "Attributes file: " << folder << endl;
+  ifstream infile(folder.c_str());
+  //cout << "Loading attributes from: " << folder << endl;
+  string s;
+  while(infile >> s){
+    if(s.substr(0, 2)=="n="){
+      subgraphNodes = atoi(s.substr(2).c_str());
+      // cout << "Number of nodes: " << nodes << endl;
+      continue;
+    }
+    if (s.substr(0, 2) == "m="){
+      subgraphEdges = atoi(s.substr(2).c_str());
+      // cout << "Number of edges: " << edges << endl;
+      continue;
+    }
+    cerr << "Error: bad attributes in " << __FILE__ << " at line: " << __LINE__ << endl;
+    exit(1);
+  }
+  infile.close();
+}
+
+void OSIM::saveResults(){
+  string path = "../../data/" + graph.dataset + "/osim/";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  path += "results.log";
+
+  ofstream resultsLog;
+  resultsLog.open(path, fstream::app);
+  resultsLog << "Date           : " << getLocalDatetime() << endl;
+  resultsLog << "Graph" << endl;
+  resultsLog << "- dataset      : " << graph.dataset << endl;
+  resultsLog << "- subgraph     : " << ((isSubgraph) ? ("true") : ("false")) << endl;
+  resultsLog << "- size         : " << subgraphSize << "%" << endl;
+  resultsLog << "- nodes        : " << subgraphNodes << endl;
+  resultsLog << "- edges        : " << subgraphEdges << endl;
+  resultsLog << "OSIM" << endl;
+  resultsLog << "- simulations  : " << simulations << endl;
+  resultsLog << "- time         : " << "not defined" << endl;
+  resultsLog << "- optimal size : " << optimalSize << endl;
+  resultsLog << "----------------------------------------------------" << endl;
+  resultsLog.close();
 }

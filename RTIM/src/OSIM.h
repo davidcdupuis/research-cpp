@@ -23,10 +23,15 @@
  */
 class OSIM{
 public:
+  Graph& graph;
   double optimalSize;
   std::vector<std::vector<std::pair<int, double> > > osimGraph; //necessary
   std::vector<int> seedSet;
-  Graph& graph;
+  int subgraphNodes;
+  int subgraphEdges;
+  int subgraphSize = 100;
+  bool isSubgraph = false;
+  int simulations = 1000;
 
   OSIM(Graph& g);
 
@@ -78,6 +83,10 @@ public:
   int continueMenu(std::string prevClass);
 
   int importSubGraphMenu(std::string prevClass);
+
+  void readSubGraphAttr(std::string folder="");
+
+  void saveResults();
 };
 
 #endif

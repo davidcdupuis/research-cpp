@@ -1,0 +1,24 @@
+Date           : Tue Mar 26 10:58:26 2019
+Graph
+- dataset      : nethept
+- subgraph     : 1
+- size         : 25%
+- nodes        : 3807
+- edges        : 28846
+OSIM
+- simulations  : 1000
+- time         : not defined
+- optimal size : 444.16
+----------------------------------------------------
+Date           : Tue Mar 26 12:02:12 2019
+Graph
+- dataset      : nethept
+- subgraph     : true
+- size         : 25%
+- nodes        : 3807
+- edges        : 28846
+OSIM
+- simulations  : 1000
+- time         : not defined
+- optimal size : 448.463
+----------------------------------------------------
