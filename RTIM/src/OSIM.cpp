@@ -88,6 +88,7 @@ void OSIM::findOptimalSize(int sim){
     simSizesFile << value << endl;
   }
   simSizesFile.close();
+  cout << "Simulations: "  << sim << endl;
   optimalSize = sum/sim;
   cout << "Optimal size found is: " << optimalSize << endl;
 }
