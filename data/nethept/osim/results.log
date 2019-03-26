@@ -94,3 +94,15 @@ OSIM
 - time         : not defined
 - optimal size : 111
 ----------------------------------------------------
+Date           : Tue Mar 26 16:19:39 2019
+Graph
+- dataset      : nethept
+- subgraph     : true
+- size         : 25%
+- nodes        : 3807
+- edges        : 28846
+OSIM
+- simulations  : 50000
+- time         : not defined
+- optimal size : 440
+----------------------------------------------------
