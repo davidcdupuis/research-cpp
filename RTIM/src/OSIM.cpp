@@ -72,7 +72,7 @@ void OSIM::findOptimalSize(int sim){
     // once over record size of selectedUsers in array of values
   }
   // compute average of values
-  double sum = 0;
+  unsigned long long sum = 0;
 
   string path = "../../data/" + graph.dataset + "/osim/convergence/";
   if (!pathExists(path)){
