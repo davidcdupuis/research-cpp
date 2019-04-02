@@ -39,7 +39,9 @@ void Graph::readAttributes(string folder){
 }
 
 void Graph::loadGraph(string graph_file){
+  graph = {};
   graph.resize(nodes);
+  cout << "Graph size:" << graph.size() << endl;
   clock_t start = clock();
   if (graph_file == ""){
     graph_file = "../../data/" + dataset + "/" + dataset + "_wc.inf";
@@ -102,8 +104,8 @@ void Graph::loadGraph(string graph_file){
   double duration = (clock() - start)/(double)CLOCKS_PER_SEC;
   cout << "Graph import done in: " << cleanTime(duration, "s") << endl;
   fclose(fin);
-  sleep(SLEEP);
-  clearLines(2);
+  // sleep(SLEEP);
+  // clearLines(2);
 }
 
 void Graph::importDegrees(){

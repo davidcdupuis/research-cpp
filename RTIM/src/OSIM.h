@@ -31,7 +31,7 @@ public:
   int subgraphEdges;
   int subgraphSize = 100;
   bool isSubgraph = false;
-  int simulations = 10000;
+  int simulations = 1000;
 
   OSIM(Graph& g);
 
