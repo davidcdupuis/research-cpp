@@ -422,7 +422,7 @@ int OSIM::importSubGraphMenu(string prevClass){
           subgraphSize = 25;
           graph.datasetFile = "../../data/" + graph.dataset + "/osim";
           readSubGraphAttr(graph.datasetFile + "/attributes_25.txt");
-          graph.readAttributes();//graph.datasetFile + "/attributes_25.txt"
+          graph.readAttributes(graph.datasetFile + "/attributes_25.txt");//graph.datasetFile + "/attributes_25.txt"
           graph.printArguments();
           graph.loadGraph(graph.datasetFile + "/" + graph.dataset + "_wc_25.inf");
           return 0;
@@ -433,7 +433,7 @@ int OSIM::importSubGraphMenu(string prevClass){
           subgraphSize = 50;
           graph.datasetFile = "../../data/" + graph.dataset + "/osim";
           readSubGraphAttr(graph.datasetFile + "/attributes_50.txt");
-          graph.readAttributes();//graph.datasetFile + "/attributes_50.txt"
+          graph.readAttributes(graph.datasetFile + "/attributes_50.txt");//graph.datasetFile + "/attributes_50.txt"
           graph.printArguments();
           graph.loadGraph(graph.datasetFile + "/" + graph.dataset + "_wc_50.inf");
           return 0;
@@ -444,7 +444,7 @@ int OSIM::importSubGraphMenu(string prevClass){
           subgraphSize = 75;
           graph.datasetFile = "../../data/" + graph.dataset + "/osim";
           readSubGraphAttr(graph.datasetFile + "/attributes_75.txt");
-          graph.readAttributes();//graph.datasetFile + "/attributes_75.txt"
+          graph.readAttributes(graph.datasetFile + "/attributes_75.txt");//graph.datasetFile + "/attributes_75.txt"
           graph.printArguments();
           graph.loadGraph(graph.datasetFile + "/" + graph.dataset + "_wc_75.inf");
           return 0;
