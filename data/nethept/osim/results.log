@@ -298,3 +298,63 @@ OSIM
 - time         : not defined
 - optimal size : 3200
 ----------------------------------------------------
+Date           : Wed Apr  3 16:54:34 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : -1034804384
+- edges        : 21874
+OSIM
+- simulations  : 1000
+- time         : not defined
+- optimal size : 4291
+----------------------------------------------------
+Date           : Wed Apr  3 17:10:26 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : -2059902112
+- edges        : 21962
+OSIM
+- simulations  : 5000
+- time         : not defined
+- optimal size : 4291
+----------------------------------------------------
+Date           : Wed Apr  3 17:19:23 2019
+Graph
+- dataset      : nethept
+- subgraph     : true
+- size         : 25%
+- nodes        : 3807
+- edges        : 28846
+OSIM
+- simulations  : 5000
+- time         : not defined
+- optimal size : 1352
+----------------------------------------------------
+Date           : Wed Apr  3 17:25:07 2019
+Graph
+- dataset      : nethept
+- subgraph     : true
+- size         : 50%
+- nodes        : 7614
+- edges        : 45802
+OSIM
+- simulations  : 5000
+- time         : not defined
+- optimal size : 2251
+----------------------------------------------------
+Date           : Wed Apr  3 17:38:07 2019
+Graph
+- dataset      : nethept
+- subgraph     : true
+- size         : 75%
+- nodes        : 11421
+- edges        : 56850
+OSIM
+- simulations  : 5000
+- time         : not defined
+- optimal size : 3202
+----------------------------------------------------
