@@ -8,6 +8,7 @@ typedef double (*pf)(int, int);
 /*
   Graph class
 */
+
 class Graph
 {
 public:
