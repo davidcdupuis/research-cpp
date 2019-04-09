@@ -10,6 +10,9 @@ public:
     double epsilon;
     string model;
     double T;
+    bool subgraph;
+    int subsize;
+    string submodel;
 };
 
 #include "graph.h"
@@ -25,7 +28,7 @@ void run_with_parameter(InfGraph &g, Argument & arg) //const
   cout << "--------------------------------------------------------------------------------" << endl;
   cout << arg.dataset << " k=" << arg.k << " epsilon=" << arg.epsilon <<   " " << arg.model << endl;
 
-  vector<int> k_values{30000};
+  vector<int> k_values{arg.k};
   vector<double> epsilon_values{0.1};
 
   for (size_t i = 0; i < k_values.size(); i++){
@@ -94,31 +97,41 @@ void Run(int argn, char **argv)
             return ;
         }
         if (argv[i] == string("-dataset"))
-            arg.dataset = argv[i + 1];
+          arg.dataset = argv[i + 1];
         if (argv[i] == string("-epsilon"))
-            arg.epsilon = atof(argv[i + 1]);
+          arg.epsilon = atof(argv[i + 1]);
         if (argv[i] == string("-T"))
-            arg.T = atof(argv[i + 1]);
+          arg.T = atof(argv[i + 1]);
         if (argv[i] == string("-k"))
-            arg.k = atoi(argv[i + 1]);
+          arg.k = atoi(argv[i + 1]);
         if (argv[i] == string("-model"))
-            arg.model = argv[i + 1];
+          arg.model = argv[i + 1];
+        if (argv[i] == string("-subgraph"))
+          arg.subgraph = true;
+        if (argv[i] == string("-subsize"))
+          arg.subsize = atof(argv[i + 1]);
+        if (argv[i] == string("-submodel"))
+          arg.submodel = argv[i + 1];
     }
     ASSERT(arg.dataset != "");
     ASSERT(arg.model == "IC" || arg.model == "LT" || arg.model == "TR" || arg.model=="CONT");
 
     string graph_file;
-    if (arg.model == "IC"){
-        //graph_file = arg.dataset + "graph_wc.inf";
-	      graph_file = "../data/" + arg.dataset + "/" + arg.dataset +"_wc.inf";
-    }else if (arg.model == "LT")
-        graph_file = arg.dataset + "graph_lt.inf";
-    else if (arg.model == "TR")
-        graph_file = arg.dataset + "graph_tr.inf";
-    else if (arg.model == "CONT")
-        graph_file = arg.dataset + "graph_cont.inf";
-    else
-        ASSERT(false);
+    if (arg.subgraph){
+      graph_file = "../data/" + arg.dataset + "/osim/" + arg.dataset + "_" + string(arg.subsize) + "_wc.inf";
+    }else{
+      if (arg.model == "IC"){
+          //graph_file = arg.dataset + "graph_wc.inf";
+  	      graph_file = "../data/" + arg.dataset + "/" + arg.dataset +"_wc.inf";
+      }else if (arg.model == "LT")
+          graph_file = arg.dataset + "graph_lt.inf";
+      else if (arg.model == "TR")
+          graph_file = arg.dataset + "graph_tr.inf";
+      else if (arg.model == "CONT")
+          graph_file = arg.dataset + "graph_cont.inf";
+      else
+          ASSERT(false);
+    }
 
     InfGraph g(arg.dataset, graph_file);
 

@@ -25,38 +25,40 @@ public:
 
     enum InfluModel {IC, LT, CONT};
     InfluModel influModel;
-    void setInfuModel(InfluModel p)
-    {
-        influModel = p;
-        TRACE(influModel == IC);
-        TRACE(influModel == LT);
-        TRACE(influModel == CONT);
+    void setInfuModel(InfluModel p){
+      influModel = p;
+      TRACE(influModel == IC);
+      TRACE(influModel == LT);
+      TRACE(influModel == CONT);
     }
 
     string folder;
     string graph_file;
-    void readNM()
-    {
-	cout << ("../data/" + folder + "/attributes.txt").c_str() << endl;
-        ifstream cin(("../data/" + folder + "/attributes.txt").c_str());
-        ASSERT(!cin == false);
-        string s;
-        while (cin >> s)
+    void readNM(){
+      // if(arg.subgraph){
+      //   cout << ("../data/" + folder + "/attributes_" + arg.subsize).c_str() << endl;
+      //   ifstream cin (("../data/" + folder + "/attributes_" + arg.subsize).c_str());
+      // }
+	    cout << ("../data/" + folder + "/attributes.txt").c_str() << endl;
+      ifstream cin(("../data/" + folder + "/attributes.txt").c_str());
+      ASSERT(!cin == false);
+      string s;
+      while (cin >> s)
+      {
+        if (s.substr(0, 2) == "n=")
         {
-            if (s.substr(0, 2) == "n=")
-            {
-                n = atoi(s.substr(2).c_str());
-                continue;
-            }
-            if (s.substr(0, 2) == "m=")
-            {
-                m = atoi(s.substr(2).c_str());
-                continue;
-            }
-            ASSERT(false);
+          n = atoi(s.substr(2).c_str());
+          continue;
         }
-        TRACE(n, m );
-        cin.close();
+        if (s.substr(0, 2) == "m=")
+        {
+          m = atoi(s.substr(2).c_str());
+          continue;
+        }
+        ASSERT(false);
+      }
+      TRACE(n, m );
+      cin.close();
     }
 
 #ifdef DISCRETE
@@ -77,53 +79,50 @@ public:
 #endif
 
     vector<bool> hasnode;
-    void readGraph()
-    {
-	cout << graph_file.c_str() << endl;
-        FILE *fin = fopen((graph_file).c_str(), "r");
-        ASSERT(fin != false);
-        int readCnt = 0;
-        for (int i = 0; i < m; i++)
-        {
-            readCnt ++;
-            int a, b;
+    void readGraph(){
+	    cout << graph_file.c_str() << endl;
+      FILE *fin = fopen((graph_file).c_str(), "r");
+      ASSERT(fin != false);
+      int readCnt = 0;
+      for (int i = 0; i < m; i++){
+        readCnt ++;
+        int a, b;
 #ifdef DISCRETE
-            double p;
-            int c = fscanf(fin, "%d%d%lf", &a, &b, &p);
-            ASSERTT(c == 3, a, b, p, c);
+        double p;
+        int c = fscanf(fin, "%d%d%lf", &a, &b, &p);
+        ASSERTT(c == 3, a, b, p, c);
 #endif
 #ifdef CONTINUOUS
-            double p1, p2;
-            int c = fscanf(fin, "%d%d%lf%lf", &a, &b, &p1, &p2);
-            ASSERT(c == 4);
+        double p1, p2;
+        int c = fscanf(fin, "%d%d%lf%lf", &a, &b, &p1, &p2);
+        ASSERT(c == 4);
 #endif
 
-            //TRACE_LINE(a, b);
-            // check if node ids within graph array range
-            ASSERT( a < n );
-            ASSERT( b < n );
-            hasnode[a] = true;
-            hasnode[b] = true;
+        //TRACE_LINE(a, b);
+        // check if node ids within graph array range
+        ASSERT( a < n );
+        ASSERT( b < n );
+        hasnode[a] = true;
+        hasnode[b] = true;
 #ifdef DISCRETE
-            add_edge(a, b, p);
+        add_edge(a, b, p);
 #endif
 #ifdef CONTINUOUS
-            add_edge(a, b, p1, p2);
+        add_edge(a, b, p1, p2);
 #endif
-        }
-        TRACE_LINE_END();
-        int s = 0;
-        for (int i = 0; i < n; i++)
-            if (hasnode[i])
-                s++;
-        INFO(s);
-        ASSERT(readCnt == m);
-        fclose(fin);
+      }
+      TRACE_LINE_END();
+      int s = 0;
+      for (int i = 0; i < n; i++)
+          if (hasnode[i])
+            s++;
+      INFO(s);
+      ASSERT(readCnt == m);
+      fclose(fin);
     }
 
 #ifdef DISCRETE
-    void readGraphBin()
-    {
+    void readGraphBin(){
         string graph_file_bin = graph_file.substr(0, graph_file.size() - 3) + "bin";
         INFO(graph_file_bin);
         FILE *fin = fopen(graph_file_bin.c_str(), "rb");
@@ -135,44 +134,39 @@ public:
         int64 sz2 = fread(buf, 1, sz, fin);
         INFO("fread finish", sz, sz2);
         ASSERT(sz == sz2);
-        for (int64 i = 0; i < sz / 12; i++)
-        {
-            int a = ((int *)buf)[i * 3 + 0];
-            int b = ((int *)buf)[i * 3 + 1];
-            float p = ((float *)buf)[i * 3 + 2];
-            //INFO(a,b,p);
-            add_edge(a, b, p);
+        for (int64 i = 0; i < sz / 12; i++){
+          int a = ((int *)buf)[i * 3 + 0];
+          int b = ((int *)buf)[i * 3 + 1];
+          float p = ((float *)buf)[i * 3 + 2];
+          //INFO(a,b,p);
+          add_edge(a, b, p);
         }
         delete []buf;
         fclose(fin);
     }
 #endif
 
-    Graph(string folder, string graph_file): folder(folder), graph_file(graph_file)
-    {
-        readNM();
-
-        //init vector
-        FOR(i, n)
-        {
-            gT.push_back(vector<int>());
-            hasnode.push_back(false);
+    Graph(string folder, string graph_file): folder(folder), graph_file(graph_file){
+      readNM();
+      //init vector
+      FOR(i, n){
+        gT.push_back(vector<int>());
+        hasnode.push_back(false);
 #ifdef DISCRETE
-            probT.push_back(vector<double>());
+        probT.push_back(vector<double>());
 #endif
 #ifdef CONTINUOUS
-            probT.push_back(vector<dpair>());
+        probT.push_back(vector<dpair>());
 #endif
-            //hyperGT.push_back(vector<int>());
-            inDeg.push_back(0);
-        }
-        readGraph();
-        //system("sleep 10000");
+        //hyperGT.push_back(vector<int>());
+        inDeg.push_back(0);
+      }
+      readGraph();
+      //system("sleep 10000");
     }
 
 };
 
-double sqr(double t)
-{
-    return t * t;
+double sqr(double t){
+  return t * t;
 }
