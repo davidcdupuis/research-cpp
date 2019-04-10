@@ -24,7 +24,7 @@ public:
 
 	void setInfluModel(InfluModel p);
 	void readAttributes();
-	void add_edge(int a, int b, double p);
+	void addEdge(int a, int b, double p);
 	void readGraph();
 	void readGraphBin();
 };

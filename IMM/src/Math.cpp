@@ -2,11 +2,11 @@
 
 using namespace std;
 
-static double Math::log2(int n){
+double Math::log2(int n){
   return log(n) / log(2);
 }
 
-static double Math::logcnk(int n, int k){
+double Math::logcnk(int n, int k){
   double ans = 0;
   for(int i = n - k + 1; i <= n; i++){
     ans += log(i);
@@ -15,4 +15,8 @@ static double Math::logcnk(int n, int k){
     ans -= log(i);
   }
   return ans;
+}
+
+double Math::sqr(double t){
+  return t * t;
 }

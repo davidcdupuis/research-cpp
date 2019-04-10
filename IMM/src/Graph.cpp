@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Graph::Graph(string folder, string graph_file)folder(folder), graph_file(graph_file){
+Graph::Graph(string folder, string graph_file): folder(folder), graph_file(graph_file){
   readAttributes();
   //init vector
   for(int i = 0; i < n; i++){
@@ -95,7 +95,7 @@ void Graph::readGraphBin(){
       int b = ((int *)buf)[i * 3 + 1];
       float p = ((float *)buf)[i * 3 + 2];
       //INFO(a,b,p);
-      add_edge(a, b, p);
+      addEdge(a, b, p);
     }
     delete []buf;
     fclose(fin);

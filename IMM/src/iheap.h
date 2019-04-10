@@ -1,3 +1,4 @@
+#include "head.h"
 
 const int VectorDefaultSize = 100;
 template <typename _Key, typename _Value>

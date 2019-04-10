@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Timer::Timer(int id, string desc="", bool showOnDestroy=false){
+Timer::Timer(int id, string desc, bool showOnDestroy){
   this->id=id;
   while((int)timeUsed.size() <= id){
     timeUsed.push_back(0);
@@ -17,7 +17,7 @@ Timer::~Timer(){
   timeUsed[id]+=(rdtsc()-startTime);
 }
 
-static void Timer::show(bool debug=false){
+void Timer::show(bool debug){
   //INFO("########## Timer ##########");
 
   for (int i = 0;i < (int)timeUsed.size(); i++){
@@ -36,7 +36,10 @@ static void Timer::show(bool debug=false){
   }
 }
 
-static void Timer::clearAll(){
+void Timer::clearAll(){
   timeUsed.clear();
   timeUsedDesc.clear();
 }
+
+vector<int64> Timer::timeUsed;
+vector<string> Timer::timeUsedDesc;

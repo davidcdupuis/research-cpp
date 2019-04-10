@@ -248,7 +248,7 @@ string currentTimestampStr() {
 }
 
 
-
+/*
 class Timer
 {
     public:
@@ -294,11 +294,11 @@ class Timer
             timeUsed.clear();
             timeUsedDesc.clear();
         }
-};
-vector<int64> Timer::timeUsed;
-vector<string> Timer::timeUsedDesc;
+};*/
+//vector<int64> Timer::timeUsed;
+//vector<string> Timer::timeUsedDesc;
 
-
+/*
 class Counter
 {
     public:
@@ -315,8 +315,8 @@ class Counter
             for (int i=0;i<1000;i++) if (cnt[i]>0)
                 INFO("Counter", i,cnt[i]);
         }
-};
-int Counter::cnt[1000]={0};
+};*/
+//int Counter::cnt[1000]={0};
 
 // return the output of the command by string
 string exec(const char* cmd) {
@@ -337,6 +337,7 @@ string getIpAddress(){
 }
 
 string __head_version = "";
+/*
 class OutputInfo
 {
     public:
@@ -354,7 +355,7 @@ class OutputInfo
         cout<<"\e\[0;31mProgram Terminate at: " << currentTimestampStr()<< "\e[0m"<<endl;
         cout<<"\e\[0;31mProgram version: " << __head_version << "\e[0m"<<endl;
     }
-};
+};*/
 
 string properStringDouble(double value){
   string original = to_string(value);

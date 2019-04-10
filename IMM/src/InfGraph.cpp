@@ -17,7 +17,7 @@ void InfGraph::init_hyper_graph(){
   hyperGT.clear();
 }
 
-void infGraph::build_hyper_graph_r(int64 R, const Arguments & arg){
+void InfGraph::build_hyper_graph_r(int64 R, const Arguments & arg){
   if( R > INT_MAX ){
     cout<<"Error:R too large"<<endl;
     exit(1);

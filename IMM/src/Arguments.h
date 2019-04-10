@@ -2,19 +2,20 @@
 #define __ARGUMENT_H__
 
 #include "sfmt/SFMT.h"
-#include "head.h"
+#include <string>
 
-class Argument{
+class Arguments
+{
 public:
 	int k;
-	string dataset;
+	std::string dataset;
 	double epsilon;
-	string model;
+	std::string model;
 	double T;
 	bool subgraph;
 	int subsize;
-	string submodel;
-}
+	std::string submodel;
+};
 
 #endif
 

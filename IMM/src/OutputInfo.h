@@ -1,7 +1,7 @@
 #ifndef __OUTPUTINFO_H__
 #define __OUTPUTINFO_H__
 
-string __head_version = "";
+#include "head.h"
 
 class OutputInfo{
 public:
