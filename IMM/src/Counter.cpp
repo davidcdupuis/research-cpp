@@ -14,4 +14,8 @@ void Counter::show(){
   }
 }
 
+Counter::~Counter(){
+  
+}
+
 int Counter::cnt[1000]={0};

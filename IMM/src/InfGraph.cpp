@@ -119,3 +119,54 @@ int InfGraph::BuildHypergraphNode(int uStart, int hyperiiid){
     visit[visit_mark[i]] = false;
   return n_visit_edge;
 }
+
+void InfGraph::build_seedset(int k){
+    Counter cnt(1);
+    vector< int > degree;
+    vector< int> visit_local(hyperGT.size());
+
+    seedSet.clear();
+    for (int i = 0; i < n; i++)
+    {
+        degree.push_back( hyperG[i].size() );
+    }
+    ASSERT(k > 0);
+    ASSERT(k < (int)degree.size());
+    for (int i = 0; i < k; i++)
+    {
+        auto t = max_element(degree.begin(), degree.end());
+        int id = t - degree.begin();
+        seedSet.insert(id);
+        degree[id] = 0;
+        for (int t : hyperG[id])
+        {
+            if (!visit_local[t])
+            {
+                visit_local[t] = true;
+                for (int node : hyperGT[t])
+                {
+                    degree[node]--;
+                }
+            }
+        }
+    }
+    TRACE(seedSet);
+}
+
+/*
+*/
+double InfGraph::InfluenceHyperGraph()
+{
+
+    set<int> s;
+    TRACE(seedSet);
+    for (auto t : seedSet)
+    {
+        for (auto tt : hyperG[t])
+        {
+            s.insert(tt);
+        }
+    }
+    double inf = (double)n * s.size() / hyperGT.size();
+    return inf;
+}

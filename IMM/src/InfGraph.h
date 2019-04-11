@@ -10,6 +10,7 @@
 #include "iheap.h"
 #include "Graph.h"
 #include "Arguments.h"
+#include "Counter.h"
 
 typedef pair<double, int> dipair;
 

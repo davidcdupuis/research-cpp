@@ -59,6 +59,9 @@ RTIM/src/rtim
 RTIM/src/main
 
 IMM/*.o
+IMM/src/*.o
+IMM/src/main
+IMM/main
 IMM/imm_continuous
 IMM/imm_discrete
 

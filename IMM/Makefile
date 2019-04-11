@@ -24,8 +24,8 @@ profile:
 cont_profile:
 	g++ -DCONTINUOUS src/IMM.cpp -Wall -std=c++0x -O3 src/sfmt/SFMT.c  -o imm_continuous -pg -o imm_continuous.profile
 
-main: src/IMM.o src/InfGraph.o src/Graph.o src/Math.o src/Timer.o src/Counter.o src/OutputInfo.o
-	$(CXX) -o main src/IMM.o src/InfGraph.o src/Graph.o src/Math.o src/Timer.o src/Counter.o src/OutputInfo.o
+main: IMM.o InfGraph.o Graph.o Math.o Timer.o Counter.o OutputInfo.o
+	$(CXX) src/sfmt/SFMT.c src/head.h -o main src/IMM.o src/InfGraph.o src/Graph.o src/Math.o src/Timer.o src/Counter.o src/OutputInfo.o
 
 IMM.o: src/IMM.h src/IMM.cpp
 	$(CXX) -c src/IMM.cpp
