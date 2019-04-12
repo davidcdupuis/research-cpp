@@ -3,8 +3,8 @@ EXEC= main #imm_continuous imm_discrete
 
 all: $(EXEC)
 
-main: IMM.o InfGraph.o Graph.o Math.o Timer.o Counter.o OutputInfo.o sfmt.o head.o
-	$(CXX) -o main IMM.o InfGraph.o Graph.o Math.o Timer.o Counter.o OutputInfo.o sfmt.o head.o
+main: IMM.o InfGraph.o Graph.o Math.o Timer.o Counter.o sfmt.o head.o Arguments.o
+	$(CXX) -o main IMM.o InfGraph.o Graph.o Math.o Timer.o Counter.o sfmt.o head.o Arguments.o
 
 head.o: head.h head.c
 	$(CXX) -c head.c -o head.o
@@ -21,9 +21,6 @@ Math.o: Math.h Math.cpp
 Timer.o: Timer.h Timer.cpp
 	$(CXX) -c Timer.cpp
 
-OutputInfo.o: OutputInfo.h OutputInfo.cpp
-	$(CXX) -c OutputInfo.cpp
-
 Counter.o: Counter.h Counter.cpp
 	$(CXX) -c Counter.cpp
 
@@ -32,6 +29,9 @@ InfGraph.o: InfGraph.h InfGraph.cpp
 
 Graph.o: Graph.h Graph.cpp
 	$(CXX) -c Graph.cpp
+
+Arguments.o: Arguments.h Arguments.cpp
+	$(CXX) -c Arguments.cpp
 
 clean:
 	rm -rf *.o

@@ -44,7 +44,6 @@ using namespace std;
 
 
 extern map<string, timeval> __head_h_start;
-extern string __head_version;
 extern map<string, string> datasets;
 
 typedef unsigned int uint;
@@ -187,7 +186,8 @@ string getIpAddress();
 
 string properStringDouble(double value);
 
-
 string getLocalDatetime();
+
+string toColor(string color, string txt);
 
 #endif //__HEAD_H__

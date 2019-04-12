@@ -6,7 +6,6 @@
 #include "Arguments.h"
 #include "Timer.h"
 #include "Math.h"
-#include "OutputInfo.h"
 
 class IMM
 {

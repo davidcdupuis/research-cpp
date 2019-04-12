@@ -117,30 +117,31 @@ void run_with_parameter(InfGraph &g, Arguments & arg){
 
 void run(int argn, char **argv){
   Arguments arg;
-  for (int i = 0; i < argn; i++){
-    if (argv[i] == string("-help") || argv[i] == string("--help") || argn == 1){
-      cout << "./tim -dataset *** -epsilon *** -k ***  -model IC|LT|TR|CONT " << endl;
-      return ;
-    }
-    if (argv[i] == string("-dataset"))
-      arg.dataset = argv[i + 1];
-    if (argv[i] == string("-epsilon"))
-      arg.epsilon = atof(argv[i + 1]);
-    if (argv[i] == string("-T"))
-      arg.T = atof(argv[i + 1]);
-    if (argv[i] == string("-k"))
-      arg.k = atoi(argv[i + 1]);
-    if (argv[i] == string("-model"))
-      arg.model = argv[i + 1];
-    if (argv[i] == string("-subgraph"))
-      arg.subgraph = true;
-    if (argv[i] == string("-subsize"))
-      arg.subsize = atof(argv[i + 1]);
-    if (argv[i] == string("-submodel"))
-      arg.submodel = argv[i + 1];
-  }
-  ASSERT(arg.dataset != "");
-  ASSERT(arg.model == "IC" || arg.model == "LT" || arg.model == "TR" || arg.model=="CONT");
+  // for (int i = 0; i < argn; i++){
+  //   if (argv[i] == string("-help") || argv[i] == string("--help") || argn == 1){
+  //     cout << "./tim -dataset *** -epsilon *** -k ***  -model IC|LT|TR|CONT " << endl;
+  //     return ;
+  //   }
+  //   if (argv[i] == string("-dataset"))
+  //     arg.dataset = argv[i + 1];
+  //   if (argv[i] == string("-epsilon"))
+  //     arg.epsilon = atof(argv[i + 1]);
+  //   if (argv[i] == string("-T"))
+  //     arg.T = atof(argv[i + 1]);
+  //   if (argv[i] == string("-k"))
+  //     arg.k = atoi(argv[i + 1]);
+  //   if (argv[i] == string("-model"))
+  //     arg.model = argv[i + 1];
+  //   if (argv[i] == string("-subgraph"))
+  //     arg.subgraph = true;
+  //   if (argv[i] == string("-subsize"))
+  //     arg.subsize = atof(argv[i + 1]);
+  //   if (argv[i] == string("-submodel"))
+  //     arg.submodel = argv[i + 1];
+  // }
+  // ASSERT(arg.dataset != "");
+  // ASSERT(arg.model == "IC" || arg.model == "LT" || arg.model == "TR" || arg.model=="CONT");
+  arg.readArguments(argn, argv);
 
   string graph_file;
   if (arg.subgraph){
@@ -158,6 +159,7 @@ void run(int argn, char **argv){
     else
       ASSERT(false);
   }
+  arg.printArguments();
 
   InfGraph g(arg.dataset, graph_file);
 
@@ -174,11 +176,11 @@ void run(int argn, char **argv){
 
   INFO(arg.T);
 
-  run_with_parameter(g, arg);
+  // run_with_parameter(g, arg);
 }
 
 int main(int argn, char **argv){
-  __head_version = "v1";
-  OutputInfo info(argn, argv);
+  cout << "\e\[0;32mProgram Start at: " << currentTimestampStr() << "\e[0m" << endl;
   run(argn, argv);
+  cout << "\e\[0;31mProgram Terminate at: " << currentTimestampStr() << "\e[0m" << endl;
 }

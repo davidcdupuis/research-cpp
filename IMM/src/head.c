@@ -1,7 +1,6 @@
 #include "head.h"
 
 map<string, timeval> __head_h_start;
-string __head_version = "";
 map<string, string> datasets = {
   { "test", "TS" },
   { "nethept", "NE" },
@@ -150,7 +149,6 @@ string getIpAddress(){
   return exec(cmd.c_str());
 }
 
-// string __head_version = "";
 // map<string, string> datasets = {
 //   { "test", "TS" },
 //   { "nethept", "NE" },
@@ -196,4 +194,26 @@ string getLocalDatetime(){
   char *dateTime = asctime(ti);
   dateTime[strlen(dateTime) - 1] = 0;
   return dateTime;
+}
+
+string toColor(string color, string txt){
+  string colorVal;
+  if(color == "red"){
+    colorVal = "31";
+  }else if (color == "green"){
+    colorVal = "32";
+  }else if (color == "yellow"){
+    colorVal = "33";
+  }else if (color == "blue"){
+    colorVal = "34";
+  }else if (color == "magenta"){
+    colorVal = "35";
+  }else if (color == "cyan"){
+    colorVal = "36";
+  }else if (color == "white"){
+    colorVal = "37";
+  }else{
+    cerr << "Error: color specified not recognized!" << endl;
+  }
+  return "\033[1;" + colorVal + "m" + txt + "\033[0m";
 }
