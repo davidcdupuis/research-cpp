@@ -5,7 +5,8 @@
 #include "InfGraph.h"
 #include "Arguments.h"
 #include "Timer.h"
-#include "Math.h"
+// #include "Math.h"
+#include <math.h>
 
 class IMM
 {

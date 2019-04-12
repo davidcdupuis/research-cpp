@@ -2,18 +2,30 @@
 
 using namespace std;
 
+double logcnk(int n, int k){
+  double ans = 0;
+  for(int i = n - k + 1; i <= n; i++){
+    ans += log(i);
+  }
+  for(int i = 1; i <= k; i++){
+    ans -= log(i);
+  }
+  return ans;
+}
+
 double IMM::sampling(InfGraph &g, const Arguments & arg){
   double epsilon_prime = arg.epsilon * sqrt(2);
   Timer t(1, "step1");
   for (int x = 1; ; x++){
-    int64 ci = (2+2/3 * epsilon_prime)* ( log(g.n) + Math::logcnk(g.n, arg.k) + log(Math::log2(g.n))) * pow(2.0, x) / (epsilon_prime* epsilon_prime);
+    //lambda = (2 + 2/3 * espilon') * (log(n choose k) + l*log(n) + log(log2(n))) * n / espilon'^2
+    int64 ci = (2 + 2/3 * epsilon_prime) * ( logcnk(g.n, arg.k) + 1.0 * log(g.n) + log(log2(g.n))) * pow(2.0, x) / pow(epsilon_prime, 2.0);
     g.build_hyper_graph_r(ci, arg);
     g.build_seedset(arg.k);
     double ept = g.InfluenceHyperGraph()/g.n;
     //double estimate_influence = ept * g.n;
     INFO(x, estimate_influence);
     if (ept > 1 / pow(2.0, x)){
-      double OPT_prime = ept * g.n / (1+epsilon_prime);
+      double OPT_prime = ept * g.n / (1+ epsilon_prime);
       //INFO("step1", OPT_prime);
       //INFO("step1", OPT_prime * (1+epsilon_prime));
       return OPT_prime;
@@ -28,9 +40,9 @@ double IMM::nodeSelection(InfGraph &g, const Arguments & arg, double OPT_prime){
   ASSERT(OPT_prime > 0);
   double e = exp(1);
   double alpha = sqrt(log(g.n) + log(2));
-  double beta = sqrt((1-1/e) * (Math::logcnk(g.n, arg.k) + log(g.n) + log(2)));
+  double beta = sqrt((1-1/e) * (logcnk(g.n, arg.k) + log(g.n) + log(2)));
 
-  int64 R = 2.0 * g.n * Math::sqr((1-1/e) * alpha + beta) /  OPT_prime / arg.epsilon / arg.epsilon ;
+  int64 R = 2.0 * g.n * pow((1-1/e) * alpha + beta, 2.0) /  OPT_prime / arg.epsilon / arg.epsilon ; //pow(arg.epsilon)
 
   //R/=100;
   g.build_hyper_graph_r(R, arg);
@@ -138,21 +150,21 @@ void run(int argn, char **argv){
   arg.printArguments();
 
   InfGraph g(arg.dataset, arg.dataset, graph_file);
-  //
-  // if (arg.model == "IC")
-  //   g.setInfluModel(InfGraph::IC);
-  // else if (arg.model == "LT")
-  //   g.setInfluModel(InfGraph::LT);
-  // else if (arg.model == "TR")
-  //   g.setInfluModel(InfGraph::IC);
-  // else if (arg.model == "CONT")
-  //   g.setInfluModel(InfGraph::CONT);
-  // else
-  //   ASSERT(false);
+
+  if (arg.model == "IC")
+    g.setInfluModel(InfGraph::IC);
+  else if (arg.model == "LT")
+    g.setInfluModel(InfGraph::LT);
+  else if (arg.model == "TR")
+    g.setInfluModel(InfGraph::IC);
+  else if (arg.model == "CONT")
+    g.setInfluModel(InfGraph::CONT);
+  else
+    ASSERT(false);
 
   // INFO(arg.T);
 
-  // run_with_parameter(g, arg);
+  run_with_parameter(g, arg);
 }
 
 int main(int argn, char **argv){

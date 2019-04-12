@@ -3,8 +3,8 @@ EXEC= main #imm_continuous imm_discrete
 
 all: $(EXEC)
 
-main: IMM.o InfGraph.o Graph.o Math.o Timer.o Counter.o sfmt.o head.o Arguments.o
-	$(CXX) -o main IMM.o InfGraph.o Graph.o Math.o Timer.o Counter.o sfmt.o head.o Arguments.o
+main: IMM.o InfGraph.o Graph.o Timer.o Counter.o sfmt.o head.o Arguments.o
+	$(CXX) -o main IMM.o InfGraph.o Graph.o Timer.o Counter.o sfmt.o head.o Arguments.o
 
 head.o: head.h head.c
 	$(CXX) -c head.c -o head.o
@@ -14,9 +14,6 @@ sfmt.o: sfmt/SFMT.c
 
 IMM.o: IMM.h IMM.cpp
 	$(CXX) -c IMM.cpp
-
-Math.o: Math.h Math.cpp
-	$(CXX) -c Math.cpp
 
 Timer.o: Timer.h Timer.cpp
 	$(CXX) -c Timer.cpp
