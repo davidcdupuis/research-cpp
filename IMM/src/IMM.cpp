@@ -117,30 +117,6 @@ void run_with_parameter(InfGraph &g, Arguments & arg){
 
 void run(int argn, char **argv){
   Arguments arg;
-  // for (int i = 0; i < argn; i++){
-  //   if (argv[i] == string("-help") || argv[i] == string("--help") || argn == 1){
-  //     cout << "./tim -dataset *** -epsilon *** -k ***  -model IC|LT|TR|CONT " << endl;
-  //     return ;
-  //   }
-  //   if (argv[i] == string("-dataset"))
-  //     arg.dataset = argv[i + 1];
-  //   if (argv[i] == string("-epsilon"))
-  //     arg.epsilon = atof(argv[i + 1]);
-  //   if (argv[i] == string("-T"))
-  //     arg.T = atof(argv[i + 1]);
-  //   if (argv[i] == string("-k"))
-  //     arg.k = atoi(argv[i + 1]);
-  //   if (argv[i] == string("-model"))
-  //     arg.model = argv[i + 1];
-  //   if (argv[i] == string("-subgraph"))
-  //     arg.subgraph = true;
-  //   if (argv[i] == string("-subsize"))
-  //     arg.subsize = atof(argv[i + 1]);
-  //   if (argv[i] == string("-submodel"))
-  //     arg.submodel = argv[i + 1];
-  // }
-  // ASSERT(arg.dataset != "");
-  // ASSERT(arg.model == "IC" || arg.model == "LT" || arg.model == "TR" || arg.model=="CONT");
   arg.readArguments(argn, argv);
 
   string graph_file;
@@ -161,20 +137,20 @@ void run(int argn, char **argv){
   }
   arg.printArguments();
 
-  InfGraph g(arg.dataset, graph_file);
+  // InfGraph g(arg.dataset, graph_file);
+  //
+  // if (arg.model == "IC")
+  //   g.setInfluModel(InfGraph::IC);
+  // else if (arg.model == "LT")
+  //   g.setInfluModel(InfGraph::LT);
+  // else if (arg.model == "TR")
+  //   g.setInfluModel(InfGraph::IC);
+  // else if (arg.model == "CONT")
+  //   g.setInfluModel(InfGraph::CONT);
+  // else
+  //   ASSERT(false);
 
-  if (arg.model == "IC")
-    g.setInfluModel(InfGraph::IC);
-  else if (arg.model == "LT")
-    g.setInfluModel(InfGraph::LT);
-  else if (arg.model == "TR")
-    g.setInfluModel(InfGraph::IC);
-  else if (arg.model == "CONT")
-    g.setInfluModel(InfGraph::CONT);
-  else
-    ASSERT(false);
-
-  INFO(arg.T);
+  // INFO(arg.T);
 
   // run_with_parameter(g, arg);
 }

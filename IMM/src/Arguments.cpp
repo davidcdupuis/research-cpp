@@ -5,7 +5,7 @@ using namespace std;
 void Arguments::readArguments(int argn, char ** argv){
   for (int i = 0; i < argn; i++){
     if (argv[i] == string("-help") || argv[i] == string("--help") || argn == 1){
-      cout << "./tim -dataset *** -epsilon *** -k ***  -model IC|LT|TR|CONT " << endl;
+      cout << "./main -dataset *** -epsilon *** -k ***  -model IC|LT|TR|CONT " << endl;
       return ;
     }
     if (argv[i] == string("-dataset"))
@@ -31,9 +31,6 @@ void Arguments::readArguments(int argn, char ** argv){
 
 void Arguments::printArguments(){
   cout << string(19, '-') << toColor("red", " Arguments ") << string(20, '-') << endl;
-  // for(int i = 0; i < argn; i++){
-  //   cout << argv[i] << " ";
-  // }
   cout << "- dataset    : " << toColor("yellow", dataset) << endl;
   cout << "- model      : " << toColor("yellow", model) << endl;
   cout << "- seed size  : " << toColor("yellow", to_string(k)) << endl;

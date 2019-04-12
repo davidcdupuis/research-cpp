@@ -8,14 +8,14 @@
 class Arguments
 {
 public:
-	int k;
-	std::string dataset;
-	double epsilon;
-	std::string model;
-	double T;
-	bool subgraph;
+	int k = 50;
 	int subsize;
+	double epsilon = 0.1;
+	double T;
+	std::string dataset;
+	std::string model = "IC";
 	std::string submodel;
+	bool subgraph = false;
 
 	void readArguments(int argn, char ** argv);
 	void printArguments();
