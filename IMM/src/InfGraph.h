@@ -27,7 +27,7 @@ public:
 	sfmt_t sfmtSeed;
 	set<int> seedSet;
 
-  	InfGraph(std::string name, std::string folder, std::string graph_file);
+  	InfGraph(const Arguments & args);
   	void init_hyper_graph();
   	void build_hyper_graph_r(int64 R, const Arguments & arg);
   	void build_seedset(int k);

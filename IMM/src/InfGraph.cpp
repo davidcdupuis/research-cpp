@@ -2,16 +2,16 @@
 
 using namespace std;
 
-InfGraph::InfGraph(string name, string folder, string graph_file): Graph(name, folder, graph_file){
+InfGraph::InfGraph(const Arguments & args): Graph(args){
   sfmt_init_gen_rand(&sfmtSeed , 95082);
   init_hyper_graph();
-  visit = vector<bool> (n);
-  visit_mark = vector<int> (n);
+  visit = vector<bool> (nodes);
+  visit_mark = vector<int> (nodes);
 }
 
 void InfGraph::init_hyper_graph(){
   hyperG.clear();
-  for (int i = 0; i < n; i++){
+  for (int i = 0; i < nodes; i++){
     hyperG.push_back(vector<int>());
   }
   hyperGT.clear();
@@ -30,7 +30,7 @@ void InfGraph::build_hyper_graph_r(int64 R, const Arguments & arg){
 
   vector<int> random_number;
   for (int i = 0; i < R; i++){
-    random_number.push_back(  sfmt_genrand_uint32(&sfmtSeed) % n);
+    random_number.push_back(  sfmt_genrand_uint32(&sfmtSeed) % nodes);
   }
   //trying BFS start from same node
   for (int i = prevSize; i < R; i++){
@@ -60,7 +60,7 @@ int InfGraph::BuildHypergraphNode(int uStart, int hyperiiid){
 
   q.clear();
   q.push_back(uStart);
-  ASSERT(n_visit_mark < n);
+  ASSERT(n_visit_mark < nodes);
   visit_mark[n_visit_mark++] = uStart;
   visit[uStart] = true;
   while (!q.empty()){
@@ -78,7 +78,7 @@ int InfGraph::BuildHypergraphNode(int uStart, int hyperiiid){
         if (visit[v])
           continue;
         if (!visit[v]){
-          ASSERT(n_visit_mark < n);
+          ASSERT(n_visit_mark < nodes);
           visit_mark[n_visit_mark++] = v;
           visit[v] = true;
         }
@@ -126,7 +126,7 @@ void InfGraph::build_seedset(int k){
     vector< int> visit_local(hyperGT.size());
 
     seedSet.clear();
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < nodes; i++)
     {
         degree.push_back( hyperG[i].size() );
     }
@@ -167,6 +167,6 @@ double InfGraph::InfluenceHyperGraph()
             s.insert(tt);
         }
     }
-    double inf = (double)n * s.size() / hyperGT.size();
+    double inf = (double)nodes * s.size() / hyperGT.size();
     return inf;
 }

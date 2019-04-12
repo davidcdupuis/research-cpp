@@ -2,11 +2,21 @@
 
 using namespace std;
 
-Graph::Graph(string name, string folder, string graph_file): folder(folder), graph_file(graph_file){
-  dataset = name;
+Graph::Graph(const Arguments & args){
+  dataset = args.dataset;
+  subgraph = args.subgraph;
+  subsize = args.subsize;
+  submodel = args.submodel;
+
+  if (subgraph){
+    folder = "../../data/" + dataset + "/osim/";// + dataset + "_" + to_string(subsize) + "_wc.inf";
+  }else{
+    folder = "../../data/" + dataset + "/";// + dataset +"_wc.inf";
+  }
+
   readAttributes();
   //init vector
-  for(int i = 0; i < n; i++){
+  for(int i = 0; i < nodes; i++){
     gT.push_back(vector<int>());
     hasnode.push_back(false);
     probT.push_back(vector<double>());
@@ -20,26 +30,28 @@ void Graph::setInfluModel(InfluModel p){
 }
 
 void Graph::readAttributes(){
-  // if(arg.subgraph){
-  //   cout << ("../data/" + folder + "/attributes_" + arg.subsize).c_str() << endl;
-  //   ifstream cin (("../data/" + folder + "/attributes_" + arg.subsize).c_str());
-  // }
-  cout << ("../../data/" + folder + "/attributes.txt").c_str() << endl;
-  ifstream cin(("../../data/" + folder + "/attributes.txt").c_str());
+  string file_path = "";
+  if(!subgraph){
+    file_path = folder + "attributes.txt";
+  }else{
+    file_path = folder + "attributes_" + to_string(subsize) + ".txt";
+  }
+  cout << file_path << endl;
+  ifstream cin(file_path.c_str());
   ASSERT(!cin == false);
   string s;
   while (cin >> s){
     if (s.substr(0, 2) == "n="){
-      n = atoi(s.substr(2).c_str());
+      nodes = atoi(s.substr(2).c_str());
       continue;
     }
     if (s.substr(0, 2) == "m="){
-      m = atoi(s.substr(2).c_str());
+      edges = atoi(s.substr(2).c_str());
       continue;
     }
     ASSERT(false);
   }
-  //TRACE(n, m );
+  //TRACE(nodes, edges );
   cin.close();
   printInfo();
 }
@@ -51,11 +63,17 @@ void Graph::addEdge(int a, int b, double p){
 }
 
 void Graph::readGraph(){
-  cout << graph_file.c_str() << endl;
-  FILE *fin = fopen((graph_file).c_str(), "r");
+  string file_path = "";
+  if(!subgraph){
+    file_path = folder + dataset +"_wc.inf";
+  }else{
+    file_path = folder + dataset + "_wc_" + to_string(subsize) + ".inf";
+  }
+  cout << file_path << endl;
+  FILE *fin = fopen(file_path.c_str(), "r");
   ASSERT(fin != false);
   int readCnt = 0;
-  for (int i = 0; i < m; i++){
+  for (int i = 0; i < edges; i++){
     readCnt ++;
     int a, b;
     double p;
@@ -64,24 +82,24 @@ void Graph::readGraph(){
 
     //TRACE_LINE(a, b);
     // check if node ids within graph array range
-    ASSERT( a < n );
-    ASSERT( b < n );
+    ASSERT( a < nodes );
+    ASSERT( b < nodes );
     hasnode[a] = true;
     hasnode[b] = true;
     addEdge(a, b, p);
   }
   //TRACE_LINE_END();
   int s = 0;
-  for (int i = 0; i < n; i++)
+  for (int i = 0; i < nodes; i++)
       if (hasnode[i])
         s++;
   INFO(s);
-  ASSERT(readCnt == m);
+  ASSERT(readCnt == edges);
   fclose(fin);
 }
 
 void Graph::readGraphBin(){
-    string graph_file_bin = graph_file.substr(0, graph_file.size() - 3) + "bin";
+    string graph_file_bin = folder.substr(0, folder.size() - 3) + "bin";
     INFO(graph_file_bin);
     FILE *fin = fopen(graph_file_bin.c_str(), "rb");
     //fread(fin);
@@ -106,7 +124,7 @@ void Graph::readGraphBin(){
 void Graph::printInfo(){
   cout << string(20, '-') << toColor("red", " Graph ") << string(23, '-') << endl;
   cout << "- dataset    : " << toColor("yellow", dataset) << endl;
-  cout << "- nodes      : " << toColor("yellow", to_string(n)) << endl;
-  cout << "- edges      : " << toColor("yellow", to_string(m)) << endl;
+  cout << "- nodes      : " << toColor("yellow", to_string(nodes)) << endl;
+  cout << "- edges      : " << toColor("yellow", to_string(edges)) << endl;
   cout << string(50, '-') << endl;
 }

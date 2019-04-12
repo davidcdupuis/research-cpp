@@ -42,14 +42,14 @@ double IMM::sampling(InfGraph &g, const Arguments & arg){
   Timer t(1, "step1");
   for (int x = 1; ; x++){
     //lambda = (2 + 2/3 * espilon') * (log(n choose k) + l*log(n) + log(log2(n))) * n / espilon'^2
-    int64 ci = (2 + 2/3 * epsilon_prime) * ( logcnk(g.n, arg.k) + 1.0 * log(g.n) + log(log2(g.n))) * pow(2.0, x) / pow(epsilon_prime, 2.0);
+    int64 ci = (2 + 2/3 * epsilon_prime) * ( logcnk(g.nodes, arg.k) + 1.0 * log(g.nodes) + log(log2(g.nodes))) * pow(2.0, x) / pow(epsilon_prime, 2.0);
     g.build_hyper_graph_r(ci, arg);
     g.build_seedset(arg.k);
-    double ept = g.InfluenceHyperGraph()/g.n;
-    //double estimate_influence = ept * g.n;
+    double ept = g.InfluenceHyperGraph()/g.nodes;
+    //double estimate_influence = ept * g.nodes;
     INFO(x, estimate_influence);
     if (ept > 1 / pow(2.0, x)){
-      double OPT_prime = ept * g.n / (1+ epsilon_prime);
+      double OPT_prime = ept * g.nodes / (1+ epsilon_prime);
       //INFO("step1", OPT_prime);
       //INFO("step1", OPT_prime * (1+epsilon_prime));
       return OPT_prime;
@@ -63,10 +63,10 @@ double IMM::nodeSelection(InfGraph &g, const Arguments & arg, double OPT_prime){
   Timer t(2, "NodeSelection");
   ASSERT(OPT_prime > 0);
   double e = exp(1);
-  double alpha = sqrt(log(g.n) + log(2));
-  double beta = sqrt((1-1/e) * (logcnk(g.n, arg.k) + log(g.n) + log(2)));
+  double alpha = sqrt(log(g.nodes) + log(2));
+  double beta = sqrt((1-1/e) * (logcnk(g.nodes, arg.k) + log(g.nodes) + log(2)));
 
-  int64 R = 2.0 * g.n * pow((1-1/e) * alpha + beta, 2.0) /  OPT_prime / arg.epsilon / arg.epsilon ; //pow(arg.epsilon)
+  int64 R = 2.0 * g.nodes * pow((1-1/e) * alpha + beta, 2.0) /  OPT_prime / arg.epsilon / arg.epsilon ; //pow(arg.epsilon)
 
   //R/=100;
   g.build_hyper_graph_r(R, arg);
@@ -146,41 +146,40 @@ void run_with_parameter(InfGraph &g, Arguments & arg){
 void run(int argn, char **argv){
   Arguments arg;
   arg.readArguments(argn, argv);
-
-  string graph_file;
-  if (arg.subgraph){
-    graph_file = "../../data/" + arg.dataset + "/osim/" + arg.dataset + "_" + to_string(arg.subsize) + "_wc.inf";
-  }else{
-    if (arg.model == "IC"){
-      //graph_file = arg.dataset + "graph_wc.inf";
-      graph_file = "../../data/" + arg.dataset + "/" + arg.dataset +"_wc.inf";
-    }else if (arg.model == "LT")
-      graph_file = arg.dataset + "graph_lt.inf";
-    else if (arg.model == "TR")
-      graph_file = arg.dataset + "graph_tr.inf";
-    else if (arg.model == "CONT")
-      graph_file = arg.dataset + "graph_cont.inf";
-    else
-      ASSERT(false);
-  }
   arg.printArguments();
+  // string graph_file;
+  // if (arg.subgraph){
+  //   graph_file = "../../data/" + arg.dataset + "/osim/" + arg.dataset + "_" + to_string(arg.subsize) + "_wc.inf";
+  // }else{
+  //   if (arg.model == "IC"){
+  //     //graph_file = arg.dataset + "graph_wc.inf";
+  //     graph_file = "../../data/" + arg.dataset + "/" + arg.dataset +"_wc.inf";
+  //   }else if (arg.model == "LT")
+  //     graph_file = arg.dataset + "graph_lt.inf";
+  //   else if (arg.model == "TR")
+  //     graph_file = arg.dataset + "graph_tr.inf";
+  //   else if (arg.model == "CONT")
+  //     graph_file = arg.dataset + "graph_cont.inf";
+  //   else
+  //     ASSERT(false);
+  // }
 
-  InfGraph g(arg.dataset, arg.dataset, graph_file);
+  InfGraph graph(arg);
 
-  if (arg.model == "IC")
-    g.setInfluModel(InfGraph::IC);
-  else if (arg.model == "LT")
-    g.setInfluModel(InfGraph::LT);
-  else if (arg.model == "TR")
-    g.setInfluModel(InfGraph::IC);
-  else if (arg.model == "CONT")
-    g.setInfluModel(InfGraph::CONT);
-  else
-    ASSERT(false);
+  // if (arg.model == "IC")
+  //   g.setInfluModel(InfGraph::IC);
+  // else if (arg.model == "LT")
+  //   g.setInfluModel(InfGraph::LT);
+  // else if (arg.model == "TR")
+  //   g.setInfluModel(InfGraph::IC);
+  // else if (arg.model == "CONT")
+  //   g.setInfluModel(InfGraph::CONT);
+  // else
+  //   ASSERT(false);
 
   // INFO(arg.T);
 
-  run_with_parameter(g, arg);
+  // run_with_parameter(graph, arg);
 }
 
 int main(int argn, char **argv){
