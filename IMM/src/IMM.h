@@ -12,6 +12,8 @@ class IMM
 {
 public:
 	static void InfluenceMaximize(InfGraph &g, const Arguments &arg);
+	void saveLog(const Arguments &arg, std::string fileName, std::string startDatetime, std::string endDatetime, double duration, int seedSize, double estScore);
+	void saveCSV(const Arguments &arg, std::string fileName, std::string startDatetime, std::string endDatetime, double duration, int seedSize, double estScore);
 
 private:
 	static double sampling(InfGraph &g, const Arguments & arg);
