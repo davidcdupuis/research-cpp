@@ -121,11 +121,11 @@ void run(int argn, char **argv){
 
   string graph_file;
   if (arg.subgraph){
-    graph_file = "../data/" + arg.dataset + "/osim/" + arg.dataset + "_" + to_string(arg.subsize) + "_wc.inf";
+    graph_file = "../../data/" + arg.dataset + "/osim/" + arg.dataset + "_" + to_string(arg.subsize) + "_wc.inf";
   }else{
     if (arg.model == "IC"){
       //graph_file = arg.dataset + "graph_wc.inf";
-      graph_file = "../data/" + arg.dataset + "/" + arg.dataset +"_wc.inf";
+      graph_file = "../../data/" + arg.dataset + "/" + arg.dataset +"_wc.inf";
     }else if (arg.model == "LT")
       graph_file = arg.dataset + "graph_lt.inf";
     else if (arg.model == "TR")
@@ -137,7 +137,7 @@ void run(int argn, char **argv){
   }
   arg.printArguments();
 
-  // InfGraph g(arg.dataset, graph_file);
+  InfGraph g(arg.dataset, arg.dataset, graph_file);
   //
   // if (arg.model == "IC")
   //   g.setInfluModel(InfGraph::IC);

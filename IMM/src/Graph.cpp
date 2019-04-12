@@ -2,7 +2,8 @@
 
 using namespace std;
 
-Graph::Graph(string folder, string graph_file): folder(folder), graph_file(graph_file){
+Graph::Graph(string name, string folder, string graph_file): folder(folder), graph_file(graph_file){
+  dataset = name;
   readAttributes();
   //init vector
   for(int i = 0; i < n; i++){
@@ -23,8 +24,8 @@ void Graph::readAttributes(){
   //   cout << ("../data/" + folder + "/attributes_" + arg.subsize).c_str() << endl;
   //   ifstream cin (("../data/" + folder + "/attributes_" + arg.subsize).c_str());
   // }
-  cout << ("../data/" + folder + "/attributes.txt").c_str() << endl;
-  ifstream cin(("../data/" + folder + "/attributes.txt").c_str());
+  cout << ("../../data/" + folder + "/attributes.txt").c_str() << endl;
+  ifstream cin(("../../data/" + folder + "/attributes.txt").c_str());
   ASSERT(!cin == false);
   string s;
   while (cin >> s){
@@ -40,6 +41,7 @@ void Graph::readAttributes(){
   }
   //TRACE(n, m );
   cin.close();
+  printInfo();
 }
 
 void Graph::addEdge(int a, int b, double p){
@@ -99,4 +101,12 @@ void Graph::readGraphBin(){
     }
     delete []buf;
     fclose(fin);
+}
+
+void Graph::printInfo(){
+  cout << string(20, '-') << toColor("red", " Graph ") << string(23, '-') << endl;
+  cout << "- dataset    : " << toColor("yellow", dataset) << endl;
+  cout << "- nodes      : " << toColor("yellow", to_string(n)) << endl;
+  cout << "- edges      : " << toColor("yellow", to_string(m)) << endl;
+  cout << string(50, '-') << endl;
 }

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-InfGraph::InfGraph(string folder, string graph_file): Graph(folder, graph_file){
+InfGraph::InfGraph(string name, string folder, string graph_file): Graph(name, folder, graph_file){
   sfmt_init_gen_rand(&sfmtSeed , 95082);
   init_hyper_graph();
   visit = vector<bool> (n);

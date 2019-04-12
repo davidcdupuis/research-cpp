@@ -9,6 +9,7 @@ typedef double (*pf)(int, int);
 
 class Graph{
 public:
+	std::string dataset;
 	int n, m, k;
 	std::vector<int> inDeg;
 	std::vector< std::vector<int> > gT;
@@ -17,7 +18,7 @@ public:
 	std::string graph_file;
 	std::vector<bool> hasnode;
 
-	Graph(std::string folder, std::string graph_file);
+	Graph(std::string name, std::string folder, std::string graph_file);
 
 	enum InfluModel {IC, LT, CONT};
 	InfluModel influModel;
@@ -27,6 +28,7 @@ public:
 	void addEdge(int a, int b, double p);
 	void readGraph();
 	void readGraphBin();
+	void printInfo();
 };
 
 #endif
