@@ -106,8 +106,16 @@ void run_with_parameter(InfGraph &g, Arguments & arg){
   string endDatetime = getLocalDatetime();
   Timer::show();
   // save g.seedSet here => NE_k100_e0,01.txt
-  string fileName = datasets[arg.dataset] + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
-  string filePath = "../data/" + arg.dataset + "/imm/basic/" + fileName;
+  string fileName = "";
+  string filePath = "";
+  if (arg.subgraph){
+    fileName = datasets[arg.dataset] + "_" + to_string(arg.subsize) + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
+    filePath = "../../data/" + arg.dataset + "/imm/osim/" + fileName;
+  }else{
+    fileName = datasets[arg.dataset] + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
+    filePath = "../../data/" + arg.dataset + "/imm/basic/" + fileName;
+  }
+
   seedSize = g.seedSet.size();
   cout << "Saving seed set nodes to " << filePath << endl;
   ofstream seedSetFile;
@@ -179,7 +187,7 @@ void run(int argn, char **argv){
 
   // INFO(arg.T);
 
-  // run_with_parameter(graph, arg);
+  run_with_parameter(graph, arg);
 }
 
 int main(int argn, char **argv){
