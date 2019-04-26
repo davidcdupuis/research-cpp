@@ -75,4 +75,6 @@
 
   std::unordered_set<int> setGenerator(int N, int k, std::mt19937& gen);
 
+  void printTitle(int size, std::string text);
+
 #endif
