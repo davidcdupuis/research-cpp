@@ -316,8 +316,9 @@ int OSIM::functionsMenu(string prevClass){
     cout << "\t[3] Find best of all seed set" << endl;
     cout << "\t[4] Find best seed set with user frequency" << endl;
     cout << "\t[5] Import sub-graph" << endl;
-    cout << "\t[6] Return to " << prevClass << endl;
-    cout << "\t[7] EXIT PROGRAM" << endl;
+    cout << "\t[6] Compute subgraph influence score" << endl;
+    cout << "\t[7] Return to " << prevClass << endl;
+    cout << "\t[8] EXIT PROGRAM" << endl;
     while(choice == -1){
       cout <<  "> choice: ";
       string val;
@@ -326,7 +327,7 @@ int OSIM::functionsMenu(string prevClass){
       switch(choice){
         case 1:
           // find optimal size of seed set
-          clearLines(9);
+          clearLines(11);
           // find optimal seed size
           if(!graph.loaded){
             graph.loadGraph();
@@ -338,7 +339,7 @@ int OSIM::functionsMenu(string prevClass){
           break;
         case 2:
           // select random seed set of opt. size
-          clearLines(9);
+          clearLines(11);
           break;
         case 3:
           // find best of all seed sets
@@ -350,7 +351,7 @@ int OSIM::functionsMenu(string prevClass){
           findBestSeedSet(10000);
           break;
         case 4:
-          clearLines(9);
+          clearLines(11);
           if(!graph.loaded){
             graph.loadGraph();
             graph.loaded = true;
@@ -359,16 +360,20 @@ int OSIM::functionsMenu(string prevClass){
           result = 0;
           break;
         case 5:
-          clearLines(9);
+          clearLines(11);
           result = importSubGraphMenu(prevClass);
           break;
         case 6:
-          // go to prevClass
-          clearLines(9);
-          return -1;
+          clearLines(11);
+          result = computeScoreSubGraphMenu(prevClass);
+          break;
         case 7:
+          // go to prevClass
+          clearLines(11);
+          return -1;
+        case 8:
           // EXIT Program
-          clearLines(9);
+          clearLines(11);
           return -2;
         default:
           cout << "Error: choice not recognized!" << endl;
@@ -511,4 +516,97 @@ void OSIM::saveResults(){
   resultsLog << "- optimal size : " << optimalSize << endl;
   resultsLog << "----------------------------------------------------" << endl;
   resultsLog.close();
+}
+
+int OSIM::computeScoreSubGraphMenu(string prevClass){
+  // ask file name
+  // confirm or cancel execution
+  string file_path;
+  bool convert = false;
+  int result = 0;
+  while (result == 0){
+    file_path = "../../data/" + graph.dataset + "/";
+    if(result == 0){ // ask for new arguments
+      string input;
+      cout << string(60,'_') << endl;
+      cout << "Input arguments: " << endl;
+      // ask for file path
+      while(1){
+        cout << "> file path (" << file_path << "): ";
+        getline(cin, input);
+        if(input != ""){
+          clearLines(1);
+          file_path += input;
+          cout << "> file path : ";
+          printInColor("yellow", file_path);
+          break;
+        }else{
+          clearLines(1);
+          file_path += "imm/osim/NE_25_k50_e0,1_ss.txt";
+          cout << "> file path : ";
+          printInColor("yellow", file_path);
+          break;
+        }
+      }
+      // ask if keys should be converted
+      while(1){
+        cout << "> convert keys ('no'): ";
+        getline(cin, input);
+        if(input != ""){
+          clearLines(1);
+          if(input == "yes"){
+            convert = true;
+            cout << "> convert keys ('no'): ";
+            printInColor("yellow", "yes");
+            break;
+          }else if (input == "no"){
+            convert = false;
+            cout << "> convert keys ('no'): ";
+            printInColor("yellow", "no");
+            break;
+          }
+        }else{
+          clearLines(1);
+          cout << "> convert keys ('no'): ";
+          printInColor("yellow", "no");
+          break;
+        }
+      }
+      // ask for confirmation
+      while(1){
+        cout << "> proceed ('yes'): ";
+        input = "yes";
+        getline(cin, input);
+        if(input != ""){
+          clearLines(1);
+          if(input != "yes"){
+            cout << "> proceed ('no'): ";
+            printInColor("yellow","no");
+            return result - 1;
+          }
+          result = 1;
+          break;
+        }else{
+          clearLines(1);
+          cout << "> proceed ('yes'): ";
+          printInColor("yellow", "yes");
+          result = 1;
+          break;
+        }
+      }
+      sleep(SLEEP+1);
+      clearLines(5);
+    }
+    // Step 1: Import seed set file
+    if(convert){
+      // Import keys
+      // Convert keys
+    }
+
+    // Compute influence score
+    // Save results
+    // Return to previous menu
+    // result = continueMenu(prevClass);
+  }
+  return result - 1;
 }

@@ -87,6 +87,8 @@ public:
   void readSubGraphAttr(std::string folder="");
 
   void saveResults();
+
+  int computeScoreSubGraphMenu(std::string prevClass);
 };
 
 #endif
