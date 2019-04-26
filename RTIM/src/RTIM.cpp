@@ -888,7 +888,7 @@ void RTIM::getInfIndex(vector<double> & sorted){
 void RTIM::printStageParams(){
   // stages = pre-process, live, compute_seed_score
   if( stage == "live"){
-    cout << string(27, '-') << toColor("red", " live ") << string(27, '-') << endl;
+    printTitle(60,"live");
     cout << "STREAM" << endl;
     cout << "- model        : "; printInColor("yellow", streamModel);
     if (streamModel != "inNOut_repeat"){
@@ -904,12 +904,12 @@ void RTIM::printStageParams(){
     cout << "- using        : "; printInColor("yellow", (useIMM ? "true" : "false"));
     cout << "- progress     : "; printInColor("yellow", (immProgress? "true" : "false"));
   }else if ( stage == "pre-process scores"){
-    cout << string(24, '-') << toColor("red", " pre-process ") << string(23, '-') << endl;
+    printTitle(60,"pre-process");
     cout << "RTIM" << endl;
     cout << "- depth      : "; printInColor("yellow", to_string(maxDepth));
     cout << "- min weight : "; printInColor("yellow", properStringDouble(minEdgeWeight));
   }else if (stage == "compute_seed_score"){
-    cout << string(20, '-') + " " << toColor("red", stage) << " " + string(20, '-') << endl;
+    printTitle(60,stage);
     cout << "- file path    : "; printInColor("yellow", seedSetPath);
   }
   cout << string(60, '-') << endl;
@@ -917,11 +917,10 @@ void RTIM::printStageParams(){
 
 int RTIM::stagesMenu(string prevClass){
   int result = 0;
-  const int LINES = 10;
+  const int LINES = 9;
   while (result == 0){
     int choice = -1;
-    cout << string(26,'_') + " Stages " + string(26,'_') << endl;
-    cout << "Choose a stage: " << endl;
+    printTitle(60,"Stages","cyan",'_');
     cout << "\t[1] Pre-process scores"<< endl;
     cout << "\t[2] Pre-process probabilities" << endl;
     cout << "\t[3] Live" << endl;
@@ -993,8 +992,7 @@ int RTIM::infScorePreProcessMenu(string prevClass){
       int iChoice;
       double dChoice;
       string input;
-      cout << string(60,'_') << endl;
-      cout << "Input infScorePreProcess arguments" << endl;
+      printTitle(60,"Input infScorePreProcess arguments","cyan",'_');
       // asking for max search depth
       while(1){
         cout << "> depth (" << maxDepth << "): ";
@@ -1099,7 +1097,8 @@ int RTIM::liveMenu(string prevClass){
       double dChoice;
       string input;
       cout << string(60,'_') << endl;
-      cout << "Input live arguments: [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
+      printTitle(60,"Input live arguments","cyan",'_');
+      cout << " [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
       // asking for seed size
       while(1){
         cout << "> seed size (" << maxSeedSize << "): ";
@@ -1379,8 +1378,8 @@ int RTIM::liveIMMMenu(string prevClass){
       int iChoice;
       double dChoice;
       string input;
-      cout << string(60,'_') << endl;
-      cout << "Input live arguments: [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
+      printTitle(60,"Input live arguments","cyan",'_');
+      cout << " [seed size | reach | activation probability threshold | stream model | stream version | stream size]" << endl;
       // asking for seed size
       while(1){
         cout << "> seed size (" << maxSeedSize << "): ";
@@ -1518,8 +1517,7 @@ int RTIM::liveIMMMenu(string prevClass){
 
 int RTIM::continueMenu(string prevClass){
   int choice = -1;
-  cout << string(60, '_') << endl;
-  cout << "Continue: " << endl;
+  printTitle(60,"Continue","cyan",'_');
   // cout << "   [1] Repeat previous stage with same arguments (" << stage << ")" << endl;
   cout << "   [1] Repeat previous stage -" << stage << "-" << endl;
   cout << "   [2] Change stage" << endl;

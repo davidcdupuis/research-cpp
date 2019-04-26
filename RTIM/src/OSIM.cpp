@@ -306,15 +306,15 @@ int OSIM::run(string prevClass){
 int OSIM::functionsMenu(string prevClass){
   // ask what functions to run
   int result = 0;
+  const int LINES = 10;
   while (result == 0){
     int choice = -1;
-    cout << string(26,'_') + " Optimal Size Influence Maximization " + string(26,'_') << endl;
-    // cout << " Optimal Size Influence Maximization" << endl;
-    cout << "Choose a function" << endl;
+    printTitle(60,"Optimal Size Influence Maximization","cyan",'_');
+    // cout << "Choose a function" << endl;
     cout << "\t[1] Find optimal size of seed set" << endl;
-    cout << "\t[2] Select random seed set of opt. size (not implemented)" << endl;
-    cout << "\t[3] Find best of all seed set" << endl;
-    cout << "\t[4] Find best seed set with user frequency" << endl;
+    cout << "\t[2] " << toColor("red","Select random seed set of opt. size") << endl;
+    cout << "\t[3] " << toColor("red","Find best of all seed set") << endl;
+    cout << "\t[4] " << toColor("red","Find best seed set with user frequency") << endl;
     cout << "\t[5] Import sub-graph" << endl;
     cout << "\t[6] Compute subgraph influence score" << endl;
     cout << "\t[7] Return to " << prevClass << endl;
@@ -327,7 +327,7 @@ int OSIM::functionsMenu(string prevClass){
       switch(choice){
         case 1:
           // find optimal size of seed set
-          clearLines(11);
+          clearLines(LINES);
           // find optimal seed size
           if(!graph.loaded){
             graph.loadGraph();
@@ -339,41 +339,45 @@ int OSIM::functionsMenu(string prevClass){
           break;
         case 2:
           // select random seed set of opt. size
-          clearLines(11);
+          clearLines(LINES);
           break;
         case 3:
           // find best of all seed sets
-          clearLines(9);
+          clearLines(LINES);
+          /*
           if(!graph.loaded){
             graph.loadGraph();
             graph.loaded = true;
           }
           findBestSeedSet(10000);
+          */
           break;
         case 4:
-          clearLines(11);
+          clearLines(LINES);
+          /*
           if(!graph.loaded){
             graph.loadGraph();
             graph.loaded = true;
           }
           findFrequencySeedSet(10);
+          */
           result = 0;
           break;
         case 5:
-          clearLines(11);
+          clearLines(LINES);
           result = importSubGraphMenu(prevClass);
           break;
         case 6:
-          clearLines(11);
+          clearLines(LINES);
           result = computeScoreSubGraphMenu(prevClass);
           break;
         case 7:
           // go to prevClass
-          clearLines(11);
+          clearLines(LINES);
           return -1;
         case 8:
           // EXIT Program
-          clearLines(11);
+          clearLines(LINES);
           return -2;
         default:
           cout << "Error: choice not recognized!" << endl;
@@ -404,11 +408,11 @@ int OSIM::continueMenu(string prevClass){
 
 int OSIM::importSubGraphMenu(string prevClass){
   int result = 0;
+  const int LINES = 7;
   while (result == 0){
     int choice = -1;
-    cout << string(26,'_') + " Optimal Size Influence Maximization " + string(26,'_') << endl;
-    // cout << " Optimal Size Influence Maximization" << endl;
-    cout << "Choose a subgraph of dataset " << graph.dataset << endl;
+    printTitle(60,"Optimal Size Influence Maximization","cyan",'_');
+    // cout << "Choose a subgraph of dataset " << graph.dataset << endl;
     cout << "\t[1] 25%" << endl;
     cout << "\t[2] 50%" << endl;
     cout << "\t[3] 75%" << endl;
@@ -422,7 +426,7 @@ int OSIM::importSubGraphMenu(string prevClass){
       switch(choice){
         case 1:
           // import 25%
-          clearLines(9);
+          clearLines(LINES);
           isSubgraph = true;
           subgraphSize = 25;
           graph.datasetFile = "../../data/" + graph.dataset + "/osim";
@@ -433,7 +437,7 @@ int OSIM::importSubGraphMenu(string prevClass){
           return 0;
         case 2:
           // import 50%
-          clearLines(9);
+          clearLines(LINES);
           isSubgraph = true;
           subgraphSize = 50;
           graph.datasetFile = "../../data/" + graph.dataset + "/osim";
@@ -444,7 +448,7 @@ int OSIM::importSubGraphMenu(string prevClass){
           return 0;
         case 3:
           // import 75%
-          clearLines(9);
+          clearLines(LINES);
           isSubgraph = true;
           subgraphSize = 75;
           graph.datasetFile = "../../data/" + graph.dataset + "/osim";
@@ -455,11 +459,11 @@ int OSIM::importSubGraphMenu(string prevClass){
           return 0;
         case 4:
           // go to prevClass
-          clearLines(9);
+          clearLines(LINES);
           return -1;
         case 5:
           // EXIT Program
-          clearLines(9);
+          clearLines(LINES);
           return -2;
         default:
           cout << "Error: choice not recognized!" << endl;
@@ -528,8 +532,7 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
     file_path = "../../data/" + graph.dataset + "/";
     if(result == 0){ // ask for new arguments
       string input;
-      cout << string(60,'_') << endl;
-      cout << "Input arguments: " << endl;
+      printTitle(60,"Input arguments");
       // ask for file path
       while(1){
         cout << "> file path (" << file_path << "): ";
@@ -582,6 +585,7 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
           if(input != "yes"){
             cout << "> proceed ('no'): ";
             printInColor("yellow","no");
+            clearLines(5);
             return result - 1;
           }
           result = 1;
@@ -597,6 +601,16 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
       sleep(SLEEP+1);
       clearLines(5);
     }
+    InfScore infscore(graph);
+    infscore.importSeedSet(file_path);
+    double score;
+    printInColor("magenta", string(60, '-'));
+    printLocalTime("magenta", "Computing Monte Carlo score", "starting");
+    score = infscore.mcInfScore();
+    printLocalTime("magenta", "Computing Monte Carlo score", "ending");
+    printInColor("magenta", string(60, '-'));
+    cout << "Seed size: " << infscore.seedSet.size() << endl;
+    cout << "MC score: " << score << endl;
     // Step 1: Import seed set file
     if(convert){
       // Import keys

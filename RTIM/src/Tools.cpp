@@ -211,8 +211,8 @@ unordered_set<int> setGenerator(int N, int k, std::mt19937& gen){
   return elems;
 }
 
-void printTitle(int size, string text){
+void printTitle(int size, string text, string color, char delim){
   text = " " + text + " ";
   size -= text.length();
-  cout << string(size/2, '-') << toColor("red", text) << string(size/2+1, '-') << endl;
+  cout << string(size/2, delim) << toColor(color, text) << string(size/2+1, delim) << endl;
 }

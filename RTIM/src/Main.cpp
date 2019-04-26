@@ -28,9 +28,11 @@ void Main::loadDatasetsData(){
 
 void Main::mainMenu(){
   int result = 0;
+  const int LINES = 4;
   while(result == 0){
     int choice = -1;
-    cout << string(25, '_') + " Main Menu " + string(24, '_') << endl;
+    printTitle(60,"Main Menu","cyan",'_');
+    // cout << string(25, '_') + " Main Menu " + string(24, '_') << endl;
     cout << " [1] pre-configured experiments" << endl;
     cout << " [2] personalized experiments" << endl;
     while (choice == -1){
@@ -41,11 +43,11 @@ void Main::mainMenu(){
       choice = stoi(val);
       switch(choice){
         case 1:
-          clearLines(4);
+          clearLines(LINES);
           result = experimentsMenu();
           break;
         case 2:
-          clearLines(4);
+          clearLines(LINES);
           result = datasetsMenu();
           break;
         default:
@@ -64,7 +66,7 @@ int Main::experimentsMenu(){
   string input;
   int result = 0;
   while(result == 0){
-    cout << string(24, '_') + " Experiments " + string(23, '_') << endl;
+    printTitle(60, "Experiments","cyan",'_');
     cout << "Input file path from: ../data/" << endl;
     // user makes choice
     while (1){
@@ -85,8 +87,9 @@ int Main::experimentsMenu(){
 
 int Main::experimentsContinueMenu(){
   int choice = -1;
-  cout << string(25, '_') + " Continue " + string(25, '_') << endl;
-  cout << "Choose option:" << endl;
+  const int LINES = 5;
+  printTitle(60,"Continue","cyan",'_');
+  // cout << "Choose option:" << endl;
   cout << " [1] Experiments Menu" << endl;
   cout << " [2] Main Menu" << endl;
   cout << " [3] Exit Program" << endl;
@@ -98,13 +101,13 @@ int Main::experimentsContinueMenu(){
     choice = stoi(val);
     switch(choice){
       case 1:
-        clearLines(6);
+        clearLines(LINES);
         return 0;
       case 2:
-        clearLines(6);
+        clearLines(LINES);
         return 1;
       case 3:
-        clearLines(6);
+        clearLines(LINES);
         return -1;
       default:
         cout << "Error choice not recognized!" << endl;
@@ -121,7 +124,7 @@ int Main::datasetsMenu(){
     int lines = datasets.size() + 2;
     int choice = -1;
     string dataset;
-    cout << string(25, '_') + " Datasets " + string(25, '_') << endl;
+    printTitle(60,"Datasets","cyan",'_');
     // if(args.dataset != "" && graph.graph.size() != 0){
     //   cout << "Current imported dataset: " << args.dataset << endl;
     //   lines++;
@@ -192,12 +195,12 @@ int Main::algorithmsMenu(){
   const int LINES = 9;
   while(result == 0){
     int choice = -1;
-    cout << string(24,'_') + " Algorithms " + string(24,'_') << endl;
+    printTitle(60,"Algorithms","cyan",'_');
     cout << "\t[1] RTIM" << endl;
-    cout << "\t[2] IMM (not available)" << endl;
+    cout << "\t[2] " << toColor("red","IMM") << endl;
     cout << "\t[3] Compute Score"<< endl;
     cout << "\t[4] OSIM" << endl;
-    cout << "\t[5] Test (not available)" << endl;
+    cout << "\t[5] " << toColor("red","Test")  << endl;
     cout << "\t[6] Return to Main Menu" << endl;
     cout << "\t[7] EXIT" << endl;
     while (choice == -1){

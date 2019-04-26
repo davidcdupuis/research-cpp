@@ -36,8 +36,7 @@ int InfScore::main(string prevClass){
   while (result == 0){
     int choice = -1;
     string input;
-    cout << string(60,'_') << endl;
-    cout << "Compute Influence Score:" << endl;
+    printTitle(60,"Compute Influence Score","cyan",'_');
     cout << "\t[1] with Monte Carlo" << endl;
     cout << "\t[2] with activation probabilities" << endl;
     cout << "\t[3] run infscore test" << endl;
@@ -235,8 +234,7 @@ int InfScore::activationProbabilitiesMenu(string prevClass){
   while (result == 0){
     int choice;
     string input;
-    cout << string(60,'_') << endl;
-    cout << "Activation Probabilities Menu:" << endl;
+    printTitle(60,"Activation Probabilities Menu","cyan",'_');
     double score;
     printInColor("magenta", string(60, '-'));
     printLocalTime("magenta", "Computing Activation Probabilities score", "starting");
@@ -254,8 +252,7 @@ int InfScore::activationProbabilitiesMenu(string prevClass){
 
 int InfScore::continueMenu(string prevClass, string prevStage){
   int choice = -1;
-  cout << string(60, '_') << endl;
-  cout << "Continue: " << endl;
+  printTitle(60,"Continue","cyan",'_');
   // cout << "   [1] Repeat previous stage with same arguments (" << stage << ")" << endl;
   cout << "\t[1] Repeat previous method -" << prevStage << "-" << endl;
   cout << "\t[2] Choose influence score method" << endl;
