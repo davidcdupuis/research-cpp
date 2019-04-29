@@ -526,10 +526,12 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
   // ask file name
   // confirm or cancel execution
   string file_path;
+  string keysFilePath;
   bool convert = false;
   int result = 0;
   while (result == 0){
     file_path = "../../data/" + graph.dataset + "/";
+    keysFilePath = "../../data/" + graph.dataset + "/";
     if(result == 0){ // ask for new arguments
       string input;
       printTitle(60,"Input arguments");
@@ -575,6 +577,25 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
           break;
         }
       }
+      if(convert){
+        while(1){
+          cout << "> file path (" << keysFilePath << "): ";
+          getline(cin, input);
+          if(input != ""){
+            clearLines(1);
+            file_path += input;
+            cout << "> file path : ";
+            printInColor("yellow", keysFilePath);
+            break;
+          }else{
+            clearLines(1);
+            keysFilePath += "osim/nethept_25_keys.txt";
+            cout << "> file path : ";
+            printInColor("yellow", keysFilePath);
+            break;
+          }
+        }
+      }
       // ask for confirmation
       while(1){
         cout << "> proceed ('yes'): ";
@@ -603,7 +624,14 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
     }
     InfScore infscore(graph);
     infscore.importSeedSet(file_path);
+
     double score;
+    if(convert){
+      // Import keys
+      importKeys(keysFilePath);
+      // Convert seed set
+      convertKeys(infscore.seedSet, keys);
+    }
     printInColor("magenta", string(60, '-'));
     printLocalTime("magenta", "Computing Monte Carlo score", "starting");
     score = infscore.mcInfScore();
@@ -611,16 +639,33 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
     printInColor("magenta", string(60, '-'));
     cout << "Seed size: " << infscore.seedSet.size() << endl;
     cout << "MC score: " << score << endl;
-    // Step 1: Import seed set file
-    if(convert){
-      // Import keys
-      // Convert keys
-    }
 
     // Compute influence score
     // Save results
     // Return to previous menu
-    // result = continueMenu(prevClass);
   }
   return result - 1;
+}
+
+void OSIM::importKeys(string filePath){
+  int oldID, newID;
+  cout << "Importing from: " << filePath << endl;
+  if (!pathExists(filePath)){
+    cerr << "Error path doesn't exist: " << filePath << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  ifstream infile(filePath.c_str());
+  while(infile >> oldID >> newID){
+    keys.insert(pair<int,int>(newID,oldID));
+  }
+  cout << "Keys imported correctly!" << endl;
+  sleep(SLEEP);
+  clearLines(2);
+}
+
+void OSIM::convertKeys(vector<int>& seedSet, map<int,int> & keys){
+  for (int i = 0; i < seedSet.size(); i++){
+    cout << seedSet[i] << endl;
+    seedSet[i] = keys[seedSet[i]];
+  }
 }

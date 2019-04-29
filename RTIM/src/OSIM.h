@@ -7,6 +7,7 @@
 #include <set>
 #include <algorithm>
 #include <omp.h>
+#include <map>
 
 #include "Graph.h"
 #include "Tools.h"
@@ -25,6 +26,7 @@ class OSIM{
 public:
   Graph& graph;
   double optimalSize;
+  std::map<int, int> keys;
   std::vector<std::vector<std::pair<int, double> > > osimGraph; //necessary
   std::vector<int> seedSet;
   int subgraphNodes;
@@ -89,6 +91,10 @@ public:
   void saveResults();
 
   int computeScoreSubGraphMenu(std::string prevClass);
+
+  void importKeys(std::string filePath);
+
+  void convertKeys(std::vector<int>& seedSet, std::map<int,int> & keys);
 };
 
 #endif
