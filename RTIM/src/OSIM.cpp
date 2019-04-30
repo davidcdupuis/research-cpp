@@ -410,7 +410,7 @@ int OSIM::importSubGraphMenu(string prevClass){
   int result = 0;
   const int LINES = 7;
   while (result == 0){
-    printTitle(60,"Import SubGraph","cyan",'_');
+    printTitle(60,"Import Graph","cyan",'_');
     int choice = -1;
     // cout << "Choose a subgraph of dataset " << graph.dataset << endl;
     cout << "\t[1] Choose model : " << toColor("yellow",subgraphModel) << endl;
@@ -429,6 +429,17 @@ int OSIM::importSubGraphMenu(string prevClass){
             clearLines(1);
             cout << "> model: ";
             getline(cin, val);
+            if(val == "original"){
+              clearLines(LINES);
+              graph.datasetFile = "../../data/" + graph.dataset + "_wc.inf";
+              graph.readAttributes();
+              graph.loadGraph("");
+              isSubgraph = false;
+              subgraphModel = "";
+              subgraphSize = 100;
+              graph.printArguments();
+              return 0;
+            }
             subgraphModel = val;
             choice = 0;
             clearLines(LINES);
@@ -547,7 +558,7 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
           break;
         }else{
           clearLines(1);
-          file_path += "imm/osim/NE_25_k50_e0,1_ss.txt";
+          file_path += "imm/osim/NE_top_25_k50_e0,1_ss.txt";
           cout << "> file path : ";
           printInColor("yellow", file_path);
           break;
@@ -589,7 +600,7 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
             break;
           }else{
             clearLines(1);
-            keysFilePath += "osim/nethept_25_keys.txt";
+            keysFilePath += "osim/nethept_top_25_keys.txt";
             cout << "> file path : ";
             printInColor("yellow", keysFilePath);
             break;
@@ -637,8 +648,10 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
     score = infscore.mcInfScore();
     printLocalTime("magenta", "Computing Monte Carlo score", "ending");
     printInColor("magenta", string(60, '-'));
-    cout << "Seed size: " << infscore.seedSet.size() << endl;
-    cout << "MC score: " << score << endl;
+    clearLines(4);
+    cout << "Seed file  : " << file_path << endl;
+    cout << "MC score   : " << score << endl;
+    saveSeedScoreResults(file_path, score);
 
     // Compute influence score
     // Save results
@@ -665,7 +678,31 @@ void OSIM::importKeys(string filePath){
 
 void OSIM::convertKeys(vector<int>& seedSet, map<int,int> & keys){
   for (int i = 0; i < seedSet.size(); i++){
-    cout << seedSet[i] << endl;
+    // cout << seedSet[i] << endl;
     seedSet[i] = keys[seedSet[i]];
   }
+  cout << "Keys converted!" << endl;
+}
+
+void OSIM::saveSeedScoreResults(string folder, double score){
+  string path = "../../data/" + graph.dataset + "/imm/osim/";
+  if (!pathExists(path)){
+    cerr << "Error path doesn't exist: " << path << " in " << __FILE__ << " at line " << __LINE__ << endl;
+    exit(1);
+  }
+  path += "results.log";
+  ofstream resultsLog;
+  resultsLog.open(path, fstream::app);
+  resultsLog << "Date           : " << getLocalDatetime() << endl;
+  resultsLog << "Graph" << endl;
+  resultsLog << "- dataset      : " << graph.dataset << endl;
+  resultsLog << "- subgraph     : " << ((isSubgraph) ? ("true") : ("false")) << endl;
+  resultsLog << "- size         : " << subgraphSize << "%" << endl;
+  resultsLog << "- nodes        : " << subgraphNodes << endl;
+  resultsLog << "- edges        : " << subgraphEdges << endl;
+  resultsLog << "Seed set" << endl;
+  resultsLog << "- file path    : " << folder << endl;
+  resultsLog << "- inf. score   : " << score << endl;
+  resultsLog << "----------------------------------------------------" << endl;
+  resultsLog.close();
 }

@@ -96,6 +96,8 @@ public:
   void importKeys(std::string filePath);
 
   void convertKeys(std::vector<int>& seedSet, std::map<int,int> & keys);
+
+  void saveSeedScoreResults(std::string folder, double score);
 };
 
 #endif
