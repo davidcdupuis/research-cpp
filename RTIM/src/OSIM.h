@@ -32,6 +32,7 @@ public:
   int subgraphNodes;
   int subgraphEdges;
   int subgraphSize = 100;
+  std::string subgraphModel;
   bool isSubgraph = false;
   int simulations = 5000;
 

@@ -25,6 +25,9 @@ void printInColor(string color, string txt){
 }
 
 string toColor(string color, string txt){
+  if(txt==""){
+    return " ";
+  }
   string colorVal;
   if(color == "red"){
     colorVal = "31";

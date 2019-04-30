@@ -410,12 +410,12 @@ int OSIM::importSubGraphMenu(string prevClass){
   int result = 0;
   const int LINES = 7;
   while (result == 0){
+    printTitle(60,"Import SubGraph","cyan",'_');
     int choice = -1;
-    printTitle(60,"Optimal Size Influence Maximization","cyan",'_');
     // cout << "Choose a subgraph of dataset " << graph.dataset << endl;
-    cout << "\t[1] 25%" << endl;
-    cout << "\t[2] 50%" << endl;
-    cout << "\t[3] 75%" << endl;
+    cout << "\t[1] Choose model : " << toColor("yellow",subgraphModel) << endl;
+    cout << "\t[2] Choose size  : " << toColor("yellow",to_string(subgraphSize)) << endl;
+    cout << "\t[3] Import       : " << toColor("yellow",((isSubgraph) ? ("true") : ("false"))) << endl;
     cout << "\t[4] Return to " << prevClass << endl;
     cout << "\t[5] EXIT PROGRAM" << endl;
     while(choice == -1){
@@ -425,42 +425,42 @@ int OSIM::importSubGraphMenu(string prevClass){
       choice = stoi(val);
       switch(choice){
         case 1:
-          // import 25%
-          clearLines(LINES);
-          isSubgraph = true;
-          subgraphSize = 25;
-          graph.datasetFile = "../../data/" + graph.dataset + "/osim";
-          readSubGraphAttr(graph.datasetFile + "/attributes_25.txt");
-          graph.readAttributes(graph.datasetFile + "/attributes_25.txt");//graph.datasetFile + "/attributes_25.txt"
-          graph.printArguments();
-          graph.loadGraph(graph.datasetFile + "/" + graph.dataset + "_wc_25.inf");
-          return 0;
+          {
+            clearLines(1);
+            cout << "> model: ";
+            getline(cin, val);
+            subgraphModel = val;
+            choice = 0;
+            clearLines(LINES);
+            break;
+          }
         case 2:
-          // import 50%
-          clearLines(LINES);
-          isSubgraph = true;
-          subgraphSize = 50;
-          graph.datasetFile = "../../data/" + graph.dataset + "/osim";
-          readSubGraphAttr(graph.datasetFile + "/attributes_50.txt");
-          graph.readAttributes(graph.datasetFile + "/attributes_50.txt");//graph.datasetFile + "/attributes_50.txt"
-          graph.printArguments();
-          graph.loadGraph(graph.datasetFile + "/" + graph.dataset + "_wc_50.inf");
-          return 0;
+          {
+            clearLines(1);
+            cout << "> size: ";
+            getline(cin, val);
+            subgraphSize = stoi(val);
+            choice = 0;
+            clearLines(LINES);
+            break;
+          }
         case 3:
-          // import 75%
-          clearLines(LINES);
-          isSubgraph = true;
-          subgraphSize = 75;
-          graph.datasetFile = "../../data/" + graph.dataset + "/osim";
-          readSubGraphAttr(graph.datasetFile + "/attributes_75.txt");
-          graph.readAttributes(graph.datasetFile + "/attributes_75.txt");//graph.datasetFile + "/attributes_75.txt"
-          graph.printArguments();
-          graph.loadGraph(graph.datasetFile + "/" + graph.dataset + "_wc_75.inf");
-          return 0;
+          {
+            // import 75%
+            clearLines(LINES);
+            isSubgraph = true;
+            graph.datasetFile = "../../data/" + graph.dataset + "/osim";
+            string att = "/attributes_" + subgraphModel + "_" + to_string(subgraphSize) + ".txt";
+            string graphFile = "/" + graph.dataset + "_wc_" + subgraphModel + "_" + to_string(subgraphSize) + ".inf";
+            readSubGraphAttr(graph.datasetFile + att);
+            graph.readAttributes(graph.datasetFile + att);//graph.datasetFile + "/attributes_75.txt"
+            graph.printArguments();
+            graph.loadGraph(graph.datasetFile + graphFile);
+            return 0;
+          }
         case 4:
-          // go to prevClass
           clearLines(LINES);
-          return -1;
+          return 0;
         case 5:
           // EXIT Program
           clearLines(LINES);

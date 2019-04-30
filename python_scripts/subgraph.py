@@ -75,9 +75,9 @@ if __name__ == "__main__":
     # SAVE SUBGRAPHS
     # READ EDGES AND SAVE TO FILE ONLY EDGES WHERE BOTH USERS BELONG A TOP %
     new_edges = [0,0,0]
-    f1 = open("../data/{0}/osim/{0}_wc_25.inf".format(args.dataset), 'w')
-    f2 = open("../data/{0}/osim/{0}_wc_50.inf".format(args.dataset), 'w')
-    f3 = open("../data/{0}/osim/{0}_wc_75.inf".format(args.dataset), 'w')
+    f1 = open("../data/{0}/osim/{0}_wc_top_25.inf".format(args.dataset), 'w')
+    f2 = open("../data/{0}/osim/{0}_wc_top_50.inf".format(args.dataset), 'w')
+    f3 = open("../data/{0}/osim/{0}_wc_top_75.inf".format(args.dataset), 'w')
     with open(file_path, 'r') as f:
         for line in f:
             vals = line.rstrip("\n").split(" ")
@@ -102,42 +102,41 @@ if __name__ == "__main__":
 
     # SAVE SUBGRAPH ATTRIBUTES
     # 25%
-    f1 = open("../data/{}/osim/attributes_25.inf".format(args.dataset),'w')
+    f1 = open("../data/{}/osim/attributes_top_25.inf".format(args.dataset),'w')
     f1.write("n={}\n".format(limits[0]))
     f1.write("m={}\n".format(new_edges[0]))
-    f1.close() 
+    f1.close()
     print("New attributes (25%): ({}, {})".format(limits[0], new_edges[0]))
 
-    # 50% 
-    f2 = open("../data/{}/osim/attributes_50.inf".format(args.dataset),'w')
+    # 50%
+    f2 = open("../data/{}/osim/attributes_top_50.inf".format(args.dataset),'w')
     f2.write("n={}\n".format(limits[1]))
     f2.write("m={}\n".format(new_edges[1]))
     f2.close()
     print("New attributes (50%): ({}, {})".format(limits[1], new_edges[1]))
 
     # 75%
-    f3 = open("../data/{}/osim/attributes_75.inf".format(args.dataset),'w')
+    f3 = open("../data/{}/osim/attributes_top_75.inf".format(args.dataset),'w')
     f3.write("n={}\n".format(limits[2]))
     f3.write("m={}\n".format(new_edges[2]))
-    f3.close() 
+    f3.close()
     print("New attributes (75%): ({}, {})".format(limits[2], new_edges[2]))
 
     # SAVE SUBGRAPH NODE KEYS
-    # 25% 
-    f1 = open("../data/{0}/osim/{0}_25_keys.txt".format(args.dataset),"w")
+    # 25%
+    f1 = open("../data/{0}/osim/{0}_top_25_keys.txt".format(args.dataset),"w")
     for i in range(len(top_25_sorted)):
         f1.write(str(top_25_sorted[i]) + " " + str(i) + "\n")
     f1.close()
 
     # 50%
-    f2 = open("../data/{0}/osim/{0}_50_keys.txt".format(args.dataset),"w")
+    f2 = open("../data/{0}/osim/{0}_top_50_keys.txt".format(args.dataset),"w")
     for i in range(len(top_50_sorted)):
         f2.write(str(top_50_sorted[i]) + " " + str(i) + "\n")
     f2.close()
 
-    # 75% 
-    f3 = open("../data/{0}/osim/{0}_75_keys.txt".format(args.dataset),"w")
+    # 75%
+    f3 = open("../data/{0}/osim/{0}_top_75_keys.txt".format(args.dataset),"w")
     for i in range(len(top_75_sorted)):
         f3.write(str(top_75_sorted[i]) + " " + str(i) + "\n")
     f3.close()
-    
