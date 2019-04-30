@@ -125,19 +125,6 @@ int Main::datasetsMenu(){
     int choice = -1;
     string dataset;
     printTitle(60,"Datasets","cyan",'_');
-    // if(args.dataset != "" && graph.graph.size() != 0){
-    //   cout << "Current imported dataset: " << args.dataset << endl;
-    //   lines++;
-    // }
-
-    // for (int i = 0; i < datasetNames.size(); i++){
-    //   cout << "\t" << left << setw(17) << "[" + to_string(i) + "] " + datasetNames[i];
-    //   cout << "(";
-    //   cout << right << setw(14) << cleanLongInt(datasetNodes[i]);
-    //   cout << ",";
-    //   cout << right << setw(14) << cleanLongInt(datasetEdges[i]);
-    //   cout << ")" << endl;
-    // }
     for(auto it = datasets.begin(); it != datasets.end(); ++it){
       cout << "\t" << left << setw(17) << it->first;
       cout << "(";
@@ -162,13 +149,9 @@ int Main::datasetsMenu(){
         // return 0;
       }else{
         graph.dataset = val;
-        graph.datasetFile = "../../data/" + graph.dataset + "_wc.inf";; //necessary to readAttributes
+        graph.datasetFile = "../../data/" + graph.dataset + "_wc.inf"; //necessary to readAttributes
         graph.loaded = false;
         graph.readAttributes();
-        // graph.nodes = args.datasetNodes[choice];
-        // graph.edges = args.datasetEdges[choice];
-        // nodes = graph.nodes;
-        // args.streamSize = nodes / 10;
         break;
       }
     }
@@ -220,14 +203,6 @@ int Main::algorithmsMenu(){
           }
           break;
         case 2:
-          // run imm
-          // clearLines(8);
-          // imm.run();
-          // if (result == -2){
-          //   result = -1;
-          // }else if (result == -1){
-          //   result = 0;
-          // }
           cout << "Option not available!" << endl;
           sleep(2);
           clearLines(2);
@@ -242,10 +217,6 @@ int Main::algorithmsMenu(){
           }else if (result == -1){
             result = 0;
           }
-          // cout << "Option not available!" << endl;
-          // sleep(2);
-          // clearLines(2);
-          // choice = -1;
           break;
         case 4:
           clearLines(LINES);
