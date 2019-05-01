@@ -109,7 +109,7 @@ void run_with_parameter(InfGraph &g, Arguments & arg){
   string fileName = "";
   string filePath = "";
   if (arg.subgraph){
-    fileName = datasets[arg.dataset] + "_" + to_string(arg.subsize) + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
+    fileName = datasets[arg.dataset] + "_" + arg.submodel + "_" + to_string(arg.subsize) + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
     filePath = "../../data/" + arg.dataset + "/imm/osim/" + fileName;
   }else{
     fileName = datasets[arg.dataset] + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";

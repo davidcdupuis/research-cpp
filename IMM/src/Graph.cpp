@@ -34,7 +34,7 @@ void Graph::readAttributes(){
   if(!subgraph){
     file_path = folder + "attributes.txt";
   }else{
-    file_path = folder + "attributes_" + to_string(subsize) + ".txt";
+    file_path = folder + "attributes_" + submodel + "_" + to_string(subsize) + ".txt";
   }
   cout << file_path << endl;
   ifstream cin(file_path.c_str());
@@ -67,7 +67,7 @@ void Graph::readGraph(){
   if(!subgraph){
     file_path = folder + dataset +"_wc.inf";
   }else{
-    file_path = folder + dataset + "_wc_" + to_string(subsize) + ".inf";
+    file_path = folder + dataset + "_wc_" + submodel + "_" + to_string(subsize) + ".inf";
   }
   cout << file_path << endl;
   FILE *fin = fopen(file_path.c_str(), "r");

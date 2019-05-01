@@ -117,3 +117,122 @@ Duration   : 1.17839
 SeedSize   : 50
 Est. score : 54.3854
 -----------------------------------------------------
+File name  : NE_k50_e0,1_ss.txt
+Start date : Wed May  1 17:55:46 2019
+End date   : Wed May  1 17:55:49 2019
+Duration   : 2.80894
+SeedSize   : 50
+Est. score : 54.2632
+-----------------------------------------------------
+File name  : NE_k100_e0,1_ss.txt
+Start date : Wed May  1 17:55:57 2019
+End date   : Wed May  1 17:55:59 2019
+Duration   : 2.52953
+SeedSize   : 100
+Est. score : 108.826
+-----------------------------------------------------
+File name  : NE_k200_e0,1_ss.txt
+Start date : Wed May  1 17:56:11 2019
+End date   : Wed May  1 17:56:13 2019
+Duration   : 2.31806
+SeedSize   : 200
+Est. score : 217.338
+-----------------------------------------------------
+File name  : NE_k500_e0,1_ss.txt
+Start date : Wed May  1 17:56:27 2019
+End date   : Wed May  1 17:56:29 2019
+Duration   : 2.15211
+SeedSize   : 500
+Est. score : 544.51
+-----------------------------------------------------
+File name  : NE_25_k100_e0,1_ss.txt
+Start date : Wed May  1 18:00:50 2019
+End date   : Wed May  1 18:00:50 2019
+Duration   : 0.534815
+SeedSize   : 100
+Est. score : 108.167
+-----------------------------------------------------
+File name  : NE_top_25_k200_e0,1_ss.txt
+Start date : Wed May  1 18:04:51 2019
+End date   : Wed May  1 18:04:52 2019
+Duration   : 0.61164
+SeedSize   : 200
+Est. score : 215.753
+-----------------------------------------------------
+File name  : NE_top_25_k500_e0,1_ss.txt
+Start date : Wed May  1 18:04:56 2019
+End date   : Wed May  1 18:04:56 2019
+Duration   : 0.5868
+SeedSize   : 500
+Est. score : 539.212
+-----------------------------------------------------
+File name  : NE_top_25_k1000_e0,1_ss.txt
+Start date : Wed May  1 18:04:59 2019
+End date   : Wed May  1 18:05:00 2019
+Duration   : 0.729749
+SeedSize   : 1000
+Est. score : 1069.82
+-----------------------------------------------------
+File name  : NE_top_50_k100_e0,1_ss.txt
+Start date : Wed May  1 18:05:22 2019
+End date   : Wed May  1 18:05:23 2019
+Duration   : 1.09368
+SeedSize   : 100
+Est. score : 108.573
+-----------------------------------------------------
+File name  : NE_top_50_k200_e0,1_ss.txt
+Start date : Wed May  1 18:05:26 2019
+End date   : Wed May  1 18:05:27 2019
+Duration   : 1.28076
+SeedSize   : 200
+Est. score : 216.651
+-----------------------------------------------------
+File name  : NE_top_50_k500_e0,1_ss.txt
+Start date : Wed May  1 18:05:29 2019
+End date   : Wed May  1 18:05:30 2019
+Duration   : 1.07126
+SeedSize   : 500
+Est. score : 541.913
+-----------------------------------------------------
+File name  : NE_top_50_k1000_e0,1_ss.txt
+Start date : Wed May  1 18:05:34 2019
+End date   : Wed May  1 18:05:35 2019
+Duration   : 1.3122
+SeedSize   : 1000
+Est. score : 1078.66
+-----------------------------------------------------
+File name  : NE_top_75_k50_e0,1_ss.txt
+Start date : Wed May  1 18:05:46 2019
+End date   : Wed May  1 18:05:48 2019
+Duration   : 1.77853
+SeedSize   : 50
+Est. score : 54.6519
+-----------------------------------------------------
+File name  : NE_top_75_k100_e0,1_ss.txt
+Start date : Wed May  1 18:05:53 2019
+End date   : Wed May  1 18:05:55 2019
+Duration   : 1.57443
+SeedSize   : 100
+Est. score : 109.261
+-----------------------------------------------------
+File name  : NE_top_75_k200_e0,1_ss.txt
+Start date : Wed May  1 18:05:58 2019
+End date   : Wed May  1 18:05:59 2019
+Duration   : 1.54316
+SeedSize   : 200
+Est. score : 217.917
+-----------------------------------------------------
+File name  : NE_top_75_k500_e0,1_ss.txt
+Start date : Wed May  1 18:06:02 2019
+End date   : Wed May  1 18:06:04 2019
+Duration   : 1.73358
+SeedSize   : 500
+Est. score : 543.02
+-----------------------------------------------------
+File name  : NE_top_75_k1000_e0,1_ss.txt
+Start date : Wed May  1 18:06:07 2019
+End date   : Wed May  1 18:06:09 2019
+Duration   : 2.16681
+SeedSize   : 1000
+Est. score : 1081.29
+-----------------------------------------------------

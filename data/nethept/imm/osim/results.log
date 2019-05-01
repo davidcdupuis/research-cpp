@@ -31,3 +31,69 @@ Seed set
 - file path    : ../../data/nethept/imm/osim/NE_top_25_k50_e0,1_ss.txt
 - inf. score   : 327.499
 ----------------------------------------------------
+Date           : Wed May  1 18:55:05 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/basic/NE_k50_e0,1_ss.txt
+- inf. score   : 189.812
+----------------------------------------------------
+Date           : Wed May  1 19:00:50 2019
+Graph
+- dataset      : nethept
+- subgraph     : true
+- size         : 25%
+- nodes        : 3807
+- edges        : 28846
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_25_k50_e0,1_ss.txt
+- inf. score   : 133.889
+----------------------------------------------------
+Date           : Wed May  1 19:01:26 2019
+Graph
+- dataset      : nethept
+- subgraph     : true
+- size         : 25%
+- nodes        : 3807
+- edges        : 28846
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_25_k100_e0,1_ss.txt
+- inf. score   : 265.521
+----------------------------------------------------
+Date           : Wed May  1 19:02:01 2019
+Graph
+- dataset      : nethept
+- subgraph     : true
+- size         : 25%
+- nodes        : 3807
+- edges        : 28846
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_25_k200_e0,1_ss.txt
+- inf. score   : 504.817
+----------------------------------------------------
+Date           : Wed May  1 19:02:42 2019
+Graph
+- dataset      : nethept
+- subgraph     : true
+- size         : 25%
+- nodes        : 3807
+- edges        : 28846
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_25_k500_e0,1_ss.txt
+- inf. score   : 1047.84
+----------------------------------------------------
+Date           : Wed May  1 19:03:33 2019
+Graph
+- dataset      : nethept
+- subgraph     : true
+- size         : 25%
+- nodes        : 3807
+- edges        : 28846
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_25_k1000_e0,1_ss.txt
+- inf. score   : 1759.83
+----------------------------------------------------
