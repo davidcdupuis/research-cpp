@@ -97,3 +97,58 @@ Seed set
 - file path    : ../../data/nethept/imm/osim/NE_top_25_k1000_e0,1_ss.txt
 - inf. score   : 1759.83
 ----------------------------------------------------
+Date           : Wed May  1 19:09:17 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_25_k50_e0,1_ss.txt
+- inf. score   : 327.078
+----------------------------------------------------
+Date           : Wed May  1 19:10:15 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_25_k100_e0,1_ss.txt
+- inf. score   : 642.735
+----------------------------------------------------
+Date           : Wed May  1 19:11:10 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_25_k200_e0,1_ss.txt
+- inf. score   : 1187.65
+----------------------------------------------------
+Date           : Wed May  1 19:12:17 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_25_k500_e0,1_ss.txt
+- inf. score   : 2455.16
+----------------------------------------------------
+Date           : Wed May  1 19:13:16 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_25_k1000_e0,1_ss.txt
+- inf. score   : 3911.51
+----------------------------------------------------

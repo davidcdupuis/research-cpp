@@ -594,7 +594,7 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
           getline(cin, input);
           if(input != ""){
             clearLines(1);
-            file_path += input;
+            keysFilePath += input;
             cout << "> file path : ";
             printInColor("yellow", keysFilePath);
             break;
