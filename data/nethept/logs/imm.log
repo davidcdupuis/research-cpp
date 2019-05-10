@@ -236,3 +236,17 @@ Duration   : 2.16681
 SeedSize   : 1000
 Est. score : 1081.29
 -----------------------------------------------------
+File name  : NE_k1353_e0,1_ss.txt
+Start date : Fri May 10 13:50:19 2019
+End date   : Fri May 10 13:50:22 2019
+Duration   : 2.73355
+SeedSize   : 1353
+Est. score : 1466.42
+-----------------------------------------------------
+File name  : NE_top_25_k1353_e0,1_ss.txt
+Start date : Fri May 10 13:50:44 2019
+End date   : Fri May 10 13:50:45 2019
+Duration   : 0.785794
+SeedSize   : 1353
+Est. score : 1438.17
+-----------------------------------------------------
