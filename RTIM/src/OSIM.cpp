@@ -300,6 +300,7 @@ void OSIM::testConvergence(){
 }
 
 int OSIM::run(string prevClass){
+  keysFilePath = "../../data/" + graph.dataset + "/";
   return functionsMenu(prevClass);
 }
 
@@ -537,12 +538,11 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
   // ask file name
   // confirm or cancel execution
   string file_path;
-  string keysFilePath;
   bool convert = false;
   int result = 0;
   while (result == 0){
     file_path = "../../data/" + graph.dataset + "/";
-    keysFilePath = "../../data/" + graph.dataset + "/";
+    // keysFilePath = ;
     if(result == 0){ // ask for new arguments
       string input;
       printTitle(60,"Input arguments");
@@ -554,8 +554,15 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
           clearLines(1);
           file_path += input;
           cout << "> file path : ";
-          printInColor("yellow", file_path);
-          break;
+          if (!pathExists(file_path)){
+            cerr << "Error path doesn't exist: " << file_path << endl;
+            file_path = "../../data/" + graph.dataset + "/";
+            sleep(2);
+            clearLines(1);
+          }else{
+            printInColor("yellow", file_path);
+            break;
+          }
         }else{
           clearLines(1);
           file_path += "imm/osim/NE_top_25_k50_e0,1_ss.txt";
@@ -596,8 +603,15 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
             clearLines(1);
             keysFilePath += input;
             cout << "> file path : ";
-            printInColor("yellow", keysFilePath);
-            break;
+            if (!pathExists(keysFilePath)){
+              cerr << "Error path doesn't exist: " << keysFilePath << endl;
+              file_path = "../../data/" + graph.dataset + "/";
+              sleep(2);
+              clearLines(1);
+            }else{
+              printInColor("yellow", keysFilePath);
+              break;
+            }
           }else{
             clearLines(1);
             keysFilePath += "osim/nethept_top_25_keys.txt";
