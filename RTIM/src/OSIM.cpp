@@ -300,7 +300,8 @@ void OSIM::testConvergence(){
 }
 
 int OSIM::run(string prevClass){
-  keysFilePath = "../../data/" + graph.dataset + "/";
+  keysFilePathDefault = "../../data/" + graph.dataset + "/";
+  keysFilePath = keysFilePathDefault;
   return functionsMenu(prevClass);
 }
 
@@ -430,7 +431,8 @@ int OSIM::importSubGraphMenu(string prevClass){
             clearLines(1);
             cout << "> model: ";
             getline(cin, val);
-            if(val == "original"){
+            if(val == "original" || val == "orig"){
+              subgraphSize = 100;
               clearLines(LINES);
               graph.datasetFile = "../../data/" + graph.dataset + "_wc.inf";
               graph.readAttributes();
@@ -605,7 +607,7 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
             cout << "> file path : ";
             if (!pathExists(keysFilePath)){
               cerr << "Error path doesn't exist: " << keysFilePath << endl;
-              file_path = "../../data/" + graph.dataset + "/";
+              keysFilePath = "../../data/" + graph.dataset + "/";
               sleep(2);
               clearLines(1);
             }else{
@@ -614,7 +616,9 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
             }
           }else{
             clearLines(1);
-            keysFilePath += "osim/nethept_top_25_keys.txt";
+            if (keysFilePath == keysFilePathDefault){
+              keysFilePath += "osim/nethept_top_25_keys.txt";
+            }
             cout << "> file path : ";
             printInColor("yellow", keysFilePath);
             break;
