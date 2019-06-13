@@ -1,0 +1,220 @@
+Date           : Sat Jun  8 10:55:10 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/basic/LJ_k50_e0,5_ss.txt
+- inf. score   : 690.199
+----------------------------------------------------
+Date           : Sat Jun  8 10:56:17 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/basic/LJ_k100_e0,5_ss.txt
+- inf. score   : 1240.9
+----------------------------------------------------
+Date           : Sat Jun  8 10:57:42 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/basic/LJ_k200_e0,5_ss.txt
+- inf. score   : 3753.02
+----------------------------------------------------
+Date           : Sat Jun  8 10:59:10 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/basic/LJ_k500_e0,5_ss.txt
+- inf. score   : 6845.75
+----------------------------------------------------
+Date           : Sat Jun  8 11:00:58 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/basic/LJ_k1000_e0,5_ss.txt
+- inf. score   : 12667
+----------------------------------------------------
+Date           : Sat Jun  8 11:03:12 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_25_k50_e0,5_ss.txt
+- inf. score   : 2556.82
+----------------------------------------------------
+Date           : Sat Jun  8 11:04:35 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_25_k100_e0,5_ss.txt
+- inf. score   : 5219.7
+----------------------------------------------------
+Date           : Sat Jun  8 11:06:30 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_25_k200_e0,5_ss.txt
+- inf. score   : 8170.5
+----------------------------------------------------
+Date           : Sat Jun  8 11:31:03 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_25_k500_e0,5_ss.txt
+- inf. score   : 20321.7
+----------------------------------------------------
+Date           : Sat Jun  8 11:34:08 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_25_k1000_e0,5_ss.txt
+- inf. score   : 34166.9
+----------------------------------------------------
+Date           : Sat Jun  8 11:41:13 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_50_k50_e0,5_ss.txt
+- inf. score   : 1291.61
+----------------------------------------------------
+Date           : Sat Jun  8 11:42:58 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_50_k100_e0,5_ss.txt
+- inf. score   : 2384.88
+----------------------------------------------------
+Date           : Sat Jun  8 11:46:40 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_50_k200_e0,5_ss.txt
+- inf. score   : 5262.68
+----------------------------------------------------
+Date           : Sat Jun  8 11:49:29 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_50_k500_e0,5_ss.txt
+- inf. score   : 12683.5
+----------------------------------------------------
+Date           : Sat Jun  8 11:51:55 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_50_k1000_e0,5_ss.txt
+- inf. score   : 25743.9
+----------------------------------------------------
+Date           : Sat Jun  8 11:55:23 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_75_k50_e0,5_ss.txt
+- inf. score   : 829.096
+----------------------------------------------------
+Date           : Sat Jun  8 11:56:53 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_75_k100_e0,5_ss.txt
+- inf. score   : 1838.84
+----------------------------------------------------
+Date           : Sat Jun  8 11:58:25 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_75_k200_e0,5_ss.txt
+- inf. score   : 3981.77
+----------------------------------------------------
+Date           : Sat Jun  8 12:00:11 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_75_k500_e0,5_ss.txt
+- inf. score   : 8448.99
+----------------------------------------------------
+Date           : Sat Jun  8 12:03:02 2019
+Graph
+- dataset      : livejournal
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/livejournal/imm/osim/LJ_top_75_k1000_e0,5_ss.txt
+- inf. score   : 19429.4
+----------------------------------------------------

@@ -1,0 +1,264 @@
+Date           : Fri Jun  7 11:50:50 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/basic/YO_k50_e0,1_ss.txt
+- inf. score   : 239.813
+----------------------------------------------------
+Date           : Fri Jun  7 11:52:14 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/basic/YO_k100_e0,1_ss.txt
+- inf. score   : 450.578
+----------------------------------------------------
+Date           : Fri Jun  7 11:53:03 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/basic/YO_k200_e0,1_ss.txt
+- inf. score   : 990.416
+----------------------------------------------------
+Date           : Fri Jun  7 11:54:41 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/basic/YO_k500_e0,1_ss.txt
+- inf. score   : 2823.75
+----------------------------------------------------
+Date           : Fri Jun  7 11:56:51 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/basic/YO_k100_e0,1_ss.txt
+- inf. score   : 470.741
+----------------------------------------------------
+Date           : Fri Jun  7 11:58:19 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/basic/YO_k1000_e0,1_ss.txt
+- inf. score   : 7543.29
+----------------------------------------------------
+Date           : Fri Jun  7 12:00:12 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_25_k50_e0,1_ss.txt
+- inf. score   : 635.355
+----------------------------------------------------
+Date           : Fri Jun  7 12:01:40 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_25_k100_e0,1_ss.txt
+- inf. score   : 1163.56
+----------------------------------------------------
+Date           : Fri Jun  7 12:02:27 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_25_k200_e0,1_ss.txt
+- inf. score   : 2769.35
+----------------------------------------------------
+Date           : Fri Jun  7 13:28:11 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_25_k500_e0,1_ss.txt
+- inf. score   : 7889.67
+----------------------------------------------------
+Date           : Fri Jun  7 13:34:01 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_25_k1000_e0,1_ss.txt
+- inf. score   : 14561.6
+----------------------------------------------------
+Date           : Fri Jun  7 13:38:42 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_50_k50_e0,1_ss.txt
+- inf. score   : 412.032
+----------------------------------------------------
+Date           : Fri Jun  7 13:40:02 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_50_k100_e0,1_ss.txt
+- inf. score   : 951.107
+----------------------------------------------------
+Date           : Fri Jun  7 13:40:52 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_50_k200_e0,1_ss.txt
+- inf. score   : 3367.34
+----------------------------------------------------
+Date           : Fri Jun  7 13:42:58 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_50_k500_e0,1_ss.txt
+- inf. score   : 5930.59
+----------------------------------------------------
+Date           : Fri Jun  7 13:44:14 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_50_k1000_e0,1_ss.txt
+- inf. score   : 10790.4
+----------------------------------------------------
+Date           : Fri Jun  7 13:45:40 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_75_k50_e0,1_ss.txt
+- inf. score   : 516.181
+----------------------------------------------------
+Date           : Fri Jun  7 13:46:32 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_75_k100_e0,1_ss.txt
+- inf. score   : 1185.06
+----------------------------------------------------
+Date           : Fri Jun  7 13:47:44 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_75_k200_e0,1_ss.txt
+- inf. score   : 1460.9
+----------------------------------------------------
+Date           : Fri Jun  7 13:48:28 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_75_k500_e0,1_ss.txt
+- inf. score   : 5162.89
+----------------------------------------------------
+Date           : Fri Jun  7 13:49:14 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/imm/osim/YO_top_75_k1000_e0,1_ss.txt
+- inf. score   : 8046.21
+----------------------------------------------------
+Date           : Sat Jun  8 17:38:07 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/osim/topConnected/youtube_wc_top_k50_ss.txt
+- inf. score   : 144349
+----------------------------------------------------
+Date           : Sat Jun  8 17:43:05 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/osim/topConnected/youtube_wc_top_k100_ss.txt
+- inf. score   : 188970
+----------------------------------------------------
+Date           : Sat Jun  8 17:49:56 2019
+Graph
+- dataset      : youtube
+- subgraph     : false
+- size         : 100%
+- nodes        : 0
+- edges        : 0
+Seed set
+- file path    : ../../data/youtube/osim/topConnected/youtube_wc_top_k200_ss.txt
+- inf. score   : -192756
+----------------------------------------------------

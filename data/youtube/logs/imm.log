@@ -474,3 +474,150 @@ Duration   : 617.643
 SeedSize   : 30000
 Est. score : 726087
 -----------------------------------------------------
+File name  : YO_k50_e0,1_ss.txt
+Start date : Thu Jun  6 14:45:44 2019
+End date   : Thu Jun  6 14:55:32 2019
+Duration   : 587.914
+SeedSize   : 50
+Est. score : 54.8959
+-----------------------------------------------------
+File name  : YO_k100_e0,1_ss.txt
+Start date : Thu Jun  6 14:59:42 2019
+End date   : Thu Jun  6 15:08:16 2019
+Duration   : 513.47
+SeedSize   : 100
+Est. score : 109.976
+-----------------------------------------------------
+File name  : YO_k200_e0,1_ss.txt
+Start date : Thu Jun  6 15:09:33 2019
+End date   : Thu Jun  6 15:16:55 2019
+Duration   : 441.845
+SeedSize   : 200
+Est. score : 220.492
+-----------------------------------------------------
+File name  : YO_k500_e0,1_ss.txt
+Start date : Thu Jun  6 15:19:56 2019
+End date   : Thu Jun  6 15:26:19 2019
+Duration   : 382.744
+SeedSize   : 500
+Est. score : 552.339
+-----------------------------------------------------
+File name  : YO_k1000_e0,1_ss.txt
+Start date : Thu Jun  6 15:27:29 2019
+End date   : Thu Jun  6 15:33:24 2019
+Duration   : 354.52
+SeedSize   : 1000
+Est. score : 1104.01
+-----------------------------------------------------
+File name  : YO_top_25_k50_e0,1_ss.txt
+Start date : Fri Jun  7 10:39:53 2019
+End date   : Fri Jun  7 10:39:53 2019
+Duration   : 0.004102
+SeedSize   : 50
+Est. score : 50.5686
+-----------------------------------------------------
+File name  : YO_top_25_k50_e0,1_ss.txt
+Start date : Fri Jun  7 10:42:58 2019
+End date   : Fri Jun  7 10:44:25 2019
+Duration   : 86.4728
+SeedSize   : 50
+Est. score : 54.8321
+-----------------------------------------------------
+File name  : YO_top_25_k100_e0,1_ss.txt
+Start date : Fri Jun  7 10:44:52 2019
+End date   : Fri Jun  7 10:46:09 2019
+Duration   : 77.5687
+SeedSize   : 100
+Est. score : 109.903
+-----------------------------------------------------
+File name  : YO_top_25_k200_e0,1_ss.txt
+Start date : Fri Jun  7 10:48:39 2019
+End date   : Fri Jun  7 10:49:50 2019
+Duration   : 70.9946
+SeedSize   : 200
+Est. score : 220.07
+-----------------------------------------------------
+File name  : YO_top_25_k500_e0,1_ss.txt
+Start date : Fri Jun  7 10:50:14 2019
+End date   : Fri Jun  7 10:51:14 2019
+Duration   : 60.0742
+SeedSize   : 500
+Est. score : 550.844
+-----------------------------------------------------
+File name  : YO_top_25_k1000_e0,1_ss.txt
+Start date : Fri Jun  7 10:51:36 2019
+End date   : Fri Jun  7 10:52:29 2019
+Duration   : 53.185
+SeedSize   : 1000
+Est. score : 1101.2
+-----------------------------------------------------
+File name  : YO_top_50_k50_e0,1_ss.txt
+Start date : Fri Jun  7 10:53:27 2019
+End date   : Fri Jun  7 10:57:06 2019
+Duration   : 218.988
+SeedSize   : 50
+Est. score : 54.9677
+-----------------------------------------------------
+File name  : YO_top_50_k100_e0,1_ss.txt
+Start date : Fri Jun  7 10:57:39 2019
+End date   : Fri Jun  7 11:00:54 2019
+Duration   : 194.995
+SeedSize   : 100
+Est. score : 110.011
+-----------------------------------------------------
+File name  : YO_top_50_k200_e0,1_ss.txt
+Start date : Fri Jun  7 11:02:47 2019
+End date   : Fri Jun  7 11:05:44 2019
+Duration   : 176.456
+SeedSize   : 200
+Est. score : 220.094
+-----------------------------------------------------
+File name  : YO_top_50_k500_e0,1_ss.txt
+Start date : Fri Jun  7 11:07:59 2019
+End date   : Fri Jun  7 11:10:29 2019
+Duration   : 149.656
+SeedSize   : 500
+Est. score : 551.662
+-----------------------------------------------------
+File name  : YO_top_50_k1000_e0,1_ss.txt
+Start date : Fri Jun  7 11:10:56 2019
+End date   : Fri Jun  7 11:13:17 2019
+Duration   : 140.802
+SeedSize   : 1000
+Est. score : 1101.56
+-----------------------------------------------------
+File name  : YO_top_75_k50_e0,1_ss.txt
+Start date : Fri Jun  7 11:15:24 2019
+End date   : Fri Jun  7 11:21:40 2019
+Duration   : 376.825
+SeedSize   : 50
+Est. score : 54.939
+-----------------------------------------------------
+File name  : YO_top_75_k100_e0,1_ss.txt
+Start date : Fri Jun  7 11:25:06 2019
+End date   : Fri Jun  7 11:30:48 2019
+Duration   : 341.604
+SeedSize   : 100
+Est. score : 110.234
+-----------------------------------------------------
+File name  : YO_top_75_k200_e0,1_ss.txt
+Start date : Fri Jun  7 11:32:11 2019
+End date   : Fri Jun  7 11:37:10 2019
+Duration   : 299.385
+SeedSize   : 200
+Est. score : 220.684
+-----------------------------------------------------
+File name  : YO_top_75_k500_e0,1_ss.txt
+Start date : Fri Jun  7 11:39:28 2019
+End date   : Fri Jun  7 11:43:44 2019
+Duration   : 255.445
+SeedSize   : 500
+Est. score : 551.521
+-----------------------------------------------------
+File name  : YO_top_75_k1000_e0,1_ss.txt
+Start date : Fri Jun  7 11:44:19 2019
+End date   : Fri Jun  7 11:48:19 2019
+Duration   : 240.458
+SeedSize   : 1000
+Est. score : 1102.42
+-----------------------------------------------------
