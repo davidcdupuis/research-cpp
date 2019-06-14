@@ -36,7 +36,8 @@ if __name__ == "__main__":
             edges += 1
 
     degrees = degrees[degrees[:,1].argsort()][::-1] # ?
-    limits = [50, 100, 200, 500, 1000, 1353, 2250, 3204, 4290]
+    #limits = [50, 100, 200, 500, 1000]
+    limits = [2,5,10]
     #degrees[:limits[0]+1]
 
     for lim in limits:

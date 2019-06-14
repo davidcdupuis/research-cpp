@@ -1,1 +1,4 @@
 fileName,k,epsilon,startDatetime,endDatetime,duration,seedSize,estimatedScore
+test,3,0.1,Thu Jun 13 11:56:47 2019,Thu Jun 13 11:56:47 2019,0.006507,3,3.21256
+test,6,0.1,Thu Jun 13 11:56:51 2019,Thu Jun 13 11:56:51 2019,0.004733,6,6.33972
+test,11,0.1,Thu Jun 13 11:56:54 2019,Thu Jun 13 11:56:54 2019,0.003785,11,11.4906

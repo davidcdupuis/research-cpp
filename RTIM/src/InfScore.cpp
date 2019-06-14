@@ -185,6 +185,7 @@ int InfScore::computeSeedScoreMenu(){
   cout << "   [1] rtim/live/" << endl;
   cout << "   [2] imm/basic/" << endl;
   cout << "   [3] imm/" << endl;
+  cout << "   [4] osim/" << endl;
   while(choice == -1){
     cout <<  "> choice: ";
     string val;
@@ -200,6 +201,9 @@ int InfScore::computeSeedScoreMenu(){
       case 3:
         file_path += "imm/";
         break;
+      case 4: 
+	file_path += "osim/";
+	break;
       default:
         cout << "Error: choice not recognized!" << endl;
         sleep(SLEEP);
