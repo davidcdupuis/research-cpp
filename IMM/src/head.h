@@ -9,7 +9,7 @@
 // #ifdef DEBUG_TRACE
 // this_is_deprecated
 // #endif
-
+#define HEAD_INFO
 
 #if defined(WIN32)
 #elif defined(__CYGWIN__) // cygwin
@@ -162,8 +162,8 @@ ofstream __HEAD_H__LOG("log.txt");
 
 
 #ifdef HEAD_INFO
-ofstream __HEAD_H_FOUT;
-void setInfoFile(string s){__HEAD_H_FOUT.open(s.c_str()); }
+extern ofstream __HEAD_H_FOUT;
+//void setInfoFile(string s){__HEAD_H_FOUT.open(s.c_str()); }
 #define ASSERT(v) {if (!(v)) {cerr<<"ASSERT FAIL @ "<<__FILE__<<":"<<__LINE__<<endl; exit(1);}}
 #define INFO(...) do { ___debug( #__VA_ARGS__,  __VA_ARGS__,cout); cout<<endl; if(__HEAD_H_FOUT.is_open()){___debug( #__VA_ARGS__,  __VA_ARGS__,__HEAD_H_FOUT); __HEAD_H_FOUT<<endl;}  } while(0)
 #define ASSERTT(v, ...) {if (!(v)) {cerr<<"ASSERT FAIL @ "<<__FILE__<<":"<<__LINE__<<endl; INFO(__VA_ARGS__); exit(1);}}

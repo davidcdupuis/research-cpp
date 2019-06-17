@@ -43,10 +43,12 @@ double IMM::sampling(InfGraph &g, const Arguments & arg){
   for (int x = 1; ; x++){
     //lambda = (2 + 2/3 * espilon') * (log(n choose k) + l*log(n) + log(log2(n))) * n / espilon'^2
     int64 ci = (2 + 2/3 * epsilon_prime) * ( logcnk(g.nodes, arg.k) + 1.0 * log(g.nodes) + log(log2(g.nodes))) * pow(2.0, x) / pow(epsilon_prime, 2.0);
+    //cout << "ci: " << ci << endl;
     g.build_hyper_graph_r(ci, arg);
     g.build_seedset(arg.k);
     double ept = g.InfluenceHyperGraph()/g.nodes;
-    //double estimate_influence = ept * g.nodes;
+    //cout << "ept: " << ept << endl;
+    double estimate_influence = ept * g.nodes;
     INFO(x, estimate_influence);
     if (ept > 1 / pow(2.0, x)){
       double OPT_prime = ept * g.nodes / (1+ epsilon_prime);
@@ -67,7 +69,6 @@ double IMM::nodeSelection(InfGraph &g, const Arguments & arg, double OPT_prime){
   double beta = sqrt((1-1/e) * (logcnk(g.nodes, arg.k) + log(g.nodes) + log(2)));
 
   int64 R = 2.0 * g.nodes * pow((1-1/e) * alpha + beta, 2.0) /  OPT_prime / arg.epsilon / arg.epsilon ; //pow(arg.epsilon)
-
   //R/=100;
   g.build_hyper_graph_r(R, arg);
   g.build_seedset(arg.k);
@@ -85,7 +86,7 @@ void IMM::InfluenceMaximize(InfGraph &g, const Arguments &arg){
 
   INFO("########## Node Selection ##########");
   //double opt_lower_bound = OPT_prime;
-  INFO(opt_lower_bound);
+  //INFO(opt_lower_bound);
   nodeSelection(g, arg, OPT_prime);
   INFO("step2 finish");
 }
@@ -97,6 +98,7 @@ void run_with_parameter(InfGraph &g, Arguments & arg){
   vector<double> epsilon_values{0.1};
 
   g.seedSet.clear();
+  g.setInfluModel(InfGraph::IC);
   cout << "Arguments epsilon: " << arg.epsilon << endl;
 
   string startDatetime = getLocalDatetime();
@@ -115,7 +117,13 @@ void run_with_parameter(InfGraph &g, Arguments & arg){
     fileName = datasets[arg.dataset] + "_k" + to_string(arg.k) + "_e" + properStringDouble(arg.epsilon) + "_ss.txt";
     filePath = "../../data/" + arg.dataset + "/imm/basic/" + fileName;
   }
-
+  //
+  //cout << "seed set: ";
+  for(int node: g.seedSet){
+    //cout << node << " ";
+  }
+  //cout << endl;
+  //
   seedSize = g.seedSet.size();
   cout << "Saving seed set nodes to " << filePath << endl;
   ofstream seedSetFile;

@@ -29,8 +29,9 @@ void InfGraph::build_hyper_graph_r(int64 R, const Arguments & arg){
   }
 
   vector<int> random_number;
-  for (int i = 0; i < R; i++){
-    random_number.push_back(  sfmt_genrand_uint32(&sfmtSeed) % nodes);
+  for (int i = 0; i < R; i++)
+  {
+      random_number.push_back(  sfmt_genrand_uint32(&sfmtSeed) % nodes);
   }
   //trying BFS start from same node
   for (int i = prevSize; i < R; i++){
@@ -112,8 +113,11 @@ int InfGraph::BuildHypergraphNode(int uStart, int hyperiiid){
         break;
       }
     }
-    else
-      ASSERT(false);
+    else{
+      //ASSERT(false);
+      cerr << "InfluModel not definied: " << __LINE__ << endl;
+      exit(1);
+    }
   }
   for (int i = 0; i < n_visit_mark; i++)
     visit[visit_mark[i]] = false;
@@ -160,11 +164,9 @@ double InfGraph::InfluenceHyperGraph()
 
     set<int> s;
     TRACE(seedSet);
-    for (auto t : seedSet)
-    {
-        for (auto tt : hyperG[t])
-        {
-            s.insert(tt);
+    for (auto t : seedSet){
+        for (auto tt : hyperG[t]){
+          s.insert(tt);
         }
     }
     double inf = (double)nodes * s.size() / hyperGT.size();

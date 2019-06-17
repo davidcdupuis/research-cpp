@@ -11,6 +11,7 @@ map<string, string> datasets = {
   { "twitter", "TW"}
 };
 
+ofstream __HEAD_H_FOUT;
 
 #ifdef WIN32
 int gettimeofday(struct timeval *tv, struct timezone *tz){
