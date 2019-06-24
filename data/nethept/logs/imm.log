@@ -817,3 +817,73 @@ Duration   : 4.27127
 SeedSize   : 3204
 Est. score : 8240.07
 -----------------------------------------------------
+File name  : NE_top_75_k50_e0,1_ss.txt
+Start date : Mon Jun 24 14:28:33 2019
+End date   : Mon Jun 24 14:28:34 2019
+Duration   : 0.671395
+SeedSize   : 50
+Est. score : 822.629
+-----------------------------------------------------
+File name  : NE_top_75_k100_e0,1_ss.txt
+Start date : Mon Jun 24 14:28:44 2019
+End date   : Mon Jun 24 14:28:45 2019
+Duration   : 0.8427
+SeedSize   : 100
+Est. score : 1274.63
+-----------------------------------------------------
+File name  : NE_top_75_k50_e0,1_ss.txt
+Start date : Mon Jun 24 14:29:15 2019
+End date   : Mon Jun 24 14:29:16 2019
+Duration   : 0.716934
+SeedSize   : 50
+Est. score : 822.629
+-----------------------------------------------------
+File name  : NE_top_75_k100_e0,1_ss.txt
+Start date : Mon Jun 24 14:29:26 2019
+End date   : Mon Jun 24 14:29:26 2019
+Duration   : 0.834844
+SeedSize   : 100
+Est. score : 1274.63
+-----------------------------------------------------
+File name  : NE_top_75_k200_e0,1_ss.txt
+Start date : Mon Jun 24 14:29:29 2019
+End date   : Mon Jun 24 14:29:30 2019
+Duration   : 1.00054
+SeedSize   : 200
+Est. score : 1937.17
+-----------------------------------------------------
+File name  : NE_top_75_k500_e0,1_ss.txt
+Start date : Mon Jun 24 14:29:35 2019
+End date   : Mon Jun 24 14:29:36 2019
+Duration   : 1.38452
+SeedSize   : 500
+Est. score : 3268.94
+-----------------------------------------------------
+File name  : NE_top_75_k1000_e0,1_ss.txt
+Start date : Mon Jun 24 14:29:39 2019
+End date   : Mon Jun 24 14:29:41 2019
+Duration   : 2.43874
+SeedSize   : 1000
+Est. score : 4761.79
+-----------------------------------------------------
+File name  : NE_top_75_k1353_e0,1_ss.txt
+Start date : Mon Jun 24 14:29:46 2019
+End date   : Mon Jun 24 14:29:50 2019
+Duration   : 3.45525
+SeedSize   : 1353
+Est. score : 5598.36
+-----------------------------------------------------
+File name  : NE_top_75_k2250_e0,1_ss.txt
+Start date : Mon Jun 24 14:30:22 2019
+End date   : Mon Jun 24 14:30:26 2019
+Duration   : 3.0912
+SeedSize   : 2250
+Est. score : 7257.76
+-----------------------------------------------------
+File name  : NE_top_75_k3204_e0,1_ss.txt
+Start date : Mon Jun 24 14:30:46 2019
+End date   : Mon Jun 24 14:30:50 2019
+Duration   : 4.21021
+SeedSize   : 3204
+Est. score : 8240.07
+-----------------------------------------------------

@@ -1087,3 +1087,201 @@ Seed set
 - file path    : ../../data/nethept/imm/osim/NE_top_25_k3204_e0,1_ss.txt
 - inf. score   : 8012.79
 ----------------------------------------------------
+Date           : Mon Jun 24 14:13:52 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_50_k50_e0,1_ss.txt
+- inf. score   : 945.461
+----------------------------------------------------
+Date           : Mon Jun 24 14:14:42 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_50_k100_e0,1_ss.txt
+- inf. score   : 1451.17
+----------------------------------------------------
+Date           : Mon Jun 24 14:15:22 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_50_k200_e0,1_ss.txt
+- inf. score   : 2180.45
+----------------------------------------------------
+Date           : Mon Jun 24 14:16:00 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_50_k500_e0,1_ss.txt
+- inf. score   : 3629.69
+----------------------------------------------------
+Date           : Mon Jun 24 14:16:43 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_50_k1000_e0,1_ss.txt
+- inf. score   : 5265.22
+----------------------------------------------------
+Date           : Mon Jun 24 14:17:27 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_50_k1353_e0,1_ss.txt
+- inf. score   : 6172.15
+----------------------------------------------------
+Date           : Mon Jun 24 14:20:41 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_50_k2250_e0,1_ss.txt
+- inf. score   : 8020.28
+----------------------------------------------------
+Date           : Mon Jun 24 14:22:10 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_50_k3204_e0,1_ss.txt
+- inf. score   : 9117.75
+----------------------------------------------------
+Date           : Mon Jun 24 14:24:29 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_75_k50_e0,1_ss.txt
+- inf. score   : 442.637
+----------------------------------------------------
+Date           : Mon Jun 24 14:26:46 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_75_k100_e0,1_ss.txt
+- inf. score   : 700.434
+----------------------------------------------------
+Date           : Mon Jun 24 14:33:00 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_75_k50_e0,1_ss.txt
+- inf. score   : 952.52
+----------------------------------------------------
+Date           : Mon Jun 24 14:33:45 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_75_k100_e0,1_ss.txt
+- inf. score   : 1492.25
+----------------------------------------------------
+Date           : Mon Jun 24 14:34:50 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_75_k200_e0,1_ss.txt
+- inf. score   : 2277.05
+----------------------------------------------------
+Date           : Mon Jun 24 14:36:44 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_75_k500_e0,1_ss.txt
+- inf. score   : 3821.4
+----------------------------------------------------
+Date           : Mon Jun 24 14:37:32 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_75_k1000_e0,1_ss.txt
+- inf. score   : 5549.65
+----------------------------------------------------
+Date           : Mon Jun 24 14:38:20 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_75_k1353_e0,1_ss.txt
+- inf. score   : 6487.62
+----------------------------------------------------
+Date           : Mon Jun 24 14:40:00 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_75_k2250_e0,1_ss.txt
+- inf. score   : 8463.63
+----------------------------------------------------
+Date           : Mon Jun 24 14:40:53 2019
+Graph
+- dataset      : nethept
+- subgraph     : false
+- size         : 100%
+- nodes        : 6612728
+- edges        : 0
+Seed set
+- file path    : ../../data/nethept/imm/osim/NE_top_75_k3204_e0,1_ss.txt
+- inf. score   : 9861.97
+----------------------------------------------------
