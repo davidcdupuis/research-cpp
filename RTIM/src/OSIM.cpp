@@ -654,7 +654,7 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
     InfScore infscore(graph);
     infscore.importSeedSet(file_path);
 
-    double score;
+    long double score;
     if(convert){
       // Import keys
       importKeys(keysFilePath);
@@ -663,7 +663,7 @@ int OSIM::computeScoreSubGraphMenu(string prevClass){
     }
     printInColor("magenta", string(60, '-'));
     printLocalTime("magenta", "Computing Monte Carlo score", "starting");
-    score = infscore.mcInfScore();
+    score = infscore.mcInfScoreParallel();
     printLocalTime("magenta", "Computing Monte Carlo score", "ending");
     printInColor("magenta", string(60, '-'));
     clearLines(4);

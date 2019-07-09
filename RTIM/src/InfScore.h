@@ -33,9 +33,9 @@ public:
 
   int continueMenu(std::string prevClass, std::string prevStage);
 
-  double mcInfScore();
+  long double mcInfScore();
 
-  double mcInfScoreParallel();
+  long double mcInfScoreParallel();
 
   int infSimulation(bool *visited);
 

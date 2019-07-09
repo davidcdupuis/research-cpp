@@ -768,3 +768,24 @@ Duration   : 46.1902
 SeedSize   : 1000
 Est. score : 290802
 -----------------------------------------------------
+File name  : YO_top_25_k50_e0,1_ss.txt
+Start date : Thu Jul  4 11:22:17 2019
+End date   : Thu Jul  4 11:22:24 2019
+Duration   : 6.98602
+SeedSize   : 50
+Est. score : 29651.5
+-----------------------------------------------------
+File name  : YO_top_50_k50_e0,1_ss.txt
+Start date : Thu Jul  4 11:23:16 2019
+End date   : Thu Jul  4 11:23:25 2019
+Duration   : 9.08004
+SeedSize   : 50
+Est. score : 67797.3
+-----------------------------------------------------
+File name  : YO_top_75_k50_e0,1_ss.txt
+Start date : Thu Jul  4 11:23:39 2019
+End date   : Thu Jul  4 11:23:48 2019
+Duration   : 8.55985
+SeedSize   : 50
+Est. score : 112921
+-----------------------------------------------------

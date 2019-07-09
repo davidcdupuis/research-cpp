@@ -460,5 +460,13 @@ int main(int argn, char **argv){
   Main main = Main();
   // if has arguments run with arguments else run program
   main.run();
-
+  //
+  /*
+  cout.unsetf(std::ios::floatfield);
+  cout.precision(3);
+  long long sum = 1428983465;
+  int simulations = 10000;
+  double score = 1.0 * sum / (double) simulations;
+  cout << "score : " << score << endl;
+  */
 }

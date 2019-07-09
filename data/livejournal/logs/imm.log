@@ -551,3 +551,108 @@ Duration   : 277.384
 SeedSize   : 1000
 Est. score : 249956
 -----------------------------------------------------
+File name  : LJ_top_25_k50_e0,1_ss.txt
+Start date : Thu Jul  4 11:50:46 2019
+End date   : Thu Jul  4 11:51:35 2019
+Duration   : 48.9657
+SeedSize   : 50
+Est. score : 14648.9
+-----------------------------------------------------
+File name  : LJ_top_25_k100_e0,1_ss.txt
+Start date : Thu Jul  4 11:53:29 2019
+End date   : Thu Jul  4 11:54:31 2019
+Duration   : 62.5421
+SeedSize   : 100
+Est. score : 21226.6
+-----------------------------------------------------
+File name  : LJ_top_25_k200_e0,1_ss.txt
+Start date : Thu Jul  4 11:55:37 2019
+End date   : Thu Jul  4 11:56:48 2019
+Duration   : 70.6648
+SeedSize   : 200
+Est. score : 29296.7
+-----------------------------------------------------
+File name  : LJ_top_25_k500_e0,1_ss.txt
+Start date : Thu Jul  4 11:57:23 2019
+End date   : Thu Jul  4 11:59:06 2019
+Duration   : 103.432
+SeedSize   : 500
+Est. score : 43756.3
+-----------------------------------------------------
+File name  : LJ_top_25_k1000_e0,1_ss.txt
+Start date : Thu Jul  4 12:00:46 2019
+End date   : Thu Jul  4 12:03:37 2019
+Duration   : 171.702
+SeedSize   : 1000
+Est. score : 59683
+-----------------------------------------------------
+File name  : LJ_top_50_k50_e0,1_ss.txt
+Start date : Thu Jul  4 12:04:39 2019
+End date   : Thu Jul  4 12:05:35 2019
+Duration   : 56.3946
+SeedSize   : 50
+Est. score : 42477.5
+-----------------------------------------------------
+File name  : LJ_top_50_k100_e0,1_ss.txt
+Start date : Thu Jul  4 13:35:52 2019
+End date   : Thu Jul  4 13:37:01 2019
+Duration   : 68.9408
+SeedSize   : 100
+Est. score : 59096.1
+-----------------------------------------------------
+File name  : LJ_top_50_k200_e0,1_ss.txt
+Start date : Thu Jul  4 13:38:23 2019
+End date   : Thu Jul  4 13:39:56 2019
+Duration   : 93.4895
+SeedSize   : 200
+Est. score : 78423.9
+-----------------------------------------------------
+File name  : LJ_top_50_k500_e0,1_ss.txt
+Start date : Thu Jul  4 13:41:14 2019
+End date   : Thu Jul  4 13:43:46 2019
+Duration   : 151.647
+SeedSize   : 500
+Est. score : 113210
+-----------------------------------------------------
+File name  : LJ_top_50_k1000_e0,1_ss.txt
+Start date : Thu Jul  4 13:45:47 2019
+End date   : Thu Jul  4 13:48:54 2019
+Duration   : 186.48
+SeedSize   : 1000
+Est. score : 150044
+-----------------------------------------------------
+File name  : LJ_top_75_k50_e0,1_ss.txt
+Start date : Thu Jul  4 13:50:26 2019
+End date   : Thu Jul  4 13:51:22 2019
+Duration   : 55.8108
+SeedSize   : 50
+Est. score : 75236.1
+-----------------------------------------------------
+File name  : LJ_top_75_k100_e0,1_ss.txt
+Start date : Thu Jul  4 13:55:33 2019
+End date   : Thu Jul  4 13:57:04 2019
+Duration   : 90.9631
+SeedSize   : 100
+Est. score : 103073
+-----------------------------------------------------
+File name  : LJ_top_75_k200_e0,1_ss.txt
+Start date : Thu Jul  4 13:57:58 2019
+End date   : Thu Jul  4 13:59:43 2019
+Duration   : 105.2
+SeedSize   : 200
+Est. score : 134915
+-----------------------------------------------------
+File name  : LJ_top_75_k500_e0,1_ss.txt
+Start date : Thu Jul  4 14:00:38 2019
+End date   : Thu Jul  4 14:03:13 2019
+Duration   : 155.185
+SeedSize   : 500
+Est. score : 191945
+-----------------------------------------------------
+File name  : LJ_top_75_k1000_e0,1_ss.txt
+Start date : Thu Jul  4 14:05:27 2019
+End date   : Thu Jul  4 14:09:14 2019
+Duration   : 226.925
+SeedSize   : 1000
+Est. score : 249956
+-----------------------------------------------------

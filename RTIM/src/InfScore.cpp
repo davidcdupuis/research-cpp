@@ -294,26 +294,26 @@ int InfScore::continueMenu(string prevClass, string prevStage){
 
 // Monte Carlo
 
-double InfScore::mcInfScore(){
+long double InfScore::mcInfScore(){
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
-  int sum = 0;
+  unsigned long long sum = 0;
   int values[simulations] = {};
   bool visitedOriginal[graph.nodes] = {};
   bool visited[graph.nodes];
   for (int i = 0; i < simulations; i++){
     // run influence simulation
-    memcpy(visited, visitedOriginal, graph.nodes);
+memcpy(visited, visitedOriginal, graph.nodes);
     values[i] = infSimulation(visited);
   }
   for(int i = 0; i < simulations; i++){
     sum += values[i];
   }
-  double score = sum/(double)simulations;
+  long double score = sum/(double)simulations;
   // cout << "Influence score is " << score << endl;
   return score;
 }
 
-double InfScore::mcInfScoreParallel(){
+long double InfScore::mcInfScoreParallel(){
   // cout << "Computing influence score of: " << printSeed(seed_set) << endl;
   unsigned long long sum = 0;
   int values[simulations] = {};
@@ -336,6 +336,11 @@ double InfScore::mcInfScoreParallel(){
     //cout << "sum: " << sum << endl;
   }
   long double score = sum/(double)simulations;
+  /*cout << "sum: " << sum << endl;
+  cout << "sim: " << simulations << endl;
+  cout << "score: " << score << endl;
+  cout << endl;
+  cout << endl;*/
   // cout << "Influence score is " << score << endl;
   return score;
 }
